@@ -137,12 +137,12 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
   const { height, width: depth, thickness } = loc.dimensions;
   const [origX, origY, origZ] = loc.position;
 
-  // Spatial Distance Cull — generous 10.0m interaction radius across the wider hall
+  // Spatial Distance Cull — generous 15.0m interaction radius across the wider hall
   const dx = playerPos[0] - origX;
   const dy = playerPos[1] - origY;
   const dz = playerPos[2] - origZ;
   const distSq = dx * dx + dy * dy + dz * dz;
-  const isNearby = distSq < 100; // within 10.0 meters
+  const isNearby = distSq < 225; // within 15.0 meters
 
   const isSelected = selectedResourceId === resource.id;
   const isHovered = (isHoveredLocal || hoveredResourceId === resource.id) && isNearby;
@@ -236,15 +236,28 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
   const handlePointerOver = (e: any) => {
     if (!isNearby || activeModal) return;
     e.stopPropagation();
+    (window as any).__mouseHoveredBookId = resource.id;
     setIsHoveredLocal(true);
     setHoveredResource(resource.id);
     document.body.style.cursor = 'pointer';
   };
 
+  const handlePointerMove = (e: any) => {
+    if (!isNearby || activeModal) return;
+    e.stopPropagation();
+    (window as any).__mouseHoveredBookId = resource.id;
+    if (useLibraryStore.getState().hoveredResourceId !== resource.id) {
+      setHoveredResource(resource.id);
+    }
+  };
+
   const handlePointerOut = (e: any) => {
     e.stopPropagation();
+    if ((window as any).__mouseHoveredBookId === resource.id) {
+      (window as any).__mouseHoveredBookId = null;
+    }
     setIsHoveredLocal(false);
-    if (hoveredResourceId === resource.id) {
+    if (useLibraryStore.getState().hoveredResourceId === resource.id) {
       setHoveredResource(null);
     }
     document.body.style.cursor = 'auto';
@@ -267,17 +280,22 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
       position={[origX, origY + height / 2, origZ]}
       rotation={[loc.rotation[0], loc.rotation[1], loc.tiltZ || 0]}
       userData={{ bookId: resource.id }}
+      onPointerOver={handlePointerOver}
+      onPointerMove={handlePointerMove}
+      onPointerOut={handlePointerOut}
+      onClick={handleClick}
     >
       {/* Dedicated high-hit-rate interaction collider box covering the book */}
       <mesh
         position={[0, 0, 0]}
         userData={{ bookId: resource.id }}
         onPointerOver={handlePointerOver}
+        onPointerMove={handlePointerMove}
         onPointerOut={handlePointerOut}
         onClick={handleClick}
       >
-        <boxGeometry args={[depth + 0.1, height + 0.08, thickness + 0.08]} />
-        <meshBasicMaterial visible={false} />
+        <boxGeometry args={[depth + 0.04, height + 0.04, thickness + 0.01]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
       {/* Front Cover Board (cardboard core) */}
@@ -286,12 +304,14 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         material={coverMaterial}
         position={[0, 0, thickness / 2 - coverThickness / 2]}
         scale={[depth, height, coverThickness]}
+        userData={{ bookId: resource.id }}
       />
 
       {/* Front Cover Illustrated Jacket (Title, Author, Artwork & Emblems) */}
       <mesh
         position={[0, 0, thickness / 2 + 0.001]}
         rotation={[0, 0, 0]}
+        userData={{ bookId: resource.id }}
       >
         <planeGeometry args={[depth, height]} />
         <primitive object={coverArtMaterial} attach="material" />
@@ -303,12 +323,14 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         material={coverMaterial}
         position={[0, 0, -thickness / 2 + coverThickness / 2]}
         scale={[depth, height, coverThickness]}
+        userData={{ bookId: resource.id }}
       />
 
       {/* Back Cover Illustrated Jacket */}
       <mesh
         position={[0, 0, -thickness / 2 - 0.001]}
         rotation={[0, Math.PI, 0]}
+        userData={{ bookId: resource.id }}
       >
         <planeGeometry args={[depth, height]} />
         <primitive object={coverArtMaterial} attach="material" />
@@ -320,6 +342,7 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         material={spineMaterial}
         position={[depth / 2, 0, 0]}
         scale={[0.012, height, thickness]}
+        userData={{ bookId: resource.id }}
       />
 
       {/* Cream Ivory Pages */}

@@ -295,7 +295,7 @@ export const FirstPersonControls: React.FC = () => {
     // Center-screen crosshair raycasting to detect the book the player is aiming at
     if (!activeModal) {
       centerRaycaster.current.setFromCamera(centerPoint.current, camera);
-      centerRaycaster.current.far = 12.0; // 12-meter interaction range
+      centerRaycaster.current.far = 15.0; // 15-meter interaction range
       const hits = centerRaycaster.current.intersectObjects(scene.children, true);
       let hitBookId: string | null = null;
 
@@ -315,7 +315,7 @@ export const FirstPersonControls: React.FC = () => {
         if (hitBookId !== hoveredResourceId) {
           setHoveredResource(hitBookId);
         }
-      } else if (hoveredResourceId) {
+      } else if (hoveredResourceId && !(window as any).__mouseHoveredBookId) {
         setHoveredResource(null);
       }
     }
