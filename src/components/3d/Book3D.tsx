@@ -137,12 +137,12 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
   const { height, width: depth, thickness } = loc.dimensions;
   const [origX, origY, origZ] = loc.position;
 
-  // Spatial Distance Cull
+  // Spatial Distance Cull — generous 10.0m interaction radius across the wider hall
   const dx = playerPos[0] - origX;
   const dy = playerPos[1] - origY;
   const dz = playerPos[2] - origZ;
   const distSq = dx * dx + dy * dy + dz * dz;
-  const isNearby = distSq < 16; // within 4.0 meters
+  const isNearby = distSq < 100; // within 10.0 meters
 
   const isSelected = selectedResourceId === resource.id;
   const isHovered = (isHoveredLocal || hoveredResourceId === resource.id) && isNearby;
@@ -266,10 +266,20 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
       ref={meshRef}
       position={[origX, origY + height / 2, origZ]}
       rotation={[loc.rotation[0], loc.rotation[1], loc.tiltZ || 0]}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
+      userData={{ bookId: resource.id }}
     >
+      {/* Dedicated high-hit-rate interaction collider box covering the book */}
+      <mesh
+        position={[0, 0, 0]}
+        userData={{ bookId: resource.id }}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+        onClick={handleClick}
+      >
+        <boxGeometry args={[depth + 0.1, height + 0.08, thickness + 0.08]} />
+        <meshBasicMaterial visible={false} />
+      </mesh>
+
       {/* Front Cover Board (cardboard core) */}
       <mesh
         geometry={SHARED_COVER_GEOMETRY}

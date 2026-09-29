@@ -5,10 +5,11 @@ import { useLibraryStore } from '../../store/useLibraryStore';
 import { sound } from '../../engine/soundEngine';
 
 export const FirstPersonControls: React.FC = () => {
-  const { camera, gl } = useThree();
+  const { camera, gl, scene } = useThree();
 
   const playerLocation = useLibraryStore((s) => s.playerLocation);
   const setPlayerTransform = useLibraryStore((s) => s.setPlayerTransform);
+  const setHoveredResource = useLibraryStore((s) => s.setHoveredResource);
   const preferences = useLibraryStore((s) => s.preferences);
   const cameraTarget = useLibraryStore((s) => s.cameraTarget);
   const cameraLookAt = useLibraryStore((s) => s.cameraLookAt);
@@ -36,6 +37,10 @@ export const FirstPersonControls: React.FC = () => {
   const velocity = useRef(new THREE.Vector3());
   const stepTimer = useRef(0);
   const walkDistance = useRef(0);
+
+  // Center-screen crosshair raycasting
+  const centerRaycaster = useRef(new THREE.Raycaster());
+  const centerPoint = useRef(new THREE.Vector2(0, 0));
 
   // Initialize camera position
   useEffect(() => {
@@ -112,11 +117,13 @@ export const FirstPersonControls: React.FC = () => {
   // Pointer lock / Drag look listeners
   useEffect(() => {
     const dom = gl.domElement;
+    let mouseDownPos = { x: 0, y: 0 };
 
     const handleMouseDown = (e: MouseEvent) => {
       if (activeModal) return;
       if (e.button === 0) {
         isDragging.current = true;
+        mouseDownPos = { x: e.clientX, y: e.clientY };
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
 
         if (preferences.pointerLock && dom.requestPointerLock) {
@@ -125,8 +132,16 @@ export const FirstPersonControls: React.FC = () => {
       }
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (e: MouseEvent) => {
       isDragging.current = false;
+      // If user performed a stationary click (dragged less than 8px) while pointing at a book
+      const dragDist = Math.hypot(e.clientX - mouseDownPos.x, e.clientY - mouseDownPos.y);
+      if (dragDist < 8 && !activeModal) {
+        const curHovered = useLibraryStore.getState().hoveredResourceId;
+        if (curHovered) {
+          selectResource(curHovered);
+        }
+      }
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -159,7 +174,7 @@ export const FirstPersonControls: React.FC = () => {
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [gl.domElement, preferences.lookSensitivity, preferences.pointerLock, activeModal]);
+  }, [gl.domElement, preferences.lookSensitivity, preferences.pointerLock, activeModal, selectResource]);
 
   // Main per-frame smooth physics & movement update
   useFrame((_, delta) => {
@@ -271,6 +286,37 @@ export const FirstPersonControls: React.FC = () => {
         setActiveChunk(closestSection);
       } else {
         setActiveChunk('central');
+      }
+    }
+
+    // Always update player position in store so distance checks are always accurate
+    setPlayerTransform([camera.position.x, camera.position.y, camera.position.z], yaw.current);
+
+    // Center-screen crosshair raycasting to detect the book the player is aiming at
+    if (!activeModal) {
+      centerRaycaster.current.setFromCamera(centerPoint.current, camera);
+      centerRaycaster.current.far = 12.0; // 12-meter interaction range
+      const hits = centerRaycaster.current.intersectObjects(scene.children, true);
+      let hitBookId: string | null = null;
+
+      for (const hit of hits) {
+        let cur: THREE.Object3D | null = hit.object;
+        while (cur) {
+          if (cur.userData && cur.userData.bookId) {
+            hitBookId = cur.userData.bookId;
+            break;
+          }
+          cur = cur.parent;
+        }
+        if (hitBookId) break;
+      }
+
+      if (hitBookId) {
+        if (hitBookId !== hoveredResourceId) {
+          setHoveredResource(hitBookId);
+        }
+      } else if (hoveredResourceId) {
+        setHoveredResource(null);
       }
     }
   });
