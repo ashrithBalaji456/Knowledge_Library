@@ -389,14 +389,14 @@ export function computeLibraryPlacements(
   const allShelves: ShelfInfo[] = [];
   const sectionPlacements = new Map<string, SectionPlacement>();
 
-  // Shelf physical constants
-  const SHELF_WIDTH = 3.6;
-  const SHELF_HEIGHT = 2.6;
-  const SHELF_DEPTH = 0.65;
+  // Shelf physical constants — ENLARGED & WIDENED CUPBOARDS
+  const SHELF_WIDTH = 5.2; // Widened from 3.6 to 5.2 meters for immense presence & room
+  const SHELF_HEIGHT = 2.85; // Height increased from 2.6 to 2.85 meters
+  const SHELF_DEPTH = 0.72; // Deepened from 0.65 to 0.72 meters
   const ROW_COUNT = 3;
-  // Row heights relative to shelf base: [Top, Middle, Bottom]
-  const ROW_Y_OFFSETS = [1.88, 1.14, 0.40];
-  const USABLE_WIDTH = 3.2;
+  // Row heights relative to shelf base: [Top (Row 0), Middle (Row 1), Bottom (Row 2)]
+  const ROW_Y_OFFSETS = [2.065, 1.245, 0.425];
+  const USABLE_WIDTH = 4.8;
 
   sections.forEach((section) => {
     const sectionRes = resourcesBySection.get(section.id) || [];
@@ -420,14 +420,14 @@ export function computeLibraryPlacements(
 
     // Dynamic Shelf Scaling (Rule 39, 76, 77)
     const maxBooksInAnyRow = Math.max(row0.length, row1.length, row2.length, 1);
-    const booksPerShelfRow = 14;
+    const booksPerShelfRow = 24;
     const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyRow / booksPerShelfRow));
     const totalShelvesForSection = shelvesNeededPerSide * 2;
 
     const sectionShelves: ShelfInfo[] = [];
     const [secX, secY, secZ] = resolvedAnchors.get(section.id) || section.anchorPosition || [0, 0, 0];
-    const aisleHalfWidth = 2.2;
-    const shelfSpacingZ = 4.2;
+    const aisleHalfWidth = 2.6;
+    const shelfSpacingZ = 5.8;
 
     for (let i = 0; i < totalShelvesForSection; i++) {
       const isLeftSide = i % 2 === 0;

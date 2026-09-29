@@ -229,7 +229,10 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.anisotropy = 4;
+  texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.anisotropy = 16;
   COVER_TEXTURE_CACHE.set(key, texture);
   return texture;
 }

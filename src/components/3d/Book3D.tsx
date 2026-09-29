@@ -40,49 +40,55 @@ function getOrCreateBookSpineTexture(
   }
 
   const canvas = document.createElement('canvas');
-  canvas.width = 128;
-  canvas.height = 512;
+  // High-resolution 256x1024 spine canvas for razor-sharp title legibility
+  canvas.width = 256;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
 
   // Base bookcloth color with subtle leather-grain texture
   ctx.fillStyle = colorHex;
-  ctx.fillRect(0, 0, 128, 512);
+  ctx.fillRect(0, 0, 256, 1024);
 
   // Shading edges for 3D curved spine cylinder feel
-  const edgeShade = ctx.createLinearGradient(0, 0, 128, 0);
-  edgeShade.addColorStop(0, 'rgba(0, 0, 0, 0.35)');
+  const edgeShade = ctx.createLinearGradient(0, 0, 256, 0);
+  edgeShade.addColorStop(0, 'rgba(0, 0, 0, 0.45)');
   edgeShade.addColorStop(0.18, 'rgba(0, 0, 0, 0)');
   edgeShade.addColorStop(0.82, 'rgba(0, 0, 0, 0)');
-  edgeShade.addColorStop(1, 'rgba(0, 0, 0, 0.45)');
+  edgeShade.addColorStop(1, 'rgba(0, 0, 0, 0.55)');
   ctx.fillStyle = edgeShade;
-  ctx.fillRect(0, 0, 128, 512);
+  ctx.fillRect(0, 0, 256, 1024);
 
   // Gold foil horizontal decorative bands
   ctx.fillStyle = '#E5C158';
-  ctx.fillRect(8, 20, 112, 3);
-  ctx.fillRect(8, 26, 112, 1.5);
-  ctx.fillRect(8, 484, 112, 1.5);
-  ctx.fillRect(8, 489, 112, 3);
+  ctx.fillRect(16, 40, 224, 6);
+  ctx.fillRect(16, 52, 224, 3);
+  ctx.fillRect(16, 968, 224, 3);
+  ctx.fillRect(16, 978, 224, 6);
 
   // Priority emblem
   if (priority === 'MUST_LEARN') {
     ctx.fillStyle = '#FDE68A';
-    ctx.font = 'bold 24px sans-serif';
+    ctx.font = 'bold 44px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('★', 64, 62);
+    ctx.fillText('★', 128, 120);
   } else if (priority === 'CURRENT_FOCUS') {
     ctx.fillStyle = '#FECACA';
-    ctx.font = 'bold 22px sans-serif';
+    ctx.font = 'bold 40px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('▲', 64, 62);
+    ctx.fillText('▲', 128, 120);
   }
 
-  // Vertical spine title
+  // Vertical spine title — Bold, Large, with Deep Drop Shadow
   ctx.save();
-  ctx.translate(64, 270);
+  ctx.translate(128, 540);
   ctx.rotate(Math.PI / 2);
+
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetY = 4;
+
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 20px "Outfit", "Inter", sans-serif';
+  ctx.font = '900 38px "Outfit", "Inter", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
@@ -92,20 +98,24 @@ function getOrCreateBookSpineTexture(
   }
   ctx.fillText(displayTitle, 0, 0);
 
-  // Author in smaller lettering
-  ctx.font = '500 12px "Inter", sans-serif';
-  ctx.fillStyle = '#E2E8F0';
+  // Author in clear lettering
+  ctx.font = '700 22px "Inter", sans-serif';
+  ctx.fillStyle = '#FDE68A';
   let displayAuthor = author;
-  if (displayAuthor.length > 18) {
-    displayAuthor = displayAuthor.slice(0, 16) + '..';
+  if (displayAuthor.length > 20) {
+    displayAuthor = displayAuthor.slice(0, 18) + '..';
   }
-  ctx.fillText(displayAuthor, 0, 22);
+  ctx.fillText(displayAuthor, 0, 42);
 
   ctx.restore();
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
+  texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.anisotropy = 16;
   SPINE_TEXTURE_CACHE.set(key, texture);
   return texture;
 }
