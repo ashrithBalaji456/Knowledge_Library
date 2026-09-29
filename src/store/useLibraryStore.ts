@@ -11,6 +11,7 @@ import {
 } from '../types/library';
 import { INITIAL_SECTIONS } from '../data/initialSections';
 import { INITIAL_RESOURCES } from '../data/initialResources';
+import { PYTHON_TO_ML_RESOURCES } from '../data/pythonMlResources';
 import { INITIAL_RELATIONSHIPS, INITIAL_LEARNING_PATHS } from '../data/initialRelationships';
 import { computeLibraryPlacements } from '../engine/placementEngine';
 import { sound } from '../engine/soundEngine';
@@ -128,20 +129,20 @@ interface LibraryStoreState {
   getLibraryStats: () => LibraryStats;
 }
 
-// Persistent user storage helper - starts completely empty by default until user uploads PDFs
+// Persistent user storage helper - defaults to the real user collection from python to ml
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
-      const raw = localStorage.getItem('pk_library_resources');
+      const raw = localStorage.getItem('pk_library_resources_v3');
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
     }
   } catch (e) {
     console.warn('Could not read user library from localStorage:', e);
   }
-  return []; // Default to 0 books - ready for user uploads!
+  return PYTHON_TO_ML_RESOURCES; // Default to user's real collection from C:\Users\ashri\Downloads\v2\python to ml
 }
 
 function saveStoredResources(resources: Resource[]) {
@@ -149,7 +150,7 @@ function saveStoredResources(resources: Resource[]) {
     if (typeof window !== 'undefined') {
       // Don't save large blob URLs to localStorage to avoid quota overflow
       const sanitized = resources.map(({ fileDataUrl, ...rest }) => rest);
-      localStorage.setItem('pk_library_resources', JSON.stringify(sanitized));
+      localStorage.setItem('pk_library_resources_v3', JSON.stringify(sanitized));
     }
   } catch (e) {
     console.warn('Could not persist library to localStorage:', e);

@@ -170,6 +170,25 @@ export const INITIAL_RELATIONSHIPS: Relationship[] = [
 
 export const INITIAL_LEARNING_PATHS: LearningPath[] = [
   {
+    id: 'path-python-to-ml',
+    title: 'Python to Machine Learning & AI Specialist',
+    description: 'A complete guided journey from core Python programming and 400 exercises to linear algebra, NumPy/Pandas, statistical learning, and advanced decision making.',
+    icon: '🐍',
+    targetRole: 'Machine Learning Engineer / Data Scientist',
+    resourceIds: [
+      'res-local-python-for-everybody-exploring-data-in-python-3',
+      'res-local-python-3-400-exercises-and-solutions-for-beginners',
+      'res-local-data-science-from-scratch-first-principles-with-python',
+      'res-local-numpy-official-user-guide-reference',
+      'res-local-linear-algebra-for-machine-learning',
+      'res-local-statistical-and-machine-learning-in-python',
+      'res-local-a-course-in-machine-learning',
+      'res-local-machine-learning-yearning',
+      'res-local-algorithms-for-optimization',
+      'res-local-algorithms-for-decision-making'
+    ]
+  },
+  {
     id: 'path-java-backend',
     title: 'Staff Java Backend Engineer',
     description: 'From core JVM mechanics, clean code patterns, and concurrency to production Spring Boot microservices and OAuth2 security.',

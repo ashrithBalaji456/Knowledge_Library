@@ -59,6 +59,19 @@ const COLOR_PALETTES: Record<string, string[]> = {
   'sec-handbooks': ['#c2410c', '#b45309', '#d97706', '#9a3412', '#78350f', '#ea580c'],
   handbooks: ['#c2410c', '#b45309', '#d97706', '#9a3412', '#78350f', '#ea580c'],
 
+  // Python & Data Science Wings
+  python: ['#2563eb', '#1d4ed8', '#0284c7', '#0369a1', '#1e40af', '#3b82f6'],
+  'sec-python': ['#2563eb', '#1d4ed8', '#0284c7', '#0369a1', '#1e40af', '#3b82f6'],
+
+  'data-science': ['#0891b2', '#06b6d4', '#0284c7', '#0e7490', '#155e75', '#0f766e'],
+  'sec-data-science': ['#0891b2', '#06b6d4', '#0284c7', '#0e7490', '#155e75', '#0f766e'],
+
+  interviews: ['#ea580c', '#c2410c', '#d97706', '#b45309', '#e11d48', '#be123c'],
+  'sec-interviews': ['#ea580c', '#c2410c', '#d97706', '#b45309', '#e11d48', '#be123c'],
+
+  projects: ['#7c3aed', '#6d28d9', '#8b5cf6', '#4f46e5', '#4338ca', '#3730a3'],
+  'sec-projects': ['#7c3aed', '#6d28d9', '#8b5cf6', '#4f46e5', '#4338ca', '#3730a3'],
+
   // Technical Wings
   'sec-java': ['#1d4ed8', '#1e40af', '#2563eb', '#3b82f6', '#1e3a8a', '#0369a1'],
   java: ['#1d4ed8', '#1e40af', '#2563eb', '#3b82f6', '#1e3a8a', '#0369a1'],

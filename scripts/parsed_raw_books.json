@@ -1,0 +1,1432 @@
+[
+  {
+    "fileName": "A Beginner's Guide for Data Science .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\A Beginner's Guide for Data Science .pdf",
+    "sizeBytes": 2685320,
+    "pages": 76,
+    "rawTitle": "A Beginner's Guide for Data Science ",
+    "author": "Unknown",
+    "snippet": "www.springboard.com   GETTING YOUR FIRST DATA SCIENCE JOB 1  Getting Your First Data Science Job  A Beginner’s Guide to",
+    "relFolder": ""
+  },
+  {
+    "fileName": "100DaysOfMLCodeCheatSheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\100DaysOfMLCodeCheatSheet.pdf",
+    "sizeBytes": 11604323,
+    "pages": 15,
+    "rawTitle": "100DaysOfMLCodeCheatSheet",
+    "author": "Unknown",
+    "snippet": "Simple Linear Regression | Day 2  Check out the code from here.",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "140 machine learning formula .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\140 machine learning formula .pdf",
+    "sizeBytes": 20954235,
+    "pages": 17,
+    "rawTitle": "140 machine learning formula ",
+    "author": "Unknown",
+    "snippet": "rubenszmm@gmail.com http://github.com/RubensZimbres",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "AI-Neural Network.pdf.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\AI-Neural Network.pdf.pdf",
+    "sizeBytes": 8070378,
+    "pages": 21,
+    "rawTitle": "AI-Neural Network.pdf",
+    "author": "Unknown",
+    "snippet": "Cheat Sheets for AI, Neural Networks, Machine Learning, Deep Learning & Big Data",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "All in 1_ Cheat Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\All in 1_ Cheat Sheet.pdf",
+    "sizeBytes": 8617739,
+    "pages": 52,
+    "rawTitle": "All in 1_ Cheat Sheet",
+    "author": "Unknown",
+    "snippet": "qwertyuiopasdfghjklzxcvbnmq  wertyuiopasdfghjklzxcvbnmqw  ertyuiopasdfghjklzxcvbnmqwer  tyuiopasdfghjklzxcvbnmqwerty  uiopasdfghjklzxcvbnmqwertyui  opasdfghjklzxcvbnmqwertyuiop  asdfghjklzxcvbnmqwertyuiopas  dfghjklzxcvbnmqwertyuiopasdf  ghjklzxcvbnmqwertyuiopasdfgh  jklzxcvbnmqwertyuiopasdfghjkl  zxcvbnmqwertyuiopasdfghjklzx  cvbnmqwertyuiopasdfghjklzxcv  bnmqwertyuiopasdfghjklzxcvbn  mqwertyuiop",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Bayes_ Theorem Examples.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Bayes_ Theorem Examples.pdf",
+    "sizeBytes": 1614564,
+    "pages": 178,
+    "rawTitle": "Bayes_ Theorem Examples",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Complete Data Science Cheat Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Complete Data Science Cheat Sheet.pdf",
+    "sizeBytes": 3825064,
+    "pages": 14,
+    "rawTitle": "Complete Data Science Cheat Sheet",
+    "author": "Unknown",
+    "snippet": "Python For Data Science   Cheat Sheet  Importing Data  Learn Python for data science   Interactively   at   www.DataCamp.com  Importing Data in Python  DataCamp  Learn R for Data Science   Interactively  >>> filename =   'huck_finn.txt'  >>> file   =   open(filename,   mode= 'r' )   Open the file for reading  >>> text   =   file.read()   Read a file’s contents  >>> print(file.closed)   Check wheth",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Data Cleaning - The Ultimate Guide.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Data Cleaning - The Ultimate Guide.pdf",
+    "sizeBytes": 2205465,
+    "pages": 70,
+    "rawTitle": "Data Cleaning - The Ultimate Guide",
+    "author": "Unknown",
+    "snippet": "DATA  CLEANING  A free resource by  THE  ULTIMATE GUIDE  TO",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Data Science Cheat sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Data Science Cheat sheet.pdf",
+    "sizeBytes": 1789370,
+    "pages": 5,
+    "rawTitle": "Data Science Cheat sheet",
+    "author": "Unknown",
+    "snippet": "Data Science Cheatsheet 2.0  Last Updated June 19, 2021  Distributions  Discrete  Binomial   -   x   successes in   n   events, each with   p   probability  →   ( n x  ) p x q n − x , with   μ   =   np   and   σ 2   =   npq  –   If n = 1, this is a Bernoulli distribution  Geometric   - first success with   p   probability on the   n th   trial  →   q n − 1 p , with   μ   = 1 /p   and   σ 2   =   1",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "ds-cheat-sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\ds-cheat-sheet.pdf",
+    "sizeBytes": 1106778,
+    "pages": 10,
+    "rawTitle": "ds-cheat-sheet",
+    "author": "Unknown",
+    "snippet": "Data Science Cheatsheet  Compiled by Maverick Lin ( http://mavericklin.com )  Last Updated August 13, 2018 Multi-disciplinary   field   that   brings   together   concepts from computer science, statistics/machine learning, and data analysis to understand and extract insights from the ever-increasing amounts of data. Two paradigms of data research. 1.   Hypothesis-Driven:   Given a problem, what k",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Machine Learning Algorithms cheatsheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Machine Learning Algorithms cheatsheet.pdf",
+    "sizeBytes": 3420634,
+    "pages": 6,
+    "rawTitle": "Machine Learning Algorithms cheatsheet",
+    "author": "Unknown",
+    "snippet": "ginacostag PDF curated by",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Machine Learning Cheatsheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Machine Learning Cheatsheet.pdf",
+    "sizeBytes": 1309589,
+    "pages": 5,
+    "rawTitle": "Machine Learning Cheatsheet",
+    "author": "Unknown",
+    "snippet": "MACHINE LEARNING CHEATSHEET  Summary of Machine Learning Algorithms descriptions, advantages and use cases. Inspired by the very good book and articles of   MachineLearningMastery,   with added math ,  and   ML Pros & Cons   of   HackingNote.   Design inspired by   The Probability Cheatsheet   of W. Chen. Written by Rémi Canard.  General Definition  We want to learn a target function   f   that ma",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Machine Learning Guide.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Machine Learning Guide.pdf",
+    "sizeBytes": 637524,
+    "pages": 57,
+    "rawTitle": "Machine Learning Guide",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Machine Learning Models Pros and Cons.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Machine Learning Models Pros and Cons.pdf",
+    "sizeBytes": 522662,
+    "pages": 11,
+    "rawTitle": "Machine Learning Models Pros and Cons",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Matplotlib Cheat Sheet for Beginners .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Matplotlib Cheat Sheet for Beginners .pdf",
+    "sizeBytes": 2695974,
+    "pages": 9,
+    "rawTitle": "Matplotlib Cheat Sheet for Beginners ",
+    "author": "Unknown",
+    "snippet": "SWIPE  01/09  for beginners",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "ML Cheatsheet Documentation .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\ML Cheatsheet Documentation .pdf",
+    "sizeBytes": 3814360,
+    "pages": 233,
+    "rawTitle": "ML Cheatsheet Documentation ",
+    "author": "Unknown",
+    "snippet": "ML Cheatsheet Documentation  Team  Jul 01, 2022",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Python for Data Analysis.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Python for Data Analysis.pdf",
+    "sizeBytes": 1222722,
+    "pages": 47,
+    "rawTitle": "Python for Data Analysis",
+    "author": "Unknown",
+    "snippet": "Python for Data Analysis  Research Computing Services  Katia Oleinik (koleinik@bu.edu)",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Python for data science cheat sheet!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Python for data science cheat sheet!.pdf",
+    "sizeBytes": 2792968,
+    "pages": 15,
+    "rawTitle": "Python for data science cheat sheet!",
+    "author": "Unknown",
+    "snippet": "Selecting List Elements  Import libraries  >>> import numpy  >>> import numpy as np  Selective import  >>> from math import pi  >>> help(str)  Python For Data Science   Cheat Sheet  Python Basics  Learn More Python for Data Science   Interactively   at   www.datacamp.com  Variable Assignment  Strings  >>> x=5  >>> x  5  >>> x + 2   Sum of two variables  7  >>> x - 2   Subtraction of two variables",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Python+Syntax+Cheat+Sheet+Booklet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Python+Syntax+Cheat+Sheet+Booklet.pdf",
+    "sizeBytes": 168324,
+    "pages": 16,
+    "rawTitle": "Python+Syntax+Cheat+Sheet+Booklet",
+    "author": "Unknown",
+    "snippet": "B A S I C S  P Y T H O N C H E A T S H E E T  1 0 0   D A Y S   O F   C O D E  C O M P L E T E   P R O F E S S I O N A L  P Y T H O N   B O O T C A M P  w w w . a p p b r e w e r y . c o m  Print  Prints a string into the console.   print(\"Hello World\")  Input  Prints a string into the console,  and asks the user for a string input.  input(\"What's your name\")  Comments  Adding a # symbol in font o",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Python_Matplotlib_Cheat_Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Python_Matplotlib_Cheat_Sheet.pdf",
+    "sizeBytes": 226368,
+    "pages": 1,
+    "rawTitle": "Python_Matplotlib_Cheat_Sheet",
+    "author": "Unknown",
+    "snippet": "Python For Data Science   Cheat Sheet  Matplotlib  Learn Python   Interactively   at   www.DataCamp.com  Matplotlib  DataCamp  Learn Python for Data Science   Interactively  Prepare The Data   Also see   Lists   &   NumPy  Matplotlib   is a Python 2D plotting library which produces  publication-quality figures in a variety of hardcopy formats  and interactive environments across  platforms.  1  >>",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Python_Seaborn_Cheat_Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Python_Seaborn_Cheat_Sheet.pdf",
+    "sizeBytes": 638942,
+    "pages": 1,
+    "rawTitle": "Cheat sheet Seaborn.indd",
+    "author": "Unknown",
+    "snippet": "Python For Data Science   Cheat Sheet  Seaborn  Learn Data Science   Interactively   at   www.DataCamp.com  Statistical Data Visualization With Seaborn  DataCamp  Learn Python for Data Science   Interactively  Figure Aesthetics  Data  The Python visualization library   Seaborn   is based on  matplotlib and provides a high-level interface for drawing  attractive statistical graphics.  Make use of t",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Supervised Learning Algorithms cheat sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Supervised Learning Algorithms cheat sheet.pdf",
+    "sizeBytes": 1211956,
+    "pages": 20,
+    "rawTitle": "Supervised Learning Algorithms cheat sheet",
+    "author": "Unknown",
+    "snippet": "Supervised Learning algorithms cheat sheet by Dmytro Nikolaiev  1  Supervised Learning Algorithms cheat sheet  by Dmytro Nikolaiev  Contents  Supervised Learning Algorithms cheat sheet   ................................................................ ................. 1  Introduction   ................................................................................................................",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Understand_Your_data_EDA (steps).pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Understand_Your_data_EDA (steps).pdf",
+    "sizeBytes": 569080,
+    "pages": 9,
+    "rawTitle": "Understand_Your_data_EDA (steps)",
+    "author": "Unknown",
+    "snippet": "27/07/2022, 14:31   Understand_Your_data_EDA (steps) - Jupyter Notebook localhost:8888/notebooks/Understand_Your_data_EDA (steps).ipynb   1/9  1. Import The Library needed  In   [1]:  2. Import Your Data  In   [2]:  3. How big is Your Data  In   [3]:  4. How does the data look like  In   [4]:  Out[3]:  (569,   32)  Out[4]:  Unnamed:  0  mean  radius  mean  texture  mean  perimeter  mean  area  mea",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "Unsupervised Learning Algorithms cheat sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets\\Unsupervised Learning Algorithms cheat sheet.pdf",
+    "sizeBytes": 2221506,
+    "pages": 25,
+    "rawTitle": "Unsupervised Learning Algorithms cheat sheet",
+    "author": "Unknown",
+    "snippet": "Unsupervised Learning algorithms cheat sheet by Dmytro Nikolaiev  1  Unsupervised Learning Algorithms cheat sheet  by Dmytro Nikolaiev  Contents  Unsupervised Learning Algorithms cheat sheet   by Dmytro Nikolaiev   ................................ ........... 1  Introduction   ..........................................................................................................................",
+    "relFolder": "AI ML DS Cheat Sheets-20260929T060629Z-1-001\\AI ML DS Cheat Sheets"
+  },
+  {
+    "fileName": "50 machine learning questions.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\50 machine learning questions.pdf",
+    "sizeBytes": 100920,
+    "pages": 8,
+    "rawTitle": "50 machine learning questions",
+    "author": "Unknown",
+    "snippet": "https://career.guru99.com/  Top 50 Machine Learning Interview Questions & Answers  1)   What is Machine learning?  Machine learning is a branch of computer science which deals with system programming in order to automatically learn and improve with experience. For example: Robots are programed so that they can perform the task based on data they gather from sensors. It automatically learns program",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "Data Science Interview Questions.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\Data Science Interview Questions.pdf",
+    "sizeBytes": 18449297,
+    "pages": 111,
+    "rawTitle": "Data Science Interview Questions",
+    "author": "Unknown",
+    "snippet": "1",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "Data Science interview.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\Data Science interview.pdf",
+    "sizeBytes": 1651364,
+    "pages": 22,
+    "rawTitle": "Data Science interview",
+    "author": "Unknown",
+    "snippet": "P a g e 1 | 22  DATA SCIENCE  INTERVIEW PREPARATION  (30 Days of Interview Preparation)  #DAY 02",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "Data Structure &Algorithms.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\Data Structure &Algorithms.pdf",
+    "sizeBytes": 1093058,
+    "pages": 112,
+    "rawTitle": "Data Structure &Algorithms",
+    "author": "Unknown",
+    "snippet": "DSA  D a t a S t r u c t u r e s a n d A l g o r i t h m s  Annotated Reference with Examples  Granville Barne!   Luca Del Tongo",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "DSAI Interview Questions!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\DSAI Interview Questions!.pdf",
+    "sizeBytes": 968567,
+    "pages": 12,
+    "rawTitle": "DSAI Interview Questions!",
+    "author": "Unknown",
+    "snippet": "Data Science  Interview Questions  (30 days of Interview Preparation)",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "Interview Guide for Artificial Intelligence.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\Interview Guide for Artificial Intelligence.pdf",
+    "sizeBytes": 1497804,
+    "pages": 27,
+    "rawTitle": "Interview Guide for Artificial Intelligence",
+    "author": "Unknown",
+    "snippet": "O  Interview Prep: 40 Artificial Intelligence Questions  ver the last decade, artificial intelligence (AI) has grown from a pipe dream into the driving force behind the fourth industrial revolution. If you browse through the world’s leading job boards, you’ll find that it’s at the heart of some of the most in-demand tech careers today. “Everyone’s trying to figure out ways to optimize their busine",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "Interview Questions DS&AI!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\Interview Questions DS&AI!.pdf",
+    "sizeBytes": 284026,
+    "pages": 42,
+    "rawTitle": "Interview Questions DS&AI!",
+    "author": "Unknown",
+    "snippet": "How to Answer The 64 Toughest Interview Questions",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "Top 100 NLP Questions.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation\\Top 100 NLP Questions.pdf",
+    "sizeBytes": 248870,
+    "pages": 23,
+    "rawTitle": "Top 100 NLP Questions",
+    "author": "Unknown",
+    "snippet": "Steve Nouri   https://www.linkedin.com/in/stevenouri/  Top 100 NLP Questions  Steve Nouri  Q1. Which of the following techniques can be used for keyword normalization in NLP, the process of converting a keyword into its base form?  a. Lemmatization b. Soundex c. Cosine Similarity d. N-grams  Answer :   a) Lemmatization helps to get to the base form of a word, e.g. are playing -> play, eating -> ea",
+    "relFolder": "AI ML DS Interview Preparation-20260929T060634Z-1-001\\AI ML DS Interview Preparation"
+  },
+  {
+    "fileName": "A course in machine learning.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\A course in machine learning.pdf",
+    "sizeBytes": 2917146,
+    "pages": 193,
+    "rawTitle": "A course in machine learning",
+    "author": "Unknown",
+    "snippet": "A Course in Machine Learning Hal Daumé III",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Bridging Gap Between Business and Data Science.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Bridging Gap Between Business and Data Science.pdf",
+    "sizeBytes": 563385,
+    "pages": 21,
+    "rawTitle": "Bridging Gap Between Business and Data Science",
+    "author": "Unknown",
+    "snippet": "Machine Learning: Bridging Between Business and Data Science 1",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data Cleaning Tutorial .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data Cleaning Tutorial .pdf",
+    "sizeBytes": 929607,
+    "pages": 15,
+    "rawTitle": "Data Cleaning Tutorial ",
+    "author": "Unknown",
+    "snippet": "DATA  CLEANING  A B R I E F G U I D E T O  The Artists of Data Science  T H E   C O M P A N Y  Harpreet Sahota  T H E   C U R A T O R",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data Cleaning with Numpy and Pandas.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data Cleaning with Numpy and Pandas.pdf",
+    "sizeBytes": 356708,
+    "pages": 15,
+    "rawTitle": "Data Cleaning with Numpy and Pandas",
+    "author": "Unknown",
+    "snippet": "Pythonic Data Cleaning With NumPy and Pandas  by Malay Agarwal      7 Comments      data-science   intermediate  Table of Contents  Dropping Columns in a DataFrame Changing the Index of a DataFrame Tidying up Fields in the Data Combining str Methods with NumPy to Clean Columns Cleaning the Entire Dataset Using the applymap Function Renaming Columns and Skipping Rows Python Data Cleaning: Recap a",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data science .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data science .pdf",
+    "sizeBytes": 2209565,
+    "pages": 159,
+    "rawTitle": "Data science ",
+    "author": "Unknown",
+    "snippet": "Mike Barlow  Learning  to Love  Data Science  Exploring Predictive Analytics,  Machine Learning, Digital Manufacturing,  and Supply Chain Optimization",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data Science from Scratch.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data Science from Scratch.pdf",
+    "sizeBytes": 4155168,
+    "pages": 146,
+    "rawTitle": "Data Science from Scratch",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data Science projects.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data Science projects.pdf",
+    "sizeBytes": 9114223,
+    "pages": 16,
+    "rawTitle": "Data Science projects",
+    "author": "Unknown",
+    "snippet": "MACHINE LEARNING  Real World Projects Bundle  A Collection of More than 350+ Real  World Projects in Various Domains of  Machine Learning  By machinelearningbundle.me  It's Time To   Get Your  Hands Dirty   & Make  Projects That Matter  Last Updated on 1st Sep 2021",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data Science Terms.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data Science Terms.pdf",
+    "sizeBytes": 2148597,
+    "pages": 22,
+    "rawTitle": "Data Science Terms",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Data-Handbook-1.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Data-Handbook-1.pdf",
+    "sizeBytes": 2870060,
+    "pages": 285,
+    "rawTitle": "Data-Handbook-1",
+    "author": "Unknown",
+    "snippet": "T   H   E DATA SCIENCE HANDBOOK  A D V I C E   A N D   I N S I G H T S   F R O M  25 AMAZING DATA SCIENTISTS  DJ   Patil,   Hilary   Mason,   Pete   Skomoroch,   Riley   Newman,   Jonathan   Goldman,   Michael   Hochster,  George   Roumeliotis,   Kevin   Novak,   Jace   Kohlmeier,   Chris   Moody,   Erich   Owens,   Luis   Sanchez,  Eithon   Cadag,   Sean   Gourley,   Clare   Corthell,   Diane   W",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Deep Learning for Dummies - Part 1.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Deep Learning for Dummies - Part 1.pdf",
+    "sizeBytes": 7153068,
+    "pages": 227,
+    "rawTitle": "Deep Learning for Dummies - Part 1",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Handwritten notes on machine learning .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Handwritten notes on machine learning .pdf",
+    "sizeBytes": 13048840,
+    "pages": 35,
+    "rawTitle": "Handwritten notes on machine learning ",
+    "author": "Unknown",
+    "snippet": "Scanned by CamScanner",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine Learning Algorithms with Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine Learning Algorithms with Python.pdf",
+    "sizeBytes": 430916,
+    "pages": 4,
+    "rawTitle": "Machine Learning Algorithms with Python",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine learning and Data mining.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine learning and Data mining.pdf",
+    "sizeBytes": 1673273,
+    "pages": 134,
+    "rawTitle": "Machine learning and Data mining",
+    "author": "Unknown",
+    "snippet": "Machine Learning and Data Mining Lecture Notes  CSC 411/D11  Computer Science Department University of Toronto Version: February 6, 2012  Copyright c ©   2010 Aaron Hertzmann and David Fleet",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "MACHINE LEARNING E-BOOK.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\MACHINE LEARNING E-BOOK.pdf",
+    "sizeBytes": 2631348,
+    "pages": 35,
+    "rawTitle": "MACHINE LEARNING E-BOOK",
+    "author": "Unknown",
+    "snippet": "i",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "machine learning for everyone.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\machine learning for everyone.pdf",
+    "sizeBytes": 5570917,
+    "pages": 35,
+    "rawTitle": "machine learning for everyone",
+    "author": "Unknown",
+    "snippet": "Machine Learning for Everyone  This article in other languages: Russian (original) Machine Learning is like sex in high school. Everyone is talking about it, a few know what to do, and only your teacher is doing it. If you ever tried to read articles about machine learning on the Internet,  vas3k.com",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine Learning For Humans.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine Learning For Humans.pdf",
+    "sizeBytes": 15401099,
+    "pages": 97,
+    "rawTitle": "Machine Learning For Humans",
+    "author": "Unknown",
+    "snippet": "1 Machine Learning for Humans  Machine Learning for Humans  Vishal Maini Samer Sabri",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine Learning Made Easy.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine Learning Made Easy.pdf",
+    "sizeBytes": 2202684,
+    "pages": 77,
+    "rawTitle": "Machine Learning Made Easy",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine Learning Model Using Heroku!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine Learning Model Using Heroku!.pdf",
+    "sizeBytes": 692223,
+    "pages": 20,
+    "rawTitle": "Machine Learning Model Using Heroku!",
+    "author": "Unknown",
+    "snippet": "Connect, Message, Like,Follow&Share, 100% Free Counselling ➔ ThankYou  A Complete Guide on Machine Learning Model Deployment Using Heroku  Overview of Model Deployment Using Heroku  One of the most prevalent misunderstandings and mistakes for a failed ML project is spending a significant amount of time optimizing the ML model. Instead, teams that have completed a successful machine learning projec",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine Learning tutorialspoint book.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine Learning tutorialspoint book.pdf",
+    "sizeBytes": 4115949,
+    "pages": 167,
+    "rawTitle": "Machine Learning tutorialspoint book",
+    "author": "Unknown",
+    "snippet": "Machine Learning with Python  i",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Machine Learning Yearning .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Machine Learning Yearning .pdf",
+    "sizeBytes": 4266582,
+    "pages": 118,
+    "rawTitle": "Machine Learning Yearning ",
+    "author": "Unknown",
+    "snippet": "www.dbooks.org",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "ML Linear Algebra.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\ML Linear Algebra.pdf",
+    "sizeBytes": 1769676,
+    "pages": 212,
+    "rawTitle": "ML Linear Algebra",
+    "author": "Unknown",
+    "snippet": "Basics of Linear Algebra for Machine Learning  Discover the Mathematical Language of Data in Python Jason Brownlee",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Notes on Machine Learning.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Notes on Machine Learning.pdf",
+    "sizeBytes": 1306789,
+    "pages": 226,
+    "rawTitle": "Notes on Machine Learning",
+    "author": "Unknown",
+    "snippet": "Lecture Notes   in  MACHINE LEARNING  Dr V N Krishnachandran  Vidya Centre for Artificial Intelligence Research",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "NumPy User Guide .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\NumPy User Guide .pdf",
+    "sizeBytes": 755439,
+    "pages": 170,
+    "rawTitle": "NumPy User Guide ",
+    "author": "Unknown",
+    "snippet": "NumPy User Guide  Release 1.18.4  Written by the NumPy community  May 24, 2020",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Probability for Data Science 📒.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Probability for Data Science 📒.pdf",
+    "sizeBytes": 9258689,
+    "pages": 297,
+    "rawTitle": "Probability for Data Science 📒",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Python for basic data Analysis!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Python for basic data Analysis!.pdf",
+    "sizeBytes": 1723673,
+    "pages": 39,
+    "rawTitle": "Python for basic data Analysis!",
+    "author": "Unknown",
+    "snippet": "1  PYTHON FOR DATA ANALYSIS  Content from Jose Portilla's Udemy course   Learning Python for Data Analysis and Visualization  https://www.udemy.com/learning-python-for-data-analysis-and-visualization/  Notes by Michael Brothers, available on   http://github.com/mikebrothers/data-science/  Table of Contents  NUMPY .....................................................................................",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Python Learning Pandas in 10 min.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Python Learning Pandas in 10 min.pdf",
+    "sizeBytes": 561924,
+    "pages": 26,
+    "rawTitle": "Python Learning Pandas in 10 min",
+    "author": "Unknown",
+    "snippet": "1/2/2016   10 Minutes to pandas — pandas 0.17.1 documentation http://pandas.pydata.org/pandas-docs/stable/10min.html   1/26  10 Minutes to pandas  This is a short introduction to pandas, geared mainly for new users. You can see more complex recipes in the   Cookbook  Customarily, we import as follows:  I n [ 1 ] : i m p o r t   p a n d a s   a s   p d  I n [ 2 ] : i m p o r t   n u m p y   a s   n",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Statistical and Machine Learning in Python .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Statistical and Machine Learning in Python .pdf",
+    "sizeBytes": 9324479,
+    "pages": 300,
+    "rawTitle": "Statistical and Machine Learning in Python ",
+    "author": "Unknown",
+    "snippet": "Statistics and Machine Learning in Python  Release 0.3 beta  Edouard Duchesnay, Tommy Löfstedt, Feki Younes  Oct 29, 2020",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "Statistics in Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\Statistics in Python.pdf",
+    "sizeBytes": 5270897,
+    "pages": 19,
+    "rawTitle": "Statistics in Python",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "The Basic Data Cleaning Guide.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books\\The Basic Data Cleaning Guide.pdf",
+    "sizeBytes": 2213849,
+    "pages": 66,
+    "rawTitle": "The Basic Data Cleaning Guide",
+    "author": "Unknown",
+    "snippet": "DATA  CLEANING  A free resource by  THE  ULTIMATE GUIDE  TO",
+    "relFolder": "AI ML DS Notes & Books-20260929T060638Z-1-001\\AI ML DS Notes & Books"
+  },
+  {
+    "fileName": "500 + AI,ML Projects with Source Code.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\500 + AI,ML Projects with Source Code.pdf",
+    "sizeBytes": 32080,
+    "pages": 3,
+    "rawTitle": "Markdown To PDF",
+    "author": "Unknown",
+    "snippet": "500 + 500 +   \u0001\u0002\u0003\u0004\u0005\u0004\u0006\u0004\u0007\b   \u0003   \b\b\u0004   \u0006   \u0002\u000e\u000f   \u0006\u0003   \u0010\u0004\u0011\u0003   \u0012\u0004\u0003\u0013   \u0006\u000e\u0014  500 AI Machine learning Deep learning Computer vision NLP Projects with code This list is continuously updated.  This list is continuously updated.   - You can take pull request and contribute.  Sr No Sr No   Name Name   Link Link  1   180 Machine learning Project   is.gd/MLtyGk 2   12 Machine learning Object Detection   is.gd/",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "Data Science project.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\Data Science project.pdf",
+    "sizeBytes": 9114223,
+    "pages": 16,
+    "rawTitle": "Data Science project",
+    "author": "Unknown",
+    "snippet": "MACHINE LEARNING  Real World Projects Bundle  A Collection of More than 350+ Real  World Projects in Various Domains of  Machine Learning  By machinelearningbundle.me  It's Time To   Get Your  Hands Dirty   & Make  Projects That Matter  Last Updated on 1st Sep 2021",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "Divorce Prediction using Machine Learning.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\Divorce Prediction using Machine Learning.pdf",
+    "sizeBytes": 1164561,
+    "pages": 18,
+    "rawTitle": "Divorce Prediction using Machine Learning",
+    "author": "Unknown",
+    "snippet": "5/6/22, 11:34 PM   Divorce Prediction using Machine Learning - Jupyter Notebook localhost:8888/notebooks/Divorce Prediction using Machine Learning.ipynb   1/18  In   [25]:     In   [26]:     In   [27]:     In   [28]:     Out[27]:  Atr1   Atr2   Atr3   Atr4   Atr5   Atr6   Atr7   Atr8   Atr9   Atr10   ...   Atr46   Atr47   Atr48   Atr49   Atr  0   2   2   4   1   0   0   0   0   0   0   ...   2",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "Energy Price Prediction using Machine Learning.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\Energy Price Prediction using Machine Learning.pdf",
+    "sizeBytes": 730355,
+    "pages": 16,
+    "rawTitle": "Energy Price Prediction using Machine Learning",
+    "author": "Unknown",
+    "snippet": "5/12/22, 12:25 PM   Energy Price Prediction using Machine Learning - Jupyter Notebook localhost:8888/notebooks/Energy Price Prediction using Machine Learning.ipynb   1/16  In   [1]:     In   [2]:     In   [3]:     Out[3]:  time   generation  biomass  generation  fossil  brown  coal/lignite  generation  fossil  coal-  derived  gas  generation  fossil gas  generation  fossil hard  coal  generatio",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "Machine Learning Projects!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\Machine Learning Projects!.pdf",
+    "sizeBytes": 2088805,
+    "pages": 135,
+    "rawTitle": "Machine Learning Projects!",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "Mohit_Resume_data_science.pdf.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\Mohit_Resume_data_science.pdf.pdf",
+    "sizeBytes": 238243,
+    "pages": 3,
+    "rawTitle": "Mohit_Resume_data_science.pdf",
+    "author": "Mohit Khanna",
+    "snippet": "M OHIT   K HANNA   Data   Scientist/Machine Learning/Cloud Computing  Bangalore   7899429888   mohit.khanna2008@gmail.com   LinkedIn   GitHub   My Webpage  PROFESSIONAL SUMMARY  ➢   5+ years   of hands-on experience in developing Machine learning and Deep learning models like CNN, RNN,, KNN, Naive Bayes,   SVM,   Logistic   regression,   Random-forest,   Decision   trees,   Boosting   algorithms,",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "weather prediction using machine learning.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects\\weather prediction using machine learning.pdf",
+    "sizeBytes": 247673,
+    "pages": 5,
+    "rawTitle": "weather prediction using machine learning",
+    "author": "Unknown",
+    "snippet": "4/29/22, 1:33 PM   Weather Prediction with Machine Learning - Jupyter Notebook localhost:8888/notebooks/Weather Prediction with Machine Learning.ipynb   1/5  In   [1]:     (3192, 9)  Index(['dt', 'LandAverageTemperature', 'LandAverageTemperatureUncertaint  y',  'LandMaxTemperature', 'LandMaxTemperatureUncertainty',  'LandMinTemperature', 'LandMinTemperatureUncertainty',  'LandAndOceanAverageTempe",
+    "relFolder": "AI ML DS Projects-20260929T060642Z-1-001\\AI ML DS Projects"
+  },
+  {
+    "fileName": "dm.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\dm.pdf",
+    "sizeBytes": 12111874,
+    "pages": 700,
+    "rawTitle": "Algorithms for Decision Making",
+    "author": "Unknown",
+    "snippet": "Algorithms for Decision Making",
+    "relFolder": ""
+  },
+  {
+    "fileName": "First job in Data Science.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\Get Job In AI ML DS-20260929T060715Z-1-001\\Get Job In AI ML DS\\First job in Data Science.pdf",
+    "sizeBytes": 2685320,
+    "pages": 76,
+    "rawTitle": "First job in Data Science",
+    "author": "Unknown",
+    "snippet": "www.springboard.com   GETTING YOUR FIRST DATA SCIENCE JOB 1  Getting Your First Data Science Job  A Beginner’s Guide to",
+    "relFolder": "Get Job In AI ML DS-20260929T060715Z-1-001\\Get Job In AI ML DS"
+  },
+  {
+    "fileName": "Mathematical Cheat Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\Mathematical Cheat Sheet.pdf",
+    "sizeBytes": 4497939,
+    "pages": 191,
+    "rawTitle": "Mathematical Cheat Sheet",
+    "author": "Unknown",
+    "snippet": "Page 1 of 286  ALL IN ONE MATHEMATICS CHEAT SHEET  V2.6  e i π   + 1 = 0  CONTAINING FORMULAE FOR ELEMENTARY, HIGH SCHOOL AND UNIVERSITY MATHEMATICS  COMPILED FROM MANY SOURCES BY ALEX SPARTALIS 2009-2012  Euler’s Identity:",
+    "relFolder": ""
+  },
+  {
+    "fileName": "optimization.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\optimization.pdf",
+    "sizeBytes": 18967454,
+    "pages": 634,
+    "rawTitle": "Algorithms for Optimization",
+    "author": "Unknown",
+    "snippet": "Algorithms for Optimization",
+    "relFolder": ""
+  },
+  {
+    "fileName": "Python Jupyter.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\Python Jupyter.pdf",
+    "sizeBytes": 1461675,
+    "pages": 1,
+    "rawTitle": "Python Jupyter",
+    "author": "Unknown",
+    "snippet": ">   Saving/Loading Notebooks >   Working with Different Programming Languages   >   Widgets >   Writing Code And Text  Jupyter Cheat Sheet Python For Data Science Learn Jupyter online at www.DataCamp.com  14 16 15  IPython   IRkernel   IJulia  Create new notebook Make a copy of the\r\n current notebook Cut currently selected cells\r to clipboard   Copy cells from\r clipboard to current\r cursor positio",
+    "relFolder": ""
+  },
+  {
+    "fileName": "Python Notes Pdf .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\Python Notes Pdf .pdf",
+    "sizeBytes": 20440029,
+    "pages": 88,
+    "rawTitle": "Python Notes Pdf ",
+    "author": "Unknown",
+    "snippet": "P y t h o n N o t e s b y R i s h a b h M i s h ra  PYTHON TUTORIAL FOR BEGINNERS  Source:   www.youtube.com/@RishabhMishraOfficial  Chapter - 01  Introduction to Python  •   What is programming  •   What is Python  •   Popular programming languages  •   Why Python  •   Career with Python  What is Programming Language?  Programming is the process of creating sets of instructions that tell a comput",
+    "relFolder": ""
+  },
+  {
+    "fileName": "R for Data Science 📕.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\R for Data Science 📕.pdf",
+    "sizeBytes": 6251265,
+    "pages": 183,
+    "rawTitle": "R for Data Science 📕",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": ""
+  },
+  {
+    "fileName": "val.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\val.pdf",
+    "sizeBytes": 13878449,
+    "pages": 442,
+    "rawTitle": "Algorithms for Validation",
+    "author": "Unknown",
+    "snippet": "Algorithms for Validation",
+    "relFolder": ""
+  },
+  {
+    "fileName": "180 Data Science Study Plan.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_2_AI ML DS Roadmaps-20260929T060624Z-1-001\\_2_AI ML DS Roadmaps\\180 Data Science Study Plan.pdf",
+    "sizeBytes": 269136,
+    "pages": 3,
+    "rawTitle": "180 Data Science Study Plan",
+    "author": "Unknown",
+    "snippet": "Shared by LOSC",
+    "relFolder": "_2_AI ML DS Roadmaps-20260929T060624Z-1-001\\_2_AI ML DS Roadmaps"
+  },
+  {
+    "fileName": "Data Science Road Map 2022 🎯.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_2_AI ML DS Roadmaps-20260929T060624Z-1-001\\_2_AI ML DS Roadmaps\\Data Science Road Map 2022 🎯.pdf",
+    "sizeBytes": 2174237,
+    "pages": 15,
+    "rawTitle": "Data Science Road Map 2022 🎯",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_2_AI ML DS Roadmaps-20260929T060624Z-1-001\\_2_AI ML DS Roadmaps"
+  },
+  {
+    "fileName": "C++ and Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\C++ and Python.pdf",
+    "sizeBytes": 23174535,
+    "pages": 148,
+    "rawTitle": "C++ and Python",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python"
+  },
+  {
+    "fileName": "Complete_Python_Guide.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Complete_Python_Guide.pdf",
+    "sizeBytes": 88287,
+    "pages": 3,
+    "rawTitle": "Complete_Python_Guide",
+    "author": "Unknown",
+    "snippet": "Complete Python Guide 1 Complete Python Guide  Tips & Usage  💡   EVERYONE IMPORANT: Steps to become a good developers  󾠮▶   Always learn in one resources which is attached below or which we share further and compare or get clear your doubt on other resources  󾠯▶   A good programmer makes a document (Digitally) on each concepts that he learns it contains theory in simple understandable words alo",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python"
+  },
+  {
+    "fileName": "Copy of Python Jupyter.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Copy of Python Jupyter.pdf",
+    "sizeBytes": 1461675,
+    "pages": 1,
+    "rawTitle": "Copy of Python Jupyter",
+    "author": "Unknown",
+    "snippet": ">   Saving/Loading Notebooks >   Working with Different Programming Languages   >   Widgets >   Writing Code And Text  Jupyter Cheat Sheet Python For Data Science Learn Jupyter online at www.DataCamp.com  14 16 15  IPython   IRkernel   IJulia  Create new notebook Make a copy of the\r\n current notebook Cut currently selected cells\r to clipboard   Copy cells from\r clipboard to current\r cursor positio",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python"
+  },
+  {
+    "fileName": "How to code in Python. .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\General Python\\How to code in Python. .pdf",
+    "sizeBytes": 21908123,
+    "pages": 100,
+    "rawTitle": "How to code in Python. ",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\General Python"
+  },
+  {
+    "fileName": "Python  questions bank.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\General Python\\Python  questions bank.pdf",
+    "sizeBytes": 109007,
+    "pages": 11,
+    "rawTitle": "Python  questions bank",
+    "author": "Unknown",
+    "snippet": "Question Bank * MCQ Questions  1. Is Python case sensitive when dealing with identifiers? a) yes b) no c) machine dependent d) none of the mentioned Answer: a Explanation: Case is always significant. 2. What is the maximum possible length of an identifier? a) 31 characters b) 63 characters c) 79 characters d) none of the mentioned Answer: d Explanation: Identifiers can be of any length. 3. Which o",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\General Python"
+  },
+  {
+    "fileName": "PyBites Python Tips.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\PyBites Python Tips.pdf",
+    "sizeBytes": 529632,
+    "pages": 17,
+    "rawTitle": "PyBites Python Tips",
+    "author": "Unknown",
+    "snippet": "© PyBites 2020+   1",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python"
+  },
+  {
+    "fileName": "beginners_python_cheat_sheet_pcc_all.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\beginners_python_cheat_sheet_pcc_all.pdf",
+    "sizeBytes": 1785862,
+    "pages": 26,
+    "rawTitle": "beginners_python_cheat_sheet_pcc_all",
+    "author": "Eric Matthes",
+    "snippet": "Variables are used to store values. A string is a series of characters, surrounded by single or double quotes.  Hello world  print( \" Hello world! \" )  Hello world with a variable  msg =   \" Hello world! \"  print(msg)  Concatenation (combining strings)  first_name = 'albert'  last _name =   'einstein'  full_name = first_name + ' ' + last_name  print(full_name)  A list stores a series of items in a",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Comprehensive Python Cheatsheet 🐍.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Comprehensive Python Cheatsheet 🐍.pdf",
+    "sizeBytes": 6737063,
+    "pages": 51,
+    "rawTitle": "Comprehensive Python Cheatsheet 🐍",
+    "author": "Unknown",
+    "snippet": "7/5/2020   Comprehensive Python Cheatsheet https://gto76.github.io/python-cheatsheet/?utm_campaign=Data_Elixir&utm_medium=rss&utm_source=Data_Elixir_292#list   1/51  July 2, 2020 / Jure Šorn  Comprehensive Python Cheatsheet  Download text \u0000le, Buy PDF, Fork me on GitHub or Check out FAQ.  # Contents  ToC   =   { '1.   Collections':   [List,   Dictionary,   Set,   Tuple,   Range,   Enumerate,   Ite",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "How_to_use_Python_Jupyter_Notebook.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\How_to_use_Python_Jupyter_Notebook.pdf",
+    "sizeBytes": 804299,
+    "pages": 1,
+    "rawTitle": "Jupyter_Cheat_Sheet_Basics.indd",
+    "author": "Unknown",
+    "snippet": "DataCamp  Learn Python for Data Science   Interactively  Saving/Loading Notebooks  Working with Different Programming Languages  Asking For Help  Widgets  Python For Data Science   Cheat Sheet  Jupyter Notebook  Learn More Python for Data Science   Interactively   at   www.DataCamp.com  Kernels provide computation and communication with front-end interfaces  like the notebooks. There are three mai",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python -Cheatsheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python -Cheatsheet.pdf",
+    "sizeBytes": 2438511,
+    "pages": 14,
+    "rawTitle": "Python -Cheatsheet",
+    "author": "Unknown",
+    "snippet": "Python  Cheat Sheet Mosh Hamedani  Code with Mosh (codewithmosh.com)  1st Edition",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python cheat sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python cheat sheet.pdf",
+    "sizeBytes": 1258449,
+    "pages": 60,
+    "rawTitle": "Python cheat sheet",
+    "author": "Unknown",
+    "snippet": "Python Cheat Sheet  To view the live version of the page, click here. © Copyright by Interviewbit",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python Cheatsheet Keyword.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python Cheatsheet Keyword.pdf",
+    "sizeBytes": 2463716,
+    "pages": 15,
+    "rawTitle": "Python Cheatsheet Keyword",
+    "author": "Unknown",
+    "snippet": "Python Cheat Sheet - Keywords  “ A puzzle a day to learn, code, and play ” → Visit   finxter.com  Keyword   Description   Code example  False ,   True   Data values from the data type Boolean   False   == ( 1   >   2 ),   True   == ( 2   >   1 )  and ,   or ,   not   Logical operators:  (x   and   y)   → both x and y must be True  (x   or   y)   → either x or y must be True  ( not   x)   → x must",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python Cheatsheet-1.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python Cheatsheet-1.pdf",
+    "sizeBytes": 242404,
+    "pages": 26,
+    "rawTitle": "Python Cheatsheet-1",
+    "author": "Unknown",
+    "snippet": "Python  Cheat Sheet  Python 3 is a truly versatile pro\u000erammin\u000e lan\u000eua\u000ee, loved both by web developers, data scientists and software en\u000eineers. And there are several \u000eood reasons for that!  Once you \u0017et a han\u0017 of it, your development speed and productivity will soar!  •   Python is open-source and has a \u000ereat support community, •   Plus, extensive support libraries. •   Its data structures are user",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "PYTHON CHEATSHEET-2.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\PYTHON CHEATSHEET-2.pdf",
+    "sizeBytes": 244457,
+    "pages": 2,
+    "rawTitle": "PYTHON CHEATSHEET-2",
+    "author": "Unknown",
+    "snippet": "Sequence Containers Indexing  Base Types  Python 3 Cheat Sheet ©2012-2015 - Laurent Pointal  License Creative Commons Attribution 4  Latest version on :  https://perso.limsi.fr/pointal/python:memento  0 783   -192 int  9.23   -1.7e-6 0.0 float  True   False bool  \"One\\nTwo\"  'I\\'m'  str   \"\"\"X\\tY\\tZ  1\\t2\\t3\"\"\"  ×10 -6  escaped tab  escaped new line  Multiline string:  Container Types  list   [1,5",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python CheatSheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python CheatSheet.pdf",
+    "sizeBytes": 6737063,
+    "pages": 51,
+    "rawTitle": "Python CheatSheet",
+    "author": "Unknown",
+    "snippet": "7/5/2020   Comprehensive Python Cheatsheet https://gto76.github.io/python-cheatsheet/?utm_campaign=Data_Elixir&utm_medium=rss&utm_source=Data_Elixir_292#list   1/51  July 2, 2020 / Jure Šorn  Comprehensive Python Cheatsheet  Download text \u0000le, Buy PDF, Fork me on GitHub or Check out FAQ.  # Contents  ToC   =   { '1.   Collections':   [List,   Dictionary,   Set,   Tuple,   Range,   Enumerate,   Ite",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python Complete Cheat Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python Complete Cheat Sheet.pdf",
+    "sizeBytes": 2463716,
+    "pages": 15,
+    "rawTitle": "Python Complete Cheat Sheet",
+    "author": "Unknown",
+    "snippet": "Python Cheat Sheet - Keywords  “ A puzzle a day to learn, code, and play ” → Visit   finxter.com  Keyword   Description   Code example  False ,   True   Data values from the data type Boolean   False   == ( 1   >   2 ),   True   == ( 2   >   1 )  and ,   or ,   not   Logical operators:  (x   and   y)   → both x and y must be True  (x   or   y)   → either x or y must be True  ( not   x)   → x must",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python Data Sheet Basics! .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python Data Sheet Basics! .pdf",
+    "sizeBytes": 472533,
+    "pages": 2,
+    "rawTitle": "Python Data Sheet Basics! ",
+    "author": "Unknown",
+    "snippet": "General  Python Cheat Sheet  just the basics  Created By:   a rianne Colton and Sean Chen •  Data   s tructures  Note :  •   'start' index is included, but 'stop' index is NOT.  •   start/stop can be omitted in which they default to  the start/end.  §   Application of 'step' :  Take every other element   list1 [:: 2 ]  Reverse a string   str1 [:: -1 ]  DICT (HASH MAP)  Create Dict   dict1   = {' k",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python Seaborn CheatSheet ✈️.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python Seaborn CheatSheet ✈️.pdf",
+    "sizeBytes": 48485,
+    "pages": 2,
+    "rawTitle": "Python Seaborn CheatSheet ✈️",
+    "author": "Unknown",
+    "snippet": "Python - Seaborn Cheat Sheet  by DarioPittera (aggialavura) via cheatography.com/83764/cs/19851/  TO START TO START  import   seaborn   as   sns #   If   working   on   a   notebook %matpl otlib   inline  DISTRIBUTION PLOTS DISTRIBUTION PLOTS  sns.distplot(df['col']) sns.distplot(df['col'])   distribution plot - bin = x   number of bins - kde = False   remove the line sns.jointplot(x,y,df) sns.joi",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python-cheat-sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python-cheat-sheet.pdf",
+    "sizeBytes": 751961,
+    "pages": 26,
+    "rawTitle": "Python cheat sheet April 2021",
+    "author": "Unknown",
+    "snippet": "Python  Cheat Sheet  Python 3 is a truly versatile pro\u000erammin\u000e lan\u000eua\u000ee, loved both by web developers, data scientists and software en\u000eineers. And there are several \u000eood reasons for that!  Once you \u0017et a han\u0017 of it, your development speed and productivity will soar!  •   Python is open-source and has a \u000ereat support community, •   Plus, extensive support libraries. •   Its data structures are user",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "Python_Cheat_Sheet.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets\\Python_Cheat_Sheet.pdf",
+    "sizeBytes": 2463716,
+    "pages": 15,
+    "rawTitle": "Python_Cheat_Sheet",
+    "author": "Unknown",
+    "snippet": "Python Cheat Sheet - Keywords  “ A puzzle a day to learn, code, and play ” → Visit   finxter.com  Keyword   Description   Code example  False ,   True   Data values from the data type Boolean   False   == ( 1   >   2 ),   True   == ( 2   >   1 )  and ,   or ,   not   Logical operators:  (x   and   y)   → both x and y must be True  (x   or   y)   → either x or y must be True  ( not   x)   → x must",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Cheat Sheets"
+  },
+  {
+    "fileName": "100+Days+of+Python+Check+Off+Posters.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\100+Days+of+Python+Check+Off+Posters.pdf",
+    "sizeBytes": 179937,
+    "pages": 3,
+    "rawTitle": "100 Days of Python Posters",
+    "author": "angela_yu",
+    "snippet": "1 2 3 4 5 6 7 8 9 1 0 1 1 1 2 1 3 1 4 1 5 1 6 1 7 1 8 1 9 2 0 2 1 2 2 2 3 2 4 2 5 2 6 2 7 2 8 2 9 3 0 3 1 3 2 3 3 3 4 3 5 3 6 3 7 3 8 3 9 4 0 4 1 4 2 4 3 4 4 4 5 6 1 6 2 6 3 6 4 6 5 6 6 6 7 6 8 6 9 7 0 7 1 7 2 7 3 7 4 7 5 9 1 9 2 9 3 9 4 9 5 9 6 9 7 9 8 9 9 1 0 0 4 6 4 7 4 8 4 9 5 0 5 1 5 2 5 3 5 4 5 5 5 6 5 7 5 8 5 9 6 0 7 6 7 7 7 8 7 9 8 0 8 1 8 2 8 3 8 4 8 5 8 6 8 7 8 8 8 9 9 0  100 Days of Pyt",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Build Games With Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Build Games With Python.pdf",
+    "sizeBytes": 3175226,
+    "pages": 46,
+    "rawTitle": "Build Games With Python",
+    "author": "Unknown",
+    "snippet": "By Curious Programmer  Hello Camps!  Here is a 15 Python Games Source Code pdf for you  Build Games with Python",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Python Basics. A Practical Introduction to Python 3.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Python Basics. A Practical Introduction to Python 3.pdf",
+    "sizeBytes": 1548454,
+    "pages": 98,
+    "rawTitle": "Python Basics. A Practical Introduction to Python 3",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Python hands on tutorial!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Python hands on tutorial!.pdf",
+    "sizeBytes": 1273649,
+    "pages": 207,
+    "rawTitle": "Python hands on tutorial!",
+    "author": "Unknown",
+    "snippet": "Hands-on Python Tutorial  Release 2.0  Dr. Andrew N. Harrington  May 25, 2020",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Python Tutorial with Examples 📒🎯❤️.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Python Tutorial with Examples 📒🎯❤️.pdf",
+    "sizeBytes": 5980326,
+    "pages": 118,
+    "rawTitle": "Python Tutorial with Examples 📒🎯❤️",
+    "author": "Unknown",
+    "snippet": "3/25/2021   Python - Jupyter Notebook localhost:8889/notebooks/Documents/GitHub/Public/Python/Python.ipynb   1/118  Prepared by Asif Bhat  Python Tutorial  In   [103]:  Keywords  Keywords are the reserved words in Python and can't be used as an identifier  In   [3]:  In   [4]:  Identifiers  An identifier is a name given to entities like class, functions, variables, etc. It helps to differentiate",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "python-3-400-exercises-and-solutions-for-beginners-by-assad-patel.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\python-3-400-exercises-and-solutions-for-beginners-by-assad-patel.pdf",
+    "sizeBytes": 10010066,
+    "pages": 560,
+    "rawTitle": "Python 3 : 400 exercises and solutions for beginners",
+    "author": "patel, assad",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Python_400 exercises and solutions for beginners.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Python_400 exercises and solutions for beginners.pdf",
+    "sizeBytes": 10010066,
+    "pages": 560,
+    "rawTitle": "Python 3 : 400 exercises and solutions for beginners",
+    "author": "patel, assad",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Python_Tutorial_Codes.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Python_Tutorial_Codes.pdf",
+    "sizeBytes": 2440841,
+    "pages": 255,
+    "rawTitle": "Python_Tutorial_Codes",
+    "author": "Unknown",
+    "snippet": "Python Tutorial  (Codes)  Mustafa GERMEC, PhD",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "Top 25 Repos ➡️ Python Developers!.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise\\Top 25 Repos ➡️ Python Developers!.pdf",
+    "sizeBytes": 727037,
+    "pages": 6,
+    "rawTitle": "Top 25 Repos ➡️ Python Developers!",
+    "author": "Unknown",
+    "snippet": "TOP   25   GITHUB  REPOSITORIES  FOR   PYTHON  DEVELOPERS  FOLLOW US FOR MORE!  1/6 LIKE, SHARE, SAVE FOR LATER!",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Hands On Programming & Practise"
+  },
+  {
+    "fileName": "python for astrophysics 2.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python In Astrophysics\\python for astrophysics 2.pdf",
+    "sizeBytes": 15092895,
+    "pages": 59,
+    "rawTitle": "Title",
+    "author": "Author",
+    "snippet": "Python for Astronomers  An Introduction to Scientific Computing  Imad Pasha Christopher Agostino",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python In Astrophysics"
+  },
+  {
+    "fileName": "python for astrophysics.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python In Astrophysics\\python for astrophysics.pdf",
+    "sizeBytes": 22177371,
+    "pages": 62,
+    "rawTitle": "Title",
+    "author": "Author",
+    "snippet": "Python for Astronomers  An Introduction to Scientific Computing  Imad Pasha Chris Agostino  3rd Edition",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python In Astrophysics"
+  },
+  {
+    "fileName": "52 Python Interview Questions Answers PDF .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation\\52 Python Interview Questions Answers PDF .pdf",
+    "sizeBytes": 459782,
+    "pages": 74,
+    "rawTitle": "52 Python Interview Questions Answers PDF ",
+    "author": "Unknown",
+    "snippet": "52 Python Developer Interview Questions-Answers  Watch Full Video On Youtube:  https://youtu.be/YeupGcOW-3k  Connect with me: Youtube: https://www.youtube.com/c/nitmantalks Instagram: https://www.instagram.com/nitinmangotra/ LinkedIn: https://www.linkedin.com/in/nitin-mangotra-9a075a149/ Facebook: https://www.facebook.com/NitManTalks/ Twitter: https://twitter.com/nitinmangotra07/ Telegram: https:/",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation"
+  },
+  {
+    "fileName": "Python Interview Questions(1).pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation\\Python Interview Questions(1).pdf",
+    "sizeBytes": 3575248,
+    "pages": 14,
+    "rawTitle": "Python Interview Questions(1)",
+    "author": "Unknown",
+    "snippet": "1 www.bitdegree.org",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation"
+  },
+  {
+    "fileName": "python interview questions.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation\\python interview questions.pdf",
+    "sizeBytes": 511467,
+    "pages": 20,
+    "rawTitle": "python interview questions",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation"
+  },
+  {
+    "fileName": "python interview.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation\\python interview.pdf",
+    "sizeBytes": 601010,
+    "pages": 5,
+    "rawTitle": "python interview",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation"
+  },
+  {
+    "fileName": "python-1.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation\\python-1.pdf",
+    "sizeBytes": 97225,
+    "pages": 7,
+    "rawTitle": "python-1",
+    "author": "Unknown",
+    "snippet": "http://career.guru99.com/ Top 40 Python Interview Questions & Answers  1) What is Python? What are the benefits of using Python?  Python is a programming language with objects, modules, threads, exceptions and automatic memory management. The benefits of pythons are that it is simple and easy, portable, extensible, build-in data structure and it is an open source.  2) What is PEP 8?  PEP 8 is a co",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation"
+  },
+  {
+    "fileName": "Top 100 Python Interview Question .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation\\Top 100 Python Interview Question .pdf",
+    "sizeBytes": 495517,
+    "pages": 19,
+    "rawTitle": "Top 100 Python Interview Question ",
+    "author": "Unknown",
+    "snippet": "Top 100 Python Interview Questions You Must Prepare In 2019  Last updated on Aug 14,2019  379.7K Views  Python Certi\u0000cation   is the most sought-after skill in programming domain. In this Python Interview Questions blog, I will introduce you to the most frequently asked questions in Python interviews. Our Python Interview Questions is the one-stop resource from where you can boost your interview p",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Interview Preparation"
+  },
+  {
+    "fileName": "Advanced Python Tips.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Advanced Python Tips.pdf",
+    "sizeBytes": 8397593,
+    "pages": 50,
+    "rawTitle": "Advanced Python Tips",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Books_python-in-education.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Books_python-in-education.pdf",
+    "sizeBytes": 3912593,
+    "pages": 43,
+    "rawTitle": "Python in Education",
+    "author": "Nicholas H. Tollervey",
+    "snippet": "Python in  Education  Nicholas H. Tollervey  Teach, Learn, Program",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "epilight_python_new.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\epilight_python_new.pdf",
+    "sizeBytes": 658510,
+    "pages": 109,
+    "rawTitle": "Elements of Programming Interviews",
+    "author": "Adnan Aziz, Amit Prakash, Tsung-Hsien Lee",
+    "snippet": "Elements of Programming Interviews in Python  The Insiders’ Guide  Adnan Aziz Tsung-Hsien Lee Amit Prakash  This document is a sampling of our book, Elements of Programming Interviews in Python (EPI). Its purpose is to provide examples of EPI’s organization, content, style, topics, and quality. The sampler focuses solely on problems; in particular, it does not include three chapters on the nontech",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "how to code in python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\how to code in python.pdf",
+    "sizeBytes": 26994398,
+    "pages": 100,
+    "rawTitle": "How to code in Python. .pdf",
+    "author": "NANDANGN",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Learn Python the hard way.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Learn Python the hard way.pdf",
+    "sizeBytes": 3561336,
+    "pages": 293,
+    "rawTitle": "Learn Python the hard way",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python 3 _ 400 exercises and solutions for beginners.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python 3 _ 400 exercises and solutions for beginners.pdf",
+    "sizeBytes": 10010066,
+    "pages": 560,
+    "rawTitle": "Python 3 : 400 exercises and solutions for beginners",
+    "author": "patel, assad",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Basics Book.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python Basics Book.pdf",
+    "sizeBytes": 1548454,
+    "pages": 98,
+    "rawTitle": "Python Basics Book",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python eBook.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python eBook.pdf",
+    "sizeBytes": 5160300,
+    "pages": 75,
+    "rawTitle": "Python eBook",
+    "author": "Unknown",
+    "snippet": "Copyrighted By @Curious_.programmer  Python EBook  By @Curious_.programmer",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python for Everybody.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python for Everybody.pdf",
+    "sizeBytes": 2457506,
+    "pages": 247,
+    "rawTitle": "Python for Everybody",
+    "author": "Unknown",
+    "snippet": "Python for Everybody  Exploring Data Using Python 3 Dr. Charles R. Severance  www.dbooks.org",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python for Probability, Statistics, and Machine Learning .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python for Probability, Statistics, and Machine Learning .pdf",
+    "sizeBytes": 7413698,
+    "pages": 288,
+    "rawTitle": "Python for Probability, Statistics, and Machine Learning ",
+    "author": "Unknown",
+    "snippet": "José Unpingco Python for Probability, Statistics, and Machine Learning",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python hands on tutorial!(1).pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python hands on tutorial!(1).pdf",
+    "sizeBytes": 1273649,
+    "pages": 207,
+    "rawTitle": "Python hands on tutorial!(1)",
+    "author": "Unknown",
+    "snippet": "Hands-on Python Tutorial  Release 2.0  Dr. Andrew N. Harrington  May 25, 2020",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Learn It Well.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python Learn It Well.pdf",
+    "sizeBytes": 451285,
+    "pages": 145,
+    "rawTitle": "Python Learn It Well",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Learning.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python Learning.pdf",
+    "sizeBytes": 402527,
+    "pages": 63,
+    "rawTitle": "Python Learning",
+    "author": "Unknown",
+    "snippet": "Department of Physics Introduction to Programming in Python  A Self-Study Course  (Version 2.2 – October 2009)",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "python programing for beginners .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\python programing for beginners .pdf",
+    "sizeBytes": 7415123,
+    "pages": 120,
+    "rawTitle": "python programing for beginners ",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Programming Notes .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python Programming Notes .pdf",
+    "sizeBytes": 1754164,
+    "pages": 109,
+    "rawTitle": "Python Programming Notes ",
+    "author": "Unknown",
+    "snippet": "Python   Syntax  Execute Python Syntax  As we learned in the previous page, Python syntax can be executed by writing directly in  the Command Line:  >>> print (\"Hello, World!\")  Hello, World!  Or by creating a python file on the server, using the .py   file extension, and running it in  the Command Line:  C: \\ Users \\ Your   Name >python myfile.py  Python Indentation  Indentation refers to the spa",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Programming Textbook.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python Programming Textbook.pdf",
+    "sizeBytes": 3489455,
+    "pages": 140,
+    "rawTitle": "Python Programming Textbook",
+    "author": "Unknown",
+    "snippet": "Python Programming Hans-Petter Halvorsen https://www.halvorsen.blog",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Tutorial .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python Tutorial .pdf",
+    "sizeBytes": 2440841,
+    "pages": 255,
+    "rawTitle": "Python Tutorial ",
+    "author": "Unknown",
+    "snippet": "Python Tutorial  (Codes)  Mustafa GERMEC, PhD",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python-Codebook.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python-Codebook.pdf",
+    "sizeBytes": 144917,
+    "pages": 19,
+    "rawTitle": "Python-Codebook",
+    "author": "Unknown",
+    "snippet": "PYTHON CODEBOOK  Your way to Competitive Programming.  LET'S PYTHON  AUTHOR - CODE   OF GEEKS",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python-Intro.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Python-Intro.pdf",
+    "sizeBytes": 2050718,
+    "pages": 263,
+    "rawTitle": "Python-Intro",
+    "author": "Unknown",
+    "snippet": "A Practical Introduction to Python Programming  Brian Heinold  Department of Mathematics and Computer Science Mount St. Mary’s University",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "PythonNotesForProfessionals.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\PythonNotesForProfessionals.pdf",
+    "sizeBytes": 6361425,
+    "pages": 856,
+    "rawTitle": "Python Notes for Professionals",
+    "author": "GoalKicker.com",
+    "snippet": "Python  Notes for Professionals  Python ®  Notes for Professionals  GoalKicker.com  Free Programming Books  Disclaimer  This is an unocial free book created for educational purposes and is not aliated with ocial Python ®   group(s) or company(s). All trademarks and registered trademarks are the property of their respective owners  800+ pages  of professional hints and tricks",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "PYTHON_ THE NO-NONSENSE GUIDE .pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\PYTHON_ THE NO-NONSENSE GUIDE .pdf",
+    "sizeBytes": 846566,
+    "pages": 115,
+    "rawTitle": "PYTHON_ THE NO-NONSENSE GUIDE ",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Short Notes on Python CSV files.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Short Notes on Python CSV files.pdf",
+    "sizeBytes": 424119,
+    "pages": 7,
+    "rawTitle": "Short Notes on Python CSV files",
+    "author": "Unknown",
+    "snippet": "Py thon CSV  A CSV (Comma Separated Values) format is one of the most simple and  common ways to store tabular data. To represent a CSV file, it mus t be  saved with the   .csv   file extension.  Let's take an example:  If you open the above CSV file using a text editor such as sublime text, you  will see:  SN,   Name,   City  1,   Michael,   New   Jersey  2,   Jack,   California  As you can see,",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Syllabus+for+100+Days+of+Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\Syllabus+for+100+Days+of+Python.pdf",
+    "sizeBytes": 166767,
+    "pages": 3,
+    "rawTitle": "100 Days of Code Python Syllabus",
+    "author": "londonappbrewery",
+    "snippet": "S Y L L A B U S  1 0 0   D A Y S   O F   C O D E  C O M P L E T E  P R O F E S S I O N A L  P Y T H O N   B O O T C A M P  w w w . a p p b r e w e r y . c o  A P P   B R E W E R Y  Variables in Python  String Manipulation  Input and Print Functions  Variable Naming Rules  Mathematical Operations in Python  DataTypes  Converting types  Conditionals IF/ELIF/ELSE  Logical Operators  Randomisation  Er",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "The Complete Notes for Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\The Complete Notes for Python.pdf",
+    "sizeBytes": 10908958,
+    "pages": 132,
+    "rawTitle": "The Complete Notes for Python",
+    "author": "Unknown",
+    "snippet": "Python The Complete Manual  The essential handbook for Python users   NEW  Start coding today!  100% UNOFFICIAL  Digital  Edition THIRTEENTH EDITION",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "The Python Handbook.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books\\The Python Handbook.pdf",
+    "sizeBytes": 7700958,
+    "pages": 115,
+    "rawTitle": "The Python Handbook",
+    "author": "Unknown",
+    "snippet": "",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Notes And Books"
+  },
+  {
+    "fileName": "Python Roadmap 2022.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Roadmap & Step By Step Learning\\Python Roadmap 2022.pdf",
+    "sizeBytes": 847921,
+    "pages": 13,
+    "rawTitle": "Python Roadmap 2022",
+    "author": "Unknown",
+    "snippet": "Python  Core  Himanshu Ramchandani M.Tech | Data Science",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Roadmap & Step By Step Learning"
+  },
+  {
+    "fileName": "Python Tutorial With Example.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Roadmap & Step By Step Learning\\Python Tutorial With Example.pdf",
+    "sizeBytes": 5980326,
+    "pages": 118,
+    "rawTitle": "Python Tutorial With Example",
+    "author": "Unknown",
+    "snippet": "3/25/2021   Python - Jupyter Notebook localhost:8889/notebooks/Documents/GitHub/Public/Python/Python.ipynb   1/118  Prepared by Asif Bhat  Python Tutorial  In   [103]:  Keywords  Keywords are the reserved words in Python and can't be used as an identifier  In   [3]:  In   [4]:  Identifiers  An identifier is a name given to entities like class, functions, variables, etc. It helps to differentiate",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\Python Roadmap & Step By Step Learning"
+  },
+  {
+    "fileName": "SQL with Python.pdf",
+    "fullPath": "C:\\Users\\ashri\\Downloads\\v2\\python to ml\\_6_Python-20260929T060609Z-1-001\\_6_Python\\SQL With Python\\SQL with Python.pdf",
+    "sizeBytes": 128226,
+    "pages": 17,
+    "rawTitle": "SQL with Python",
+    "author": "Unknown",
+    "snippet": "29/05/2021   SQL with Python by Arjun Panwar localhost:8889/lab/tree/Desktop/arjun/ineuron/Task/50 SQL queries Using Python/SQL with Python by Arjun Panwar.ipynb   1/17  SQL with Python  OOPs concepts are extensively used to increase reusablity of code Every Step is logged into a file using custom logging class  Data Description  Data Set used: Carbon Nanotubes Data Set URL: https://archive.ics.uc",
+    "relFolder": "_6_Python-20260929T060609Z-1-001\\_6_Python\\SQL With Python"
+  }
+]
