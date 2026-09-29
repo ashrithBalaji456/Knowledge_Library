@@ -14,6 +14,7 @@ import {
   List,
   ExternalLink,
 } from 'lucide-react';
+import { getPdfUrl, openPdfInNewTab } from '../../utils/pdfViewer';
 
 export const PDFReaderModal: React.FC = () => {
   const pdfResource = useLibraryStore((s) => s.pdfResource);
@@ -28,6 +29,7 @@ export const PDFReaderModal: React.FC = () => {
 
   if (!pdfResource) return null;
 
+  const pdfUrl = getPdfUrl(pdfResource);
   const totalPages = pdfResource.totalPages || pdfResource.pages || 320;
   const samplePages = pdfResource.contentSample || [
     `# ${pdfResource.title}\n\n**Author:** ${pdfResource.author}\n**Category:** ${pdfResource.category}\n\n${pdfResource.summary || pdfResource.whatIsThisBookFor}`,
@@ -109,18 +111,17 @@ export const PDFReaderModal: React.FC = () => {
           </div>
         </div>
 
-        {/* Controls: Zoom, Bookmarks, TOC, Fullscreen */}
+        {/* Controls: Zoom, Bookmarks, TOC, Fullscreen, Open in New Tab */}
         <div className="flex items-center gap-2">
-          {pdfResource.fileDataUrl && (
-            <a
-              href={pdfResource.fileDataUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-stone-800 border border-stone-700 text-stone-300 hover:bg-stone-700 text-xs flex items-center gap-1"
-              title="Open raw PDF in new browser tab"
+          {pdfUrl && (
+            <button
+              onClick={() => openPdfInNewTab(pdfResource)}
+              className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-amber-950 transition cursor-pointer"
+              title="Open actual PDF in new browser tab"
             >
-              <ExternalLink className="w-4 h-4" />
-            </a>
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Open in New Tab</span>
+            </button>
           )}
 
           <button
@@ -213,11 +214,11 @@ export const PDFReaderModal: React.FC = () => {
         )}
 
         {/* Central Viewport */}
-        {pdfResource.fileDataUrl ? (
+        {pdfUrl ? (
           <div className="flex-1 w-full h-full p-2 bg-stone-950">
             <iframe
-              src={pdfResource.fileDataUrl}
-              className="w-full h-full border-none rounded-xl bg-white"
+              src={pdfUrl}
+              className="w-full h-full border-none rounded-xl bg-white shadow-2xl"
               title={pdfResource.title}
             />
           </div>

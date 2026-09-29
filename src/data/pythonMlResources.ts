@@ -4158,7 +4158,7 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-09-29"
   },
   {
-    "id": "res-local-python-cheatsheet",
+    "id": "res-local-python-cheatsheet-3",
     "title": "Python CheatSheet",
     "author": "Data Science & Python Collective",
     "pages": 51,
@@ -4342,7 +4342,7 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-09-29"
   },
   {
-    "id": "res-local-python-cheat-sheet",
+    "id": "res-local-python-cheat-sheet-2",
     "title": "Python cheat sheet",
     "author": "Data Science & Python Collective",
     "pages": 26,
@@ -4388,7 +4388,7 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-09-29"
   },
   {
-    "id": "res-local-python-cheat-sheet",
+    "id": "res-local-python-cheat-sheet-3",
     "title": "Python Cheat Sheet",
     "author": "Data Science & Python Collective",
     "pages": 15,
@@ -5009,7 +5009,7 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-09-29"
   },
   {
-    "id": "res-local-python-interview-questions",
+    "id": "res-local-python-interview-questions-2",
     "title": "python interview questions",
     "author": "Tech Interview Collective",
     "pages": 20,
@@ -5371,7 +5371,7 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-09-29"
   },
   {
-    "id": "res-local-python-3-400-exercises-and-solutions-for-beginners",
+    "id": "res-local-python-3-400-exercises-and-solutions-for-beginners-2",
     "title": "Python 3 400 exercises and solutions for beginners",
     "author": "patel, assad",
     "pages": 560,

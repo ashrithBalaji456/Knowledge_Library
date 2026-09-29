@@ -401,6 +401,7 @@ const CANONICAL_KNOWLEDGE = {
 
 // Process all files and produce clean curated list
 const processedMap = new Map();
+const usedIds = new Set();
 
 for (const b of rawBooks) {
   const fileName = b.fileName;
@@ -439,8 +440,17 @@ for (const b of rawBooks) {
   const keyTakeaways = meta ? meta.keyTakeaways : generateTakeaways(cleanTitle, category);
   const tags = meta ? meta.tags : generateTags(cleanTitle, category, subCategory);
 
+  let baseId = `res-local-${cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+  let uniqueId = baseId;
+  let counter = 1;
+  while (usedIds.has(uniqueId)) {
+    counter++;
+    uniqueId = `${baseId}-${counter}`;
+  }
+  usedIds.add(uniqueId);
+
   const resource = {
-    id: `res-local-${cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`,
+    id: uniqueId,
     title: cleanTitle,
     author: author,
     pages: b.pages,

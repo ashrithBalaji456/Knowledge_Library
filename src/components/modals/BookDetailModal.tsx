@@ -17,7 +17,9 @@ import {
   BookmarkCheck,
   Edit3,
   Check,
+  ExternalLink,
 } from 'lucide-react';
+import { openPdfInNewTab, getPdfUrl } from '../../utils/pdfViewer';
 
 export const BookDetailModal: React.FC = () => {
   const selectedResourceId = useLibraryStore((s) => s.selectedResourceId);
@@ -55,7 +57,7 @@ export const BookDetailModal: React.FC = () => {
   const sectionColor = section?.color || resource.location?.colorHex || '#d97706';
 
   const handleOpenBook = () => {
-    openPdfReader(resource);
+    openPdfInNewTab(resource);
   };
 
   const handleStarClick = (ratingValue: number) => {
@@ -415,19 +417,28 @@ export const BookDetailModal: React.FC = () => {
             </button>
           )}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={closeModal}
-              className="px-4 py-2 text-xs font-medium rounded-xl text-stone-400 hover:text-stone-200"
+              className="px-3.5 py-2 text-xs font-medium rounded-xl text-stone-400 hover:text-stone-200 transition cursor-pointer"
             >
               Close
             </button>
             <button
-              onClick={handleOpenBook}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-900/30 transition cursor-pointer"
+              onClick={() => openPdfReader(resource)}
+              className="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-1.5 border border-stone-700 transition cursor-pointer"
+              title="Open in embedded 3D Reader"
             >
-              <BookOpen className="w-4 h-4" />
-              <span>Open & Read Book</span>
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+              <span>3D Reader</span>
+            </button>
+            <button
+              onClick={handleOpenBook}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-900/40 transition cursor-pointer border border-amber-400/30"
+              title="Open actual PDF in new browser tab"
+            >
+              <ExternalLink className="w-4 h-4 text-white" />
+              <span>Open PDF (New Page)</span>
             </button>
           </div>
         </div>
