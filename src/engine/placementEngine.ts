@@ -414,14 +414,23 @@ export function computeLibraryPlacements(
       else row2.push(res);
     });
 
-    row0.sort((a, b) => (b.priority === 'MUST_LEARN' ? 1 : 0) - (a.priority === 'MUST_LEARN' ? 1 : 0) || a.title.localeCompare(b.title));
-    row1.sort((a, b) => a.title.localeCompare(b.title));
-    row2.sort((a, b) => a.title.localeCompare(b.title));
+    const sortBooks = (a: Resource, b: Resource) => {
+      // 1. Must Learn & Current Focus first
+      const pA = a.priority === 'MUST_LEARN' ? 2 : a.priority === 'CURRENT_FOCUS' ? 1 : 0;
+      const pB = b.priority === 'MUST_LEARN' ? 2 : b.priority === 'CURRENT_FOCUS' ? 1 : 0;
+      if (pB !== pA) return pB - pA;
+      // 2. Alphabetical by title
+      return a.title.localeCompare(b.title);
+    };
 
-    // Dynamic Shelf Scaling (Rule 39, 76, 77)
+    row0.sort(sortBooks);
+    row1.sort(sortBooks);
+    row2.sort(sortBooks);
+
+    // Dynamic Shelf Scaling: Max 10 books per shelf row ensures ample breathing room and ZERO overlap
+    const MAX_BOOKS_PER_SHELF_ROW = 10;
     const maxBooksInAnyRow = Math.max(row0.length, row1.length, row2.length, 1);
-    const booksPerShelfRow = 24;
-    const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyRow / booksPerShelfRow));
+    const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyRow / MAX_BOOKS_PER_SHELF_ROW));
     const totalShelvesForSection = shelvesNeededPerSide * 2;
 
     const sectionShelves: ShelfInfo[] = [];
@@ -458,76 +467,85 @@ export function computeLibraryPlacements(
     rows.forEach((rowList, rowIndex) => {
       if (rowList.length === 0) return;
 
-      let currentShelfIdx = 0;
-      let currentXOnShelf = -USABLE_WIDTH / 2 + 0.15;
+      // Distribute books evenly across available cupboards so every cupboard is balanced and readable
+      const numShelves = sectionShelves.length;
+      const booksPerShelf = Math.ceil(rowList.length / numShelves);
+      const shelfChunks: Resource[][] = Array.from({ length: numShelves }, () => []);
 
       rowList.forEach((res, itemIdx) => {
-        const rnd = pseudoRandom(res.id + res.title);
-        const rnd2 = pseudoRandom(res.title + res.id + 'seed2');
+        const targetShelfIdx = Math.min(Math.floor(itemIdx / Math.max(booksPerShelf, 1)), numShelves - 1);
+        shelfChunks[targetShelfIdx].push(res);
+      });
 
-        const bookThickness = 0.065 + rnd * 0.045; // 0.065 - 0.11m
-        const bookHeight = 0.40 + ((rnd * 13) % 1) * 0.12; // 0.40 - 0.52m
-        const bookDepth = 0.28 + ((rnd * 7) % 1) * 0.06; // 0.28 - 0.34m
-
-        // Realistic subtle physical imperfections
-        const isTilted = rnd2 > 0.82;
-        const tiltZ = isTilted ? (rnd2 - 0.82) * 0.6 : 0;
-        const pushOffset = (rnd - 0.5) * 0.03;
-
-        // Curated book color
-        const colorHex = getCuratedBookColor(section.id, res.priority, rnd);
-
-        // Check if book fits on current shelf row
-        if (currentXOnShelf + bookThickness > USABLE_WIDTH / 2) {
-          currentShelfIdx++;
-          if (currentShelfIdx >= sectionShelves.length) {
-            currentShelfIdx = sectionShelves.length - 1;
-          }
-          currentXOnShelf = -USABLE_WIDTH / 2 + 0.15;
-        }
+      shelfChunks.forEach((shelfBooks, currentShelfIdx) => {
+        const count = shelfBooks.length;
+        if (count === 0) return;
 
         const activeShelf = sectionShelves[currentShelfIdx];
         const shelfRotY = activeShelf.rotation[1];
         const isLeft = Math.abs(shelfRotY - Math.PI / 2) < 0.1;
-
-        const localX = currentXOnShelf + bookThickness / 2;
         const localY = ROW_Y_OFFSETS[rowIndex];
 
-        const worldX = activeShelf.position[0];
-        const worldY = activeShelf.position[1] + localY;
-        const worldZ = isLeft
-          ? activeShelf.position[2] - localX
-          : activeShelf.position[2] + localX;
+        // Gallery-quality centered positioning: generous spacing, ZERO depth stacking, ZERO occlusion
+        const maxSpacing = 0.44; // 44cm between centers (14cm gap for 30cm book cover)
+        const minSpacing = 0.36; // 36cm between centers (6cm gap for 30cm book cover)
+        const calculatedSpacing = count > 1 ? (USABLE_WIDTH - 0.4) / (count - 1) : 0;
+        const spacing = count > 1 ? Math.max(minSpacing, Math.min(maxSpacing, calculatedSpacing)) : 0;
+        const totalSpan = (count - 1) * spacing;
+        const startX = -totalSpan / 2;
 
-        const location: PhysicalLocation = {
-          sectionId: section.id,
-          sectionName: section.name,
-          subSection: res.subCategory || section.subSections[0] || 'General',
-          shelfId: activeShelf.id,
-          shelfIndex: currentShelfIdx,
-          shelfNumber: activeShelf.shelfNumber,
-          rowNumber: rowIndex,
-          rowLabel: rowClassification.rowLabels[rowIndex],
-          slotIndex: itemIdx,
-          position: [worldX, worldY, worldZ],
-          rotation: [0, shelfRotY, 0],
-          dimensions: {
-            height: bookHeight,
-            width: bookDepth,
-            thickness: bookThickness,
-          },
-          tiltZ,
-          pushOffset,
-          colorHex,
-        };
+        shelfBooks.forEach((res, idxOnShelf) => {
+          const rnd = pseudoRandom(res.id + res.title);
+          const rnd2 = pseudoRandom(res.title + res.id + 'seed2');
 
-        const placedResource: Resource = {
-          ...res,
-          location,
-        };
+          // Clean, readable, harmonious proportions
+          const bookThickness = 0.075 + (rnd * 0.02); // 0.075m - 0.095m
+          const bookHeight = 0.44 + ((rnd2 * 11) % 1) * 0.04; // 0.44m - 0.48m
+          const bookDepth = 0.30; // Uniform 30cm display width along shelf
 
-        allPlacedResources.push(placedResource);
-        currentXOnShelf += bookThickness + (0.02 + rnd * 0.025);
+          // Set pushOffset to 0 so ALL books align to the exact same baseline depth
+          const pushOffset = 0;
+          const tiltZ = 0; // Upright, crisp presentation
+
+          const colorHex = getCuratedBookColor(section.id, res.priority, rnd);
+
+          const localX = count === 1 ? 0 : startX + idxOnShelf * spacing;
+
+          const worldX = activeShelf.position[0];
+          const worldY = activeShelf.position[1] + localY;
+          const worldZ = isLeft
+            ? activeShelf.position[2] - localX
+            : activeShelf.position[2] + localX;
+
+          const location: PhysicalLocation = {
+            sectionId: section.id,
+            sectionName: section.name,
+            subSection: res.subCategory || section.subSections[0] || 'General',
+            shelfId: activeShelf.id,
+            shelfIndex: currentShelfIdx,
+            shelfNumber: activeShelf.shelfNumber,
+            rowNumber: rowIndex,
+            rowLabel: rowClassification.rowLabels[rowIndex],
+            slotIndex: idxOnShelf,
+            position: [worldX, worldY, worldZ],
+            rotation: [0, shelfRotY, 0],
+            dimensions: {
+              height: bookHeight,
+              width: bookDepth,
+              thickness: bookThickness,
+            },
+            tiltZ,
+            pushOffset,
+            colorHex,
+          };
+
+          const placedResource: Resource = {
+            ...res,
+            location,
+          };
+
+          allPlacedResources.push(placedResource);
+        });
       });
     });
 
