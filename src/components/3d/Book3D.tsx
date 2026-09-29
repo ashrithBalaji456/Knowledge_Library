@@ -294,7 +294,7 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         onPointerOut={handlePointerOut}
         onClick={handleClick}
       >
-        <boxGeometry args={[depth + 0.04, height + 0.04, thickness + 0.01]} />
+        <boxGeometry args={[depth + 0.02, height + 0.02, thickness + 0.01]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 

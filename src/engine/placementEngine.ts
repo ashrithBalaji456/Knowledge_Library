@@ -427,11 +427,11 @@ export function computeLibraryPlacements(
     row1.sort(sortBooks);
     row2.sort(sortBooks);
 
-    // Dynamic Shelf Scaling: Max 10 books per shelf row ensures ample breathing room and ZERO overlap
-    const MAX_BOOKS_PER_SHELF_ROW = 10;
+    // Dynamic Shelf Scaling: Up to 15 books per shelf row fit comfortably across 4.8m usable width
+    const MAX_BOOKS_PER_SHELF_ROW = 15;
     const maxBooksInAnyRow = Math.max(row0.length, row1.length, row2.length, 1);
-    const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyRow / MAX_BOOKS_PER_SHELF_ROW));
-    const totalShelvesForSection = shelvesNeededPerSide * 2;
+    const shelvesNeeded = Math.max(1, Math.ceil(maxBooksInAnyRow / MAX_BOOKS_PER_SHELF_ROW));
+    const totalShelvesForSection = Math.max(2, shelvesNeeded * 2);
 
     const sectionShelves: ShelfInfo[] = [];
     const [secX, secY, secZ] = resolvedAnchors.get(section.id) || section.anchorPosition || [0, 0, 0];
@@ -442,7 +442,7 @@ export function computeLibraryPlacements(
       const isLeftSide = i % 2 === 0;
       const aisleIndex = Math.floor(i / 2);
       const shelfX = isLeftSide ? secX - aisleHalfWidth : secX + aisleHalfWidth;
-      const shelfZ = secZ + (aisleIndex - (shelvesNeededPerSide - 1) / 2) * shelfSpacingZ;
+      const shelfZ = secZ + (aisleIndex - (shelvesNeeded - 1) / 2) * shelfSpacingZ;
       const rotY = isLeftSide ? Math.PI / 2 : -Math.PI / 2;
 
       const shelf: ShelfInfo = {
@@ -467,13 +467,13 @@ export function computeLibraryPlacements(
     rows.forEach((rowList, rowIndex) => {
       if (rowList.length === 0) return;
 
-      // Distribute books evenly across available cupboards so every cupboard is balanced and readable
-      const numShelves = sectionShelves.length;
-      const booksPerShelf = Math.ceil(rowList.length / numShelves);
-      const shelfChunks: Resource[][] = Array.from({ length: numShelves }, () => []);
+      // Primary cupboard (shelf 0) takes all books up to MAX_BOOKS_PER_SHELF_ROW (15 books).
+      // Overflow only goes to subsequent cupboards if a category exceeds 15 books in that row.
+      // This guarantees 100% of books in the section are present on the front cupboard!
+      const shelfChunks: Resource[][] = Array.from({ length: sectionShelves.length }, () => []);
 
       rowList.forEach((res, itemIdx) => {
-        const targetShelfIdx = Math.min(Math.floor(itemIdx / Math.max(booksPerShelf, 1)), numShelves - 1);
+        const targetShelfIdx = Math.min(Math.floor(itemIdx / MAX_BOOKS_PER_SHELF_ROW), sectionShelves.length - 1);
         shelfChunks[targetShelfIdx].push(res);
       });
 
@@ -487,10 +487,10 @@ export function computeLibraryPlacements(
         const localY = ROW_Y_OFFSETS[rowIndex];
 
         // Gallery-quality centered positioning: generous spacing, ZERO depth stacking, ZERO occlusion
-        const maxSpacing = 0.44; // 44cm between centers (14cm gap for 30cm book cover)
-        const minSpacing = 0.36; // 36cm between centers (6cm gap for 30cm book cover)
-        const calculatedSpacing = count > 1 ? (USABLE_WIDTH - 0.4) / (count - 1) : 0;
-        const spacing = count > 1 ? Math.max(minSpacing, Math.min(maxSpacing, calculatedSpacing)) : 0;
+        const maxSpacing = 0.48; // 48cm between centers (leaves 21cm gap for 27cm book cover)
+        const minSpacing = 0.32; // 32cm between centers (leaves 5cm gap for 27cm book cover)
+        const availableSpan = Math.min(USABLE_WIDTH - 0.3, count > 1 ? (count - 1) * maxSpacing : 0);
+        const spacing = count > 1 ? Math.max(minSpacing, availableSpan / (count - 1)) : 0;
         const totalSpan = (count - 1) * spacing;
         const startX = -totalSpan / 2;
 
@@ -499,9 +499,9 @@ export function computeLibraryPlacements(
           const rnd2 = pseudoRandom(res.title + res.id + 'seed2');
 
           // Clean, readable, harmonious proportions
-          const bookThickness = 0.075 + (rnd * 0.02); // 0.075m - 0.095m
+          const bookThickness = 0.072 + (rnd * 0.016); // 0.072m - 0.088m
           const bookHeight = 0.44 + ((rnd2 * 11) % 1) * 0.04; // 0.44m - 0.48m
-          const bookDepth = 0.30; // Uniform 30cm display width along shelf
+          const bookDepth = 0.27; // Uniform 27cm display width along shelf
 
           // Set pushOffset to 0 so ALL books align to the exact same baseline depth
           const pushOffset = 0;
