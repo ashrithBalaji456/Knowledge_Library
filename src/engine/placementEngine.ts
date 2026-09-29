@@ -10,6 +10,7 @@ export interface ShelfInfo {
   height: number;
   depth: number;
   rowCount: number;
+  rowLabels?: string[]; // Language/topic label for each row
 }
 
 export interface SectionPlacement {
@@ -220,6 +221,128 @@ function resolveDynamicSectionAnchors(sections: Section[]): Map<string, [number,
   return anchors;
 }
 
+export interface RowClassification {
+  rowLabels: [string, string, string];
+  assignRow: (resource: Resource) => 0 | 1 | 2;
+}
+
+export function getSectionRowClassification(section: Section): RowClassification {
+  const sid = section.id.toLowerCase();
+
+  if (sid === 'python') {
+    return {
+      rowLabels: ['PYTHON CORE & SYNTAX', 'PYTHON FOR DATA & WEB', 'ADVANCED PYTHON & 400 EXERCISES'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('exercise') || t.includes('professional') || t.includes('astrophysics') || t.includes('advanced') || (r.pages && r.pages > 300)) {
+          return 2;
+        }
+        if (t.includes('data') || t.includes('pandas') || t.includes('numpy') || t.includes('csv') || t.includes('game') || t.includes('web')) {
+          return 1;
+        }
+        return 0;
+      },
+    };
+  }
+
+  if (sid === 'data-science') {
+    return {
+      rowLabels: ['DATA WRANGLING & PANDAS / NUMPY', 'R STATISTICAL LANGUAGE & TIDYVERSE', 'PROBABILITY, LINEAR ALGEBRA & STATS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('r for data') || t.includes('rstats') || t.includes('tidyverse') || t.includes(' r ')) {
+          return 1;
+        }
+        if (t.includes('linear algebra') || t.includes('probability') || t.includes('statistics') || t.includes('math')) {
+          return 2;
+        }
+        return 0;
+      },
+    };
+  }
+
+  if (sid === 'ai-ml') {
+    return {
+      rowLabels: ['MACHINE LEARNING FOUNDATIONS', 'DEEP LEARNING & NEURAL NETWORKS', 'MIT PRESS: OPTIMIZATION & DECISION'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('decision') || t.includes('optimization') || t.includes('validation') || t.includes('mit press')) {
+          return 2;
+        }
+        if (t.includes('deep learning') || t.includes('neural') || t.includes('nlp') || t.includes('transformer')) {
+          return 1;
+        }
+        return 0;
+      },
+    };
+  }
+
+  if (sid === 'sec-handbooks') {
+    return {
+      rowLabels: ['PYTHON SYNTAX & QUICK CHEATSHEETS', 'ML FORMULAS & ALGORITHM REFERENCES', 'DATA ANALYSIS, MATPLOTLIB & SEABORN'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('matplotlib') || t.includes('seaborn') || t.includes('eda') || t.includes('data science cheat')) {
+          return 2;
+        }
+        if (t.includes('formula') || t.includes('algorithm') || t.includes('bayes') || t.includes('100days')) {
+          return 1;
+        }
+        return 0;
+      },
+    };
+  }
+
+  if (sid === 'interviews') {
+    return {
+      rowLabels: ['PYTHON TECHNICAL INTERVIEWS', 'DATA SCIENCE & ML SCREENING QUESTIONS', 'NLP QUESTIONS & CAREER ROADMAPS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('roadmap') || t.includes('plan') || t.includes('nlp')) {
+          return 2;
+        }
+        if (t.includes('data science') || t.includes('machine learning') || t.includes('ai')) {
+          return 1;
+        }
+        return 0;
+      },
+    };
+  }
+
+  if (sid === 'projects') {
+    return {
+      rowLabels: ['PREDICTIVE MODELING PROJECTS', '500+ AI/ML PROJECTS & SOURCE CODE', 'MACHINE LEARNING LABS & APPLICATIONS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('500') || t.includes('source code') || t.includes('repo')) {
+          return 1;
+        }
+        if (t.includes('lab') || t.includes('deploy') || t.includes('application')) {
+          return 2;
+        }
+        return 0;
+      },
+    };
+  }
+
+  // Fallback for Java, Spring, DSA, or dynamic sections
+  const sub = section.subSections || [];
+  const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';
+  const label1 = sub[1] ? sub[1].toUpperCase() : 'ARCHITECTURE & PRACTICAL';
+  const label2 = sub[2] ? sub[2].toUpperCase() : 'ADVANCED MASTERY & SYSTEMS';
+
+  return {
+    rowLabels: [label0, label1, label2],
+    assignRow: (r) => {
+      if (r.subCategory && sub.length > 0) {
+        const idx = sub.findIndex((s) => s.toLowerCase() === r.subCategory.toLowerCase());
+        if (idx >= 0) return Math.min(2, idx) as 0 | 1 | 2;
+      }
+      return getPriorityTier(r.priority) as 0 | 1 | 2;
+    },
+  };
+}
+
 export function computeLibraryPlacements(
   sections: Section[],
   resources: Resource[]
@@ -277,20 +400,28 @@ export function computeLibraryPlacements(
 
   sections.forEach((section) => {
     const sectionRes = resourcesBySection.get(section.id) || [];
+    const rowClassification = getSectionRowClassification(section);
 
-    // Separate resources into priority tiers
-    const tier0 = sectionRes.filter((r) => getPriorityTier(r.priority) === 0);
-    const tier1 = sectionRes.filter((r) => getPriorityTier(r.priority) === 1);
-    const tier2 = sectionRes.filter((r) => getPriorityTier(r.priority) === 2);
+    // Group resources into language-wise and topic-wise rows
+    const row0: Resource[] = [];
+    const row1: Resource[] = [];
+    const row2: Resource[] = [];
 
-    tier0.sort((a, b) => b.progress - a.progress);
-    tier1.sort((a, b) => a.title.localeCompare(b.title));
-    tier2.sort((a, b) => a.title.localeCompare(b.title));
+    sectionRes.forEach((res) => {
+      const targetRow = rowClassification.assignRow(res);
+      if (targetRow === 0) row0.push(res);
+      else if (targetRow === 1) row1.push(res);
+      else row2.push(res);
+    });
+
+    row0.sort((a, b) => (b.priority === 'MUST_LEARN' ? 1 : 0) - (a.priority === 'MUST_LEARN' ? 1 : 0) || a.title.localeCompare(b.title));
+    row1.sort((a, b) => a.title.localeCompare(b.title));
+    row2.sort((a, b) => a.title.localeCompare(b.title));
 
     // Dynamic Shelf Scaling (Rule 39, 76, 77)
-    const maxBooksInAnyTier = Math.max(tier0.length, tier1.length, tier2.length, 1);
+    const maxBooksInAnyRow = Math.max(row0.length, row1.length, row2.length, 1);
     const booksPerShelfRow = 14;
-    const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyTier / booksPerShelfRow));
+    const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyRow / booksPerShelfRow));
     const totalShelvesForSection = shelvesNeededPerSide * 2;
 
     const sectionShelves: ShelfInfo[] = [];
@@ -315,21 +446,22 @@ export function computeLibraryPlacements(
         height: SHELF_HEIGHT,
         depth: SHELF_DEPTH,
         rowCount: ROW_COUNT,
+        rowLabels: rowClassification.rowLabels,
       };
 
       sectionShelves.push(shelf);
       allShelves.push(shelf);
     }
 
-    const tiers = [tier0, tier1, tier2];
+    const rows = [row0, row1, row2];
 
-    tiers.forEach((tierList, rowIndex) => {
-      if (tierList.length === 0) return;
+    rows.forEach((rowList, rowIndex) => {
+      if (rowList.length === 0) return;
 
       let currentShelfIdx = 0;
       let currentXOnShelf = -USABLE_WIDTH / 2 + 0.15;
 
-      tierList.forEach((res, itemIdx) => {
+      rowList.forEach((res, itemIdx) => {
         const rnd = pseudoRandom(res.id + res.title);
         const rnd2 = pseudoRandom(res.title + res.id + 'seed2');
 
@@ -375,6 +507,7 @@ export function computeLibraryPlacements(
           shelfIndex: currentShelfIdx,
           shelfNumber: activeShelf.shelfNumber,
           rowNumber: rowIndex,
+          rowLabel: rowClassification.rowLabels[rowIndex],
           slotIndex: itemIdx,
           position: [worldX, worldY, worldZ],
           rotation: [0, shelfRotY, 0],

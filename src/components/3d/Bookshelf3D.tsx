@@ -37,6 +37,79 @@ const SHARED_SHELF_LIGHT_STRIP_MATERIAL = new THREE.MeshBasicMaterial({
   color: '#FEF3C7', // Warm incandescent golden-white
 });
 
+const ROW_BADGE_CACHE = new Map<string, THREE.CanvasTexture>();
+
+function getOrCreateRowBadgeTexture(label: string): THREE.CanvasTexture {
+  if (ROW_BADGE_CACHE.has(label)) return ROW_BADGE_CACHE.get(label)!;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d')!;
+
+  // Deep obsidian & brushed brass plaque background
+  const bgGrad = ctx.createLinearGradient(0, 0, 1024, 0);
+  bgGrad.addColorStop(0, '#1c1917');
+  bgGrad.addColorStop(0.15, '#292524');
+  bgGrad.addColorStop(0.5, '#1c1917');
+  bgGrad.addColorStop(0.85, '#292524');
+  bgGrad.addColorStop(1, '#1c1917');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 1024, 64);
+
+  // Outer gold filigree border
+  ctx.strokeStyle = '#F59E0B';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(4, 4, 1016, 56);
+
+  ctx.strokeStyle = '#B45309';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(8, 8, 1008, 48);
+
+  // Left & right gold star accents
+  ctx.fillStyle = '#FBBF24';
+  ctx.font = 'bold 22px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('✦', 36, 32);
+  ctx.fillText('✦', 1024 - 36, 32);
+
+  // Clean bold title in warm ivory / gold
+  ctx.font = '800 24px "Outfit", "Inter", sans-serif';
+  ctx.fillStyle = '#FEF3C7';
+  ctx.fillText(label.toUpperCase(), 512, 33);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  ROW_BADGE_CACHE.set(label, texture);
+  return texture;
+}
+
+const ShelfRowBadge: React.FC<{ text: string; width: number; position: [number, number, number] }> = ({
+  text,
+  width,
+  position,
+}) => {
+  const texture = React.useMemo(() => getOrCreateRowBadgeTexture(text), [text]);
+  const material = React.useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        map: texture,
+        roughness: 0.35,
+        metalness: 0.45,
+      }),
+    [texture]
+  );
+
+  return (
+    <mesh position={position}>
+      <boxGeometry args={[width, 0.038, 0.008]} />
+      <primitive object={material} attach="material" />
+    </mesh>
+  );
+};
+
 export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
   const { width, height, depth, position, rotation } = shelf;
   const shelfYPositions = [0.38, 1.12, 1.86, 2.56];
@@ -80,28 +153,47 @@ export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
         <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
       </mesh>
 
-      {/* Horizontal Shelves, Brass Front Edges & Warm Under-Shelf Light Strips */}
-      {shelfYPositions.map((y, idx) => (
-        <group key={idx} position={[0, y, 0]}>
-          {/* Wooden Shelf Plate */}
-          <mesh>
-            <boxGeometry args={[width - sideThickness * 2, shelfThickness, depth - 0.04]} />
-            <primitive object={SHARED_OAK_SHELF_MATERIAL} attach="material" />
-          </mesh>
-          {/* Polished Brass Front Edge Trim */}
-          <mesh position={[0, 0, depth / 2 - 0.02]}>
-            <boxGeometry args={[width - sideThickness * 2, shelfThickness + 0.005, 0.012]} />
-            <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
-          </mesh>
-          {/* Warm Under-Shelf Integrated Lighting Strip (illuminates books below) */}
-          {idx < shelfYPositions.length - 1 && (
-            <mesh position={[0, -shelfThickness / 2 - 0.008, 0]}>
-              <boxGeometry args={[width - sideThickness * 2 - 0.1, 0.012, 0.08]} />
-              <primitive object={SHARED_SHELF_LIGHT_STRIP_MATERIAL} attach="material" />
+      {/* Horizontal Shelves, Brass Front Edges & Explicit Language/Topic Row Plaques */}
+      {shelfYPositions.map((y, idx) => {
+        let rowText: string | null = null;
+        if (shelf.rowLabels && shelf.rowLabels.length >= 3) {
+          if (idx === 2) rowText = `ROW 1: ${shelf.rowLabels[0]}`;
+          else if (idx === 1) rowText = `ROW 2: ${shelf.rowLabels[1]}`;
+          else if (idx === 0) rowText = `ROW 3: ${shelf.rowLabels[2]}`;
+        }
+
+        return (
+          <group key={idx} position={[0, y, 0]}>
+            {/* Wooden Shelf Plate */}
+            <mesh>
+              <boxGeometry args={[width - sideThickness * 2, shelfThickness, depth - 0.04]} />
+              <primitive object={SHARED_OAK_SHELF_MATERIAL} attach="material" />
             </mesh>
-          )}
-        </group>
-      ))}
+            {/* Polished Brass Front Edge Trim */}
+            <mesh position={[0, 0, depth / 2 - 0.02]}>
+              <boxGeometry args={[width - sideThickness * 2, shelfThickness + 0.005, 0.012]} />
+              <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
+            </mesh>
+
+            {/* Explicit Language & Topic Plaque mounted on this shelf row */}
+            {rowText && (
+              <ShelfRowBadge
+                text={rowText}
+                width={Math.min(2.5, width - 0.4)}
+                position={[0, 0, depth / 2 - 0.012]}
+              />
+            )}
+
+            {/* Warm Under-Shelf Integrated Lighting Strip (illuminates books below) */}
+            {idx < shelfYPositions.length - 1 && (
+              <mesh position={[0, -shelfThickness / 2 - 0.008, 0]}>
+                <boxGeometry args={[width - sideThickness * 2 - 0.1, 0.012, 0.08]} />
+                <primitive object={SHARED_SHELF_LIGHT_STRIP_MATERIAL} attach="material" />
+              </mesh>
+            )}
+          </group>
+        );
+      })}
 
       {/* Endcap Brass Plaque for Shelf Identifiers */}
       <mesh position={[width / 2 + 0.002, height * 0.72, 0]} rotation={[0, Math.PI / 2, 0]}>

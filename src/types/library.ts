@@ -72,6 +72,7 @@ export interface PhysicalLocation {
   shelfIndex: number;
   shelfNumber: number;
   rowNumber: number; // 0: Top, 1: Middle, 2: Lower
+  rowLabel?: string; // Explicit language or sub-category label on that row
   slotIndex: number;
   position: [number, number, number];
   rotation: [number, number, number];

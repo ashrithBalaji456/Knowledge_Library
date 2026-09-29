@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Resource } from '../../types/library';
 import { useLibraryStore } from '../../store/useLibraryStore';
+import { getOrCreateBookCoverTexture } from './coverTextureGenerator';
 
 interface Book3DProps {
   resource: Resource;
@@ -155,6 +156,25 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
     });
   }, [bookColor]);
 
+  // Front/Back high-res illustrated cover jacket
+  const coverTexture = useMemo(() => {
+    return getOrCreateBookCoverTexture(resource, bookColor);
+  }, [resource, bookColor]);
+
+  const coverArtMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      map: coverTexture,
+      roughness: 0.38,
+      metalness: 0.05,
+      emissive: isMustLearn
+        ? new THREE.Color('#D97706')
+        : isCurrentFocus
+        ? new THREE.Color('#DC2626')
+        : new THREE.Color('#000000'),
+      emissiveIntensity: isSelected ? 0.35 : isHovered ? 0.2 : 0.0,
+    });
+  }, [coverTexture, isMustLearn, isCurrentFocus, isSelected, isHovered]);
+
   // Spine material
   const spineMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
@@ -237,7 +257,7 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
       onPointerOut={handlePointerOut}
       onClick={handleClick}
     >
-      {/* Front Cover Board */}
+      {/* Front Cover Board (cardboard core) */}
       <mesh
         geometry={SHARED_COVER_GEOMETRY}
         material={coverMaterial}
@@ -245,13 +265,31 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         scale={[depth, height, coverThickness]}
       />
 
-      {/* Back Cover Board */}
+      {/* Front Cover Illustrated Jacket (Title, Author, Artwork & Emblems) */}
+      <mesh
+        position={[0, 0, thickness / 2 + 0.001]}
+        rotation={[0, 0, 0]}
+      >
+        <planeGeometry args={[depth, height]} />
+        <primitive object={coverArtMaterial} attach="material" />
+      </mesh>
+
+      {/* Back Cover Board (cardboard core) */}
       <mesh
         geometry={SHARED_COVER_GEOMETRY}
         material={coverMaterial}
         position={[0, 0, -thickness / 2 + coverThickness / 2]}
         scale={[depth, height, coverThickness]}
       />
+
+      {/* Back Cover Illustrated Jacket */}
+      <mesh
+        position={[0, 0, -thickness / 2 - 0.001]}
+        rotation={[0, Math.PI, 0]}
+      >
+        <planeGeometry args={[depth, height]} />
+        <primitive object={coverArtMaterial} attach="material" />
+      </mesh>
 
       {/* Spine with Crisp Title Typography & Gold Bands */}
       <mesh
