@@ -90,8 +90,8 @@ export const LearningPathModal: React.FC = () => {
           {/* Sequential Step Cards */}
           <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800 space-y-6">
             {pathResources.map((res, index) => {
-              const isDone = res.status === 'COMPLETED';
-              const isFocus = res.isCurrentFocus || res.status === 'IN_PROGRESS';
+              const isDone = res.readingStatus === 'COMPLETED' || res.progress >= 100;
+              const isFocus = res.priority === 'CURRENT_FOCUS' || res.readingStatus === 'READING';
 
               return (
                 <div key={res.id} className="relative group">

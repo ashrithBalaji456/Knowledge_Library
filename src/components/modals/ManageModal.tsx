@@ -83,12 +83,24 @@ export const ManageModal: React.FC = () => {
         author,
         description,
         type,
+        resourceType: type,
         category,
         subCategory: subCategory || 'General',
         priority,
         status,
+        readingStatus: status,
         difficulty,
         tags,
+        topics: tags,
+        whatIsThisBookFor: `For learning and mastering ${title} in the ${category} collection.`,
+        summary: description || title,
+        keyTakeaways: [
+          `Core principles of ${title}`,
+          'Implementation patterns and real-world trade-offs',
+        ],
+        prerequisites: ['Foundational domain familiarity'],
+        recommendedNext: ['Advanced engineering and case studies'],
+        source: 'uploaded_pdf',
         url: url || undefined,
         progress: 0,
         totalPages: 240,
@@ -112,12 +124,12 @@ export const ManageModal: React.FC = () => {
     setEditingId(res.id);
     setTitle(res.title);
     setAuthor(res.author);
-    setDescription(res.description);
-    setType(res.type);
+    setDescription(res.description || res.summary || '');
+    setType(res.resourceType || res.type || 'BOOK');
     setCategory(res.category);
     setSubCategory(res.subCategory);
     setPriority(res.priority);
-    setStatus(res.status);
+    setStatus(res.readingStatus || res.status || 'READING');
     setDifficulty(res.difficulty);
     setTagsInput(res.tags.join(', '));
     setUrl(res.url || '');

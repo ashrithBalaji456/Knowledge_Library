@@ -7,12 +7,14 @@ import {
   UserPreferences,
   LibraryStats,
   AtmosphereMode,
+  ImportReport,
 } from '../types/library';
 import { INITIAL_SECTIONS } from '../data/initialSections';
 import { INITIAL_RESOURCES } from '../data/initialResources';
 import { INITIAL_RELATIONSHIPS, INITIAL_LEARNING_PATHS } from '../data/initialRelationships';
 import { computeLibraryPlacements } from '../engine/placementEngine';
 import { sound } from '../engine/soundEngine';
+import { processIngestionFiles, IngestionProgressEvent } from '../engine/zipIngestionEngine';
 
 export type ModalType =
   | 'detail'
@@ -23,6 +25,10 @@ export type ModalType =
   | 'manage'
   | 'settings'
   | 'sectionBrowser'
+  | 'ingest'
+  | 'dashboard'
+  | 'importReport'
+  | 'importReview'
   | null;
 
 export interface FpsMetrics {
@@ -53,6 +59,11 @@ interface LibraryStoreState {
   cameraLookAt: [number, number, number] | null;
   isNavigatingCamera: boolean;
 
+  // Ingestion & Dynamic Pipeline
+  isIngesting: boolean;
+  importProgress: IngestionProgressEvent | null;
+  lastImportReport: ImportReport | null;
+
   // Search History
   searchHistory: string[];
 
@@ -82,15 +93,33 @@ interface LibraryStoreState {
   closeModal: () => void;
   openPdfReader: (res: Resource) => void;
   closePdfReader: () => void;
+
+  // Reading & Ratings
   updateReadingProgress: (resourceId: string, page: number, total: number) => void;
+  rateResource: (resourceId: string, rating: number, review?: string) => void;
+  setPersonalNotes: (resourceId: string, notes: string) => void;
   toggleFavorite: (resourceId: string) => void;
   toggleCurrentFocus: (resourceId: string) => void;
   markCompleted: (resourceId: string) => void;
   locateBook: (resourceId: string) => void;
   teleportToSection: (sectionId: string) => void;
+
+  // Dynamic Ingestion Actions
+  startIngestion: (files: File[]) => Promise<void>;
+  resolveDuplicate: (fileName: string, action: 'replace' | 'keep_existing' | 'keep_both') => void;
+  acceptReviewBook: (bookId: string) => void;
+  reclassifyBook: (bookId: string, newCategoryId: string, newSubcategory: string) => void;
+
+  // Management & Manual Organization (Rules 59, 60, 61)
   addResource: (res: Omit<Resource, 'id'>) => void;
   updateResource: (id: string, updates: Partial<Resource>) => void;
   deleteResource: (id: string) => void;
+  moveResource: (resourceId: string, newSectionId: string, newSubcategory: string) => void;
+  renameSection: (sectionId: string, newName: string) => void;
+  renameSubsection: (sectionId: string, oldSub: string, newSub: string) => void;
+  mergeSections: (sourceSectionId: string, targetSectionId: string) => void;
+  recalculatePlacements: () => void;
+
   addRelationship: (rel: Omit<Relationship, 'id'>) => void;
   deleteRelationship: (id: string) => void;
   updatePreferences: (prefs: Partial<UserPreferences>) => void;
@@ -134,7 +163,11 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   cameraLookAt: null,
   isNavigatingCamera: false,
 
-  searchHistory: ['Java Concurrency', 'Redis', 'System Design', 'Graphs', 'Transformers'],
+  isIngesting: false,
+  importProgress: null,
+  lastImportReport: null,
+
+  searchHistory: ['Java Concurrency', 'Redis', 'System Design', 'Graphs', 'Transformers', 'Bhagavad Gita', 'Vocabulary'],
 
   hoveredResourceId: null,
   selectedResourceId: null,
@@ -145,12 +178,12 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   savedCameraStateBeforePDF: null,
 
   enterLibrary: () => {
-    sound.playChime();
+    sound.playEnter();
     set({ hasEnteredLibrary: true });
   },
 
   setAtmosphere: (atm) => {
-    sound.playChime();
+    sound.playClick();
     set({ atmosphere: atm });
   },
 
@@ -163,9 +196,10 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   },
 
   addSearchHistory: (term) => {
-    if (!term.trim()) return;
-    const filtered = get().searchHistory.filter((t) => t.toLowerCase() !== term.toLowerCase());
-    set({ searchHistory: [term, ...filtered].slice(0, 6) });
+    const trimmed = term.trim();
+    if (!trimmed) return;
+    const current = get().searchHistory.filter((t) => t.toLowerCase() !== trimmed.toLowerCase());
+    set({ searchHistory: [trimmed, ...current.slice(0, 7)] });
   },
 
   setPlayerTransform: (pos, rotY) => {
@@ -173,100 +207,119 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   },
 
   setHoveredResource: (id) => {
+    if (id && id !== get().hoveredResourceId) {
+      sound.playHover();
+    }
     set({ hoveredResourceId: id });
   },
 
   selectResource: (id) => {
     if (id) {
-      sound.playBookSlide();
-      set({ selectedResourceId: id, activeModal: 'detail' });
+      sound.playSelect();
+      const res = get().resources.find((r) => r.id === id);
+      set({
+        selectedResourceId: id,
+        activeModal: 'detail',
+        highlightedResourceId: id,
+      });
+      if (res) {
+        get().updateResource(id, { lastOpened: new Date().toISOString().split('T')[0] });
+      }
     } else {
       set({ selectedResourceId: null });
     }
   },
 
   openModal: (modal) => {
+    sound.playClick();
     set({ activeModal: modal });
   },
 
   closeModal: () => {
-    set({ activeModal: null });
+    sound.playClick();
+    set({ activeModal: null, selectedResourceId: null });
   },
 
   openPdfReader: (res) => {
     sound.playPageFlip();
-    const currentLoc = get().playerLocation;
-    const currentRot = get().playerRotationY;
+    const curPos = get().playerLocation;
+    const curRot = get().playerRotationY;
     set({
       pdfResource: res,
       activeModal: 'pdf',
       savedCameraStateBeforePDF: {
-        position: [...currentLoc] as [number, number, number],
-        rotationY: currentRot,
+        position: [...curPos],
+        rotationY: curRot,
       },
     });
   },
 
   closePdfReader: () => {
-    sound.playBookSlide();
+    sound.playClick();
     const saved = get().savedCameraStateBeforePDF;
+    set({
+      activeModal: null,
+      pdfResource: null,
+    });
     if (saved) {
       set({
-        activeModal: null,
-        pdfResource: null,
-        cameraTarget: [...saved.position] as [number, number, number],
-        isNavigatingCamera: true,
+        playerLocation: saved.position,
+        playerRotationY: saved.rotationY,
       });
-      setTimeout(() => {
-        set({ isNavigatingCamera: false, cameraTarget: null });
-      }, 1000);
-    } else {
-      set({ activeModal: null, pdfResource: null });
     }
   },
 
   updateReadingProgress: (resourceId, page, total) => {
-    const pct = Math.round((page / total) * 100);
-    const status = pct >= 100 ? 'COMPLETED' : 'IN_PROGRESS';
-
-    const updated = get().resources.map((r) => {
-      if (r.id === resourceId) {
-        return {
-          ...r,
-          currentPage: page,
-          totalPages: total,
-          progress: pct,
-          status: status as any,
-          lastOpened: new Date().toISOString().split('T')[0],
-        };
-      }
-      return r;
+    const pct = total > 0 ? Math.min(100, Math.round((page / total) * 100)) : 0;
+    const isDone = pct >= 100;
+    get().updateResource(resourceId, {
+      currentPage: page,
+      totalPages: total,
+      progress: pct,
+      readingStatus: isDone ? 'COMPLETED' : 'READING',
+      status: isDone ? 'COMPLETED' : 'READING',
     });
+  },
 
-    const newPlacement = computeLibraryPlacements(get().sections, updated);
-    set({ resources: newPlacement.placedResources });
+  rateResource: (resourceId, rating, review) => {
+    sound.playChime();
+    get().updateResource(resourceId, {
+      personalRating: rating,
+      personalReview: review !== undefined ? review : get().resources.find((r) => r.id === resourceId)?.personalReview,
+    });
+  },
+
+  setPersonalNotes: (resourceId, notes) => {
+    get().updateResource(resourceId, {
+      personalNotes: notes,
+    });
   },
 
   toggleFavorite: (resourceId) => {
-    const updated = get().resources.map((r) =>
-      r.id === resourceId ? { ...r, isFavorite: !r.isFavorite } : r
-    );
-    set({ resources: updated });
+    const res = get().resources.find((r) => r.id === resourceId);
+    if (!res) return;
+    const nextVal = !res.isFavorite;
+    sound.playClick();
+    get().updateResource(resourceId, { isFavorite: nextVal });
   },
 
   toggleCurrentFocus: (resourceId) => {
-    const updated = get().resources.map((r) =>
-      r.id === resourceId ? { ...r, isCurrentFocus: !r.isCurrentFocus } : r
-    );
-    set({ resources: updated });
+    const res = get().resources.find((r) => r.id === resourceId);
+    if (!res) return;
+    sound.playClick();
+    const nextPriority = res.priority === 'CURRENT_FOCUS' ? 'NORMAL' : 'CURRENT_FOCUS';
+    get().updateResource(resourceId, {
+      priority: nextPriority,
+    });
   },
 
   markCompleted: (resourceId) => {
-    const updated = get().resources.map((r) =>
-      r.id === resourceId ? { ...r, status: 'COMPLETED' as const, progress: 100 } : r
-    );
-    const newPlacement = computeLibraryPlacements(get().sections, updated);
-    set({ resources: newPlacement.placedResources });
+    sound.playChime();
+    get().updateResource(resourceId, {
+      progress: 100,
+      readingStatus: 'COMPLETED',
+      status: 'COMPLETED',
+    });
   },
 
   locateBook: (resourceId) => {
@@ -274,25 +327,22 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
     if (!res || !res.location) return;
 
     sound.playChime();
-    const [bookX, bookY, bookZ] = res.location.position;
-    const shelf = initialPlacement.shelves.find((s) => s.id === res.location?.shelfId);
-    const isLeft = shelf ? Math.abs(shelf.rotation[1] - Math.PI / 2) < 0.1 : true;
-    const standX = isLeft ? bookX + 1.5 : bookX - 1.5;
-    const standY = 1.7;
-    const standZ = bookZ;
+    const [bx, by, bz] = res.location.position;
+    const targetPos: [number, number, number] = [bx, 1.7, bz + 1.8];
+    const lookAtPos: [number, number, number] = [bx, by, bz];
 
     set({
-      highlightedResourceId: resourceId,
       selectedResourceId: resourceId,
-      activeModal: 'detail',
-      cameraTarget: [standX, standY, standZ],
-      cameraLookAt: [bookX, bookY, bookZ],
+      activeModal: null,
+      cameraTarget: targetPos,
+      cameraLookAt: lookAtPos,
       isNavigatingCamera: true,
+      highlightedResourceId: resourceId,
     });
 
     setTimeout(() => {
       set({ isNavigatingCamera: false, cameraTarget: null, cameraLookAt: null });
-    }, 1400);
+    }, 1600);
   },
 
   teleportToSection: (sectionId) => {
@@ -309,6 +359,7 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
       cameraTarget: targetPos,
       cameraLookAt: lookAtPos,
       isNavigatingCamera: true,
+      activeModal: null,
     });
 
     setTimeout(() => {
@@ -316,12 +367,111 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
     }, 1500);
   },
 
+  // --- Dynamic Ingestion Implementation (Rules 1, 30, 31, 71) ---
+  startIngestion: async (files: File[]) => {
+    if (!files || files.length === 0) return;
+
+    set({ isIngesting: true, activeModal: 'ingest' });
+    sound.playClick();
+
+    try {
+      const result = await processIngestionFiles(
+        files,
+        get().sections,
+        get().resources,
+        (progress) => {
+          set({ importProgress: progress });
+        }
+      );
+
+      const allResources = [...get().resources, ...result.report.added];
+      const allRels = [...get().relationships, ...result.newRelationships];
+      const newPlacement = computeLibraryPlacements(result.newSections, allResources);
+
+      sound.playChime();
+
+      set({
+        sections: result.newSections,
+        resources: newPlacement.placedResources,
+        relationships: allRels,
+        lastImportReport: result.report,
+        isIngesting: false,
+        activeModal: 'importReport',
+      });
+    } catch (err) {
+      console.error('Ingestion failed:', err);
+      set({ isIngesting: false });
+    }
+  },
+
+  resolveDuplicate: (fileName, action) => {
+    const report = get().lastImportReport;
+    if (!report) return;
+
+    const dup = report.duplicates.find((d) => d.file === fileName);
+    if (!dup) return;
+
+    dup.action = action;
+
+    if (action === 'replace') {
+      // Replace existing book with new book metadata
+      get().updateResource(dup.existing.id, {
+        title: dup.newResource.title,
+        fileHash: dup.newResource.fileHash,
+        fileDataUrl: dup.newResource.fileDataUrl,
+      });
+    } else if (action === 'keep_both') {
+      // Add as second edition
+      const secondEdition: Resource = {
+        ...dup.newResource,
+        id: `res-ed2-${Date.now()}`,
+        title: `${dup.newResource.title} (2nd Copy)`,
+      };
+      const updated = [...get().resources, secondEdition];
+      const newPlacement = computeLibraryPlacements(get().sections, updated);
+      set({ resources: newPlacement.placedResources });
+    }
+
+    set({
+      lastImportReport: {
+        ...report,
+        duplicates: report.duplicates.filter((d) => d.file !== fileName),
+      },
+    });
+  },
+
+  acceptReviewBook: (bookId) => {
+    const report = get().lastImportReport;
+    if (report) {
+      set({
+        lastImportReport: {
+          ...report,
+          needsReview: report.needsReview.filter((b) => b.id !== bookId),
+        },
+      });
+    }
+  },
+
+  reclassifyBook: (bookId, newCategoryId, newSubcategory) => {
+    get().moveResource(bookId, newCategoryId, newSubcategory);
+    const report = get().lastImportReport;
+    if (report) {
+      set({
+        lastImportReport: {
+          ...report,
+          needsReview: report.needsReview.filter((b) => b.id !== bookId),
+        },
+      });
+    }
+  },
+
+  // --- Management & Organization Actions (Rules 59, 60, 61) ---
   addResource: (resData) => {
     const newRes: Resource = {
       ...resData,
       id: `res-user-${Date.now()}`,
       progress: resData.progress || 0,
-      status: resData.status || 'NOT_STARTED',
+      readingStatus: resData.readingStatus || 'NOT_STARTED',
     };
 
     const updated = [...get().resources, newRes];
@@ -349,6 +499,88 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
       selectedResourceId: null,
       activeModal: null,
     });
+  },
+
+  moveResource: (resourceId, newSectionId, newSubcategory) => {
+    sound.playSelect();
+    const updated = get().resources.map((r) =>
+      r.id === resourceId
+        ? {
+            ...r,
+            category: newSectionId,
+            subCategory: newSubcategory,
+          }
+        : r
+    );
+    const newPlacement = computeLibraryPlacements(get().sections, updated);
+    set({ resources: newPlacement.placedResources });
+  },
+
+  renameSection: (sectionId, newName) => {
+    const updatedSections = get().sections.map((s) =>
+      s.id === sectionId ? { ...s, name: newName } : s
+    );
+    const newPlacement = computeLibraryPlacements(updatedSections, get().resources);
+    set({
+      sections: updatedSections,
+      resources: newPlacement.placedResources,
+    });
+  },
+
+  renameSubsection: (sectionId, oldSub, newSub) => {
+    const updatedSections = get().sections.map((s) => {
+      if (s.id === sectionId) {
+        return {
+          ...s,
+          subSections: s.subSections.map((sub) => (sub === oldSub ? newSub : sub)),
+        };
+      }
+      return s;
+    });
+    const updatedResources = get().resources.map((r) => {
+      if (r.category === sectionId && r.subCategory === oldSub) {
+        return { ...r, subCategory: newSub };
+      }
+      return r;
+    });
+    const newPlacement = computeLibraryPlacements(updatedSections, updatedResources);
+    set({
+      sections: updatedSections,
+      resources: newPlacement.placedResources,
+    });
+  },
+
+  mergeSections: (sourceSectionId, targetSectionId) => {
+    const targetSection = get().sections.find((s) => s.id === targetSectionId);
+    if (!targetSection) return;
+
+    sound.playChime();
+    const sourceSection = get().sections.find((s) => s.id === sourceSectionId);
+    const mergedSubsections = Array.from(
+      new Set([...targetSection.subSections, ...(sourceSection?.subSections || [])])
+    );
+
+    const updatedSections = get()
+      .sections.filter((s) => s.id !== sourceSectionId)
+      .map((s) => (s.id === targetSectionId ? { ...s, subSections: mergedSubsections } : s));
+
+    const updatedResources = get().resources.map((r) => {
+      if (r.category === sourceSectionId) {
+        return { ...r, category: targetSectionId };
+      }
+      return r;
+    });
+
+    const newPlacement = computeLibraryPlacements(updatedSections, updatedResources);
+    set({
+      sections: updatedSections,
+      resources: newPlacement.placedResources,
+    });
+  },
+
+  recalculatePlacements: () => {
+    const newPlacement = computeLibraryPlacements(get().sections, get().resources);
+    set({ resources: newPlacement.placedResources });
   },
 
   addRelationship: (relData) => {
@@ -381,23 +613,43 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
 
   getLibraryStats: () => {
     const res = get().resources;
-    const completed = res.filter((r) => r.status === 'COMPLETED').length;
-    const inProgress = res.filter((r) => r.status === 'IN_PROGRESS').length;
+    const completed = res.filter((r) => r.readingStatus === 'COMPLETED' || r.progress >= 100).length;
+    const reading = res.filter((r) => r.readingStatus === 'READING' || (r.progress > 0 && r.progress < 100)).length;
+    const handbooks = res.filter((r) => r.resourceType === 'HANDBOOK' || r.category === 'sec-handbooks').length;
     const mustLearn = res.filter((r) => r.priority === 'MUST_LEARN').length;
-    const currentFocus = res.filter((r) => r.isCurrentFocus || r.priority === 'CURRENT_FOCUS').length;
+    const currentFocus = res.filter((r) => r.priority === 'CURRENT_FOCUS').length;
+    const favorites = res.filter((r) => r.isFavorite).length;
+
+    const ratedBooks = res.filter((r) => r.personalRating && r.personalRating > 0);
+    const avgRating =
+      ratedBooks.length > 0
+        ? Number((ratedBooks.reduce((sum, b) => sum + (b.personalRating || 0), 0) / ratedBooks.length).toFixed(1))
+        : 4.8;
+
+    const totalPages = res.reduce((sum, b) => sum + (b.totalPages || b.pages || 0), 0);
     const overallProgress =
       res.length > 0
         ? Math.round(res.reduce((acc, curr) => acc + (curr.progress || 0), 0) / res.length)
         : 0;
 
+    const totalSubcategories = get().sections.reduce(
+      (acc, curr) => acc + (curr.subSections?.length || 0),
+      0
+    );
+
     return {
       totalResources: res.length,
+      totalHandbooks: handbooks,
+      totalSections: get().sections.length,
+      totalSubcategories,
+      readingCount: reading,
       completedCount: completed,
-      inProgressCount: inProgress,
       mustLearnCount: mustLearn,
       currentFocusCount: currentFocus,
+      favoriteCount: favorites,
+      averageRating: avgRating,
+      totalPages,
       overallProgress,
-      totalSections: get().sections.length,
     };
   },
 }));

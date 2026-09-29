@@ -15,13 +15,16 @@ import { SearchModal } from './components/modals/SearchModal';
 import { ManageModal } from './components/modals/ManageModal';
 import { SettingsModal } from './components/modals/SettingsModal';
 import { SectionBrowserModal } from './components/modals/SectionBrowserModal';
+import { IngestionModal } from './components/modals/IngestionModal';
+import { ImportReportModal } from './components/modals/ImportReportModal';
+import { DashboardModal } from './components/modals/DashboardModal';
 
 export const App: React.FC = () => {
   const hasEnteredLibrary = useLibraryStore((s) => s.hasEnteredLibrary);
   const activeModal = useLibraryStore((s) => s.activeModal);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-slate-950 font-sans">
+    <div className="relative w-screen h-screen overflow-hidden bg-stone-950 font-sans">
       {/* Primary 3D Library World Engine */}
       <LibraryScene />
 
@@ -48,6 +51,9 @@ export const App: React.FC = () => {
       {activeModal === 'manage' && <ManageModal />}
       {activeModal === 'settings' && <SettingsModal />}
       {activeModal === 'sectionBrowser' && <SectionBrowserModal />}
+      {activeModal === 'ingest' && <IngestionModal />}
+      {activeModal === 'importReport' && <ImportReportModal />}
+      {activeModal === 'dashboard' && <DashboardModal />}
     </div>
   );
 };

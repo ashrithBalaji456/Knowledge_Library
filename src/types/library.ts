@@ -1,6 +1,19 @@
 export type ResourceType =
-  | 'PDF'
   | 'BOOK'
+  | 'HANDBOOK'
+  | 'REFERENCE'
+  | 'TEXTBOOK'
+  | 'COURSE_MATERIAL'
+  | 'STUDY_NOTES'
+  | 'CHEAT_SHEET'
+  | 'INTERVIEW_GUIDE'
+  | 'DOCUMENTATION'
+  | 'NOVEL'
+  | 'DEVOTIONAL'
+  | 'PAPER'
+  | 'TUTORIAL'
+  | 'PRACTICE_MATERIAL'
+  | 'PDF'
   | 'GITHUB'
   | 'GOOGLE_DRIVE'
   | 'WEBSITE'
@@ -8,26 +21,23 @@ export type ResourceType =
   | 'ARTICLE'
   | 'COURSE'
   | 'NOTE'
-  | 'ZIP'
-  | 'LINK';
+  | 'OTHER';
 
 export type Priority =
-  | 'MUST_LEARN'
   | 'CURRENT_FOCUS'
-  | 'CRITICAL'
-  | 'HIGH'
-  | 'MEDIUM'
-  | 'LOW'
+  | 'MUST_LEARN'
   | 'IMPORTANT'
   | 'NORMAL'
-  | 'COMPLETED';
+  | 'LOW';
 
 export type ResourceStatus =
   | 'NOT_STARTED'
-  | 'IN_PROGRESS'
+  | 'READING'
   | 'COMPLETED'
   | 'PAUSED'
-  | 'ARCHIVED';
+  | 'WANT_TO_READ'
+  | 'REFERENCE_ONLY'
+  | 'ABANDONED';
 
 export type Difficulty =
   | 'BEGINNER'
@@ -37,17 +47,22 @@ export type Difficulty =
 
 export type RelationshipType =
   | 'PREREQUISITE'
-  | 'RELATED'
   | 'NEXT'
-  | 'ADVANCED'
-  | 'ALTERNATIVE'
-  | 'PRACTICAL'
-  | 'INTERVIEW'
+  | 'RELATED'
   | 'DEEPER_DIVE'
+  | 'ALTERNATIVE'
+  | 'REFERENCE'
+  | 'INTERVIEW'
+  | 'PRACTICAL'
+  | 'ADVANCED'
+  | 'BEGINNER_FRIENDLY'
+  | 'COMPLEMENTARY'
   | 'BUILDS_ON'
   | 'COMPLEMENTS';
 
 export type AtmosphereMode = 'day' | 'evening' | 'night';
+
+export type WingType = 'central' | 'west' | 'east' | 'north' | 'south' | 'handbooks' | 'humanities';
 
 export interface PhysicalLocation {
   sectionId: string;
@@ -71,31 +86,82 @@ export interface PhysicalLocation {
   colorHex: string; // rich curated book color
 }
 
+export interface ClassificationConfidence {
+  categoryConfidence: number; // 0 to 100
+  subcategoryConfidence: number; // 0 to 100
+  needsReview: boolean;
+  reason: string;
+  matchedKeywords: string[];
+  aiGenerated: boolean;
+  sourceTrace?: {
+    extractedTitle?: string;
+    extractedAuthor?: string;
+    extractedPages?: number;
+    extractedTocSample?: string[];
+  };
+}
+
 export interface Resource {
   id: string;
   title: string;
+  subtitle?: string;
   author: string;
-  description: string;
-  type: ResourceType;
-  category: string; // matches Section id or name
-  subCategory: string;
-  priority: Priority;
-  status: ResourceStatus;
+  authors?: string[];
+  publisher?: string;
+  publicationYear?: string | number;
+  isbn?: string;
+  language?: string;
+  pages?: number;
+  fileName?: string;
+  fileType?: string;
+  fileSize?: number;
+  fileHash?: string;
+  source: 'uploaded_pdf' | 'zip_import' | 'google_drive' | 'github' | 'url' | 'sample';
+  sourceUrl?: string;
+  fileDataUrl?: string; // base64 or blob URL for direct in-browser reading
+
+  // Taxonomy
+  category: string; // Primary category / section ID
+  subCategory: string; // Subcategory / subsection
+  resourceType: ResourceType;
   difficulty: Difficulty;
+  topics: string[];
   tags: string[];
-  url?: string;
-  filePath?: string;
-  thumbnail?: string;
+
+  // Intelligent Decision Aid
+  whatIsThisBookFor: string; // "What is this book for?" (concise decision statement)
+  summary: string; // Concise summary
+  keyTakeaways: string[]; // 5-10 specific bullet points
+  prerequisites: string[]; // What you should know before reading
+  recommendedNext: string[]; // What to read next
+
+  // User Engagement & Tracking
+  personalRating?: number; // 0 to 5 (supports 0.5 increments)
+  personalReview?: string; // "What did I think about this book?"
+  personalNotes?: string;
+  readingStatus: ResourceStatus;
   progress: number; // 0 to 100
   currentPage?: number;
   totalPages?: number;
+  dateAdded?: string;
   lastOpened?: string;
   isFavorite?: boolean;
-  isCurrentFocus?: boolean;
-  stars?: number; // for GitHub
+  priority: Priority;
   notes?: string[];
   bookmarks?: number[];
-  contentSample?: string[]; // Sample pages for PDF reading
+  contentSample?: string[];
+
+  // Legacy & Compatibility Aliases
+  type?: ResourceType;
+  status?: ResourceStatus;
+  description?: string;
+  url?: string;
+  isCurrentFocus?: boolean;
+
+  // Confidence & Verification
+  confidence?: ClassificationConfidence;
+
+  // 3D Physical Placement
   location?: PhysicalLocation;
 }
 
@@ -108,9 +174,10 @@ export interface Section {
   color: string;
   accentColor: string;
   subSections: string[];
-  wing: 'central' | 'west' | 'east' | 'north' | 'south';
+  wing: WingType;
   anchorPosition: [number, number, number];
   rotationY?: number;
+  isHandbookSection?: boolean;
 }
 
 export interface Relationship {
@@ -146,10 +213,39 @@ export interface UserPreferences {
 
 export interface LibraryStats {
   totalResources: number;
+  totalHandbooks: number;
+  totalSections: number;
+  totalSubcategories: number;
+  readingCount: number;
+  inProgressCount?: number;
   completedCount: number;
-  inProgressCount: number;
   mustLearnCount: number;
   currentFocusCount: number;
+  favoriteCount: number;
+  averageRating: number;
+  totalPages: number;
   overallProgress: number;
-  totalSections: number;
+}
+
+export interface DuplicateDetectionResult {
+  isDuplicate: boolean;
+  matchedResource?: Resource;
+  matchReason?: string;
+  similarity: number;
+}
+
+export interface ImportReport {
+  added: Resource[];
+  duplicates: {
+    file: string;
+    existing: Resource;
+    newResource: Resource;
+    action: 'replace' | 'keep_existing' | 'keep_both';
+  }[];
+  needsReview: Resource[];
+  failed: { fileName: string; error: string }[];
+  newSectionsCreated: string[];
+  newSubsectionsCreated: string[];
+  relationshipsCreated: number;
+  learningPathsUpdated: number;
 }

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useLibraryStore } from '../../store/useLibraryStore';
 import { computeRecommendations } from '../../engine/recommendationEngine';
 import {
@@ -10,16 +10,14 @@ import {
   CheckCircle,
   ArrowRight,
   ArrowLeft,
-  HardDrive,
   Sparkles,
-  Layers
+  Layers,
+  Heart,
+  HelpCircle,
+  BookmarkCheck,
+  Edit3,
+  Check,
 } from 'lucide-react';
-
-const GithubIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-  </svg>
-);
 
 export const BookDetailModal: React.FC = () => {
   const selectedResourceId = useLibraryStore((s) => s.selectedResourceId);
@@ -33,6 +31,12 @@ export const BookDetailModal: React.FC = () => {
   const toggleFavorite = useLibraryStore((s) => s.toggleFavorite);
   const toggleCurrentFocus = useLibraryStore((s) => s.toggleCurrentFocus);
   const markCompleted = useLibraryStore((s) => s.markCompleted);
+  const rateResource = useLibraryStore((s) => s.rateResource);
+  const setPersonalNotes = useLibraryStore((s) => s.setPersonalNotes);
+
+  const [editingNotes, setEditingNotes] = useState(false);
+  const [noteInput, setNoteInput] = useState('');
+  const [hoverRating, setHoverRating] = useState<number | null>(null);
 
   const resource = useMemo(
     () => resources.find((r) => r.id === selectedResourceId),
@@ -47,55 +51,40 @@ export const BookDetailModal: React.FC = () => {
   if (!resource) return null;
 
   const loc = resource.location;
-  const isPdf = resource.type === 'PDF' || resource.type === 'BOOK' || resource.contentSample;
-  const isGithub = resource.type === 'GITHUB';
-  const isDrive = resource.type === 'GOOGLE_DRIVE';
-
   const section = sections.find((s) => s.id === resource.category);
-  const sectionColor = section?.color || '#3b82f6';
+  const sectionColor = section?.color || resource.location?.colorHex || '#d97706';
 
-  const handleOpenResource = () => {
-    if (isPdf && resource.contentSample) {
-      openPdfReader(resource);
-    } else if (resource.url) {
-      window.open(resource.url, '_blank', 'noopener,noreferrer');
-    } else {
-      openPdfReader({
-        ...resource,
-        contentSample: [
-          `# ${resource.title}\n\n**Author:** ${resource.author}\n**Category:** ${resource.category}\n\n${resource.description}`,
-          `## Foundational Theory & Architecture\n\nThis knowledge tome is placed in your personal library. Master the fundamentals and progress through the recommended next steps.`,
-        ],
-      });
-    }
+  const handleOpenBook = () => {
+    openPdfReader(resource);
   };
 
-  const getDifficultyColor = (diff: string) => {
-    switch (diff) {
-      case 'BEGINNER':
-        return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
-      case 'INTERMEDIATE':
-        return 'text-blue-400 bg-blue-500/10 border-blue-500/30';
-      case 'ADVANCED':
-        return 'text-purple-400 bg-purple-500/10 border-purple-500/30';
-      case 'EXPERT':
-        return 'text-red-400 bg-red-500/10 border-red-500/30';
-      default:
-        return 'text-slate-400 bg-slate-800 border-slate-700';
-    }
+  const handleStarClick = (ratingValue: number) => {
+    rateResource(resource.id, ratingValue);
   };
+
+  const handleSaveNotes = () => {
+    setPersonalNotes(resource.id, noteInput);
+    setEditingNotes(false);
+  };
+
+  const startEditNotes = () => {
+    setNoteInput(resource.personalNotes || '');
+    setEditingNotes(true);
+  };
+
+  const currentRating = resource.personalRating || 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md pointer-events-auto overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md pointer-events-auto overflow-y-auto">
       <div
-        className="relative w-full max-w-2xl my-8 rounded-3xl bg-slate-900/95 border border-slate-800 shadow-2xl flex flex-col overflow-hidden max-h-[90vh]"
+        className="relative w-full max-w-2xl my-6 rounded-3xl bg-stone-900/95 border border-stone-700/60 shadow-2xl flex flex-col overflow-hidden max-h-[92vh]"
         style={{ borderTopColor: sectionColor, borderTopWidth: '4px' }}
       >
         {/* Header Ribbon */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-slate-950/60">
+        <div className="flex items-center justify-between px-6 py-3.5 border-b border-stone-800 bg-stone-950/70">
           <div className="flex items-center gap-2.5">
             <span
-              className="px-2.5 py-0.5 rounded-full text-xs font-bold font-mono uppercase"
+              className="px-2.5 py-0.5 rounded-full text-xs font-bold font-mono uppercase tracking-wider"
               style={{
                 backgroundColor: `${sectionColor}22`,
                 color: sectionColor,
@@ -104,248 +93,341 @@ export const BookDetailModal: React.FC = () => {
             >
               {section?.name || resource.category}
             </span>
-            <span className="text-xs text-slate-400 font-light">
-              • {resource.type}
+            <span className="text-xs text-stone-400 font-medium">
+              → {resource.subCategory || 'General'}
+            </span>
+            <span className="px-2 py-0.5 rounded-md bg-stone-800 text-stone-300 border border-stone-700 text-[10px] font-mono font-semibold uppercase">
+              {resource.resourceType || 'BOOK'}
             </span>
           </div>
 
-          <button
-            onClick={closeModal}
-            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Modal Scrollable Body */}
-        <div className="p-6 md:p-8 overflow-y-auto space-y-6">
-          {/* Main Book Title & Badges */}
-          <div>
-            <div className="flex flex-wrap items-center gap-2 mb-2.5">
-              {resource.priority === 'MUST_LEARN' && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 border border-amber-500/40 text-amber-300">
-                  <Star className="w-3.5 h-3.5 fill-amber-300" /> MUST LEARN
-                </span>
-              )}
-              {resource.isCurrentFocus && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-red-500/20 border border-red-500/40 text-red-300">
-                  <Flame className="w-3.5 h-3.5" /> CURRENT FOCUS
-                </span>
-              )}
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-semibold border ${getDifficultyColor(
-                  resource.difficulty
-                )}`}
-              >
-                {resource.difficulty}
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-800 border border-slate-700 text-slate-300">
-                {resource.status}
-              </span>
-            </div>
-
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-100 font-['Outfit']">
-              {resource.title}
-            </h2>
-            <p className="text-sm text-slate-400 mt-1 font-light">
-              by <span className="text-slate-200 font-medium">{resource.author}</span>
-            </p>
-          </div>
-
-          {/* Physical Library Location Badge */}
-          {loc && (
-            <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-slate-950/70 border border-slate-800 text-xs text-slate-300">
-              <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-              <div className="flex-1 truncate">
-                <span className="text-slate-500">Location: </span>
-                <span className="font-semibold text-amber-300">{loc.sectionName}</span>
-                <span className="text-slate-600"> → </span>
-                <span>Shelf {loc.shelfNumber < 10 ? '0' + loc.shelfNumber : loc.shelfNumber}</span>
-                <span className="text-slate-600"> → </span>
-                <span className="text-slate-300 font-medium">
-                  {loc.rowNumber === 0
-                    ? 'Top Shelf (Prominent)'
-                    : loc.rowNumber === 1
-                    ? 'Middle Shelf'
-                    : 'Lower Shelf'}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Reading Progress */}
-          <div className="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/50 space-y-2">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400 font-medium">Learning Progress</span>
-              <span className="font-mono text-amber-400 font-bold">
-                {resource.progress}%
-                {resource.currentPage && resource.totalPages && (
-                  <span className="text-slate-400 font-normal ml-1.5">
-                    (Page {resource.currentPage} of {resource.totalPages})
-                  </span>
-                )}
-              </span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${resource.progress}%`,
-                  backgroundColor: sectionColor,
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Description */}
-          <div>
-            <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-              Overview & Key Concepts
-            </h4>
-            <p className="text-sm text-slate-300 leading-relaxed font-light">
-              {resource.description}
-            </p>
-          </div>
-
-          {/* Tags */}
-          <div>
-            <div className="flex flex-wrap gap-1.5">
-              {resource.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-800 border border-slate-700 text-slate-300"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* --- BEFORE THIS (Prerequisites) --- */}
-          {recommendations && recommendations.learnFirst.length > 0 && (
-            <div className="p-4 rounded-2xl bg-blue-950/20 border border-blue-900/40 space-y-3">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-blue-300 uppercase tracking-wider">
-                <ArrowLeft className="w-4 h-4" /> BEFORE THIS BOOK (Prerequisites)
-              </div>
-              <div className="space-y-2">
-                {recommendations.learnFirst.map((item) => (
-                  <div
-                    key={item.resource.id}
-                    onClick={() => selectResource(item.resource.id)}
-                    className="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-blue-500/50 transition-all cursor-pointer group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <h5 className="text-sm font-semibold text-slate-200 group-hover:text-blue-300 transition-colors">
-                        ◉ {item.resource.title}
-                      </h5>
-                      <span className="text-[10px] text-slate-400 font-mono">
-                        {item.resource.progress}%
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-400 mt-1 font-light italic">
-                      "{item.reason}"
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* --- YOU SHOULD READ NEXT --- */}
-          {recommendations && recommendations.learnNext.length > 0 && (
-            <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-900/40 space-y-3">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-300 uppercase tracking-wider">
-                <Sparkles className="w-4 h-4 text-amber-400" /> YOU SHOULD READ NEXT
-              </div>
-              <div className="space-y-2">
-                {recommendations.learnNext.map((item) => (
-                  <div
-                    key={item.resource.id}
-                    onClick={() => selectResource(item.resource.id)}
-                    className="p-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 transition-all cursor-pointer group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <h5 className="text-sm font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">
-                        → {item.resource.title}
-                      </h5>
-                      <ArrowRight className="w-4 h-4 text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    <p className="text-xs text-amber-300/80 mt-1 font-light italic">
-                      "{item.reason}"
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Modal Action Footer */}
-        <div className="p-4 md:p-6 border-t border-slate-800/80 bg-slate-950/70 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <button
               onClick={() => toggleFavorite(resource.id)}
-              className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`p-2 rounded-xl transition ${
                 resource.isFavorite
-                  ? 'bg-amber-500/20 border-amber-500/40 text-amber-300'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                  ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
+                  : 'bg-stone-800/80 text-stone-400 hover:text-stone-200'
               }`}
+              title="Add to Favorites"
             >
-              <Star className={`w-4 h-4 ${resource.isFavorite ? 'fill-amber-300' : ''}`} />
-              <span className="hidden sm:inline">Favorite</span>
+              <Heart className={`w-4 h-4 ${resource.isFavorite ? 'fill-rose-500' : ''}`} />
             </button>
-
             <button
               onClick={() => toggleCurrentFocus(resource.id)}
-              className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                resource.isCurrentFocus
-                  ? 'bg-red-500/20 border-red-500/40 text-red-300'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+              className={`p-2 rounded-xl transition ${
+                resource.priority === 'CURRENT_FOCUS'
+                  ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40'
+                  : 'bg-stone-800/80 text-stone-400 hover:text-stone-200'
               }`}
+              title="Set as Current Focus"
             >
               <Flame className="w-4 h-4" />
-              <span className="hidden sm:inline">Focus</span>
             </button>
-
             <button
-              onClick={() => markCompleted(resource.id)}
-              className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                resource.status === 'COMPLETED'
-                  ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
+              onClick={closeModal}
+              className="p-2 rounded-xl bg-stone-800/80 text-stone-400 hover:text-stone-100 hover:bg-stone-700 transition"
             >
-              <CheckCircle className="w-4 h-4" />
-              <span className="hidden sm:inline">Completed</span>
+              <X className="w-4 h-4" />
             </button>
           </div>
+        </div>
 
-          <div className="flex items-center gap-2">
+        {/* Scrollable Body */}
+        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+          {/* Top Hero: Cover Preview + Title + Author (Rules 13, 28, 63) */}
+          <div className="flex items-start gap-5">
+            {/* Realistic Book Cover Graphic */}
+            <div
+              className="w-28 h-40 rounded-xl shrink-0 p-3 shadow-2xl flex flex-col justify-between border relative overflow-hidden"
+              style={{
+                backgroundColor: resource.location?.colorHex || sectionColor,
+                borderColor: 'rgba(255,255,255,0.2)',
+              }}
+            >
+              {/* Gold foil decorative line */}
+              <div className="absolute top-2 left-2 right-2 h-0.5 bg-amber-300/40" />
+              <div className="absolute bottom-2 left-2 right-2 h-0.5 bg-amber-300/40" />
+
+              <div className="space-y-1">
+                <span className="text-[9px] font-mono tracking-widest uppercase text-amber-200/90 font-bold block truncate">
+                  {section?.code || 'LIB'}
+                </span>
+                <h4 className="text-xs font-bold text-white line-clamp-3 leading-snug">
+                  {resource.title}
+                </h4>
+              </div>
+
+              <div className="text-[10px] text-white/80 font-medium truncate">
+                {resource.author}
+              </div>
+            </div>
+
+            {/* Title & Metadata Details */}
+            <div className="flex-1 min-w-0 space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <h1 className="text-xl md:text-2xl font-bold font-heading text-stone-100 leading-tight">
+                  {resource.title}
+                </h1>
+              </div>
+
+              <p className="text-sm font-medium text-stone-300">
+                by <span className="text-amber-400 font-semibold">{resource.author}</span>
+              </p>
+
+              {/* Status & Difficulty Badges */}
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="px-2.5 py-1 rounded-lg text-xs font-bold font-mono bg-stone-800 text-stone-300 border border-stone-700">
+                  {resource.difficulty || 'INTERMEDIATE'}
+                </span>
+
+                {resource.priority === 'MUST_LEARN' && (
+                  <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-amber-400" />
+                    <span>MUST LEARN</span>
+                  </span>
+                )}
+
+                {resource.priority === 'CURRENT_FOCUS' && (
+                  <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1">
+                    <Flame className="w-3 h-3 fill-rose-400" />
+                    <span>CURRENT FOCUS</span>
+                  </span>
+                )}
+
+                <span className="text-xs text-stone-400">
+                  {resource.totalPages || resource.pages || 350} pages
+                </span>
+              </div>
+
+              {/* Interactive Personal Rating (Rule 26) */}
+              <div className="flex items-center gap-2 pt-2">
+                <span className="text-xs text-stone-400 font-medium">My Rating:</span>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => {
+                    const fillAmount = (hoverRating !== null ? hoverRating : currentRating) >= star;
+                    return (
+                      <button
+                        key={star}
+                        onClick={() => handleStarClick(star)}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(null)}
+                        className="p-0.5 hover:scale-110 transition cursor-pointer"
+                      >
+                        <Star
+                          className={`w-4 h-4 ${
+                            fillAmount
+                              ? 'text-amber-400 fill-amber-400'
+                              : 'text-stone-600 hover:text-stone-400'
+                          }`}
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+                <span className="text-xs font-mono text-amber-400 font-bold ml-1">
+                  {currentRating > 0 ? `${currentRating}.0` : 'Not Rated'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* WHAT IS THIS BOOK FOR? (Rule 15 - Most Important Field) */}
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-1.5 shadow-inner">
+            <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
+              <Sparkles className="w-4 h-4" />
+              <span>WHAT IS THIS BOOK FOR?</span>
+            </div>
+            <p className="text-sm font-semibold text-stone-100 leading-relaxed">
+              {resource.whatIsThisBookFor ||
+                `For mastering ${resource.title} and deepening applied expertise in ${resource.category}.`}
+            </p>
+          </div>
+
+          {/* Book Summary (Rule 14) */}
+          <div className="space-y-1.5">
+            <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider">
+              Book Summary
+            </h3>
+            <p className="text-sm text-stone-300 leading-relaxed">
+              {resource.summary || resource.description}
+            </p>
+          </div>
+
+          {/* KEY TAKEAWAYS (Rule 16: 5-10 specific bullet points) */}
+          {resource.keyTakeaways && resource.keyTakeaways.length > 0 && (
+            <div className="space-y-2.5">
+              <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider flex items-center gap-2">
+                <BookmarkCheck className="w-4 h-4 text-emerald-400" />
+                <span>KEY TAKEAWAYS & CONCEPTS</span>
+              </h3>
+              <ul className="space-y-1.5">
+                {resource.keyTakeaways.map((takeaway, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-2.5 text-xs text-stone-200 bg-stone-800/40 p-2.5 rounded-xl border border-stone-800"
+                  >
+                    <span className="flex items-center justify-center w-4 h-4 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold shrink-0 mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span className="leading-snug">{takeaway}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Prerequisites & "Read This Before" (Rule 17, 19) */}
+          {resource.prerequisites && resource.prerequisites.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider flex items-center gap-2">
+                <ArrowLeft className="w-3.5 h-3.5 text-orange-400" />
+                <span>READ THIS BEFORE (PREREQUISITES)</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {resource.prerequisites.map((prereq, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 rounded-xl bg-orange-500/10 text-orange-200 border border-orange-500/30 text-xs font-medium"
+                  >
+                    {prereq}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recommended Next (Rule 20) */}
+          {resource.recommendedNext && resource.recommendedNext.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider flex items-center gap-2">
+                <ArrowRight className="w-3.5 h-3.5 text-emerald-400" />
+                <span>YOU MAY WANT TO READ NEXT</span>
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {resource.recommendedNext.map((nextItem, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-200 border border-emerald-500/30 text-xs font-medium"
+                  >
+                    {nextItem}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Personal Review & Notes (Rule 27, 56) */}
+          <div className="space-y-2 p-4 rounded-2xl bg-stone-800/40 border border-stone-700/60">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-bold text-stone-300">
+                <Edit3 className="w-3.5 h-3.5 text-amber-400" />
+                <span>MY PERSONAL NOTES & REVIEW</span>
+              </div>
+              {!editingNotes && (
+                <button
+                  onClick={startEditNotes}
+                  className="text-xs text-amber-400 hover:text-amber-300 font-semibold"
+                >
+                  {resource.personalNotes ? 'Edit Notes' : '+ Add Note'}
+                </button>
+              )}
+            </div>
+
+            {editingNotes ? (
+              <div className="space-y-2">
+                <textarea
+                  value={noteInput}
+                  onChange={(e) => setNoteInput(e.target.value)}
+                  placeholder="Record your takeaways, interview reminders, or personal critique..."
+                  className="w-full h-20 p-2.5 rounded-xl bg-stone-900 border border-amber-500/40 text-stone-100 text-xs focus:outline-none"
+                />
+                <div className="flex justify-end gap-2">
+                  <button
+                    onClick={() => setEditingNotes(false)}
+                    className="px-3 py-1 rounded-lg text-xs text-stone-400 hover:text-stone-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSaveNotes}
+                    className="px-3 py-1 rounded-lg text-xs bg-amber-600 hover:bg-amber-500 text-white font-semibold"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-stone-400 italic">
+                {resource.personalNotes ||
+                  'No personal notes added yet. Record your takeaways for fast reference during interviews.'}
+              </p>
+            )}
+          </div>
+
+          {/* Reading Progress Tracker (Rule 25) */}
+          <div className="space-y-2 p-4 rounded-2xl bg-stone-800/60 border border-stone-700/60">
+            <div className="flex items-center justify-between text-xs font-semibold">
+              <span className="text-stone-300">Reading Progress</span>
+              <span className="font-mono text-amber-400 font-bold">{resource.progress || 0}%</span>
+            </div>
+            <div className="w-full bg-stone-700 rounded-full h-2.5 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-amber-500 to-emerald-500 h-2.5 rounded-full transition-all duration-300"
+                style={{ width: `${resource.progress || 0}%` }}
+              />
+            </div>
+            <div className="flex justify-between items-center text-[11px] text-stone-400 pt-1">
+              <span>Status: <b className="text-stone-200">{resource.readingStatus || 'NOT_STARTED'}</b></span>
+              {resource.progress < 100 && (
+                <button
+                  onClick={() => markCompleted(resource.id)}
+                  className="text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1"
+                >
+                  <Check className="w-3 h-3" />
+                  <span>Mark Completed</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* AI Traceability Notice (Rule 45) */}
+          <div className="p-3 rounded-xl bg-stone-900/60 border border-stone-800 text-[11px] text-stone-500 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <HelpCircle className="w-3.5 h-3.5 text-stone-400" />
+              <span>
+                Source: <b className="text-stone-400">{resource.fileName || 'Digital Tome'}</b> • Verified metadata
+              </span>
+            </div>
+            <span className="text-stone-600 font-mono">ID: {resource.id.slice(0, 10)}</span>
+          </div>
+        </div>
+
+        {/* Footer Actions */}
+        <div className="flex items-center justify-between p-6 border-t border-stone-800 bg-stone-950/80">
+          {loc && (
             <button
               onClick={() => locateBook(resource.id)}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-2 border border-stone-700 transition"
             >
               <MapPin className="w-4 h-4 text-amber-400" />
-              LOCATE BOOK
+              <span>Locate on 3D Shelf</span>
             </button>
+          )}
 
+          <div className="flex items-center gap-3">
             <button
-              onClick={handleOpenResource}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-500/25 transition-all cursor-pointer"
+              onClick={closeModal}
+              className="px-4 py-2 text-xs font-medium rounded-xl text-stone-400 hover:text-stone-200"
             >
-              {isGithub ? (
-                <>
-                  <GithubIcon className="w-4 h-4" /> OPEN GITHUB
-                </>
-              ) : isDrive ? (
-                <>
-                  <HardDrive className="w-4 h-4" /> OPEN DRIVE
-                </>
-              ) : (
-                <>
-                  <BookOpen className="w-4 h-4" /> OPEN BOOK
-                </>
-              )}
+              Close
+            </button>
+            <button
+              onClick={handleOpenBook}
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-900/30 transition cursor-pointer"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Open & Read Book</span>
             </button>
           </div>
         </div>

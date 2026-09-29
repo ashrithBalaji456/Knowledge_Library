@@ -1,4 +1,4 @@
-import { Resource, Section, PhysicalLocation } from '../types/library';
+import { Resource, Section, PhysicalLocation, WingType } from '../types/library';
 
 export interface ShelfInfo {
   id: string;
@@ -16,6 +16,7 @@ export interface SectionPlacement {
   section: Section;
   shelves: ShelfInfo[];
   resources: Resource[];
+  centerPosition: [number, number, number];
 }
 
 export interface PlacementResult {
@@ -25,22 +26,18 @@ export interface PlacementResult {
 }
 
 // Priority tier mapping:
-// Tier 0 (Top Shelf): MUST_LEARN, CURRENT_FOCUS, CRITICAL
-// Tier 1 (Middle Shelf): HIGH, MEDIUM, IMPORTANT
-// Tier 2 (Bottom Shelf): LOW, NORMAL, COMPLETED
+// Tier 0 (Top Shelf): MUST_LEARN, CURRENT_FOCUS
+// Tier 1 (Middle Shelf): IMPORTANT, NORMAL
+// Tier 2 (Bottom Shelf): LOW
 export function getPriorityTier(priority: string): number {
   switch (priority) {
     case 'MUST_LEARN':
     case 'CURRENT_FOCUS':
-    case 'CRITICAL':
       return 0; // Top shelf (Eye level)
-    case 'HIGH':
-    case 'MEDIUM':
     case 'IMPORTANT':
+    case 'NORMAL':
       return 1; // Middle shelf
     case 'LOW':
-    case 'NORMAL':
-    case 'COMPLETED':
     default:
       return 2; // Bottom shelf
   }
@@ -58,18 +55,46 @@ function pseudoRandom(seed: string): number {
 
 // Curated vibrant & realistic palette per domain
 const COLOR_PALETTES: Record<string, string[]> = {
+  // Handbooks Wing (Dedicated rich Amber / Terracotta / Copper)
+  'sec-handbooks': ['#c2410c', '#b45309', '#d97706', '#9a3412', '#78350f', '#ea580c'],
+  handbooks: ['#c2410c', '#b45309', '#d97706', '#9a3412', '#78350f', '#ea580c'],
+
+  // Technical Wings
+  'sec-java': ['#1d4ed8', '#1e40af', '#2563eb', '#3b82f6', '#1e3a8a', '#0369a1'],
   java: ['#1d4ed8', '#1e40af', '#2563eb', '#3b82f6', '#1e3a8a', '#0369a1'],
+
+  'sec-dsa': ['#6d28d9', '#7c3aed', '#8b5cf6', '#5b21b6', '#4c1d95', '#a855f7'],
   dsa: ['#6d28d9', '#7c3aed', '#8b5cf6', '#5b21b6', '#4c1d95', '#a855f7'],
+
+  'sec-system-design': ['#c2410c', '#ea580c', '#f97316', '#fb923c', '#9a3412', '#b45309'],
   'system-design': ['#c2410c', '#ea580c', '#f97316', '#fb923c', '#9a3412', '#b45309'],
+
+  'sec-spring': ['#047857', '#059669', '#10b981', '#34d399', '#065f46', '#0f766e'],
   'spring-boot': ['#047857', '#059669', '#10b981', '#34d399', '#065f46', '#0f766e'],
+
+  'sec-databases': ['#0e7490', '#0891b2', '#06b6d4', '#22d3ee', '#155e75', '#164e63'],
   databases: ['#0e7490', '#0891b2', '#06b6d4', '#22d3ee', '#155e75', '#164e63'],
-  'ai-ml': ['#be185d', '#db2777', '#ec4899', '#f472b6', '#9d174d', '#831843'],
+
+  'sec-ai-ml': ['#0891b2', '#06b6d4', '#0284c7', '#0369a1', '#2563eb', '#1d4ed8'],
+  'ai-ml': ['#0891b2', '#06b6d4', '#0284c7', '#0369a1', '#2563eb', '#1d4ed8'],
+
+  'sec-cloud-devops': ['#b45309', '#d97706', '#ea580c', '#c2410c', '#0d9488', '#0f766e'],
   cloud: ['#b45309', '#d97706', '#f59e0b', '#fbbf24', '#78350f', '#ca8a04'],
   devops: ['#0f766e', '#0d9488', '#14b8a6', '#2dd4bf', '#115e59', '#042f2e'],
-  security: ['#991b1b', '#b91c1c', '#dc2626', '#ef4444', '#7f1d1d', '#881337'],
+
+  // Humanities & Non-Technical Wings
+  'sec-devotional': ['#b45309', '#d97706', '#f59e0b', '#78350f', '#92400e', '#ca8a04'],
+  devotional: ['#b45309', '#d97706', '#f59e0b', '#78350f', '#92400e', '#ca8a04'],
+
+  'sec-english-language': ['#0284c7', '#0369a1', '#0ea5e9', '#38bdf8', '#1e40af', '#1d4ed8'],
+  english: ['#0284c7', '#0369a1', '#0ea5e9', '#38bdf8', '#1e40af', '#1d4ed8'],
+
+  'sec-novels-literature': ['#7e22ce', '#9333ea', '#a855f7', '#6b21a8', '#86198f', '#be185d'],
+  novels: ['#7e22ce', '#9333ea', '#a855f7', '#6b21a8', '#86198f', '#be185d'],
+
+  // Special Collections
   'must-learn': ['#b45309', '#d97706', '#f59e0b', '#eab308', '#ca8a04', '#92400e'],
   'current-focus': ['#b91c1c', '#dc2626', '#ef4444', '#ea580c', '#c2410c', '#991b1b'],
-  completed: ['#065f46', '#047857', '#059669', '#10b981', '#15803d', '#166534'],
 };
 
 export function getCuratedBookColor(category: string, priority: string, seed: number): string {
@@ -79,7 +104,8 @@ export function getCuratedBookColor(category: string, priority: string, seed: nu
   if (priority === 'CURRENT_FOCUS') {
     return '#dc2626'; // Vibrant flame ruby
   }
-  const palette = COLOR_PALETTES[category] || [
+  const cleanCat = category.toLowerCase().replace(/^sec-/, '');
+  const palette = COLOR_PALETTES[category] || COLOR_PALETTES[cleanCat] || [
     '#1e293b',
     '#334155',
     '#475569',
@@ -91,6 +117,96 @@ export function getCuratedBookColor(category: string, priority: string, seed: nu
   return palette[idx];
 }
 
+/**
+ * Dynamically assign anchor positions to sections based on wing and count
+ * to prevent physical collisions as new sections are created (Rule 36, 37, 39, 76)
+ */
+function resolveDynamicSectionAnchors(sections: Section[]): Map<string, [number, number, number]> {
+  const anchors = new Map<string, [number, number, number]>();
+
+  // Pre-configured primary anchor slots per wing
+  const wingSlots: Record<WingType, [number, number, number][]> = {
+    // West Wing: Technical / Programming (x < 0)
+    west: [
+      [-17, 0, 8],
+      [-17, 0, -8],
+      [-17, 0, -24],
+      [-26, 0, 8],
+      [-26, 0, -8],
+      [-26, 0, -24],
+    ],
+    // East Wing: Databases / Cloud / DevOps / AI (x > 0)
+    east: [
+      [17, 0, 8],
+      [17, 0, -8],
+      [17, 0, -24],
+      [26, 0, 8],
+      [26, 0, -8],
+      [26, 0, -24],
+    ],
+    // Central Grand Hall
+    central: [
+      [-5.5, 0, -10],
+      [5.5, 0, -10],
+      [-5.5, 0, -26],
+      [5.5, 0, -26],
+    ],
+    // Handbooks Pavilion (Rule 4: Dedicated Major Wing)
+    handbooks: [
+      [17, 0, 20],
+      [26, 0, 20],
+      [17, 0, 28],
+    ],
+    // North Wing / Humanities: Literature, Devotional, English
+    north: [
+      [-12, 0, -42],
+      [0, 0, -42],
+      [12, 0, -42],
+      [-12, 0, -52],
+      [12, 0, -52],
+    ],
+    humanities: [
+      [-12, 0, -42],
+      [0, 0, -42],
+      [12, 0, -42],
+    ],
+    south: [
+      [-10, 0, 24],
+      [10, 0, 24],
+    ],
+  };
+
+  const wingCounts: Record<string, number> = {};
+
+  sections.forEach((sec) => {
+    // If the section already has a non-zero anchor and is one of the initial anchors, we can preserve it
+    const hasExistingAnchor =
+      sec.anchorPosition &&
+      (Math.abs(sec.anchorPosition[0]) > 0.1 || Math.abs(sec.anchorPosition[2]) > 0.1);
+
+    if (hasExistingAnchor) {
+      anchors.set(sec.id, sec.anchorPosition);
+      return;
+    }
+
+    const wing = sec.wing || (sec.isHandbookSection ? 'handbooks' : 'central');
+    const slotList = wingSlots[wing] || wingSlots.central;
+    const currentIdx = wingCounts[wing] || 0;
+    wingCounts[wing] = currentIdx + 1;
+
+    if (currentIdx < slotList.length) {
+      anchors.set(sec.id, slotList[currentIdx]);
+    } else {
+      // Gracefully generate next offset position in that wing
+      const base = slotList[slotList.length - 1];
+      const extraOffsetZ = (currentIdx - slotList.length + 1) * -12;
+      anchors.set(sec.id, [base[0], base[1], base[2] + extraOffsetZ]);
+    }
+  });
+
+  return anchors;
+}
+
 export function computeLibraryPlacements(
   sections: Section[],
   resources: Resource[]
@@ -98,20 +214,31 @@ export function computeLibraryPlacements(
   const sectionMap = new Map<string, Section>();
   sections.forEach((s) => sectionMap.set(s.id, s));
 
+  const resolvedAnchors = resolveDynamicSectionAnchors(sections);
+
   // Group resources by section
   const resourcesBySection = new Map<string, Resource[]>();
   sections.forEach((s) => resourcesBySection.set(s.id, []));
 
   resources.forEach((res) => {
-    let matchedSec = sections.find(
-      (s) => s.id === res.category || s.name.toLowerCase() === res.category.toLowerCase()
-    );
+    // Rule 4: Handbooks strictly go to handbooks section if available
+    let matchedSec: Section | undefined;
+    if (res.resourceType === 'HANDBOOK') {
+      matchedSec = sections.find((s) => s.isHandbookSection || s.id === 'sec-handbooks');
+    }
 
-    if (!matchedSec && res.priority === 'MUST_LEARN') {
-      matchedSec = sectionMap.get('must-learn');
-    } else if (!matchedSec && res.priority === 'CURRENT_FOCUS') {
-      matchedSec = sectionMap.get('current-focus');
-    } else if (!matchedSec) {
+    if (!matchedSec) {
+      matchedSec = sections.find(
+        (s) => s.id === res.category || s.name.toLowerCase() === res.category.toLowerCase()
+      );
+    }
+
+    if (!matchedSec) {
+      // Find by topic or keyword
+      matchedSec = sections.find((s) => s.subSections.includes(res.subCategory));
+    }
+
+    if (!matchedSec && sections.length > 0) {
       matchedSec = sections[0];
     }
 
@@ -131,8 +258,8 @@ export function computeLibraryPlacements(
   const SHELF_HEIGHT = 2.6;
   const SHELF_DEPTH = 0.65;
   const ROW_COUNT = 3;
-  // Row heights relative to shelf base
-  const ROW_Y_OFFSETS = [1.88, 1.14, 0.40]; // [Top, Middle, Bottom]
+  // Row heights relative to shelf base: [Top, Middle, Bottom]
+  const ROW_Y_OFFSETS = [1.88, 1.14, 0.40];
   const USABLE_WIDTH = 3.2;
 
   sections.forEach((section) => {
@@ -147,13 +274,14 @@ export function computeLibraryPlacements(
     tier1.sort((a, b) => a.title.localeCompare(b.title));
     tier2.sort((a, b) => a.title.localeCompare(b.title));
 
+    // Dynamic Shelf Scaling (Rule 39, 76, 77)
     const maxBooksInAnyTier = Math.max(tier0.length, tier1.length, tier2.length, 1);
     const booksPerShelfRow = 14;
     const shelvesNeededPerSide = Math.max(1, Math.ceil(maxBooksInAnyTier / booksPerShelfRow));
     const totalShelvesForSection = shelvesNeededPerSide * 2;
 
     const sectionShelves: ShelfInfo[] = [];
-    const [secX, secY, secZ] = section.anchorPosition;
+    const [secX, secY, secZ] = resolvedAnchors.get(section.id) || section.anchorPosition || [0, 0, 0];
     const aisleHalfWidth = 2.2;
     const shelfSpacingZ = 4.2;
 
@@ -196,11 +324,9 @@ export function computeLibraryPlacements(
         const bookHeight = 0.40 + ((rnd * 13) % 1) * 0.12; // 0.40 - 0.52m
         const bookDepth = 0.28 + ((rnd * 7) % 1) * 0.06; // 0.28 - 0.34m
 
-        // Realistic subtle imperfections:
-        // Some books lean slightly (1 out of ~6 books)
+        // Realistic subtle physical imperfections
         const isTilted = rnd2 > 0.82;
-        const tiltZ = isTilted ? (rnd2 - 0.82) * 0.6 : 0; // ~0.05 to 0.1 rad
-        // Slight push forward/back variation (1-2 cm)
+        const tiltZ = isTilted ? (rnd2 - 0.82) * 0.6 : 0;
         const pushOffset = (rnd - 0.5) * 0.03;
 
         // Curated book color
@@ -255,15 +381,18 @@ export function computeLibraryPlacements(
         };
 
         allPlacedResources.push(placedResource);
-        // Realistic small gap variation between books
         currentXOnShelf += bookThickness + (0.02 + rnd * 0.025);
       });
     });
 
     sectionPlacements.set(section.id, {
-      section,
+      section: {
+        ...section,
+        anchorPosition: [secX, secY, secZ],
+      },
       shelves: sectionShelves,
       resources: allPlacedResources.filter((r) => r.location?.sectionId === section.id),
+      centerPosition: [secX, secY, secZ],
     });
   });
 

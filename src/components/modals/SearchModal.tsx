@@ -52,8 +52,9 @@ export const SearchModal: React.FC = () => {
         r.title.toLowerCase().includes(q) ||
         r.author.toLowerCase().includes(q) ||
         r.category.toLowerCase().includes(q) ||
-        r.subCategory.toLowerCase().includes(q) ||
-        r.description.toLowerCase().includes(q) ||
+        (r.description?.toLowerCase().includes(q) ?? false) ||
+        (r.summary?.toLowerCase().includes(q) ?? false) ||
+        (r.whatIsThisBookFor?.toLowerCase().includes(q) ?? false) ||
         r.tags.some((t) => t.toLowerCase().includes(q))
       );
     });

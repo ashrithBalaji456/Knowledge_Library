@@ -1,6 +1,21 @@
 import { Section } from '../types/library';
 
 export const INITIAL_SECTIONS: Section[] = [
+  // --- DEDICATED HANDBOOKS PAVILION (Rule 4: Separate Major Section) ---
+  {
+    id: 'sec-handbooks',
+    name: 'Handbooks & Reference Pavilion',
+    code: 'HAND',
+    description: 'Dedicated collection of pocket guides, cheat sheets, interview handbooks, and quick reference manuals.',
+    icon: '📚',
+    color: '#c2410c', // Terracotta Amber
+    accentColor: '#fb923c',
+    subSections: ['Java & JVM Handbooks', 'Spring & Backend Quickstart', 'SQL & DB Cheatsheets', 'Cloud & DevOps References', 'Interview Handbooks'],
+    wing: 'handbooks',
+    anchorPosition: [17, 0, 22],
+    rotationY: 0,
+    isHandbookSection: true,
+  },
   {
     id: 'must-learn',
     name: 'Must Learn & Essentials',
@@ -155,6 +170,46 @@ export const INITIAL_SECTIONS: Section[] = [
     subSections: ['Finished Books', 'Completed Courses', 'Archived Research'],
     wing: 'central',
     anchorPosition: [0, 0, -14],
+    rotationY: 0,
+  },
+  // --- NON-TECHNICAL & HUMANITIES WINGS (Rules 3 & 37) ---
+  {
+    id: 'sec-devotional',
+    name: 'Devotional & Spiritual Wisdom',
+    code: 'SPIRIT',
+    description: 'Timeless spiritual scriptures, Bhagavad Gita, Upanishads, and meditation philosophy.',
+    icon: '🕊️',
+    color: '#b45309', // Warm Ochre / Saffron
+    accentColor: '#f59e0b',
+    subSections: ['Bhagavad Gita', 'Upanishads & Vedanta', 'Spirituality & Meditation', 'Devotional Classics'],
+    wing: 'north',
+    anchorPosition: [-12, 0, -42],
+    rotationY: 0,
+  },
+  {
+    id: 'sec-english-language',
+    name: 'English & Communication',
+    code: 'ENG',
+    description: 'Grammar mechanics, vocabulary enrichment, active speaking fluency, and rhetoric.',
+    icon: '🗣️',
+    color: '#0284c7', // Sky Blue
+    accentColor: '#38bdf8',
+    subSections: ['Grammar & Syntax', 'Vocabulary & Idioms', 'Communication & Speaking', 'Professional Writing'],
+    wing: 'north',
+    anchorPosition: [0, 0, -42],
+    rotationY: 0,
+  },
+  {
+    id: 'sec-novels-literature',
+    name: 'Literature & Novels',
+    code: 'NOVEL',
+    description: 'Classic literature, science fiction, suspense thrillers, and acclaimed masterpieces.',
+    icon: '📖',
+    color: '#9333ea', // Royal Purple
+    accentColor: '#c084fc',
+    subSections: ['Classic Literature', 'Science Fiction & Fantasy', 'Mystery & Thriller', 'Contemporary Fiction'],
+    wing: 'north',
+    anchorPosition: [12, 0, -42],
     rotationY: 0,
   },
 ];
