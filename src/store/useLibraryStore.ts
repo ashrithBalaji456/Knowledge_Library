@@ -130,13 +130,23 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection from python to ml
+const STORAGE_KEY = 'pk_library_resources_v5_python_ml';
+
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
-      const raw = localStorage.getItem('pk_library_resources_v3');
+      // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v3');
+      localStorage.removeItem('pk_library_resources_v2');
+      localStorage.removeItem('pk_library_resources');
+
+      const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        // Ensure stored resources are the authentic local books and not stale mock items
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed.some((r) => r.id && r.id.startsWith('res-local-'))) {
+          return parsed;
+        }
       }
     }
   } catch (e) {
@@ -150,7 +160,7 @@ function saveStoredResources(resources: Resource[]) {
     if (typeof window !== 'undefined') {
       // Don't save large blob URLs to localStorage to avoid quota overflow
       const sanitized = resources.map(({ fileDataUrl, ...rest }) => rest);
-      localStorage.setItem('pk_library_resources_v3', JSON.stringify(sanitized));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
     }
   } catch (e) {
     console.warn('Could not persist library to localStorage:', e);
@@ -538,7 +548,7 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
 
   loadSampleDemoCollection: () => {
     sound.playChime();
-    const newPlacement = computeLibraryPlacements(INITIAL_SECTIONS, INITIAL_RESOURCES);
+    const newPlacement = computeLibraryPlacements(INITIAL_SECTIONS, PYTHON_TO_ML_RESOURCES);
     saveStoredResources(newPlacement.placedResources);
     set({
       sections: INITIAL_SECTIONS,

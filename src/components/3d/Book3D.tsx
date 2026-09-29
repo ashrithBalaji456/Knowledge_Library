@@ -166,6 +166,9 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
       map: coverTexture,
       roughness: 0.38,
       metalness: 0.05,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
       emissive: isMustLearn
         ? new THREE.Color('#D97706')
         : isCurrentFocus

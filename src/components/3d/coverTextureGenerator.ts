@@ -11,8 +11,9 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   }
 
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 720;
+  // High-definition 1024x1440 canvas for ultra-crisp publisher-quality book covers
+  canvas.width = 1024;
+  canvas.height = 1440;
   const ctx = canvas.getContext('2d');
   if (!ctx) {
     const fallback = new THREE.CanvasTexture(canvas);
@@ -25,326 +26,499 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const subCategory = resource.subCategory || '';
   const pages = resource.pages || resource.totalPages || 0;
 
-  // 1. Rich Background with Spine Hinge Gradient
-  const bgGrad = ctx.createLinearGradient(0, 0, 512, 720);
-  bgGrad.addColorStop(0, adjustBrightness(bookColor, -0.15));
-  bgGrad.addColorStop(0.5, bookColor);
-  bgGrad.addColorStop(1, adjustBrightness(bookColor, -0.3));
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, 512, 720);
+  // Detect domain theme
+  const isPython = category.includes('python') || title.toLowerCase().includes('python');
+  const isML = category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural');
+  const isData = category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas');
+  const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
+  const isProject = category.includes('project') || title.toLowerCase().includes('project') || title.toLowerCase().includes('code');
+  const isHandbook = category.includes('handbook') || category.includes('cheat') || title.toLowerCase().includes('cheat') || title.toLowerCase().includes('quick');
 
-  // Subtle linen/leather grain overlay
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-  for (let i = 0; i < 720; i += 4) {
-    ctx.fillRect(0, i, 512, 1.5);
+  // --- 1. RICH BACKGROUND & COLOR PALETTE ---
+  let topBg = '#0B192C';
+  let midBg = '#1E3E62';
+  let botBg = '#06141D';
+  let primaryAccent = '#38BDF8';
+  let secondaryAccent = '#FBBF24';
+  let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
+
+  if (isML) {
+    topBg = '#1E1035';
+    midBg = '#3B185F';
+    botBg = '#100720';
+    primaryAccent = '#A78BFA';
+    secondaryAccent = '#38BDF8';
+    seriesLabel = 'ARTIFICIAL INTELLIGENCE & DEEP LEARNING';
+  } else if (isData) {
+    topBg = '#042F2E';
+    midBg = '#0D9488';
+    botBg = '#022020';
+    primaryAccent = '#2DD4BF';
+    secondaryAccent = '#FDE68A';
+    seriesLabel = 'DATA SCIENCE & STATISTICAL COMPUTING';
+  } else if (isInterview) {
+    topBg = '#2A080C';
+    midBg = '#991B1B';
+    botBg = '#1A0407';
+    primaryAccent = '#F87171';
+    secondaryAccent = '#FBBF24';
+    seriesLabel = 'TECHNICAL INTERVIEW MASTERY';
+  } else if (isHandbook) {
+    topBg = '#2D1305';
+    midBg = '#9A3412';
+    botBg = '#1C0B03';
+    primaryAccent = '#FB923C';
+    secondaryAccent = '#FDE68A';
+    seriesLabel = 'QUICK REFERENCE HANDBOOK & CHEATSHEET';
+  } else if (isProject) {
+    topBg = '#0F0C29';
+    midBg = '#302B63';
+    botBg = '#0B081E';
+    primaryAccent = '#818CF8';
+    secondaryAccent = '#34D399';
+    seriesLabel = 'APPLIED DATA SCIENCE & AI PROJECTS';
   }
 
-  // Realistic spine hinge groove on left edge
-  const hingeGrad = ctx.createLinearGradient(0, 0, 36, 0);
-  hingeGrad.addColorStop(0, 'rgba(0, 0, 0, 0.6)');
-  hingeGrad.addColorStop(0.6, 'rgba(0, 0, 0, 0.15)');
-  hingeGrad.addColorStop(0.9, 'rgba(255, 255, 255, 0.12)');
-  hingeGrad.addColorStop(1, 'rgba(0, 0, 0, 0.25)');
-  ctx.fillStyle = hingeGrad;
-  ctx.fillRect(0, 0, 36, 720);
+  const bgGrad = ctx.createLinearGradient(0, 0, 1024, 1440);
+  bgGrad.addColorStop(0, topBg);
+  bgGrad.addColorStop(0.5, midBg);
+  bgGrad.addColorStop(1, botBg);
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 1024, 1440);
 
-  // Gold foil vertical crease line
+  // Subtle linen / woven texture overlay
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.025)';
+  for (let y = 0; y < 1440; y += 4) {
+    ctx.fillRect(0, y, 1024, 1.5);
+  }
+  for (let x = 0; x < 1024; x += 4) {
+    ctx.fillRect(x, 0, 1.5, 1440);
+  }
+
+  // --- 2. SPINE HINGE SHADOW & GOLD FOIL CREASE ---
+  const hingeGrad = ctx.createLinearGradient(0, 0, 64, 0);
+  hingeGrad.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+  hingeGrad.addColorStop(0.5, 'rgba(0, 0, 0, 0.2)');
+  hingeGrad.addColorStop(0.85, 'rgba(255, 255, 255, 0.1)');
+  hingeGrad.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
+  ctx.fillStyle = hingeGrad;
+  ctx.fillRect(0, 0, 64, 1440);
+
   ctx.strokeStyle = '#D4AF37';
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.moveTo(34, 0);
-  ctx.lineTo(34, 720);
+  ctx.moveTo(60, 0);
+  ctx.lineTo(60, 1440);
   ctx.stroke();
 
-  // 2. Ornate Gold Foil Outer & Inner Borders
-  const margin = 42;
-  ctx.strokeStyle = '#F3D270';
-  ctx.lineWidth = 2.5;
-  ctx.strokeRect(margin, margin, 512 - margin * 2, 720 - margin * 2);
+  // --- 3. ORNATE PUBLISHER GOLD FOIL BORDERS & CORNERS ---
+  const margin = 76;
+  ctx.strokeStyle = '#FDE68A';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(margin, margin, 1024 - margin * 2, 1440 - margin * 2);
 
-  ctx.strokeStyle = '#B38B28';
-  ctx.lineWidth = 1.0;
-  ctx.strokeRect(margin + 5, margin + 5, 512 - (margin + 5) * 2, 720 - (margin + 5) * 2);
+  ctx.strokeStyle = primaryAccent;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(margin + 10, margin + 10, 1024 - (margin + 10) * 2, 1440 - (margin + 10) * 2);
 
-  // Gold Corner Ornaments
+  // Corner gold diamond ornaments
   drawCornerDiamond(ctx, margin, margin);
-  drawCornerDiamond(ctx, 512 - margin, margin);
-  drawCornerDiamond(ctx, margin, 720 - margin);
-  drawCornerDiamond(ctx, 512 - margin, 720 - margin);
+  drawCornerDiamond(ctx, 1024 - margin, margin);
+  drawCornerDiamond(ctx, margin, 1440 - margin);
+  drawCornerDiamond(ctx, 1024 - margin, 1440 - margin);
 
-  // 3. Top Series / Technology Ribbon
-  let seriesName = 'LIBRARY EDITION';
-  if (category.includes('python')) seriesName = 'PYTHON PROGRAMMING SERIES';
-  else if (category.includes('ml') || category.includes('ai')) seriesName = 'ARTIFICIAL INTELLIGENCE & ML';
-  else if (category.includes('data')) seriesName = 'DATA SCIENCE & COMPUTING';
-  else if (category.includes('handbook')) seriesName = 'QUICK REFERENCE HANDBOOK';
-  else if (category.includes('interview')) seriesName = 'INTERVIEW MASTERY GUIDE';
-  else if (category.includes('project')) seriesName = 'APPLIED ENGINEERING LAB';
-  else if (category.includes('java')) seriesName = 'ENTERPRISE JAVA SERIES';
+  // --- 4. TOP SERIES HEADER BANNER ---
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+  roundRect(ctx, 180, margin + 24, 664, 52, 26);
+  ctx.fill();
+  ctx.strokeStyle = secondaryAccent;
+  ctx.lineWidth = 2;
+  roundRect(ctx, 180, margin + 24, 664, 52, 26);
+  ctx.stroke();
 
-  ctx.font = '700 13px "Inter", "Segoe UI", sans-serif';
-  ctx.fillStyle = '#FDE68A';
+  ctx.font = '700 20px "Outfit", "Inter", sans-serif';
+  ctx.fillStyle = secondaryAccent;
   ctx.textAlign = 'center';
-  ctx.letterSpacing = '2px';
-  ctx.fillText(`✦ ${seriesName} ✦`, 256, margin + 28);
+  ctx.textBaseline = 'middle';
+  ctx.fillText(`✦ ${seriesLabel} ✦`, 512, margin + 50);
 
-  // Decorative divider
-  ctx.fillStyle = '#E5C158';
-  ctx.fillRect(156, margin + 38, 200, 1.5);
-
-  // 4. Main Book Title
+  // --- 5. MAIN BOOK TITLE ---
   ctx.save();
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
-  ctx.shadowBlur = 8;
-  ctx.shadowOffsetY = 3;
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 6;
 
   ctx.fillStyle = '#FFFFFF';
   ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
 
-  const titleLines = wrapText(title, 20);
-  let fontSize = 34;
-  if (titleLines.length > 3) fontSize = 26;
-  else if (titleLines.length === 3) fontSize = 30;
+  const titleLines = wrapText(title, 22);
+  let fontSize = 56;
+  if (titleLines.length >= 4) fontSize = 42;
+  else if (titleLines.length === 3) fontSize = 48;
 
-  ctx.font = `800 ${fontSize}px "Outfit", "Inter", sans-serif`;
+  ctx.font = `900 ${fontSize}px "Outfit", "Inter", sans-serif`;
+  const titleStartY = margin + 115 + (3 - Math.min(3, titleLines.length)) * 14;
 
-  const titleStartY = margin + 85 + (3 - Math.min(3, titleLines.length)) * 10;
   titleLines.slice(0, 4).forEach((line, idx) => {
-    ctx.fillText(line, 256, titleStartY + idx * (fontSize * 1.22));
+    ctx.fillText(line, 512, titleStartY + idx * (fontSize * 1.25));
   });
   ctx.restore();
 
-  // 5. Center Topic Visual Emblem
-  const emblemCenterY = 385;
-  drawCoverEmblem(ctx, category, title, emblemCenterY);
+  // Subtle separator line under title
+  const sepY = titleStartY + Math.min(4, titleLines.length) * (fontSize * 1.25) + 18;
+  const sepGrad = ctx.createLinearGradient(256, 0, 768, 0);
+  sepGrad.addColorStop(0, 'rgba(253, 230, 138, 0)');
+  sepGrad.addColorStop(0.5, secondaryAccent);
+  sepGrad.addColorStop(1, 'rgba(253, 230, 138, 0)');
+  ctx.fillStyle = sepGrad;
+  ctx.fillRect(256, sepY, 512, 3);
 
-  // 6. Subcategory Banner
+  // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
+  const emblemCenterY = 790;
+  drawThematicArtwork(ctx, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+
+  // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
-    ctx.font = '600 14px "Inter", sans-serif';
-    ctx.fillStyle = '#CBD5E1';
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
+    roundRect(ctx, 220, emblemCenterY + 180, 584, 46, 23);
+    ctx.fill();
+    ctx.strokeStyle = primaryAccent;
+    ctx.lineWidth = 1.5;
+    roundRect(ctx, 220, emblemCenterY + 180, 584, 46, 23);
+    ctx.stroke();
+
+    ctx.font = '700 19px "Inter", sans-serif';
+    ctx.fillStyle = '#E2E8F0';
     ctx.textAlign = 'center';
-    ctx.fillText(subCategory.toUpperCase(), 256, emblemCenterY + 110);
+    ctx.textBaseline = 'middle';
+    ctx.fillText(subCategory.toUpperCase(), 512, emblemCenterY + 203);
   }
 
-  // 7. Author Section
-  ctx.fillStyle = '#E5C158';
-  ctx.fillRect(176, 545, 160, 1.5);
+  // --- 8. AUTHOR ATTRIBUTION ---
+  ctx.fillStyle = secondaryAccent;
+  ctx.fillRect(356, 1110, 312, 2);
 
-  ctx.font = '500 13px "Inter", sans-serif';
+  ctx.font = '600 18px "Inter", sans-serif';
   ctx.fillStyle = '#94A3B8';
   ctx.textAlign = 'center';
-  ctx.fillText('WRITTEN BY', 256, 570);
+  ctx.fillText('CURATED & AUTHORED BY', 512, 1145);
 
-  ctx.font = '700 20px "Outfit", "Inter", sans-serif';
+  ctx.font = '800 32px "Outfit", "Inter", sans-serif';
   ctx.fillStyle = '#F8FAFC';
   let displayAuthor = author;
-  if (displayAuthor.length > 28) displayAuthor = displayAuthor.slice(0, 26) + '..';
-  ctx.fillText(displayAuthor, 256, 598);
+  if (displayAuthor.length > 30) displayAuthor = displayAuthor.slice(0, 28) + '..';
+  ctx.fillText(displayAuthor, 512, 1190);
 
-  // 8. Bottom Page Count / Verification Foil Badge
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-  roundRect(ctx, 136, 626, 240, 32, 16);
+  // --- 9. VERIFIED PUBLISHER BADGE AT BOTTOM ---
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+  roundRect(ctx, 240, 1260, 544, 52, 26);
   ctx.fill();
   ctx.strokeStyle = '#D4AF37';
-  ctx.lineWidth = 1.2;
-  roundRect(ctx, 136, 626, 240, 32, 16);
+  ctx.lineWidth = 2;
+  roundRect(ctx, 240, 1260, 544, 52, 26);
   ctx.stroke();
 
-  ctx.font = '700 12px "Inter", monospace';
+  ctx.font = '700 18px "Inter", monospace';
   ctx.fillStyle = '#FDE68A';
   ctx.textAlign = 'center';
-  const pageLabel = pages > 0 ? `${pages} PAGES • VERIFIED TOME` : 'DIGITAL EDITION';
-  ctx.fillText(pageLabel, 256, 647);
+  ctx.textBaseline = 'middle';
+  const pageLabel = pages > 0 ? `${pages} PAGES  •  AUTHENTIC VERIFIED TOME` : 'MASTER REPOSITORY EDITION';
+  ctx.fillText(pageLabel, 512, 1286);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.ClampToEdgeWrapping;
   texture.wrapT = THREE.ClampToEdgeWrapping;
+  texture.anisotropy = 4;
   COVER_TEXTURE_CACHE.set(key, texture);
   return texture;
 }
 
-// Draw specialized domain emblems
-function drawCoverEmblem(ctx: CanvasRenderingContext2D, category: string, title: string, cy: number) {
-  const cx = 256;
-  const t = title.toLowerCase();
-
+// Draw specialized, publisher-grade vector illustrations
+function drawThematicArtwork(
+  ctx: CanvasRenderingContext2D,
+  isPython: boolean,
+  isML: boolean,
+  isData: boolean,
+  isInterview: boolean,
+  isProject: boolean,
+  isHandbook: boolean,
+  cy: number,
+  primaryColor: string,
+  secondaryColor: string
+) {
+  const cx = 512;
   ctx.save();
 
-  // Subtle circular halo backdrop
-  const halo = ctx.createRadialGradient(cx, cy, 10, cx, cy, 80);
-  halo.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
-  halo.addColorStop(0.7, 'rgba(255, 255, 255, 0.04)');
-  halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
-  ctx.fillStyle = halo;
+  // Background radiant circular aura
+  const aura = ctx.createRadialGradient(cx, cy, 20, cx, cy, 160);
+  aura.addColorStop(0, 'rgba(255, 255, 255, 0.16)');
+  aura.addColorStop(0.6, 'rgba(255, 255, 255, 0.03)');
+  aura.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = aura;
   ctx.beginPath();
-  ctx.arc(cx, cy, 80, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.strokeStyle = '#FDE68A';
-  ctx.lineWidth = 2.5;
-
-  if (category.includes('python') || t.includes('python')) {
-    // Stylized Python Interlocking Emblems
-    // Top blue-gold loop
-    ctx.strokeStyle = '#38BDF8';
-    ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
-    ctx.beginPath();
-    ctx.arc(cx - 14, cy - 14, 28, Math.PI * 0.5, Math.PI * 2);
-    ctx.lineTo(cx + 8, cy - 42);
-    ctx.stroke();
-
-    // Eye dot
+  if (isPython) {
+    // --- ICONIC PYTHON DUAL SERPENTS IN HIGH FIDELITY ---
+    // Top Blue Serpent
     ctx.fillStyle = '#38BDF8';
+    ctx.strokeStyle = '#0284C7';
+    ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.arc(cx - 24, cy - 24, 4, 0, Math.PI * 2);
+    ctx.roundRect(cx - 90, cy - 80, 110, 85, [35, 35, 10, 35]);
     ctx.fill();
-
-    // Bottom yellow-gold loop
-    ctx.strokeStyle = '#FBBF24';
-    ctx.fillStyle = 'rgba(251, 191, 36, 0.25)';
-    ctx.beginPath();
-    ctx.arc(cx + 14, cy + 14, 28, Math.PI * 1.5, Math.PI);
-    ctx.lineTo(cx - 8, cy + 42);
     ctx.stroke();
 
-    // Bottom Eye dot
-    ctx.fillStyle = '#FBBF24';
     ctx.beginPath();
-    ctx.arc(cx + 24, cy + 24, 4, 0, Math.PI * 2);
+    ctx.roundRect(cx - 30, cy - 80, 75, 45, [15, 35, 35, 10]);
     ctx.fill();
-  } else if (category.includes('ml') || category.includes('ai') || t.includes('neural') || t.includes('learning')) {
-    // Multi-layer Neural Network Synapse Graphic
-    const l1 = [cy - 35, cy, cy + 35];
-    const l2 = [cy - 48, cy - 16, cy + 16, cy + 48];
-    const l3 = [cy - 20, cy + 20];
+    ctx.stroke();
 
-    // Synapses
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
-    ctx.lineWidth = 1.2;
-    l1.forEach((y1) => {
-      l2.forEach((y2) => {
+    // Eye 1
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(cx - 50, cy - 50, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#0F172A';
+    ctx.beginPath();
+    ctx.arc(cx - 50, cy - 50, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Bottom Yellow Serpent
+    ctx.fillStyle = '#FBBF24';
+    ctx.strokeStyle = '#D97706';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.roundRect(cx - 20, cy - 5, 110, 85, [10, 35, 35, 35]);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.roundRect(cx - 45, cy + 35, 75, 45, [35, 10, 15, 35]);
+    ctx.fill();
+    ctx.stroke();
+
+    // Eye 2
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(cx + 50, cy + 50, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#0F172A';
+    ctx.beginPath();
+    ctx.arc(cx + 50, cy + 50, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Code syntax watermark in background
+    ctx.font = '600 16px "Inter", monospace';
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+    ctx.textAlign = 'center';
+    ctx.fillText('def __init__(self, data): self.model = Pipeline()', cx, cy - 110);
+    ctx.fillText('from typing import List, Dict, Optional, Tuple', cx, cy + 120);
+
+  } else if (isML) {
+    // --- LUMINOUS MULTI-LAYER DEEP NEURAL NETWORK ---
+    const layer1 = [cy - 70, cy - 25, cy + 25, cy + 70];
+    const layer2 = [cy - 90, cy - 45, cy, cy + 45, cy + 90];
+    const layer3 = [cy - 60, cy, cy + 60];
+    const layer4 = [cy - 30, cy + 30];
+
+    const x1 = cx - 130;
+    const x2 = cx - 45;
+    const x3 = cx + 45;
+    const x4 = cx + 130;
+
+    // Synaptic connection lines
+    ctx.strokeStyle = 'rgba(167, 139, 250, 0.45)';
+    ctx.lineWidth = 2.0;
+
+    layer1.forEach((y1) => {
+      layer2.forEach((y2) => {
         ctx.beginPath();
-        ctx.moveTo(cx - 55, y1);
-        ctx.lineTo(cx, y2);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.stroke();
       });
     });
-    l2.forEach((y2) => {
-      l3.forEach((y3) => {
+
+    layer2.forEach((y2) => {
+      layer3.forEach((y3) => {
         ctx.beginPath();
-        ctx.moveTo(cx, y2);
-        ctx.lineTo(cx + 55, y3);
+        ctx.moveTo(x2, y2);
+        ctx.lineTo(x3, y3);
         ctx.stroke();
       });
     });
 
-    // Nodes
-    ctx.fillStyle = '#38BDF8';
-    l1.forEach((y) => {
-      ctx.beginPath();
-      ctx.arc(cx - 55, y, 6, 0, Math.PI * 2);
-      ctx.fill();
+    layer3.forEach((y3) => {
+      layer4.forEach((y4) => {
+        ctx.beginPath();
+        ctx.moveTo(x3, y3);
+        ctx.lineTo(x4, y4);
+        ctx.stroke();
+      });
     });
-    ctx.fillStyle = '#FBBF24';
-    l2.forEach((y) => {
-      ctx.beginPath();
-      ctx.arc(cx, y, 7, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.fillStyle = '#34D399';
-    l3.forEach((y) => {
-      ctx.beginPath();
-      ctx.arc(cx + 55, y, 6, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  } else if (category.includes('data') || t.includes('numpy') || t.includes('pandas') || t.includes('stats')) {
-    // Data Distribution Gaussian Curve & Histogram Bars
-    ctx.strokeStyle = '#22D3EE';
-    ctx.lineWidth = 2.5;
 
-    // Normal curve
+    // Luminous nodes
+    const drawNodes = (xs: number, ys: number[], color: string, radius: number) => {
+      ys.forEach((y) => {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(xs, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+    };
+
+    drawNodes(x1, layer1, '#38BDF8', 11);
+    drawNodes(x2, layer2, '#A78BFA', 13);
+    drawNodes(x3, layer3, '#F472B6', 13);
+    drawNodes(x4, layer4, '#FBBF24', 12);
+
+    ctx.font = '700 17px "Inter", monospace';
+    ctx.fillStyle = 'rgba(251, 191, 36, 0.7)';
+    ctx.textAlign = 'center';
+    ctx.fillText('y = Softmax(Wᵀ · x + b)', cx, cy + 125);
+
+  } else if (isData) {
+    // --- GAUSSIAN BELL CURVE & ANALYTICS HISTOGRAM ---
+    ctx.strokeStyle = primaryColor;
+    ctx.lineWidth = 4;
+
+    // Bell curve
     ctx.beginPath();
-    for (let x = -60; x <= 60; x += 3) {
-      const g = Math.exp(-(x * x) / (2 * 24 * 24));
-      const py = cy + 25 - g * 60;
-      if (x === -60) ctx.moveTo(cx + x, py);
+    for (let x = -130; x <= 130; x += 4) {
+      const g = Math.exp(-(x * x) / (2 * 45 * 45));
+      const py = cy + 50 - g * 120;
+      if (x === -130) ctx.moveTo(cx + x, py);
       else ctx.lineTo(cx + x, py);
     }
     ctx.stroke();
 
-    // Bar chart underneath
-    ctx.fillStyle = 'rgba(34, 211, 238, 0.35)';
-    const barWidth = 10;
-    const heights = [18, 32, 50, 42, 26, 14];
+    // Histogram bars under bell curve
+    ctx.fillStyle = 'rgba(45, 212, 191, 0.35)';
+    const barW = 20;
+    const heights = [20, 45, 80, 115, 120, 110, 75, 40, 18];
     heights.forEach((h, i) => {
-      const bx = cx - 35 + i * (barWidth + 3);
-      ctx.fillRect(bx, cy + 28 - h, barWidth, h);
+      const bx = cx - 95 + i * (barW + 3);
+      ctx.fillRect(bx, cy + 50 - h, barW, h);
     });
 
-    // Axis line
+    // X-axis
     ctx.strokeStyle = '#E2E8F0';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(cx - 65, cy + 28);
-    ctx.lineTo(cx + 65, cy + 28);
-    ctx.stroke();
-  } else if (category.includes('handbook') || category.includes('cheat')) {
-    // Open Handbook / Shield Graphic
-    ctx.strokeStyle = '#FB923C';
     ctx.lineWidth = 3;
-    // Shield
     ctx.beginPath();
-    ctx.moveTo(cx, cy - 40);
-    ctx.lineTo(cx + 42, cy - 20);
-    ctx.lineTo(cx + 35, cy + 25);
-    ctx.lineTo(cx, cy + 50);
-    ctx.lineTo(cx - 35, cy + 25);
-    ctx.lineTo(cx - 42, cy - 20);
-    ctx.closePath();
+    ctx.moveTo(cx - 145, cy + 52);
+    ctx.lineTo(cx + 145, cy + 52);
     ctx.stroke();
 
-    // Checkmark inside
-    ctx.strokeStyle = '#FDE68A';
-    ctx.lineWidth = 3.5;
+    // Standard deviation markings
+    ctx.font = '700 16px "Inter", monospace';
+    ctx.fillStyle = '#FDE68A';
+    ctx.textAlign = 'center';
+    ctx.fillText('-2σ          -1σ          μ          +1σ          +2σ', cx, cy + 76);
+
+  } else if (isInterview) {
+    // --- TARGET BULLSEYE & CODING ROADMAP ICON ---
+    // Concentric rings
+    ctx.strokeStyle = '#EF4444';
+    ctx.lineWidth = 5;
     ctx.beginPath();
-    ctx.moveTo(cx - 18, cy);
-    ctx.lineTo(cx - 4, cy + 15);
-    ctx.lineTo(cx + 20, cy - 12);
-    ctx.stroke();
-  } else if (category.includes('interview') || t.includes('interview')) {
-    // Bullseye Target & Arrow
-    ctx.strokeStyle = '#F59E0B';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 80, 0, Math.PI * 2);
     ctx.stroke();
 
     ctx.strokeStyle = '#FBBF24';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.arc(cx, cy, 24, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 50, 0, Math.PI * 2);
     ctx.stroke();
 
     ctx.fillStyle = '#EF4444';
     ctx.beginPath();
-    ctx.arc(cx, cy, 9, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 22, 0, Math.PI * 2);
     ctx.fill();
-  } else {
-    // Universal Knowledge Star / Diamond Emblem
+
+    // Crosshairs
     ctx.strokeStyle = '#FDE68A';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(cx, cy - 45);
-    ctx.lineTo(cx + 35, cy);
-    ctx.lineTo(cx, cy + 45);
-    ctx.lineTo(cx - 35, cy);
-    ctx.closePath();
+    ctx.moveTo(cx - 100, cy);
+    ctx.lineTo(cx + 100, cy);
+    ctx.moveTo(cx, cy - 100);
+    ctx.lineTo(cx, cy + 100);
     ctx.stroke();
 
-    ctx.fillStyle = '#FDE68A';
+    ctx.font = '700 17px "Inter", sans-serif';
+    ctx.fillStyle = '#FBBF24';
+    ctx.textAlign = 'center';
+    ctx.fillText('100+ SOLVED TECHNICAL CHALLENGES', cx, cy + 120);
+
+  } else if (isHandbook) {
+    // --- GOLDEN SHIELD OF REFERENCE ---
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 5;
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.2)';
     ctx.beginPath();
-    ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+    ctx.moveTo(cx, cy - 85);
+    ctx.lineTo(cx + 75, cy - 40);
+    ctx.lineTo(cx + 60, cy + 45);
+    ctx.lineTo(cx, cy + 90);
+    ctx.lineTo(cx - 60, cy + 45);
+    ctx.lineTo(cx - 75, cy - 40);
+    ctx.closePath();
     ctx.fill();
+    ctx.stroke();
+
+    // Checkmark inside shield
+    ctx.strokeStyle = '#FDE68A';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(cx - 32, cy);
+    ctx.lineTo(cx - 8, cy + 28);
+    ctx.lineTo(cx + 36, cy - 24);
+    ctx.stroke();
+
+    ctx.font = '700 17px "Inter", sans-serif';
+    ctx.fillStyle = '#FDE68A';
+    ctx.textAlign = 'center';
+    ctx.fillText('INSTANT CHEATSHEET & DESK REFERENCE', cx, cy + 125);
+
+  } else {
+    // --- APPLIED ENGINEERING TERMINAL & CODE ---
+    ctx.fillStyle = '#0F172A';
+    roundRect(ctx, cx - 140, cy - 70, 280, 140, 12);
+    ctx.fill();
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 3;
+    roundRect(ctx, cx - 140, cy - 70, 280, 140, 12);
+    ctx.stroke();
+
+    // Window controls
+    ctx.fillStyle = '#EF4444';
+    ctx.beginPath();
+    ctx.arc(cx - 118, cy - 50, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#FBBF24';
+    ctx.beginPath();
+    ctx.arc(cx - 100, cy - 50, 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#34D399';
+    ctx.beginPath();
+    ctx.arc(cx - 82, cy - 50, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Terminal lines
+    ctx.font = '600 15px "Inter", monospace';
+    ctx.fillStyle = '#38BDF8';
+    ctx.textAlign = 'left';
+    ctx.fillText('> git clone repo && cd app', cx - 120, cy - 20);
+    ctx.fillStyle = '#FBBF24';
+    ctx.fillText('> python run_model.py', cx - 120, cy + 10);
+    ctx.fillStyle = '#34D399';
+    ctx.fillText('> [200 OK] Deployed System', cx - 120, cy + 40);
   }
 
   ctx.restore();
@@ -352,12 +526,12 @@ function drawCoverEmblem(ctx: CanvasRenderingContext2D, category: string, title:
 
 // Helpers
 function drawCornerDiamond(ctx: CanvasRenderingContext2D, x: number, y: number) {
-  ctx.fillStyle = '#F3D270';
+  ctx.fillStyle = '#FDE68A';
   ctx.beginPath();
-  ctx.moveTo(x, y - 6);
-  ctx.lineTo(x + 6, y);
-  ctx.lineTo(x, y + 6);
-  ctx.lineTo(x - 6, y);
+  ctx.moveTo(x, y - 10);
+  ctx.lineTo(x + 10, y);
+  ctx.lineTo(x, y + 10);
+  ctx.lineTo(x - 10, y);
   ctx.closePath();
   ctx.fill();
 }
@@ -374,18 +548,6 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.lineTo(x, y + r);
   ctx.quadraticCurveTo(x, y, x + r, y);
   ctx.closePath();
-}
-
-function adjustBrightness(hex: string, percent: number): string {
-  let num = parseInt(hex.replace('#', ''), 16);
-  if (isNaN(num)) num = 0x2563eb;
-  let r = (num >> 16) + Math.round(255 * percent);
-  let g = ((num >> 8) & 0x00ff) + Math.round(255 * percent);
-  let b = (num & 0x0000ff) + Math.round(255 * percent);
-  r = Math.min(255, Math.max(0, r));
-  g = Math.min(255, Math.max(0, g));
-  b = Math.min(255, Math.max(0, b));
-  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
 function wrapText(text: string, maxCharsPerLine: number): string[] {

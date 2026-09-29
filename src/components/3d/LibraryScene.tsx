@@ -199,9 +199,8 @@ export const LibraryScene: React.FC = () => {
         {sections.map((section) => {
           const secPlacement = placementResult.sectionPlacements.get(section.id);
           const shelves = secPlacement ? secPlacement.shelves : [];
-          const secResources = resources.filter(
-            (r) => r.location?.sectionId === section.id
-          );
+          // Use the freshly computed resources for this section so every book is strictly on its shelf
+          const secResources = secPlacement ? secPlacement.resources : [];
 
           return (
             <Section3D
