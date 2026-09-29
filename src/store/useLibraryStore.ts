@@ -119,6 +119,8 @@ interface LibraryStoreState {
   renameSubsection: (sectionId: string, oldSub: string, newSub: string) => void;
   mergeSections: (sourceSectionId: string, targetSectionId: string) => void;
   recalculatePlacements: () => void;
+  loadSampleDemoCollection: () => void;
+  clearAllResources: () => void;
 
   addRelationship: (rel: Omit<Relationship, 'id'>) => void;
   deleteRelationship: (id: string) => void;
@@ -126,7 +128,36 @@ interface LibraryStoreState {
   getLibraryStats: () => LibraryStats;
 }
 
-const initialPlacement = computeLibraryPlacements(INITIAL_SECTIONS, INITIAL_RESOURCES);
+// Persistent user storage helper - starts completely empty by default until user uploads PDFs
+function loadStoredResources(): Resource[] {
+  try {
+    if (typeof window !== 'undefined') {
+      const raw = localStorage.getItem('pk_library_resources');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    }
+  } catch (e) {
+    console.warn('Could not read user library from localStorage:', e);
+  }
+  return []; // Default to 0 books - ready for user uploads!
+}
+
+function saveStoredResources(resources: Resource[]) {
+  try {
+    if (typeof window !== 'undefined') {
+      // Don't save large blob URLs to localStorage to avoid quota overflow
+      const sanitized = resources.map(({ fileDataUrl, ...rest }) => rest);
+      localStorage.setItem('pk_library_resources', JSON.stringify(sanitized));
+    }
+  } catch (e) {
+    console.warn('Could not persist library to localStorage:', e);
+  }
+}
+
+const initialSaved = loadStoredResources();
+const initialPlacement = computeLibraryPlacements(INITIAL_SECTIONS, initialSaved);
 
 export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   resources: initialPlacement.placedResources,
@@ -476,6 +507,7 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
 
     const updated = [...get().resources, newRes];
     const newPlacement = computeLibraryPlacements(get().sections, updated);
+    saveStoredResources(newPlacement.placedResources);
     set({ resources: newPlacement.placedResources });
   },
 
@@ -484,6 +516,7 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
       r.id === id ? { ...r, ...updates } : r
     );
     const newPlacement = computeLibraryPlacements(get().sections, updated);
+    saveStoredResources(newPlacement.placedResources);
     set({ resources: newPlacement.placedResources });
   },
 
@@ -493,11 +526,34 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
       (rel) => rel.sourceId !== id && rel.targetId !== id
     );
     const newPlacement = computeLibraryPlacements(get().sections, updated);
+    saveStoredResources(newPlacement.placedResources);
     set({
       resources: newPlacement.placedResources,
       relationships: updatedRels,
       selectedResourceId: null,
       activeModal: null,
+    });
+  },
+
+  loadSampleDemoCollection: () => {
+    sound.playChime();
+    const newPlacement = computeLibraryPlacements(INITIAL_SECTIONS, INITIAL_RESOURCES);
+    saveStoredResources(newPlacement.placedResources);
+    set({
+      sections: INITIAL_SECTIONS,
+      resources: newPlacement.placedResources,
+      relationships: INITIAL_RELATIONSHIPS,
+    });
+  },
+
+  clearAllResources: () => {
+    sound.playClick();
+    saveStoredResources([]);
+    const newPlacement = computeLibraryPlacements(get().sections, []);
+    set({
+      resources: newPlacement.placedResources,
+      selectedResourceId: null,
+      hoveredResourceId: null,
     });
   },
 
