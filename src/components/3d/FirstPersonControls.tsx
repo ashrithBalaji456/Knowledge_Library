@@ -41,6 +41,12 @@ export const FirstPersonControls: React.FC = () => {
   // Center-screen crosshair raycasting
   const centerRaycaster = useRef(new THREE.Raycaster());
   const centerPoint = useRef(new THREE.Vector2(0, 0));
+  const raycastTimer = useRef(0);
+
+  // Performance throttled store updates
+  const lastStoreUpdate = useRef(0);
+  const lastStorePos = useRef<[number, number, number]>([0, 0, 0]);
+  const lastStoreYaw = useRef(0);
 
   // Initialize camera position
   useEffect(() => {
@@ -266,9 +272,6 @@ export const FirstPersonControls: React.FC = () => {
         }
       }
 
-      // Update player position in store for minimap
-      setPlayerTransform([camera.position.x, camera.position.y, camera.position.z], yaw.current);
-
       // Section chunk detection (identify which section the user is physically closest to)
       let closestSection = 'central';
       let closestDistSq = 999999;
@@ -289,13 +292,28 @@ export const FirstPersonControls: React.FC = () => {
       }
     }
 
-    // Always update player position in store so distance checks are always accurate
-    setPlayerTransform([camera.position.x, camera.position.y, camera.position.z], yaw.current);
+    // High-performance throttled store update for 2D Minimap (~10 Hz)
+    // Completely eliminates 60-144 FPS React re-renders while walking!
+    const now = performance.now();
+    if (now - lastStoreUpdate.current > 100) {
+      const dX = camera.position.x - lastStorePos.current[0];
+      const dZ = camera.position.z - lastStorePos.current[2];
+      const dYaw = Math.abs(yaw.current - lastStoreYaw.current);
+      if (dX * dX + dZ * dZ > 0.02 || dYaw > 0.03) {
+        lastStoreUpdate.current = now;
+        lastStorePos.current = [camera.position.x, camera.position.y, camera.position.z];
+        lastStoreYaw.current = yaw.current;
+        setPlayerTransform(lastStorePos.current, yaw.current);
+      }
+    }
 
-    // Center-screen crosshair raycasting to detect the book the player is aiming at
-    if (!activeModal) {
+    // Center-screen crosshair raycasting throttled to ~28 Hz (35ms)
+    // Huge CPU savings over raycasting thousands of meshes every single frame!
+    raycastTimer.current += delta;
+    if (!activeModal && raycastTimer.current >= 0.035) {
+      raycastTimer.current = 0;
       centerRaycaster.current.setFromCamera(centerPoint.current, camera);
-      centerRaycaster.current.far = 15.0; // 15-meter interaction range
+      centerRaycaster.current.far = 14.0; // 14-meter interaction range
       const hits = centerRaycaster.current.intersectObjects(scene.children, true);
       let hitBookId: string | null = null;
 

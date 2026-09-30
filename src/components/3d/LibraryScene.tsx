@@ -45,29 +45,19 @@ const AmbientDustMotes: React.FC = () => {
   const pointsRef = useRef<THREE.Points>(null);
   const count = 100;
 
-  const [positions, initialY] = useMemo(() => {
+  const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
-    const initY = new Float32Array(count);
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 40;
-      const y = Math.random() * 5.0 + 1.0;
-      pos[i * 3 + 1] = y;
-      initY[i] = y;
+      pos[i * 3 + 1] = Math.random() * 5.0 + 1.0;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 60;
     }
-    return [pos, initY];
+    return pos;
   }, []);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (!pointsRef.current) return;
-    const t = clock.getElapsedTime() * 0.25;
-    const posAttr = pointsRef.current.geometry.attributes.position;
-    const array = posAttr.array as Float32Array;
-
-    for (let i = 0; i < count; i++) {
-      array[i * 3 + 1] = initialY[i] + Math.sin(t + i) * 0.12;
-    }
-    posAttr.needsUpdate = true;
+    pointsRef.current.rotation.y += delta * 0.02;
   });
 
   return (
@@ -90,7 +80,6 @@ export const LibraryScene: React.FC = () => {
   const sections = useLibraryStore((s) => s.sections);
   const resources = useLibraryStore((s) => s.resources);
   const atmosphere = useLibraryStore((s) => s.atmosphere);
-  const playerLocation = useLibraryStore((s) => s.playerLocation);
   const activeModal = useLibraryStore((s) => s.activeModal);
 
   const placementResult = useMemo(() => {
@@ -158,6 +147,7 @@ export const LibraryScene: React.FC = () => {
       }}
     >
       <Canvas
+        dpr={[1, 1.5]}
         camera={{ position: [0, 1.7, 24], fov: 65, near: 0.1, far: 200 }}
         gl={{
           antialias: true,
@@ -208,7 +198,6 @@ export const LibraryScene: React.FC = () => {
               section={section}
               shelves={shelves}
               resources={secResources}
-              playerPos={playerLocation}
             />
           );
         })}

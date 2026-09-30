@@ -7,7 +7,6 @@ import { getOrCreateBookCoverTexture } from './coverTextureGenerator';
 
 interface Book3DProps {
   resource: Resource;
-  playerPos: [number, number, number];
 }
 
 // Single shared reusable geometries for ALL books
@@ -120,7 +119,7 @@ function getOrCreateBookSpineTexture(
   return texture;
 }
 
-export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
+export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   const meshRef = useRef<THREE.Group>(null);
   const [isHoveredLocal, setIsHoveredLocal] = useState(false);
 
@@ -137,15 +136,8 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
   const { height, width: depth, thickness } = loc.dimensions;
   const [origX, origY, origZ] = loc.position;
 
-  // Spatial Distance Cull — generous 15.0m interaction radius across the wider hall
-  const dx = playerPos[0] - origX;
-  const dy = playerPos[1] - origY;
-  const dz = playerPos[2] - origZ;
-  const distSq = dx * dx + dy * dy + dz * dz;
-  const isNearby = distSq < 225; // within 15.0 meters
-
   const isSelected = selectedResourceId === resource.id;
-  const isHovered = (isHoveredLocal || hoveredResourceId === resource.id) && isNearby;
+  const isHovered = isHoveredLocal || hoveredResourceId === resource.id;
   const isHighlighted = highlightedResourceId === resource.id;
   const isMustLearn = resource.priority === 'MUST_LEARN';
   const isCurrentFocus = resource.priority === 'CURRENT_FOCUS';
@@ -184,9 +176,9 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         : isCurrentFocus
         ? new THREE.Color('#DC2626')
         : new THREE.Color('#000000'),
-      emissiveIntensity: isSelected ? 0.35 : isHovered ? 0.2 : 0.0,
+      emissiveIntensity: 0,
     });
-  }, [coverTexture, isMustLearn, isCurrentFocus, isSelected, isHovered]);
+  }, [coverTexture, isMustLearn, isCurrentFocus]);
 
   // Spine material
   const spineMaterial = useMemo(() => {
@@ -199,11 +191,15 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
         : isCurrentFocus
         ? new THREE.Color('#DC2626')
         : new THREE.Color('#000000'),
-      emissiveIntensity: isSelected ? 0.5 : isHovered ? 0.35 : isMustLearn || isCurrentFocus ? 0.18 : 0.0,
+      emissiveIntensity: isMustLearn || isCurrentFocus ? 0.18 : 0.0,
     });
-  }, [spineTexture, isMustLearn, isCurrentFocus, isSelected, isHovered]);
+  }, [spineTexture, isMustLearn, isCurrentFocus]);
 
-  // Dynamic pull-out on hover or selection
+  // Update emissive intensity directly on material without shader re-compilation
+  coverArtMaterial.emissiveIntensity = isSelected ? 0.35 : isHovered ? 0.2 : 0.0;
+  spineMaterial.emissiveIntensity = isSelected ? 0.5 : isHovered ? 0.35 : isMustLearn || isCurrentFocus ? 0.18 : 0.0;
+
+  // Dynamic pull-out on hover or selection (with high-perf early exit for resting books)
   useFrame((_, delta) => {
     if (!meshRef.current) return;
 
@@ -214,8 +210,16 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
     const pullOutDistance = isSelected ? 0.24 : isHovered ? 0.15 : isHighlighted ? 0.2 : 0;
     const targetX = (isLeft ? origX + pullOutDistance : origX - pullOutDistance) + (loc.pushOffset || 0);
 
+    const curX = meshRef.current.position.x;
+    const isStationary = Math.abs(curX - targetX) < 0.001;
+
+    // If resting and not interacting, skip per-frame damp math completely!
+    if (isStationary && !isSelected && !isHovered && !isHighlighted) {
+      return;
+    }
+
     meshRef.current.position.x = THREE.MathUtils.damp(
-      meshRef.current.position.x,
+      curX,
       targetX,
       14,
       delta
@@ -224,17 +228,21 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
     meshRef.current.position.z = origZ;
 
     // Natural tilt imperfection + hover tilt
-    const targetRotZ = (loc.tiltZ || 0) + (isHovered ? (isLeft ? 0.06 : -0.06) : 0);
-    meshRef.current.rotation.z = THREE.MathUtils.damp(
-      meshRef.current.rotation.z,
-      targetRotZ,
-      10,
-      delta
-    );
+    const targetRotZ = (loc.tiltZ || 0) + (isHovered ? (isLeft ? 0.05 : -0.05) : 0);
+    const curRotZ = meshRef.current.rotation.z;
+    if (Math.abs(curRotZ - targetRotZ) > 0.001) {
+      meshRef.current.rotation.z = THREE.MathUtils.damp(
+        curRotZ,
+        targetRotZ,
+        10,
+        delta
+      );
+    }
   });
 
   const handlePointerOver = (e: any) => {
-    if (!isNearby || activeModal) return;
+    if (activeModal) return;
+    if (e.distance && e.distance > 16) return;
     e.stopPropagation();
     (window as any).__mouseHoveredBookId = resource.id;
     setIsHoveredLocal(true);
@@ -243,7 +251,8 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
   };
 
   const handlePointerMove = (e: any) => {
-    if (!isNearby || activeModal) return;
+    if (activeModal) return;
+    if (e.distance && e.distance > 16) return;
     e.stopPropagation();
     (window as any).__mouseHoveredBookId = resource.id;
     if (useLibraryStore.getState().hoveredResourceId !== resource.id) {
@@ -264,7 +273,8 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
   };
 
   const handleClick = (e: any) => {
-    if (!isNearby || activeModal) return;
+    if (activeModal) return;
+    if (e.distance && e.distance > 16) return;
     e.stopPropagation();
     selectResource(resource.id);
   };
@@ -375,4 +385,5 @@ export const Book3D: React.FC<Book3DProps> = ({ resource, playerPos }) => {
       )}
     </group>
   );
-};
+});
+

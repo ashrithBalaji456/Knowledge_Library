@@ -9,7 +9,6 @@ interface Section3DProps {
   section: Section;
   shelves: ShelfInfo[];
   resources: Resource[];
-  playerPos: [number, number, number];
 }
 
 // Cached section sign textures with physical carved wood, brass border & elegant typography
@@ -65,14 +64,8 @@ function getOrCreatePhysicalSectionSign(
   return texture;
 }
 
-export const Section3D: React.FC<Section3DProps> = ({ section, shelves, resources, playerPos }) => {
+export const Section3D = React.memo<Section3DProps>(({ section, shelves, resources }) => {
   const [secX, secY, secZ] = section.anchorPosition;
-
-  // Distance check for chunk visibility
-  const dx = playerPos[0] - secX;
-  const dz = playerPos[2] - secZ;
-  const distSq = dx * dx + dz * dz;
-  const isSectionVisible = distSq < 2000; // ~45 meters
 
   const signTexture = useMemo(
     () => getOrCreatePhysicalSectionSign(section.name, section.icon, section.color),
@@ -190,10 +183,9 @@ export const Section3D: React.FC<Section3DProps> = ({ section, shelves, resource
       ))}
 
       {/* --- 3D BOOKS FOR THIS SECTION --- */}
-      {isSectionVisible &&
-        resources.map((res) => (
-          <Book3D key={res.id} resource={res} playerPos={playerPos} />
-        ))}
+      {resources.map((res) => (
+        <Book3D key={res.id} resource={res} />
+      ))}
     </group>
   );
-};
+});
