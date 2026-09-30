@@ -227,15 +227,54 @@ export const INITIAL_SECTIONS: Section[] = [
   // --- NON-TECHNICAL & HUMANITIES WINGS (Rules 3 & 37) ---
   {
     id: 'sec-devotional',
-    name: 'Devotional & Spiritual Wisdom',
+    name: 'Devotional Wisdom & Sacred Puranas',
     code: 'SPIRIT',
-    description: 'Timeless spiritual scriptures, Bhagavad Gita, Upanishads, and meditation philosophy.',
+    description: 'Grand Mahapuranas, Advaita Vedanta, timeless moral epics, and philosophical life lessons.',
     icon: '🕊️',
     color: '#b45309', // Warm Ochre / Saffron
     accentColor: '#f59e0b',
-    subSections: ['Bhagavad Gita', 'Upanishads & Vedanta', 'Spirituality & Meditation', 'Devotional Classics'],
+    subSections: ['Maha Puranas & Sacred Epics', 'Advaita Philosophy & Life Lessons', 'Yuga Dharma & Devotional Poetry'],
     wing: 'north',
     anchorPosition: [-12, 0, -42],
+    rotationY: 0,
+  },
+  {
+    id: 'sec-devotional-motivation',
+    name: 'Spiritual Motivation & Hanuman Charitra',
+    code: 'COURAGE',
+    description: 'Teachings of Sri Anjaneya on inner fortitude, overcoming despair, selfless service, and righteous action.',
+    icon: '🐒',
+    color: '#c2410c', // Fiery Saffron / Vermilion
+    accentColor: '#fb923c',
+    subSections: ['Hanuman Life Lessons & Courage', 'Parashara Samhita & Esoteric Wisdom', 'Sri Rama Raksha & Dharma in Action'],
+    wing: 'north',
+    anchorPosition: [-16, 0, -52],
+    rotationY: 0,
+  },
+  {
+    id: 'sec-devotional-kshetras',
+    name: 'Sacred Pilgrimage & Temple Chronicles',
+    code: 'KSHETRA',
+    description: 'Architectural, cultural, and spiritual chronicles of Tirumala, 108 Divya Desams, and sacred kshetras in English & Telugu.',
+    icon: '🏛️',
+    color: '#ca8a04', // Temple Gold / Sandalwood
+    accentColor: '#fde047',
+    subSections: ['108 Divya Desams (English Sacred Pilgrimage)', 'Tirumala & Venkateswara Divine Chronicles', 'Shaiva & Shakti Kshetra Mahatyam'],
+    wing: 'north',
+    anchorPosition: [0, 0, -52],
+    rotationY: 0,
+  },
+  {
+    id: 'sec-devotional-sadhana',
+    name: 'Daily Sadhana, Stotras & Vrata Kalpams',
+    code: 'SADHANA',
+    description: 'Vedic domestic rituals, daily TTD stotras, Tulasi reverence, and protective vrata sadhana for focus and peace.',
+    icon: '🪔',
+    color: '#ea580c', // Sacred Deepam Orange
+    accentColor: '#fb923c',
+    subSections: ['Vedic Pooja, Homa & Discipline Kalpataruvu', 'TTD Nitya Stotravali & Tulasi Mahatmyam', 'Ashta-Devata Vrata Kalpam & Saraswathi'],
+    wing: 'north',
+    anchorPosition: [16, 0, -52],
     rotationY: 0,
   },
   {

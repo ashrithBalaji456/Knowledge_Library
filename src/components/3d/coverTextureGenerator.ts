@@ -28,15 +28,19 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // Detect domain theme
   const isAIAgent = title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute');
-  const isSystemDesign = !isAIAgent && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
-  const isDevOps = !isAIAgent && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
-  const isDatabase = !isAIAgent && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
-  const isDSA = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
-  const isSpring = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
-  const isJava = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
-  const isPython = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
-  const isML = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
-  const isData = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
+  const isDevotional = category.includes('devotional') || category.includes('spirit') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga');
+  const isHanumanDevotional = isDevotional && (title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma'));
+  const isTempleDevotional = isDevotional && (category.includes('kshetra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('kshetra') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('kalahasti') || title.toLowerCase().includes('bapatla') || title.toLowerCase().includes('malleshwara'));
+  const isVrataDevotional = isDevotional && !isHanumanDevotional && (title.toLowerCase().includes('vrat') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('homa'));
+  const isSystemDesign = !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
+  const isDevOps = !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
+  const isDatabase = !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
+  const isDSA = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
+  const isSpring = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
+  const isJava = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isPython = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isML = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
+  const isData = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
   const isProject = category.includes('project') || title.toLowerCase().includes('project') || title.toLowerCase().includes('code');
   const isHandbook = category.includes('handbook') || category.includes('cheat') || title.toLowerCase().includes('cheat') || title.toLowerCase().includes('quick');
@@ -56,6 +60,34 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     primaryAccent = '#C084FC';
     secondaryAccent = '#38BDF8';
     seriesLabel = 'AI CODING AGENTS & GATEWAY INFRASTRUCTURE';
+  } else if (isHanumanDevotional) {
+    topBg = '#2B0E04';
+    midBg = '#C2410C';
+    botBg = '#140500';
+    primaryAccent = '#FB923C';
+    secondaryAccent = '#FDE047';
+    seriesLabel = 'SRI ANJANEYA CHARITRA & SPIRITUAL COURAGE';
+  } else if (isTempleDevotional) {
+    topBg = '#211003';
+    midBg = '#92400E';
+    botBg = '#120800';
+    primaryAccent = '#F59E0B';
+    secondaryAccent = '#FEF08A';
+    seriesLabel = 'SACRED PILGRIMAGE & TEMPLE CHRONICLES';
+  } else if (isVrataDevotional) {
+    topBg = '#2D0A00';
+    midBg = '#B45309';
+    botBg = '#180500';
+    primaryAccent = '#F97316';
+    secondaryAccent = '#FDE68A';
+    seriesLabel = 'DAILY SADHANA, STOTRAS & VRATA KALPAM';
+  } else if (isDevotional) {
+    topBg = '#260B04';
+    midBg = '#A14307';
+    botBg = '#130401';
+    primaryAccent = '#F59E0B';
+    secondaryAccent = '#FEF08A';
+    seriesLabel = 'VEDIC WISDOM, PURANAS & LIFE LESSONS';
   } else if (isSystemDesign) {
     topBg = '#1C0D02';
     midBg = '#9A3412';
@@ -232,7 +264,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -296,6 +328,10 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isDevotional: boolean,
+  isHanumanDevotional: boolean,
+  isTempleDevotional: boolean,
+  isVrataDevotional: boolean,
   isAIAgent: boolean,
   isSystemDesign: boolean,
   isDevOps: boolean,
@@ -326,7 +362,207 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isAIAgent) {
+  if (isHanumanDevotional) {
+    // --- GOLDEN GADA MACE & SRI ANJANEYA VALOR ---
+    // Mace handle
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 14;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + 90);
+    ctx.lineTo(cx, cy - 20);
+    ctx.stroke();
+
+    // Mace handle grip rings
+    ctx.strokeStyle = '#B45309';
+    ctx.lineWidth = 3;
+    for (let gy = cy + 20; gy <= cy + 80; gy += 14) {
+      ctx.beginPath();
+      ctx.moveTo(cx - 7, gy);
+      ctx.lineTo(cx + 7, gy);
+      ctx.stroke();
+    }
+
+    // Mace head (ornate fluted sphere)
+    const maceGrad = ctx.createRadialGradient(cx, cy - 40, 10, cx, cy - 40, 55);
+    maceGrad.addColorStop(0, '#FEF08A');
+    maceGrad.addColorStop(0.5, '#F59E0B');
+    maceGrad.addColorStop(1, '#92400E');
+    ctx.fillStyle = maceGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 40, 52, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Fluting ridges on mace head
+    ctx.strokeStyle = '#78350F';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy - 40, 22, 52, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 92);
+    ctx.lineTo(cx, cy + 12);
+    ctx.stroke();
+
+    // Mace crown top jewel
+    ctx.fillStyle = '#EF4444';
+    ctx.beginPath();
+    ctx.arc(cx, cy - 95, 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FEF08A';
+    ctx.textAlign = 'center';
+    ctx.fillText('JAI BAJRANGBALI  •  COURAGE  •  SEVA  •  BHAKTI', cx, cy + 126);
+
+  } else if (isTempleDevotional) {
+    // --- 7-TIER TEMPLE GOPURAM & 108 DIVYA DESAMS ---
+    const drawTier = (ty: number, w: number, h: number, fill: string, border: string) => {
+      ctx.fillStyle = fill;
+      ctx.beginPath();
+      ctx.roundRect(cx - w / 2, ty, w, h, [4, 4, 0, 0]);
+      ctx.fill();
+      ctx.strokeStyle = border;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    };
+
+    // Gopuram tiers (ascending)
+    drawTier(cy + 45, 170, 32, '#78350F', '#F59E0B');
+    drawTier(cy + 15, 140, 30, '#92400E', '#FBBF24');
+    drawTier(cy - 12, 114, 27, '#B45309', '#FDE047');
+    drawTier(cy - 36, 88, 24, '#D97706', '#FEF08A');
+    drawTier(cy - 58, 62, 22, '#F59E0B', '#FFFBEB');
+
+    // 3 Golden Kalashams (pinnacles)
+    const drawKalasham = (kx: number, ky: number) => {
+      ctx.fillStyle = '#FDE047';
+      ctx.beginPath();
+      ctx.arc(kx, ky, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(kx, ky - 8);
+      ctx.lineTo(kx, ky - 18);
+      ctx.strokeStyle = '#FEF08A';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    };
+    drawKalasham(cx - 20, cy - 65);
+    drawKalasham(cx, cy - 68);
+    drawKalasham(cx + 20, cy - 65);
+
+    // Temple doorway
+    ctx.fillStyle = '#260B04';
+    ctx.beginPath();
+    ctx.roundRect(cx - 22, cy + 50, 44, 27, [18, 18, 0, 0]);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FEF08A';
+    ctx.textAlign = 'center';
+    ctx.fillText('108 DIVYA DESAMS  •  SACRED KSHETRA  •  DARSANAM', cx, cy + 126);
+
+  } else if (isVrataDevotional) {
+    // --- TRADITIONAL BRASS DIYA (DEEPAM) & SACRED FLAME ---
+    // Diya oil bowl
+    ctx.fillStyle = '#B45309';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 30, 85, 26, 0, 0, Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Diya rim
+    ctx.fillStyle = '#D97706';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 30, 85, 14, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Diya pedestal base
+    ctx.fillStyle = '#78350F';
+    ctx.beginPath();
+    ctx.moveTo(cx - 30, cy + 56);
+    ctx.lineTo(cx + 30, cy + 56);
+    ctx.lineTo(cx + 50, cy + 76);
+    ctx.lineTo(cx - 50, cy + 76);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Golden sacred flame
+    const flameGrad = ctx.createRadialGradient(cx, cy - 10, 5, cx, cy - 10, 45);
+    flameGrad.addColorStop(0, '#FFFFFF');
+    flameGrad.addColorStop(0.3, '#FEF08A');
+    flameGrad.addColorStop(0.7, '#F97316');
+    flameGrad.addColorStop(1, '#EF4444');
+    ctx.fillStyle = flameGrad;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 65);
+    ctx.bezierCurveTo(cx + 32, cy - 30, cx + 32, cy + 22, cx, cy + 22);
+    ctx.bezierCurveTo(cx - 32, cy + 22, cx - 32, cy - 30, cx, cy - 65);
+    ctx.fill();
+
+    // Inner bright core
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy - 10, 9, 22, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FEF08A';
+    ctx.textAlign = 'center';
+    ctx.fillText('DAILY SADHANA  •  MANTRA JAPA  •  PUJA VIDHANAM', cx, cy + 126);
+
+  } else if (isDevotional) {
+    // --- SACRED OM & ORNATE LOTUS MANDALA ---
+    // 8-Petaled Lotus in gold
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 2.5;
+    ctx.fillStyle = 'rgba(217, 119, 6, 0.2)';
+    for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+      const px = cx + Math.cos(a) * 75;
+      const py = cy + Math.sin(a) * 75;
+      ctx.beginPath();
+      ctx.arc(px, py, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // Central circular medallion
+    ctx.fillStyle = '#78350F';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 58, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 3.5;
+    ctx.stroke();
+
+    // Sacred OM ॐ glyph
+    ctx.font = '900 68px "Inter", "Noto Sans", sans-serif';
+    ctx.fillStyle = '#FEF08A';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('ॐ', cx, cy + 4);
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FEF08A';
+    ctx.fillText('DHARMA  •  SATYA  •  SHANTI  •  PURANAS', cx, cy + 126);
+
+  } else if (isAIAgent) {
     // --- CLINE AI AGENT & OMNIROUTE GATEWAY TOPOLOGY ---
     // 1. Top Cline Agent node
     ctx.fillStyle = '#2E1065';

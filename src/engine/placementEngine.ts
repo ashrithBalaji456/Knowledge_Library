@@ -99,6 +99,9 @@ const COLOR_PALETTES: Record<string, string[]> = {
   // Humanities & Non-Technical Wings
   'sec-devotional': ['#b45309', '#d97706', '#f59e0b', '#78350f', '#92400e', '#ca8a04'],
   devotional: ['#b45309', '#d97706', '#f59e0b', '#78350f', '#92400e', '#ca8a04'],
+  'sec-devotional-motivation': ['#c2410c', '#ea580c', '#d97706', '#9a3412', '#78350f', '#b45309'],
+  'sec-devotional-kshetras': ['#b45309', '#ca8a04', '#d97706', '#854d0e', '#713f12', '#eab308'],
+  'sec-devotional-sadhana': ['#d97706', '#ea580c', '#b45309', '#9a3412', '#c2410c', '#f59e0b'],
 
   'sec-english-language': ['#0284c7', '#0369a1', '#0ea5e9', '#38bdf8', '#1e40af', '#1d4ed8'],
   english: ['#0284c7', '#0369a1', '#0ea5e9', '#38bdf8', '#1e40af', '#1d4ed8'],
@@ -433,6 +436,70 @@ export function getSectionRowClassification(section: Section): RowClassification
           return 2;
         }
         return 0;
+      },
+    };
+  }
+
+  if (sid === 'sec-devotional' || sid === 'devotional') {
+    return {
+      rowLabels: ['MAHA PURANAS & SACRED EPICS', 'ADVAITA PHILOSOPHY & LIFE LESSONS', 'YUGA DHARMA & DEVOTIONAL POETRY'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('shiva') || t.includes('panduranga') || t.includes('karthika') || t.includes('purana')) {
+          return 0;
+        }
+        if (t.includes('shankara') || t.includes('advaita') || t.includes('ganga') || t.includes('charitamrutham')) {
+          return 1;
+        }
+        return 2; // Yugadarsanam, STR
+      },
+    };
+  }
+
+  if (sid === 'sec-devotional-motivation') {
+    return {
+      rowLabels: ['HANUMAN LIFE LESSONS & COURAGE', 'PARASHARA SAMHITA & ESOTERIC WISDOM', 'SRI RAMA RAKSHA & DHARMA IN ACTION'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('srianjaneya') || t.includes('ananda') || t.includes('courage') || t.includes('tales')) {
+          return 0;
+        }
+        if (t.includes('paraashara') || t.includes('samhita') || t.includes('hanumadvishaya')) {
+          return 1;
+        }
+        return 2; // Sri Rama Raksha Vratam
+      },
+    };
+  }
+
+  if (sid === 'sec-devotional-kshetras') {
+    return {
+      rowLabels: ['108 DIVYA DESAMS (ENGLISH SACRED PILGRIMAGE)', 'TIRUMALA & VENKATESWARA DIVINE CHRONICLES', 'SHAIVA & SHAKTI KSHETRA MAHATYAM'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('108') || t.includes('divya desams') || t.includes('english')) {
+          return 0;
+        }
+        if (t.includes('venkat') || t.includes('srinivasa') || t.includes('padmavathi') || t.includes('darsanam')) {
+          return 1;
+        }
+        return 2; // Kalahasti, Malleshwara, Bapatla
+      },
+    };
+  }
+
+  if (sid === 'sec-devotional-sadhana') {
+    return {
+      rowLabels: ['VEDIC POOJA, HOMA & DISCIPLINE KALPATARUVU', 'TTD NITYA STOTRAVALI & TULASI MAHATMYAM', 'ASHTA-DEVATA VRATA KALPAM & SARASWATHI'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('kalpataruvu') || t.includes('puuja') || t.includes('homa')) {
+          return 0;
+        }
+        if (t.includes('stothra') || t.includes('stotra') || t.includes('tulasi') || t.includes('ttd') || t.includes('mahalaxmi')) {
+          return 1;
+        }
+        return 2; // Ashta-Devata Vratams (Narasimha, Durga, Maheswara, Subramanya, Krishna, Saraswathi)
       },
     };
   }

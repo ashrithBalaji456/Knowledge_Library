@@ -7169,5 +7169,1502 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-shivapuranamu",
+    "title": "Sri Shiva Puranamu: Sacred Puranic Epics & Dharma",
+    "author": "Maharshi Veda Vyasa (Telugu Commentary)",
+    "pages": 890,
+    "fileName": "2015.329410.Sri-Shivapuranamu.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Maha Puranas & Sacred Epics",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 890,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.329410.Sri-Shivapuranamu.pdf",
+    "whatIsThisBookFor": "A grand 890-page Mahapurana in Telugu exploring the cosmic manifestations of Lord Shiva, detachment, dharma, overcoming ego, and cultivating universal compassion.",
+    "summary": "The Sri Shiva Puranamu is an encyclopedic sacred epic chronicling Shiva Leelas, the creation and dissolution of the universe, the sacred Jyotirlingas, ascetic discipline, and life lessons on righteous conduct, humility, and mental stillness.",
+    "keyTakeaways": [
+      "Life lessons on detachment, equanimity, and looking beyond worldly illusions (Maya)",
+      "Detailed stories of the 12 sacred Jyotirlingas and their cosmic spiritual significance",
+      "Vedic ethical principles on controlling anger, pride, and sensory distractions"
+    ],
+    "prerequisites": [
+      "Reverence for Vedic scriptures and fundamental Telugu reading fluency"
+    ],
+    "recommendedNext": [
+      "res-local-panduranga-mahathyamu"
+    ],
+    "topics": [
+      "ShivaPuranam",
+      "Mahapuranas",
+      "DevotionalWisdom",
+      "TeluguClassics",
+      "Dharma"
+    ],
+    "tags": [
+      "Shiva",
+      "Purana",
+      "Telugu",
+      "Devotional",
+      "LifeLessons"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-panduranga-mahathyamu",
+    "title": "Panduranga Mahatmyamu: Devotion & Filial Duty",
+    "author": "Kavichakravarthi Tenali Ramakrishna",
+    "pages": 415,
+    "fileName": "PandurangaMahathyamu.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Maha Puranas & Sacred Epics",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 415,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\PandurangaMahathyamu.pdf",
+    "whatIsThisBookFor": "Classical Telugu Prabandha masterpiece exploring the glory of Lord Vitthala of Pandharpur and Pundalika's transformative lesson on devotion to parents as supreme dharma.",
+    "summary": "Authored by Ashtadiggaja poet Tenali Ramakrishna, this 415-page literary monument presents sublime poetry, spiritual transformation, and the timeless story of Pundalika, whose devotion to his aged parents compelled the Lord Himself to wait upon a brick.",
+    "keyTakeaways": [
+      "Filial duty (Matru-Pitru Seva) as the highest form of spiritual practice",
+      "Tenali Ramakrishna's celebrated classical Telugu poetic imagery and diction",
+      "The egalitarian path of Bhakti in Pandharpur welcoming every soul irrespective of caste"
+    ],
+    "prerequisites": [
+      "Appreciation of classical Telugu kavya literature"
+    ],
+    "recommendedNext": [
+      "res-local-karthika-mahatmyam"
+    ],
+    "topics": [
+      "Panduranga",
+      "TenaliRamakrishna",
+      "TeluguKavya",
+      "Bhakti",
+      "MoralLessons"
+    ],
+    "tags": [
+      "Panduranga",
+      "TenaliRamakrishna",
+      "Prabandham",
+      "Vitthala",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-karthika-mahatmyam",
+    "title": "Karthika Mahatmyam: Stories, Vrata Vidhi & Ethical Living",
+    "author": "Skanda Purana & Padma Purana Tradition",
+    "pages": 228,
+    "fileName": "Karthika-Mathmayam.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Maha Puranas & Sacred Epics",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 228,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Karthika-Mathmayam.pdf",
+    "whatIsThisBookFor": "Daily moral tales, lighting lamps (Deepadana), fasting, and ethical reflections prescribed for each of the 30 days of the sacred Karthika month.",
+    "summary": "A 228-page foundational spiritual text containing daily chapter readings for Karthika Masam. It teaches charity, early morning discipline, lighting deepams, self-restraint, and environmental gratitude through compelling Puranic parables.",
+    "keyTakeaways": [
+      "Significance of Deepadana: symbol of dispelling inner darkness and ignorance",
+      "Daily ethical conduct, truthfulness, and generous charity toward the needy",
+      "Harmonious worship of both Shiva and Vishnu, transcending sectarian divides"
+    ],
+    "prerequisites": [
+      "Basic familiarity with traditional Hindu seasonal calendar"
+    ],
+    "recommendedNext": [
+      "res-local-adi-shankara-charitamrutham"
+    ],
+    "topics": [
+      "KarthikaMasam",
+      "Deepam",
+      "PuranicStories",
+      "DailyDiscipline",
+      "Telugu"
+    ],
+    "tags": [
+      "Karthika",
+      "Mahatmyam",
+      "Vratam",
+      "Puranas",
+      "EthicalLiving"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-adi-shankara-charitamrutham",
+    "title": "Sri Adi Shankaracharya Divya Charitamrutham: Life & Advaita Philosophy",
+    "author": "Jagadguru Shankaracharya Peetham Scholars",
+    "pages": 41,
+    "fileName": "GU207-AdishankaracharyaDivyaCharitamrutham.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Advaita Philosophy & Life Lessons",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 41,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\GU207-AdishankaracharyaDivyaCharitamrutham.pdf",
+    "whatIsThisBookFor": "Understanding Jagadguru Adi Shankara's inspiring life, relentless intellectual rigor, unity of all beings (Advaita), and purposeful living.",
+    "summary": "A concise 41-page chronicle recounting Adi Shankara's childhood in Kaladi, monastic journey, philosophical mastery across India, the founding of four Amnaya Peethams, and practical lessons on overcoming duality and finding peace within.",
+    "keyTakeaways": [
+      "Advaita Non-Duality: Realizing the divinity present in all living beings",
+      "Courage of conviction: Defending truth with flawless logic, grace, and humility",
+      "Harmonious integration of high intellect (Jnana) with sweet devotion (Bhakti)"
+    ],
+    "prerequisites": [
+      "Introductory curiosity in Indian philosophy and Vedanta"
+    ],
+    "recommendedNext": [
+      "res-local-gangalahari"
+    ],
+    "topics": [
+      "AdiShankara",
+      "Advaita",
+      "Vedanta",
+      "Philosophy",
+      "LifeLessons"
+    ],
+    "tags": [
+      "Shankara",
+      "Advaita",
+      "Philosophy",
+      "Biography",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-gangalahari",
+    "title": "Ganga Lahari: 52 Sacred Verses of Humility & Purity",
+    "author": "Mahakavi Jagannatha Panditaraja",
+    "pages": 38,
+    "fileName": "2015.333501.Gangalahari.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Advaita Philosophy & Life Lessons",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 38,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.333501.Gangalahari.pdf",
+    "whatIsThisBookFor": "Poetic hymns offering life lessons on surrendering intellectual pride, seeking spiritual purification, and maintaining serenity.",
+    "summary": "Composed on the banks of Varanasi by Jagannatha Panditaraja, this 38-page Telugu edition of the famed 52 verses captures the poet's heartfelt plea to Mother Ganga, teaching humility, emotional renewal, and inner purification.",
+    "keyTakeaways": [
+      "The cleansing of arrogance and reconciliation through sincere prayer",
+      "Sublime Sanskrit-Telugu poetic cadence with profound philosophical allegories",
+      "Finding peace through nature, sacred rivers, and quiet contemplation"
+    ],
+    "prerequisites": [
+      "Appreciation of devotional poetry and stotras"
+    ],
+    "recommendedNext": [
+      "res-local-srimad-yugadarsanam"
+    ],
+    "topics": [
+      "GangaLahari",
+      "JagannathaPanditaraja",
+      "Poetry",
+      "Purity",
+      "Telugu"
+    ],
+    "tags": [
+      "Ganga",
+      "Stotram",
+      "Poetry",
+      "Humility",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-srimad-yugadarsanam",
+    "title": "Srimad Yuga Darsanam: Cosmic Cycles, Dharma & Spiritual Evolution",
+    "author": "Dr. P. V. Ramana Rao & Vedic Researchers",
+    "pages": 147,
+    "fileName": "SRIMAD-YUGADARSANAM.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Yuga Dharma & Devotional Poetry",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 147,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRIMAD-YUGADARSANAM.pdf",
+    "whatIsThisBookFor": "Gaining motivation from Vedic cosmic history (Yugas), understanding societal transitions, and preserving personal integrity during challenging eras.",
+    "summary": "A 147-page analytical treatise bridging Puranic astronomy, cosmic cycles (Satya, Treta, Dvapara, Kali), and the evolution of human values. It offers powerful moral motivation for individuals striving to live virtuously today.",
+    "keyTakeaways": [
+      "Cyclical perspective of time, teaching patience and fortitude through life changes",
+      "Yuga Dharma: Adapting spiritual practice (Nama Sankeerthana & Good Action) to modern reality",
+      "Scientific and astronomical dimensions embedded within Vedic yuga reckonings"
+    ],
+    "prerequisites": [
+      "Interest in Vedic cosmology, history, and philosophy"
+    ],
+    "recommendedNext": [
+      "res-local-str-tyagaraja"
+    ],
+    "topics": [
+      "YugaDarsanam",
+      "CosmicCycles",
+      "Dharma",
+      "Philosophy",
+      "Telugu"
+    ],
+    "tags": [
+      "Yugas",
+      "Time",
+      "Cosmology",
+      "Motivation",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-str-tyagaraja",
+    "title": "Sri Tyagaraja Ramayanam: Nadopasana & Bhakti Surrender",
+    "author": "Saint Tyagaraja Musical Heritage Society",
+    "pages": 100,
+    "fileName": "STR.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Yuga Dharma & Devotional Poetry",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 100,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\STR.pdf",
+    "whatIsThisBookFor": "Learning life lessons in modesty, refusal to compromise principles for wealth, and finding ecstatic joy through musical surrender (Nadopasana).",
+    "summary": "A 100-page exploration of Saint Tyagaraja's immortal Ramayana kritis. It delves into the composer's steadfast refusal of royal gold, his reliance on Sri Rama alone, and the ethical morals woven into his musical poetry.",
+    "keyTakeaways": [
+      "Nadopasana: Music as a direct vehicle for meditation and divine connection",
+      "Integrity over wealth: Saint Tyagaraja's immortal lesson in 'Nidhi Chala Sukhama'",
+      "Poetic reflections on Rama's qualities: compassion, truth, and forgiveness"
+    ],
+    "prerequisites": [
+      "Affinity for Carnatic music and devotional lyrics"
+    ],
+    "recommendedNext": [
+      "res-local-srianjaneya-courage"
+    ],
+    "topics": [
+      "Tyagaraja",
+      "Ramayanam",
+      "Music",
+      "Carnatic",
+      "TeluguClassics"
+    ],
+    "tags": [
+      "Tyagaraja",
+      "Bhakti",
+      "Music",
+      "Ramayana",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-srianjaneya-courage",
+    "title": "Sri Anjaneya: Courage, Character & Boundless Dedication",
+    "author": "Sundarakanda & Puranic Scholars Forum",
+    "pages": 216,
+    "fileName": "Srianjaneya.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Hanuman Life Lessons & Courage",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 216,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Srianjaneya.pdf",
+    "whatIsThisBookFor": "A 216-page master life guide on cultivating fearless confidence, overcoming self-doubt, selfless loyalty, and supreme service from Lord Hanuman.",
+    "summary": "A profound biographical and spiritual study of Sri Hanuman across the Ramayana and Puranas. It provides young readers and practitioners with an unmatched role model for overcoming impossible challenges through faith, intellect, and physical strength.",
+    "keyTakeaways": [
+      "Overcoming the ocean of self-doubt: Realizing one's latent potential through encouragement",
+      "Diplomatic brilliance and tact: Hanuman's speech in Ashokavana and Lanka court",
+      "Humility in triumph: Attributing all success and glory to the Divine Mission"
+    ],
+    "prerequisites": [
+      "Desire for self-improvement, inner fortitude, and spiritual focus"
+    ],
+    "recommendedNext": [
+      "res-local-ananda-anjaneyam"
+    ],
+    "topics": [
+      "Hanuman",
+      "Anjaneya",
+      "Courage",
+      "Motivation",
+      "Leadership",
+      "Telugu"
+    ],
+    "tags": [
+      "Hanuman",
+      "Anjaneya",
+      "Courage",
+      "LifeLessons",
+      "Motivation"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-ananda-anjaneyam",
+    "title": "Sri Ananda Anjaneyam: Uplifting Hymns & Fearlessness",
+    "author": "T. V. R. K. Murthy (Vedic Logo Designers)",
+    "pages": 32,
+    "fileName": "SriAnandaAnjaneyam.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Hanuman Life Lessons & Courage",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 32,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SriAnandaAnjaneyam.pdf",
+    "whatIsThisBookFor": "Practical daily chants and prayers to banish worry, dispel negative energies, and infuse the heart with joy and courage.",
+    "summary": "A vibrant 32-page devotional booklet featuring Anjaneya Stotras, protective kavachams, and uplifting hymns. Designed for daily morning recitation to boost mental morale, concentration, and emotional resilience.",
+    "keyTakeaways": [
+      "Instant relief from panic, restlessness, and anxiety through Hanuman Nama",
+      "Developing steadfast mental focus (Buddhi) and vital energy (Bala)",
+      "Daily practice of surrender and gratitude for a cheerful outlook on life"
+    ],
+    "prerequisites": [
+      "Open to daily meditative prayer"
+    ],
+    "recommendedNext": [
+      "res-local-paraashara-samhita"
+    ],
+    "topics": [
+      "Anjaneyam",
+      "Joy",
+      "Stotras",
+      "Courage",
+      "DailyPrayer"
+    ],
+    "tags": [
+      "Anjaneya",
+      "Stotram",
+      "Protection",
+      "AnxietyRelief",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-paraashara-samhita",
+    "title": "Parashara Samhita: Classical Scripture of Sri Anjaneya",
+    "author": "Maharshi Parashara (Vedic Commentary)",
+    "pages": 109,
+    "fileName": "Paraasharasamhita-Srianjaneya.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Parashara Samhita & Esoteric Wisdom",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 109,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Paraasharasamhita-Srianjaneya.pdf",
+    "whatIsThisBookFor": "Authoritative classical study of Hanuman's divine origin, avatar leelas, Panchamukha Hanuman form, and philosophical teachings.",
+    "summary": "The definitive 109-page scripture on Lord Anjaneya by Sage Parashara in Telugu. It details Hanuman's cosmic dimensions, spiritual initiation, protective mantras, and the higher science of conquering the monkey-mind.",
+    "keyTakeaways": [
+      "The mystery of Panchamukha Anjaneya: East, South, West, North, and Skyward faces",
+      "Taming the wandering mind (Chitta-Vritti) through steadfast devotion to Prana-Devata",
+      "Vedic mantras and meditation techniques for courage and spiritual elevation"
+    ],
+    "prerequisites": [
+      "Familiarity with traditional Puranic Samhita structure"
+    ],
+    "recommendedNext": [
+      "res-local-sri-hanumadvishaya"
+    ],
+    "topics": [
+      "ParasharaSamhita",
+      "Hanuman",
+      "Samhita",
+      "EsotericWisdom",
+      "Telugu"
+    ],
+    "tags": [
+      "Parashara",
+      "Anjaneya",
+      "Scripture",
+      "Meditation",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-hanumadvishaya",
+    "title": "Sri Hanumadvishayamu: Philosophy & Heroic Leadership of Hanuman",
+    "author": "Dharmika Sahitya Samstha",
+    "pages": 134,
+    "fileName": "Sri-Hanumadvishaya.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Parashara Samhita & Esoteric Wisdom",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 134,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Sri-Hanumadvishaya.pdf",
+    "whatIsThisBookFor": "Psychological, philosophical, and tactical leadership lessons derived from Hanuman's actions during critical junctures.",
+    "summary": "A 134-page scholarly deep-dive into Sri Hanuman's multifaceted personality: scholar of the nine grammars (Nava Vyakarana Pandita), astute diplomat, fearless soldier, and supreme yogi. Perfect for personal empowerment.",
+    "keyTakeaways": [
+      "Crisis management: Remaining calm and innovative when facing seemingly insurmountable dead ends",
+      "Effective speech: Speaking with precision, sweetness, and truth without provoking enmity",
+      "Unyielding persistence: The will to search every corner of Lanka until victory is secured"
+    ],
+    "prerequisites": [
+      "Interest in leadership, communication, and spiritual philosophy"
+    ],
+    "recommendedNext": [
+      "res-local-rama-raksha-vratam"
+    ],
+    "topics": [
+      "Hanuman",
+      "Leadership",
+      "Philosophy",
+      "Psychology",
+      "Telugu"
+    ],
+    "tags": [
+      "Leadership",
+      "Hanuman",
+      "Communication",
+      "Motivation",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-rama-raksha-vratam",
+    "title": "Sri Rama Raksha Vratam: Invincible Protection & Righteous Living",
+    "author": "Budha Koushika Rishi Tradition",
+    "pages": 28,
+    "fileName": "SriRamaRakshaVratam.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Sri Rama Raksha & Dharma in Action",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 28,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SriRamaRakshaVratam.pdf",
+    "whatIsThisBookFor": "Invoking the protective armor of Sri Rama's name and living with moral uprightness, truthfulness, and courage in everyday affairs.",
+    "summary": "A 28-page devotional guide containing the complete Sri Rama Raksha Stotram, word-by-word meaning, and pooja procedure. Teaches the life lesson of walking the straight path of truth and having unwavering faith in divine justice.",
+    "keyTakeaways": [
+      "The shield of Rama Nama: Mental resilience against fear, despair, and hostile environments",
+      "Maryada Purushottama: Emulating Sri Rama's commitment to promise and familial honour",
+      "Simplicity of devotion: Anyone can attain peace of mind through regular heartfelt recitation"
+    ],
+    "prerequisites": [
+      "Desire for spiritual protection and peace of mind"
+    ],
+    "recommendedNext": [
+      "res-local-108-divya-desams-english"
+    ],
+    "topics": [
+      "RamaRaksha",
+      "Stotram",
+      "Protection",
+      "Dharma",
+      "Telugu"
+    ],
+    "tags": [
+      "Rama",
+      "Protection",
+      "Stotram",
+      "Vratam",
+      "MoralCourage"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-108-divya-desams-english",
+    "title": "108 Vaishnavite Divya Desams Vol 1: Sacred Shrines & History",
+    "author": "Dr. M. S. Ramesh, I.A.S. (English Edition)",
+    "pages": 261,
+    "fileName": "108_Vaishnavite_Divya_Desams_Vol_1_By_Dr_M_S_Ramesh_In_English_text.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "108 Divya Desams (English Sacred Pilgrimage)",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 261,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\English\\108_Vaishnavite_Divya_Desams_Vol_1_By_Dr_M_S_Ramesh_In_English_text.pdf",
+    "whatIsThisBookFor": "An English-language scholarly travelogue and spiritual chronicle of the sacred 108 Divya Desams sung by the Alwars, documenting temple architecture, rituals, and legends.",
+    "summary": "Authored by former senior civil servant Dr. M. S. Ramesh, this 261-page English treatise covers the sacred geography, architectural majesty, inscriptions, and devotional hymns of South India's premier Vaishnavite pilgrimage shrines.",
+    "keyTakeaways": [
+      "Detailed architectural layouts, vimana designs, and sacred tanks of ancient temples",
+      "Historical insights into the 12 Alwars and their passionate Tamil/Sanskrit hymnody",
+      "Practical travel, route maps, and pilgrimage etiquette for cultural and spiritual tourists"
+    ],
+    "prerequisites": [
+      "Interest in temple architecture, Indian cultural heritage, and pilgrimage"
+    ],
+    "recommendedNext": [
+      "res-local-sri-venkatachala-mahatmyam"
+    ],
+    "topics": [
+      "DivyaDesams",
+      "Temples",
+      "Architecture",
+      "EnglishEdition",
+      "Pilgrimage",
+      "History"
+    ],
+    "tags": [
+      "108DivyaDesams",
+      "English",
+      "Temples",
+      "Architecture",
+      "Heritage"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-venkatachala-mahatmyam",
+    "title": "Sri Venkatachala Mahatmyam: Puranic Glory of Tirumala Hills",
+    "author": "Venkateswara Aradhana Parishad",
+    "pages": 114,
+    "fileName": "Sri Venkatachala Mahatmyam.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Tirumala & Venkateswara Divine Chronicles",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 114,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Sri Venkatachala Mahatmyam.pdf",
+    "whatIsThisBookFor": "Exploring the Puranic legends, arrival of Lord Srinivasa on the Seven Hills, and the spiritual sanctity of Tirumala.",
+    "summary": "A 114-page compilation gathering stories from the Varaha, Padma, and Skanda Puranas describing the sacred Tirumala hills, the manifestation of Lord Venkateswara, and his eternal promise to protect seekers in Kali Yuga.",
+    "keyTakeaways": [
+      "Spiritual sanctity of the Seshachalam hills and the holy Swami Pushkarini teertham",
+      "The legend of Lord Srinivasa and Bakula Devi, establishing parental love and hospitality",
+      "The power of simple, unpretentious prayer in receiving divine grace at Tirumala"
+    ],
+    "prerequisites": [
+      "Reverence for Lord Venkateswara and Hindu temple traditions"
+    ],
+    "recommendedNext": [
+      "res-local-bhaje-srinivasam"
+    ],
+    "topics": [
+      "Tirumala",
+      "Venkateswara",
+      "Venkatachala",
+      "KshetraMahatyam",
+      "Telugu"
+    ],
+    "tags": [
+      "Tirumala",
+      "Venkateswara",
+      "Srinivasa",
+      "SevenHills",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-bhaje-srinivasam",
+    "title": "Bhaje Srinivasam: Melodious Devotional Glories of Srinivasa",
+    "author": "Tirumala Tirupati Devasthanams Scholars",
+    "pages": 68,
+    "fileName": "BHAJE-SRINIVASAM.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Tirumala & Venkateswara Divine Chronicles",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 68,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\BHAJE-SRINIVASAM.pdf",
+    "whatIsThisBookFor": "Heart-touching devotional stotras, keertanas, and lyrical prayers in praise of Lord Venkateswara for daily peace and devotion.",
+    "summary": "A 68-page collection of poetic hymns and stotras dedicated to Lord Srinivasa. Features rich explanations of the deity's ornaments, divine smile, and compassion toward suffering humanity.",
+    "keyTakeaways": [
+      "Joy of musical contemplation on the Lord's transcendent beauty and grace",
+      "Uplifting daily chants to cultivate gratitude, humility, and positive energy",
+      "Understanding the deeper symbolic meaning of the Shankha, Chakra, and Varada mudra"
+    ],
+    "prerequisites": [
+      "Openness to devotional chanting and music"
+    ],
+    "recommendedNext": [
+      "res-local-sri-venkateswara-darsanam"
+    ],
+    "topics": [
+      "BhajeSrinivasam",
+      "Srinivasa",
+      "Keertanas",
+      "Devotion",
+      "Telugu"
+    ],
+    "tags": [
+      "Srinivasa",
+      "Stotras",
+      "Bhakti",
+      "Tirupati",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-venkateswara-darsanam",
+    "title": "Sri Venkateswara Darsanam: 24 Keshava Namas & Pilgrim's Inner Guide",
+    "author": "T. V. R. K. Murthy (Vedic Scholars Forum)",
+    "pages": 56,
+    "fileName": "SRI-VENKATESWARA-DARSANAM.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Tirumala & Venkateswara Divine Chronicles",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 56,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-VENKATESWARA-DARSANAM.pdf",
+    "whatIsThisBookFor": "Transforming a physical pilgrimage into a profound inner spiritual awakening through the 24 sacred Keshava Namas.",
+    "summary": "A 56-page illustrated guide that prepares the pilgrim for Tirumala darshan. It illuminates the inner spiritual discipline required during the trek up the hills, temple circumambulations, and the holy moment of seeing the Lord.",
+    "keyTakeaways": [
+      "Detailed significance of the 24 divine forms of Vishnu (Keshava, Narayana, Madhava...)",
+      "Disciplines for mental stillness during crowded queues and long waits",
+      "How to carry the spiritual peace experienced at Tirumala back into daily home life"
+    ],
+    "prerequisites": [
+      "Pilgrimage orientation and love for Tirumala"
+    ],
+    "recommendedNext": [
+      "res-local-sri-padmavathi-parinayam"
+    ],
+    "topics": [
+      "Darsanam",
+      "Venkateswara",
+      "KeshavaNamas",
+      "PilgrimageGuide",
+      "Telugu"
+    ],
+    "tags": [
+      "Darsanam",
+      "Tirumala",
+      "Venkateswara",
+      "Keshava",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-padmavathi-parinayam",
+    "title": "Sri Padmavathi Parinayam: Divine Wedding & Family Harmony",
+    "author": "T. V. R. K. Murthy (Vedic Cultural Foundation)",
+    "pages": 34,
+    "fileName": "SRI-PADMAVATHI-PARINAYAM.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Tirumala & Venkateswara Divine Chronicles",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 34,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-PADMAVATHI-PARINAYAM.pdf",
+    "whatIsThisBookFor": "Cherishing the celestial wedding of Goddess Padmavathi and Lord Srinivasa, fostering domestic harmony, respect, and marital joy.",
+    "summary": "A 34-page illustrated celebration of the divine Kalyanotsavam at Narayanavanam. It highlights the cultural values of traditional Hindu weddings, mutual respect between spouses, hospitality to guests, and festive family devotion.",
+    "keyTakeaways": [
+      "The spiritual significance of Kalyanotsavam as union of individual soul and Divine Grace",
+      "Practical life lessons on family unity, humility in prosperity, and respectful relationships",
+      "Traditional wedding songs, mangala slokas, and rituals described with warmth"
+    ],
+    "prerequisites": [
+      "Interest in Hindu cultural celebrations and family traditions"
+    ],
+    "recommendedNext": [
+      "res-local-sri-swaroopa-srinivasam"
+    ],
+    "topics": [
+      "PadmavathiParinayam",
+      "Kalyanam",
+      "Srinivasa",
+      "FamilyValues",
+      "Telugu"
+    ],
+    "tags": [
+      "Kalyanam",
+      "Padmavathi",
+      "Srinivasa",
+      "Wedding",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-swaroopa-srinivasam",
+    "title": "Sri Swaroopa Srinivasam: Philosophical Form & Cosmic Splendor",
+    "author": "Spiritual Vedanta Research Trust",
+    "pages": 28,
+    "fileName": "SRI-SWAROOPA-SRINIVASAM.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Tirumala & Venkateswara Divine Chronicles",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 28,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-SWAROOPA-SRINIVASAM.pdf",
+    "whatIsThisBookFor": "Deep philosophical contemplation on the cosmic idol of Lord Venkateswara as the embodiment of all divinities.",
+    "summary": "A 28-page metaphysical treatise analyzing the sacred posture, symbols, and mystic presence of Lord Srinivasa. It demonstrates how the deity incorporates elements of Vishnu, Shiva, and Devi, signifying ultimate non-sectarian unity.",
+    "keyTakeaways": [
+      "The iconographic harmony uniting Vaishnava, Shaiva, and Shakta traditions in Tirupati",
+      "The Varada Hastha gesture: the promise of protection within knee-deep waters of Samsara",
+      "Inner contemplation (Antarmukha Sadhana) focused upon the divine idol"
+    ],
+    "prerequisites": [
+      "Familiarity with Hindu iconography and philosophical symbolism"
+    ],
+    "recommendedNext": [
+      "res-local-sri-kalahasti"
+    ],
+    "topics": [
+      "SwaroopaSrinivasam",
+      "Iconography",
+      "Philosophy",
+      "Vedanta",
+      "Telugu"
+    ],
+    "tags": [
+      "Swaroopa",
+      "Srinivasa",
+      "Philosophy",
+      "Iconography",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-kalahasti",
+    "title": "Sri Kalahasti Kshetra Mahatyam: Legend of Vayu Lingam & Kannappa",
+    "author": "Sri Kalahastheeswara Temple Devasthanam",
+    "pages": 126,
+    "fileName": "Sri-Kalahasti.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Shaiva & Shakti Kshetra Mahatyam",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 126,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Sri-Kalahasti.pdf",
+    "whatIsThisBookFor": "Exploring the legendary Shaiva temple of the Vayu Lingam (Air Element) and Bhakta Kannappa's unshakeable love that moved Lord Shiva.",
+    "summary": "A 126-page temple chronicle detailing the sacred history of Sri Kalahasti. Tells the stories of the Spider (Sri), Snake (Kala), and Elephant (Hasti) who attained moksha, the legend of Kannappa offering his eyes, and the relief of Rahu-Ketu astrological afflictions.",
+    "keyTakeaways": [
+      "The story of Bhakta Kannappa: Pure, unconditional love triumphs over empty formal ritualism",
+      "The Pancha Bhoota Sthalam of the Air Element (Vayu Lingam) with its flickering eternal lamps",
+      "Psychological healing and freedom from fears through the sacred grace of Gnana Prasunamba"
+    ],
+    "prerequisites": [
+      "Interest in Shaivism, temple legends, and pilgrimage history"
+    ],
+    "recommendedNext": [
+      "res-local-malleshwara-kshetra"
+    ],
+    "topics": [
+      "Kalahasti",
+      "Kannappa",
+      "VayuLingam",
+      "ShaivaKshetras",
+      "Telugu"
+    ],
+    "tags": [
+      "Kalahasti",
+      "Shiva",
+      "Kannappa",
+      "PanchaBhoota",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-malleshwara-kshetra",
+    "title": "Malleshwara Kshetra Mahatyam: Sacred Shaiva Heritage & Legends",
+    "author": "Shaiva Kshetra Research Committee",
+    "pages": 114,
+    "fileName": "Malleshwara-Kshetra.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Shaiva & Shakti Kshetra Mahatyam",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 114,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Malleshwara-Kshetra.pdf",
+    "whatIsThisBookFor": "Discovering the sacred heritage, historical epigraphs, and peaceful spiritual atmosphere of the Malleshwara shrine.",
+    "summary": "A 114-page historical and devotional guide to the revered Malleshwara temple. Discusses ancient stone inscriptions, patronage by historic kings, linga prathishta rituals, and the serenity experienced during silent meditation.",
+    "keyTakeaways": [
+      "Cultural resilience of ancient temple heritage across changing political dynasties",
+      "The role of local temple festivals in sustaining social unity and village harmony",
+      "Inner peace cultivated through quiet worship of Lord Mallikarjuna / Malleshwara"
+    ],
+    "prerequisites": [
+      "General interest in regional Andhra temple history"
+    ],
+    "recommendedNext": [
+      "res-local-bapatla-sri"
+    ],
+    "topics": [
+      "Malleshwara",
+      "ShaivaKshetras",
+      "Inscriptions",
+      "TempleHistory",
+      "Telugu"
+    ],
+    "tags": [
+      "Malleshwara",
+      "Shiva",
+      "Temple",
+      "Heritage",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-bapatla-sri",
+    "title": "Bapatla Sri Bhavanarayana Swami Kshetra Charitra",
+    "author": "Bapatla Devasthana Charitra Parishad",
+    "pages": 204,
+    "fileName": "2015.387941.Bapatla-Sri.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Shaiva & Shakti Kshetra Mahatyam",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 204,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.387941.Bapatla-Sri.pdf",
+    "whatIsThisBookFor": "Comprehensive architectural, cultural, and spiritual documentation of the ancient Bhavanarayana Swami shrine in Bapatla.",
+    "summary": "A 204-page historical tome presenting the sthala puranam, Chola and Vijayanagara architectural influences, seasonal utsavams, and sacred hymns dedicated to Sri Bhavanarayana Swami of Bapatla.",
+    "keyTakeaways": [
+      "Detailed architectural survey of mandapams, sculptures, and temple tank engineering",
+      "Historical epigraphs shedding light on public welfare endowments and community service",
+      "Preserving local temple oral histories and living religious customs"
+    ],
+    "prerequisites": [
+      "Curiosity regarding Andhra history, temple architecture, and epigraphy"
+    ],
+    "recommendedNext": [
+      "res-local-puujaahooma-kalpataruvu"
+    ],
+    "topics": [
+      "Bapatla",
+      "Bhavanarayana",
+      "Architecture",
+      "SthalaPuranam",
+      "Telugu"
+    ],
+    "tags": [
+      "Bapatla",
+      "TempleHistory",
+      "Bhavanarayana",
+      "AndhraHeritage",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-puujaahooma-kalpataruvu",
+    "title": "Pooja Homa Kalpataruvu: Vedic Rituals, Homa & Sadhana Encyclopedia",
+    "author": "Vedic Ritwik Council & Pundit Assembly",
+    "pages": 454,
+    "fileName": "2015.497549.puujaahooma-kalpataruvu.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Vedic Pooja, Homa & Discipline Kalpataruvu",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 454,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.497549.puujaahooma-kalpataruvu.pdf",
+    "whatIsThisBookFor": "A massive 454-page master manual detailing step-by-step Vedic domestic pooja, homa rituals, samkalpa, and mental purification.",
+    "summary": "An authoritative encyclopedia of Vedic rituals for priests, scholars, and serious householders. Contains clear mantras, mudras, Havana procedures, and philosophical rationales for daily domestic yajnas and festive sacraments.",
+    "keyTakeaways": [
+      "Step-by-step Shodashopachara Pooja: Meaning of Dhyana, Asana, Arghya, and Deepa",
+      "Domestic Homa (Havan) fire rituals: Kundam preparation, samit selection, and ghee offerings",
+      "Scientific and environmental hygiene benefits of herbal homa smoke for home atmosphere"
+    ],
+    "prerequisites": [
+      "Interest in Vedic rituals, Sanskrit/Telugu mantras, and domestic sadhana"
+    ],
+    "recommendedNext": [
+      "res-local-ttd-nitya-stotravali"
+    ],
+    "topics": [
+      "Pooja",
+      "Homa",
+      "Kalpataruvu",
+      "VedicRituals",
+      "MantraVidhi",
+      "Telugu"
+    ],
+    "tags": [
+      "Pooja",
+      "Homa",
+      "Rituals",
+      "VedicSadhana",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-ttd-nitya-stotravali",
+    "title": "Nitya Stotravali: Authentic Daily Prayers & Suktams by TTD",
+    "author": "Tirumala Tirupati Devasthanams (TTD)",
+    "pages": 77,
+    "fileName": "Nitya Sthothravali By TTD In Telugu_text.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "TTD Nitya Stotravali & Tulasi Mahatmyam",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 77,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Nitya Sthothravali By TTD In Telugu_text.pdf",
+    "whatIsThisBookFor": "The official TTD collection of sacred daily stotras, morning suktams, and evening prayers for peaceful daily home recitation.",
+    "summary": "A 77-page quintessential daily prayer book published by TTD. Includes Venkateswara Suprabhatam, Stotram, Prapatti, Mangalashasanam, Vishnu Sahasranama Stotram, Sri Suktam, and Kanakadhara Stotram with pristine Telugu typesetting.",
+    "keyTakeaways": [
+      "Starting the morning with serenity through the divine verses of Suprabhatam",
+      "Recitation of Sri Vishnu Sahasranama for mental clarity and freedom from fear",
+      "Authentic metric pronunciations and accent markings approved by Tirumala scholars"
+    ],
+    "prerequisites": [
+      "Desire for a peaceful daily prayer routine"
+    ],
+    "recommendedNext": [
+      "res-local-sri-tulasi-mahimalu"
+    ],
+    "topics": [
+      "TTD",
+      "Stotravali",
+      "Suprabhatam",
+      "DailyPrayers",
+      "Telugu"
+    ],
+    "tags": [
+      "TTD",
+      "Stotras",
+      "Suprabhatam",
+      "DailySadhana",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-tulasi-mahimalu",
+    "title": "Sri Tulasi Divya Mahimalu: Sacred Virtues, Health & Environmental Grace",
+    "author": "Dr. D. Umadevi (Published by TTD, Tirupati)",
+    "pages": 44,
+    "fileName": "Sri Tulasi Divya Mahimalu By Dr. D. Umadevi In Telugu.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "TTD Nitya Stotravali & Tulasi Mahatmyam",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 44,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Sri Tulasi Divya Mahimalu By Dr. D. Umadevi In Telugu.pdf",
+    "whatIsThisBookFor": "Discovering the botanical, environmental, and spiritual glory of Holy Basil (Tulasi) for holistic health and harmonious domestic living.",
+    "summary": "Authored by Dr. D. Umadevi and published by TTD, this 44-page book bridges Ayurvedic medicinal science with sacred Puranic reverence for Tulasi. Details air-purifying qualities, immunity boosting, daily watering rituals, and Tulasi Pooja.",
+    "keyTakeaways": [
+      "Scientific air-purifying, anti-microbial, and stress-reducing properties of Ocimum sanctum",
+      "Sacred daily Tulasi Pooja procedure, Dhyana slokas, and circumambulation guidelines",
+      "Ecological message: Reverence for living plants as the bedrock of traditional Indian culture"
+    ],
+    "prerequisites": [
+      "Love for nature, gardening, and healthy Ayurvedic lifestyle"
+    ],
+    "recommendedNext": [
+      "res-local-mahalaxmi-mahatyam"
+    ],
+    "topics": [
+      "Tulasi",
+      "TTD",
+      "Ayurveda",
+      "HerbalHealth",
+      "NatureReverence",
+      "Telugu"
+    ],
+    "tags": [
+      "Tulasi",
+      "Health",
+      "Ayurveda",
+      "Pooja",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahalaxmi-mahatyam",
+    "title": "Mahalaxmi Mahatyam: Goddess of Prosperity, Grace & Righteous Wealth",
+    "author": "Sri Lakshmi Upasana Mandiram",
+    "pages": 44,
+    "fileName": "Mahalaxmi-Mahatyam.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "TTD Nitya Stotravali & Tulasi Mahatmyam",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 44,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\Mahalaxmi-Mahatyam.pdf",
+    "whatIsThisBookFor": "Cultivating righteous prosperity, gratitude, cleanliness, hospitality, and welcoming divine grace into the household.",
+    "summary": "A 44-page devotional text detailing the sacred stories, Ashta Lakshmi forms, Kanakadhara reflections, and pooja vidhi of Goddess Mahalakshmi. It emphasizes that wealth earned through righteous means (Dharma) brings lasting peace and contentment.",
+    "keyTakeaways": [
+      "The eight manifestations of Lakshmi: Dhanya, Dhairya, Gaja, Santana, Vijaya, Vidya, Dhana, and Adi",
+      "Cleanliness, mutual kindness, and truthfulness as prerequisites for inviting Lakshmi's grace",
+      "Kanakadhara Stotram reflections on selfless generosity and aiding the destitute"
+    ],
+    "prerequisites": [
+      "Desire for holistic prosperity and peaceful home environment"
+    ],
+    "recommendedNext": [
+      "res-local-lakshmi-narasimha-vratam"
+    ],
+    "topics": [
+      "Mahalaxmi",
+      "AshtaLakshmi",
+      "Prosperity",
+      "Gratitude",
+      "Telugu"
+    ],
+    "tags": [
+      "Lakshmi",
+      "Prosperity",
+      "Stotram",
+      "Vratam",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-lakshmi-narasimha-vratam",
+    "title": "Sri Lakshmi Narasimha Vratha Kalpam: Vanquishing Fear & Obstacles",
+    "author": "Vedic Vrata Sahitya Parishad",
+    "pages": 38,
+    "fileName": "SRI-LAKSHMI-NARASIMHA-VRATHA-KALPAM.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 38,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-LAKSHMI-NARASIMHA-VRATHA-KALPAM.pdf",
+    "whatIsThisBookFor": "Invoking Lord Narasimha's fierce protection against internal weaknesses, enemies, and paralyzing anxiety.",
+    "summary": "A 38-page complete vrata kalpam containing the story of Prahlada's unwavering devotion, Lord Narasimha's appearance from the pillar, protective kavachams, and step-by-step sacred pooja vidhanam.",
+    "keyTakeaways": [
+      "Courage in standing for truth: Prahlada's fearlessness in the face of tyranny",
+      "Lord Narasimha as the instant protector of the defenseless and sincere seeker",
+      "Rina Vimochana Stotram for relief from physical, financial, and mental debts"
+    ],
+    "prerequisites": [
+      "Devotion to Lord Narasimha and basic pooja materials"
+    ],
+    "recommendedNext": [
+      "res-local-subha-durga-vratham"
+    ],
+    "topics": [
+      "Narasimha",
+      "VrathaKalpam",
+      "Protection",
+      "Courage",
+      "Telugu"
+    ],
+    "tags": [
+      "Narasimha",
+      "Vratam",
+      "Protection",
+      "Prahlada",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-subha-durga-vratham",
+    "title": "Sri Subha Durga Vratham: Divine Feminine Protection & Victory",
+    "author": "Devi Upasana Mandali",
+    "pages": 32,
+    "fileName": "SRI-SUBHA-DURGA-VRATHAM.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 32,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-SUBHA-DURGA-VRATHAM.pdf",
+    "whatIsThisBookFor": "Invoking the protective power of Goddess Durga to banish negative thoughts, overcome hardships, and foster inner willpower.",
+    "summary": "A 32-page devotional guide to Durga Vratam and Navaratri sadhana. Contains sacred Ashtottara Shatanamavali, Rahukaala Deepam procedures, and inspiring stories celebrating the triumph of righteousness.",
+    "keyTakeaways": [
+      "The divine feminine as the supreme power (Shakti) energizing the entire cosmos",
+      "Overcoming internal demons: conquering anger (Mahisha), greed, and lethargy",
+      "Developing unshakeable self-confidence and moral stamina in daily challenges"
+    ],
+    "prerequisites": [
+      "Devotion to Mother Durga and Devi worship"
+    ],
+    "recommendedNext": [
+      "res-local-maheswara-vratam"
+    ],
+    "topics": [
+      "Durga",
+      "Shakti",
+      "Vratam",
+      "Navaratri",
+      "Telugu"
+    ],
+    "tags": [
+      "Durga",
+      "Devi",
+      "Vratam",
+      "Protection",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-maheswara-vratam",
+    "title": "Sri Maheswara Vratam: Shiva Pradosha Vidhi & Inner Stillness",
+    "author": "Shaiva Agama Vidwat Sabha",
+    "pages": 28,
+    "fileName": "SriMaheswaraVratam.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 28,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SriMaheswaraVratam.pdf",
+    "whatIsThisBookFor": "Cultivating peace of mind, freedom from restlessness, and silent meditation through Somavara and Pradosha Shiva worship.",
+    "summary": "A 28-page pooja manual dedicated to Lord Maheswara. Features Bilvashtakam, Lingashtakam, Shiva Ashtottaram, and the sacred story of forgiveness and tranquility through regular Shiva sadhana.",
+    "keyTakeaways": [
+      "Bilva patra offering: Surrendering the three Gunas (Sattva, Rajas, Tamas) to the Divine",
+      "Pradosha Vrata discipline for dissolving past regrets and calming agitated thoughts",
+      "Simplicity of Shiva worship: pleased even with pure water (Abhisheka Priya)"
+    ],
+    "prerequisites": [
+      "Openness to quiet meditation and Shiva stotras"
+    ],
+    "recommendedNext": [
+      "res-local-subramanya-vratham"
+    ],
+    "topics": [
+      "Maheswara",
+      "Shiva",
+      "Pradosham",
+      "Vratam",
+      "Meditation",
+      "Telugu"
+    ],
+    "tags": [
+      "Shiva",
+      "Vratam",
+      "Pradosham",
+      "Peace",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-subramanya-vratham",
+    "title": "Sri Subramanya Vratham: Lord Skanda's Energy & Mental Sharpness",
+    "author": "Skanda Bhakta Samajam",
+    "pages": 16,
+    "fileName": "SRI-SUBRAMANYA-VRATHAM.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 16,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-SUBRAMANYA-VRATHAM.pdf",
+    "whatIsThisBookFor": "Invoking Lord Kartikeya for sharp intellect, vitality, overcoming procrastination, and protection from harm.",
+    "summary": "A compact 16-page vrata manual celebrating Lord Subramanya (Murugan / Skanda). Details the Skanda Shasthi vrata procedure, Vel (spear) symbolism, and mantras for physical vigor and laser-sharp mental concentration.",
+    "keyTakeaways": [
+      "The sacred Vel (Spear): Symbolizing sharp, deep, and broad intellect piercing delusion",
+      "Overcoming procrastination and sloth through martial discipline and vital energy",
+      "Protective blessings for children's health, education, and career success"
+    ],
+    "prerequisites": [
+      "Basic familiarity with Subramanya Shasthi traditions"
+    ],
+    "recommendedNext": [
+      "res-local-krishna-vratam"
+    ],
+    "topics": [
+      "Subramanya",
+      "Kartikeya",
+      "Skanda",
+      "Vratam",
+      "Intellect",
+      "Telugu"
+    ],
+    "tags": [
+      "Subramanya",
+      "Kartikeya",
+      "Vel",
+      "Focus",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-krishna-vratam",
+    "title": "Sri Krishna Vratam: Joyful Devotion, Leelas & Karma Yoga",
+    "author": "Prapatti Sahitya Niketan",
+    "pages": 16,
+    "fileName": "SRI-KRISHNA-VRATAM-TELUGU.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 16,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-KRISHNA-VRATAM-TELUGU.pdf",
+    "whatIsThisBookFor": "Embracing joyful living, selfless duty (Nishkama Karma), and sweet devotional love through Sri Krishna's leelas.",
+    "summary": "A 16-page Telugu manual for Sri Krishna Janmashtami and monthly Rohini vratas. Details the child leelas of Gokula, the dance on Kalinga, and the Bhagavad Gita's call to joyful selfless action.",
+    "keyTakeaways": [
+      "Approaching spirituality with joy, cheerfulness, and lightheartedness (Ananda)",
+      "Karma Yoga: Performing one's duty with excellence without obsessive attachment to results",
+      "Simple offerings of love (Patram, Pushpam, Phalam, Toyam) cherished by Krishna"
+    ],
+    "prerequisites": [
+      "Love for Sri Krishna stories and Janmashtami traditions"
+    ],
+    "recommendedNext": [
+      "res-local-gnana-saraswathi-vratam"
+    ],
+    "topics": [
+      "Krishna",
+      "Janmashtami",
+      "KarmaYoga",
+      "Vratam",
+      "Joy",
+      "Telugu"
+    ],
+    "tags": [
+      "Krishna",
+      "Vratam",
+      "Joy",
+      "KarmaYoga",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-gnana-saraswathi-vratam",
+    "title": "Sri Gnana Saraswathi Vratam: Wisdom, Learning & Intellectual Power",
+    "author": "T. V. R. K. Murthy (Vedic Education Society)",
+    "pages": 14,
+    "fileName": "SRI-GNANA-SARASWATHI-VRATAM.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 14,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\SRI-GNANA-SARASWATHI-VRATAM.pdf",
+    "whatIsThisBookFor": "A special vrata for students, teachers, creators, and knowledge seekers to boost memory, speech clarity, and wisdom.",
+    "summary": "A 14-page sacred guide to Goddess Saraswathi's pooja, reflecting the ancient traditions of Basara Gnana Saraswathi temple. Contains medha suktams, Vidya prarthanas, and tips for student concentration.",
+    "keyTakeaways": [
+      "Worship of Goddess Saraswathi for eloquence (Vak-Shuddhi) and academic success",
+      "The white lotus and veena symbolism: Purity of character and harmony in knowledge",
+      "Dedication to lifelong learning as a divine, sacred duty (Swadhyaya)"
+    ],
+    "prerequisites": [
+      "Curiosity for learning, academic growth, and arts"
+    ],
+    "recommendedNext": [
+      "res-local-sri-shivapuranamu"
+    ],
+    "topics": [
+      "Saraswathi",
+      "Wisdom",
+      "Learning",
+      "Education",
+      "Students",
+      "Telugu"
+    ],
+    "tags": [
+      "Saraswathi",
+      "Wisdom",
+      "Learning",
+      "Vratam",
+      "Memory",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];
