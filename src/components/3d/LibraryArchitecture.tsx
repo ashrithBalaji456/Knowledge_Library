@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
 import { useLibraryStore } from '../../store/useLibraryStore';
+import { DetailedIndoorTree, DetailedCourtyardTree } from './DetailedTrees';
 
 // Generate warm natural oak parquet wood plank floor texture
 let cachedFloorTexture: THREE.CanvasTexture | null = null;
@@ -136,28 +137,41 @@ export const LibraryArchitecture: React.FC = () => {
     [atmosphere]
   );
 
-  // Plants & Pots
-  const plantLeafMaterial = useMemo(
+  // Glowing warm sconce candle / frosted tulip glass
+  const sconceGlowMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#15803D',
-        roughness: 0.4,
-        metalness: 0.02,
+        color: '#FFFBEB',
+        emissive: new THREE.Color(atmosphere === 'night' ? '#F59E0B' : '#FDE68A'),
+        emissiveIntensity: atmosphere === 'night' ? 1.0 : 0.6,
+        roughness: 0.2,
+      }),
+    [atmosphere]
+  );
+
+  // Dark green desk blotter leather
+  const deskLeatherMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#1B3D2F', // Classic British library desk leather
+        roughness: 0.62,
+        metalness: 0.04,
       }),
     []
   );
 
-  const terracottaMaterial = useMemo(
+  // Aged manuscript parchment paper
+  const parchmentMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#C25E34', // Rich terracotta clay
+        color: '#F4ECD8', // Aged ivory parchment paper
         roughness: 0.85,
         metalness: 0.02,
       }),
     []
   );
 
-  // Outside sky & landscape visible through windows
+  // Outdoor sky & landscape visible through windows
   const skyColor =
     atmosphere === 'day' ? '#60A5FA' : atmosphere === 'evening' ? '#F97316' : '#1E1B4B';
 
@@ -180,14 +194,18 @@ export const LibraryArchitecture: React.FC = () => {
     { x: 2.8, z: -10, rot: -0.18 },
   ];
 
-  // Planter locations
+  // Botanical Indoor Planter Locations (Ficus, Olive, and Fiddle-Leaf conservatory trees)
   const planterLocations = [
-    { x: -8.8, z: 22 },
-    { x: 8.8, z: 22 },
-    { x: -8.8, z: -52 },
-    { x: 8.8, z: -52 },
-    { x: -8.8, z: -15 },
-    { x: 8.8, z: -15 },
+    { x: -8.8, z: 22, rot: 0.3, variant: 'fiddle-leaf' as const, scale: 1.05 },
+    { x: 8.8, z: 22, rot: -0.5, variant: 'olive' as const, scale: 1.0 },
+    { x: -8.8, z: -52, rot: 1.2, variant: 'olive' as const, scale: 1.08 },
+    { x: 8.8, z: -52, rot: -1.0, variant: 'fiddle-leaf' as const, scale: 1.05 },
+    { x: -8.8, z: -15, rot: 2.1, variant: 'fiddle-leaf' as const, scale: 1.1 },
+    { x: 8.8, z: -15, rot: -2.3, variant: 'olive' as const, scale: 1.05 },
+    { x: -7.5, z: 12, rot: 0.8, variant: 'olive' as const, scale: 0.95 },
+    { x: 7.5, z: 12, rot: -0.7, variant: 'fiddle-leaf' as const, scale: 0.95 },
+    { x: -7.5, z: -32, rot: 1.7, variant: 'fiddle-leaf' as const, scale: 1.0 },
+    { x: 7.5, z: -32, rot: -1.4, variant: 'olive' as const, scale: 1.0 },
   ];
 
   return (
@@ -281,19 +299,29 @@ export const LibraryArchitecture: React.FC = () => {
         </mesh>
       </group>
 
-      {/* --- LARGE SUNLIT ARCHED LIBRARY WINDOWS (With Green Garden / Campus View Outside) --- */}
+      {/* --- LARGE SUNLIT ARCHED LIBRARY WINDOWS (With Genuine 3D Courtyard Garden & Towering Trees Outside) --- */}
       {[-30, -10, 10].map((z, i) => (
         <group key={`win-w-${i}`} position={[-43.4, 4.6, z]}>
-          {/* Outdoor Sky & Tree Garden View */}
-          <mesh rotation={[0, Math.PI / 2, 0]}>
-            <planeGeometry args={[5.2, 4.8]} />
+          {/* Outdoor Sky Backdrop */}
+          <mesh position={[-5.0, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+            <planeGeometry args={[12, 7.5]} />
             <meshBasicMaterial color={skyColor} />
           </mesh>
-          {/* Outdoor lush green tree silhouettes at bottom of window */}
-          <mesh position={[0.02, -1.2, 0]} rotation={[0, Math.PI / 2, 0]}>
-            <planeGeometry args={[5.2, 2.2]} />
-            <meshBasicMaterial color="#166534" />
+
+          {/* Outdoor rolling green lawn ground */}
+          <mesh position={[-3.5, -4.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[10, 14]} />
+            <meshStandardMaterial color="#1E3A1A" roughness={0.9} />
           </mesh>
+
+          {/* Towering 3D Courtyard Trees in outdoor view */}
+          <group position={[-2.8, -4.6, -2.6]}>
+            <DetailedCourtyardTree position={[0, 0, 0]} scale={0.72} rotationY={0.8 * i} />
+          </group>
+          <group position={[-3.8, -4.6, 2.4]}>
+            <DetailedCourtyardTree position={[0, 0, 0]} scale={0.85} rotationY={1.4 * i + 0.6} />
+          </group>
+
           {/* Oak Arched Window Frame & Mullions */}
           <mesh position={[0.04, 0, 0]}>
             <boxGeometry args={[0.08, 4.8, 0.09]} />
@@ -312,14 +340,27 @@ export const LibraryArchitecture: React.FC = () => {
 
       {[-30, -10, 10].map((z, i) => (
         <group key={`win-e-${i}`} position={[43.4, 4.6, z]}>
-          <mesh rotation={[0, -Math.PI / 2, 0]}>
-            <planeGeometry args={[5.2, 4.8]} />
+          {/* Outdoor Sky Backdrop */}
+          <mesh position={[5.0, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+            <planeGeometry args={[12, 7.5]} />
             <meshBasicMaterial color={skyColor} />
           </mesh>
-          <mesh position={[-0.02, -1.2, 0]} rotation={[0, -Math.PI / 2, 0]}>
-            <planeGeometry args={[5.2, 2.2]} />
-            <meshBasicMaterial color="#166534" />
+
+          {/* Outdoor rolling green lawn ground */}
+          <mesh position={[3.5, -4.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[10, 14]} />
+            <meshStandardMaterial color="#1E3A1A" roughness={0.9} />
           </mesh>
+
+          {/* Towering 3D Courtyard Trees in outdoor view */}
+          <group position={[2.8, -4.6, -2.5]}>
+            <DetailedCourtyardTree position={[0, 0, 0]} scale={0.72} rotationY={1.1 * i} />
+          </group>
+          <group position={[3.8, -4.6, 2.5]}>
+            <DetailedCourtyardTree position={[0, 0, 0]} scale={0.85} rotationY={0.9 * i + 1.2} />
+          </group>
+
+          {/* Oak Arched Window Frame & Mullions */}
           <mesh position={[-0.04, 0, 0]}>
             <boxGeometry args={[0.08, 4.8, 0.09]} />
             <primitive object={warmOakMaterial} attach="material" />
@@ -372,7 +413,7 @@ export const LibraryArchitecture: React.FC = () => {
         </group>
       ))}
 
-      {/* --- NEOCLASSICAL CREAM STONE PILLARS WITH BRASS TRIM --- */}
+      {/* --- NEOCLASSICAL CREAM STONE PILLARS WITH BRASS TRIM & WALL SCONCES --- */}
       {pillarZPositions.map((z, idx) => (
         <group key={`pillars-${idx}`}>
           {/* Left Pillar */}
@@ -389,6 +430,30 @@ export const LibraryArchitecture: React.FC = () => {
               <boxGeometry args={[1.25, 0.35, 1.25]} />
               <primitive object={brassMaterial} attach="material" />
             </mesh>
+
+            {/* Classical Antique Brass Wall Sconce facing Central Hall (+X) */}
+            <group position={[0.44, 3.6, 0]}>
+              {/* Backplate */}
+              <mesh position={[0.015, 0, 0]}>
+                <boxGeometry args={[0.03, 0.36, 0.14]} />
+                <primitive object={brassMaterial} attach="material" />
+              </mesh>
+              {/* Sconce curved arm */}
+              <mesh position={[0.12, -0.06, 0]} rotation={[0, 0, -Math.PI / 4]}>
+                <cylinderGeometry args={[0.012, 0.012, 0.18, 8]} />
+                <primitive object={brassMaterial} attach="material" />
+              </mesh>
+              {/* Brass cup collar */}
+              <mesh position={[0.18, 0.02, 0]}>
+                <cylinderGeometry args={[0.05, 0.03, 0.06, 12]} />
+                <primitive object={brassMaterial} attach="material" />
+              </mesh>
+              {/* Warm frosted glass glowing candle flame */}
+              <mesh position={[0.18, 0.1, 0]}>
+                <sphereGeometry args={[0.065, 12, 12]} />
+                <primitive object={sconceGlowMaterial} attach="material" />
+              </mesh>
+            </group>
           </group>
 
           {/* Right Pillar */}
@@ -405,17 +470,46 @@ export const LibraryArchitecture: React.FC = () => {
               <boxGeometry args={[1.25, 0.35, 1.25]} />
               <primitive object={brassMaterial} attach="material" />
             </mesh>
+
+            {/* Classical Antique Brass Wall Sconce facing Central Hall (-X) */}
+            <group position={[-0.44, 3.6, 0]}>
+              {/* Backplate */}
+              <mesh position={[-0.015, 0, 0]}>
+                <boxGeometry args={[0.03, 0.36, 0.14]} />
+                <primitive object={brassMaterial} attach="material" />
+              </mesh>
+              {/* Sconce curved arm */}
+              <mesh position={[-0.12, -0.06, 0]} rotation={[0, 0, Math.PI / 4]}>
+                <cylinderGeometry args={[0.012, 0.012, 0.18, 8]} />
+                <primitive object={brassMaterial} attach="material" />
+              </mesh>
+              {/* Brass cup collar */}
+              <mesh position={[-0.18, 0.02, 0]}>
+                <cylinderGeometry args={[0.05, 0.03, 0.06, 12]} />
+                <primitive object={brassMaterial} attach="material" />
+              </mesh>
+              {/* Warm frosted glass glowing candle flame */}
+              <mesh position={[-0.18, 0.1, 0]}>
+                <sphereGeometry args={[0.065, 12, 12]} />
+                <primitive object={sconceGlowMaterial} attach="material" />
+              </mesh>
+            </group>
           </group>
         </group>
       ))}
 
-      {/* --- REALISTIC STUDY DESKS WITH BANKER LAMPS & BOOKS --- */}
+      {/* --- REALISTIC STUDY DESKS WITH BANKER LAMPS, LEATHER BLOTTERS & SCHOLARLY ACCESSORIES --- */}
       {studyTables.map((tbl, idx) => (
         <group key={`table-${idx}`} position={[tbl.x, 0, tbl.z]}>
           {/* Warm Oak Tabletop */}
           <mesh position={[0, 0.82, 0]}>
             <boxGeometry args={[2.5, 0.07, 1.4]} />
             <primitive object={warmOakMaterial} attach="material" />
+          </mesh>
+          {/* Beveled edge trim */}
+          <mesh position={[0, 0.84, 0]}>
+            <boxGeometry args={[2.52, 0.02, 1.42]} />
+            <primitive object={wainscotingMaterial} attach="material" />
           </mesh>
           {/* Table Legs */}
           {[-1.1, 1.1].map((lx) =>
@@ -427,8 +521,18 @@ export const LibraryArchitecture: React.FC = () => {
             ))
           )}
 
+          {/* Luxury Green Leather Blotter Pad with Gold Edge */}
+          <mesh position={[0, 0.856, 0]}>
+            <boxGeometry args={[1.5, 0.006, 0.88]} />
+            <primitive object={deskLeatherMaterial} attach="material" />
+          </mesh>
+          <mesh position={[0, 0.857, 0]}>
+            <boxGeometry args={[1.52, 0.003, 0.04]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+
           {/* Emerald Green Banker Desk Lamp */}
-          <group position={[0, 0.85, 0]}>
+          <group position={[0, 0.86, 0]}>
             <mesh position={[0, 0.02, 0]}>
               <cylinderGeometry args={[0.09, 0.1, 0.04, 12]} />
               <primitive object={brassMaterial} attach="material" />
@@ -443,17 +547,59 @@ export const LibraryArchitecture: React.FC = () => {
             </mesh>
           </group>
 
-          {/* Open Hardcover Book on Table */}
-          <mesh position={[-0.55, 0.87, 0.12]} rotation={[0, 0.18, 0]}>
-            <boxGeometry args={[0.36, 0.022, 0.26]} />
-            <meshStandardMaterial color="#FDF8EA" roughness={0.8} />
-          </mesh>
-          {/* Closed Colorful Book and Pen */}
-          <mesh position={[0.55, 0.87, -0.1]} rotation={[0, -0.25, 0]}>
-            <boxGeometry args={[0.32, 0.03, 0.22]} />
-            <meshStandardMaterial color="#DC2626" roughness={0.4} /> {/* Crimson tome */}
-          </mesh>
-          {/* Coffee Mug */}
+          {/* Open Hardcover Academic Folio */}
+          <group position={[-0.52, 0.865, 0.1]} rotation={[0, 0.15, 0]}>
+            <mesh position={[0, 0.01, 0]}>
+              <boxGeometry args={[0.42, 0.018, 0.28]} />
+              <primitive object={parchmentMaterial} attach="material" />
+            </mesh>
+            <mesh position={[0, 0.005, 0]}>
+              <boxGeometry args={[0.43, 0.01, 0.29]} />
+              <primitive object={wainscotingMaterial} attach="material" />
+            </mesh>
+          </group>
+
+          {/* Antique Brass Inkwell & Goose Feather Quill */}
+          <group position={[0.55, 0.865, 0.25]}>
+            <mesh position={[0, 0.025, 0]}>
+              <cylinderGeometry args={[0.035, 0.04, 0.05, 12]} />
+              <primitive object={brassMaterial} attach="material" />
+            </mesh>
+            <mesh position={[-0.02, 0.12, 0.02]} rotation={[0.3, 0, -0.4]}>
+              <cylinderGeometry args={[0.003, 0.01, 0.22, 6]} />
+              <primitive object={parchmentMaterial} attach="material" />
+            </mesh>
+          </group>
+
+          {/* Rolled Parchment Scroll with Red Ribbon */}
+          <group position={[-0.55, 0.87, -0.25]} rotation={[0, 0.35, 0]}>
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[0.028, 0.028, 0.32, 12]} />
+              <primitive object={parchmentMaterial} attach="material" />
+            </mesh>
+            <mesh rotation={[0, 0, Math.PI / 2]}>
+              <cylinderGeometry args={[0.03, 0.03, 0.04, 12]} />
+              <meshStandardMaterial color="#991B1B" roughness={0.4} />
+            </mesh>
+          </group>
+
+          {/* Stack of Scholarly Volumes & Reading Glasses */}
+          <group position={[0.55, 0.865, -0.15]} rotation={[0, -0.2, 0]}>
+            <mesh position={[0, 0.02, 0]}>
+              <boxGeometry args={[0.34, 0.035, 0.24]} />
+              <meshStandardMaterial color="#881337" roughness={0.4} /> {/* Burgundy leather */}
+            </mesh>
+            <mesh position={[0.02, 0.05, -0.01]} rotation={[0, 0.08, 0]}>
+              <boxGeometry args={[0.31, 0.03, 0.22]} />
+              <meshStandardMaterial color="#1E3A8A" roughness={0.4} /> {/* Navy leather */}
+            </mesh>
+            <mesh position={[0, 0.075, 0]} rotation={[-Math.PI / 2, 0, 0.2]}>
+              <torusGeometry args={[0.028, 0.005, 8, 16]} />
+              <primitive object={brassMaterial} attach="material" />
+            </mesh>
+          </group>
+
+          {/* Ceramic Coffee Mug */}
           <mesh position={[0.7, 0.9, 0.35]}>
             <cylinderGeometry args={[0.04, 0.035, 0.08, 12]} />
             <meshStandardMaterial color="#FFFBEB" roughness={0.3} />
@@ -483,6 +629,82 @@ export const LibraryArchitecture: React.FC = () => {
         </group>
       ))}
 
+      {/* --- CELESTIAL BRASS ARMILLARY GLOBE ON SCULPTED OAK PEDESTAL --- */}
+      <group position={[-3.6, 0, 19]}>
+        {/* Octagonal carved oak plinth base */}
+        <mesh position={[0, 0.55, 0]}>
+          <cylinderGeometry args={[0.38, 0.45, 1.1, 8]} />
+          <primitive object={warmOakMaterial} attach="material" />
+        </mesh>
+        <mesh position={[0, 1.12, 0]}>
+          <cylinderGeometry args={[0.42, 0.38, 0.08, 8]} />
+          <primitive object={brassMaterial} attach="material" />
+        </mesh>
+        {/* Brass globe meridian ring & axial rings */}
+        <group position={[0, 1.58, 0]} rotation={[0.4, 0.3, 0]}>
+          {/* Outer meridian ring */}
+          <mesh>
+            <torusGeometry args={[0.38, 0.02, 12, 32]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+          {/* Inner celestial equatorial ring */}
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.36, 0.016, 12, 32]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+          {/* Oblique ecliptic zodiac ring */}
+          <mesh rotation={[0.42, 0, 0]}>
+            <torusGeometry args={[0.34, 0.018, 12, 32]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+          {/* Central polished brass Earth sphere */}
+          <mesh>
+            <sphereGeometry args={[0.12, 16, 16]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+          {/* Axis rod */}
+          <mesh>
+            <cylinderGeometry args={[0.01, 0.01, 0.88, 8]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+        </group>
+      </group>
+
+      {/* --- CLASSIC ROLLING LIBRARY SHELF LADDER --- */}
+      <group position={[-11.2, 0, -5]} rotation={[0, 0, 0.12]}>
+        {/* Left rail */}
+        <mesh position={[-0.24, 2.8, 0]}>
+          <boxGeometry args={[0.05, 5.6, 0.08]} />
+          <primitive object={warmOakMaterial} attach="material" />
+        </mesh>
+        {/* Right rail */}
+        <mesh position={[0.24, 2.8, 0]}>
+          <boxGeometry args={[0.05, 5.6, 0.08]} />
+          <primitive object={warmOakMaterial} attach="material" />
+        </mesh>
+        {/* Brass ladder rungs */}
+        {Array.from({ length: 12 }).map((_, rIdx) => (
+          <mesh key={`rung-${rIdx}`} position={[0, 0.5 + rIdx * 0.42, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.015, 0.015, 0.46, 8]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+        ))}
+        {/* Brass rolling wheel trucks at bottom */}
+        {[-0.24, 0.24].map((rx, idx) => (
+          <mesh key={`ladder-wheel-${idx}`} position={[rx, 0.06, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.06, 0.06, 0.04, 12]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+        ))}
+        {/* Top brass hook rail brackets */}
+        {[-0.24, 0.24].map((rx, idx) => (
+          <mesh key={`ladder-hook-${idx}`} position={[rx, 5.5, 0.06]}>
+            <boxGeometry args={[0.04, 0.14, 0.12]} />
+            <primitive object={brassMaterial} attach="material" />
+          </mesh>
+        ))}
+      </group>
+
       {/* --- WHEELED WOODEN LIBRARY BOOK CARTS --- */}
       {bookCarts.map((cart, idx) => (
         <group key={`cart-${idx}`} position={[cart.x, 0, cart.z]} rotation={[0, cart.rot, 0]}>
@@ -508,24 +730,15 @@ export const LibraryArchitecture: React.FC = () => {
         </group>
       ))}
 
-      {/* --- POTTED FICUS / MONSTERA TREES IN TERRACOTTA PLANTERS --- */}
+      {/* --- DETAILED BOTANICAL CONSERVATORY TREES IN FLUTED STONE & BRASS URNS --- */}
       {planterLocations.map((p, idx) => (
-        <group key={`plant-${idx}`} position={[p.x, 0, p.z]}>
-          {/* Terracotta Planter Pot */}
-          <mesh position={[0, 0.4, 0]}>
-            <cylinderGeometry args={[0.4, 0.28, 0.8, 16]} />
-            <primitive object={terracottaMaterial} attach="material" />
-          </mesh>
-          {/* Lush Green Foliage */}
-          <mesh position={[0, 1.05, 0]}>
-            <dodecahedronGeometry args={[0.62]} />
-            <primitive object={plantLeafMaterial} attach="material" />
-          </mesh>
-          <mesh position={[0.12, 1.45, -0.08]}>
-            <dodecahedronGeometry args={[0.44]} />
-            <primitive object={plantLeafMaterial} attach="material" />
-          </mesh>
-        </group>
+        <DetailedIndoorTree
+          key={`plant-${idx}`}
+          position={[p.x, 0, p.z]}
+          rotationY={p.rot}
+          scale={p.scale}
+          variant={p.variant}
+        />
       ))}
 
       {/* --- GRAND ENTRANCE RECEPTION & INFORMATION DESK --- */}
