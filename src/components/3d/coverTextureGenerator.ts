@@ -27,9 +27,10 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isJava = category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java');
-  const isSpring = category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring');
-  const isPython = !isJava && !isSpring && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isDSA = category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive');
+  const isJava = !isDSA && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isSpring = !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring'));
+  const isPython = !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
   const isML = category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural');
   const isData = category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas');
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
@@ -44,7 +45,14 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isSpring) {
+  if (isDSA) {
+    topBg = '#1E0B36';
+    midBg = '#6D28D9';
+    botBg = '#100520';
+    primaryAccent = '#A78BFA';
+    secondaryAccent = '#FBBF24';
+    seriesLabel = 'DATA STRUCTURES & ALGORITHMIC PATTERNS';
+  } else if (isSpring) {
     topBg = '#022C22';
     midBg = '#047857';
     botBg = '#011A14';
@@ -192,7 +200,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -256,6 +264,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isDSA: boolean,
   isJava: boolean,
   isSpring: boolean,
   isPython: boolean,
@@ -281,7 +290,72 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isSpring) {
+  if (isDSA) {
+    // --- BINARY SEARCH TREE & ALGORITHMIC TOPOLOGY ---
+    const rootX = cx;
+    const rootY = cy - 65;
+    const l1LeftX = cx - 85;
+    const l1LeftY = cy + 5;
+    const l1RightX = cx + 85;
+    const l1RightY = cy + 5;
+    const l2X1 = cx - 125;
+    const l2Y1 = cy + 75;
+    const l2X2 = cx - 45;
+    const l2Y2 = cy + 75;
+    const l2X3 = cx + 45;
+    const l2Y3 = cy + 75;
+    const l2X4 = cx + 125;
+    const l2Y4 = cy + 75;
+
+    // Golden branch connection lines
+    ctx.strokeStyle = '#FBBF24';
+    ctx.lineWidth = 3.5;
+
+    const drawLine = (x1: number, y1: number, x2: number, y2: number) => {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    };
+
+    drawLine(rootX, rootY, l1LeftX, l1LeftY);
+    drawLine(rootX, rootY, l1RightX, l1RightY);
+    drawLine(l1LeftX, l1LeftY, l2X1, l2Y1);
+    drawLine(l1LeftX, l1LeftY, l2X2, l2Y2);
+    drawLine(l1RightX, l1RightY, l2X3, l2Y3);
+    drawLine(l1RightX, l1RightY, l2X4, l2Y4);
+
+    // Draw tree nodes with algorithmic keys
+    const drawTreeNode = (x: number, y: number, val: string, r: number) => {
+      ctx.fillStyle = '#4C1D95';
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#C4B5FD';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.font = '800 13px "Inter", monospace';
+      ctx.fillStyle = '#FDE68A';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(val, x, y);
+    };
+
+    drawTreeNode(rootX, rootY, '42', 20);
+    drawTreeNode(l1LeftX, l1LeftY, '21', 18);
+    drawTreeNode(l1RightX, l1RightY, '64', 18);
+    drawTreeNode(l2X1, l2Y1, '15', 16);
+    drawTreeNode(l2X2, l2Y2, '32', 16);
+    drawTreeNode(l2X3, l2Y3, '55', 16);
+    drawTreeNode(l2X4, l2Y4, '89', 16);
+
+    ctx.font = '700 16px "Inter", monospace';
+    ctx.fillStyle = '#FDE68A';
+    ctx.textAlign = 'center';
+    ctx.fillText('O(log N)  •  TWO POINTERS  •  DYNAMIC PROGRAMMING', cx, cy + 125);
+
+  } else if (isSpring) {
     // --- SPRING BOOT LEAF & MICROSERVICES NETWORK ---
     ctx.fillStyle = '#10B981';
     ctx.strokeStyle = '#34D399';

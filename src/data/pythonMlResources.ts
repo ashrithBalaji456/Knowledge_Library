@@ -6489,5 +6489,103 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-neetcode-striver-patterns",
+    "title": "NeetCode 150 + Striver Master DSA Patterns",
+    "author": "NeetCode & Striver (takeUforward)",
+    "pages": 10,
+    "fileName": "NeetCode_Striver_Question_Reference.pdf",
+    "category": "dsa",
+    "subCategory": "Competitive & FAANG Patterns",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 10,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\leet_code_Coding\\NeetCode_Striver_Question_Reference.pdf",
+    "whatIsThisBookFor": "Master deduplicated, pattern-wise LeetCode 150 and Striver 79/180 DSA questions with platform badges and video explanation roadmaps.",
+    "summary": "An indispensable 10-page cheat sheet and master index categorizing essential technical interview problems into core algorithmic patterns: Arrays & Hashing, Two Pointers, Sliding Window, Stack, Binary Search, Linked Lists, Trees, Heaps, Backtracking, Graphs, and Dynamic Programming.",
+    "keyTakeaways": [
+      "Pattern-based problem grouping: Two Pointers, Fast & Slow Pointers, Sliding Window, Monotonic Stack",
+      "Striver SDE Sheet + NeetCode 150 deduplication and platform coverage",
+      "Optimal time and space complexity baselines for FAANG interviews",
+      "Clickable direct references to LeetCode and YouTube walkthroughs"
+    ],
+    "prerequisites": [
+      "Proficiency in at least one language (Python, Java, C++) and basic data structure knowledge"
+    ],
+    "recommendedNext": [
+      "res-local-tcs-prime-dsa-questions"
+    ],
+    "topics": [
+      "DSA",
+      "LeetCode",
+      "NeetCode",
+      "Striver",
+      "Algorithms",
+      "Patterns"
+    ],
+    "tags": [
+      "DSA",
+      "LeetCode",
+      "NeetCode",
+      "Striver",
+      "InterviewPrep"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-tcs-prime-dsa-questions",
+    "title": "TCS NQT & Prime DSA Coding Practice Sheet",
+    "author": "TCS Campus Recruitment & Coding Panel",
+    "pages": 4,
+    "fileName": "tcs_prime_dsa_questions.pdf",
+    "category": "dsa",
+    "subCategory": "Campus Recruitment & Coding Tests",
+    "resourceType": "PRACTICE_MATERIAL",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 4,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\leet_code_Coding\\tcs_prime_dsa_questions.pdf",
+    "whatIsThisBookFor": "Target easy-to-medium coding questions frequently asked in TCS NQT, TCS Prime, and top service-based company recruitment tests.",
+    "summary": "A high-yield 4-page practice sheet with 15 core targeted coding problems spanning Strings, Arrays, Hashing, Mathematical logic, and Stacks designed for campus hiring rounds in C++, Java, and Python.",
+    "keyTakeaways": [
+      "15 High-frequency coding test questions: String reversal, Palindromes, Prime numbers, Fibonacci sequence",
+      "Array manipulation: Second largest element, Duplicate removal, Missing numbers, and Element frequency",
+      "Edge-case testing and time limit optimization for automated assessment platforms"
+    ],
+    "prerequisites": [
+      "Basic programming syntax in Java, Python, C++, or C"
+    ],
+    "recommendedNext": [
+      "res-local-neetcode-striver-patterns"
+    ],
+    "topics": [
+      "DSA",
+      "TCS",
+      "NQT",
+      "Prime",
+      "CampusRecruitment",
+      "CodingQuestions"
+    ],
+    "tags": [
+      "DSA",
+      "TCS",
+      "CampusHiring",
+      "CodingPractice"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

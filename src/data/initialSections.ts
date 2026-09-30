@@ -128,7 +128,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '🧠',
     color: '#8b5cf6', // Electric Violet
     accentColor: '#a78bfa',
-    subSections: ['Linear Data Structures', 'Trees & Graph Topologies', 'Dynamic Programming & Recursion', 'Competitive & FAANG Patterns'],
+    subSections: ['Competitive & FAANG Patterns', 'Campus Recruitment & Coding Tests', 'Trees & Graph Topologies', 'Dynamic Programming & Recursion'],
     wing: 'east',
     anchorPosition: [24, 0, 6],
     rotationY: 0,

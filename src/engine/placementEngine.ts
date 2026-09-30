@@ -341,7 +341,23 @@ export function getSectionRowClassification(section: Section): RowClassification
     };
   }
 
-  // Fallback for Java, Spring, DSA, or dynamic sections
+  if (sid === 'dsa') {
+    return {
+      rowLabels: ['LEETCODE 150 & STRIVER FAANG PATTERNS', 'TCS NQT & CAMPUS RECRUITMENT CODING', 'TREES, GRAPHS & DYNAMIC PROGRAMMING'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('tcs') || t.includes('campus') || t.includes('prime') || t.includes('nqt')) {
+          return 1;
+        }
+        if (t.includes('tree') || t.includes('graph') || t.includes('dynamic programming') || t.includes('dp')) {
+          return 2;
+        }
+        return 0;
+      },
+    };
+  }
+
+  // Fallback for dynamic sections
   const sub = section.subSections || [];
   const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';
   const label1 = sub[1] ? sub[1].toUpperCase() : 'ARCHITECTURE & PRACTICAL';
