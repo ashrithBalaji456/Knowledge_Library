@@ -20,7 +20,8 @@ export const Minimap: React.FC = () => {
 
   const worldToMap = (x: number, z: number) => {
     const mapX = ((x + 45) / 90) * mapWidth;
-    const mapY = ((-z + 30) / 90) * mapHeight;
+    // Map North (-Z, deep library) to top (0), and South (+Z, entrance) to bottom (mapHeight)
+    const mapY = ((z + 62) / 92) * mapHeight;
     return { x: mapX, y: mapY };
   };
 
@@ -120,7 +121,7 @@ export const Minimap: React.FC = () => {
             <div
               className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[12px] border-b-amber-400 opacity-90"
               style={{
-                transform: `rotate(${playerRotationY + Math.PI}rad)`,
+                transform: `rotate(${-playerRotationY}rad)`,
                 transformOrigin: '50% 100%',
               }}
             />

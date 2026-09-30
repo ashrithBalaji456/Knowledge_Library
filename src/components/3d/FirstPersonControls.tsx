@@ -8,6 +8,7 @@ export const FirstPersonControls: React.FC = () => {
   const { camera, gl, scene } = useThree();
 
   const playerLocation = useLibraryStore((s) => s.playerLocation);
+  const playerRotationY = useLibraryStore((s) => s.playerRotationY);
   const setPlayerTransform = useLibraryStore((s) => s.setPlayerTransform);
   const setHoveredResource = useLibraryStore((s) => s.setHoveredResource);
   const preferences = useLibraryStore((s) => s.preferences);
@@ -27,10 +28,10 @@ export const FirstPersonControls: React.FC = () => {
   const isDragging = useRef(false);
   const previousMousePosition = useRef({ x: 0, y: 0 });
 
-  // Camera angles (yaw and pitch) with target smoothing
-  const yaw = useRef(Math.PI);
+  // Camera angles (yaw and pitch) with target smoothing (default 0 faces forward into the nave towards -Z)
+  const yaw = useRef(playerRotationY ?? 0);
   const pitch = useRef(0);
-  const targetYaw = useRef(Math.PI);
+  const targetYaw = useRef(playerRotationY ?? 0);
   const targetPitch = useRef(0);
 
   // Velocity vector for smooth physical acceleration and deceleration

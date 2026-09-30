@@ -199,8 +199,8 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   },
 
   hasEnteredLibrary: false,
-  playerLocation: [0, 1.7, 24],
-  playerRotationY: Math.PI,
+  playerLocation: [0, 1.7, 26],
+  playerRotationY: 0,
   cameraTarget: null,
   cameraLookAt: null,
   isNavigatingCamera: false,
