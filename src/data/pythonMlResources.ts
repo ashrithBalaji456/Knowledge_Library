@@ -6587,5 +6587,104 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-micro-qa-linkedin",
+    "title": "Java Spring Boot Microservices — LinkedIn Interview Q&A",
+    "author": "LinkedIn Engineering Community & Enterprise Curators",
+    "pages": 12,
+    "fileName": "Micro_Q & A.pdf",
+    "category": "spring-boot",
+    "subCategory": "LinkedIn Spring & System Design Interviews",
+    "resourceType": "INTERVIEW_GUIDE",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 12,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\Micro\\Micro_Q & A.pdf",
+    "whatIsThisBookFor": "Master 59 high-impact interview questions curated from LinkedIn covering JVM Internals, Multithreading, Functional Java, Spring Boot, Microservices, Kafka, and System Design.",
+    "summary": "An authoritative 12-page interview guide with 59 curated questions and detailed answers. Organized into JVM & ClassLoader internals, Concurrency & ThreadPool tuning, Java 8/17/21 streams, Spring Boot lifecycle, distributed microservices, Saga pattern, Kafka event streaming, and resilient system design.",
+    "keyTakeaways": [
+      "JVM internals: Class loading phases (Loading, Linking, Initialization) and GC memory regions",
+      "Concurrency & multithreading: Deadlocks, ReentrantLocks, CompletableFuture, and Virtual Threads",
+      "Spring Boot & Microservices: Circuit breakers (Resilience4j), API Gateways, and distributed transactions",
+      "Apache Kafka: Consumer groups, partition rebalancing, idempotency, and exactly-once semantics"
+    ],
+    "prerequisites": [
+      "Solid understanding of Core Java and basic Spring Boot architecture"
+    ],
+    "recommendedNext": [
+      "res-local-micro-q-concise"
+    ],
+    "topics": [
+      "Microservices",
+      "SpringBoot",
+      "Java",
+      "Kafka",
+      "JVM",
+      "Concurrency",
+      "SystemDesign"
+    ],
+    "tags": [
+      "Microservices",
+      "SpringBoot",
+      "Kafka",
+      "InterviewPrep",
+      "SystemDesign"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-micro-q-concise",
+    "title": "Java, Spring & Microservices Interview Quick Reference",
+    "author": "Enterprise Cloud Architects & Interview Panel",
+    "pages": 4,
+    "fileName": "Micro_Q.pdf",
+    "category": "spring-boot",
+    "subCategory": "Spring Core & Dependency Injection",
+    "resourceType": "INTERVIEW_GUIDE",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 4,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\Micro\\Micro_Q.pdf",
+    "whatIsThisBookFor": "Quick revision of 33 practical interview questions with concise answers spanning Java 17/21 GC improvements, Spring Cache, @Autowired vs @Qualifier, and microservice resiliency.",
+    "summary": "A compact 4-page interview refresher delivering 33 high-yield answers. Focuses on modern Java features, Spring Cache abstractions (@Cacheable, @CachePut), Spring DI resolution mechanisms, and production-tested microservice communication patterns.",
+    "keyTakeaways": [
+      "Java 17/21 GC enhancements: G1 GC default optimizations and low-latency ZGC",
+      "Spring Caching: @Cacheable, @CachePut, @CacheEvict with Redis/Caffeine backends",
+      "Spring Bean Injection: @Autowired vs @Qualifier resolution mechanics",
+      "Microservice best practices: Idempotent APIs, connection pooling, and health probes"
+    ],
+    "prerequisites": [
+      "Foundational Java and basic knowledge of the Spring Framework"
+    ],
+    "recommendedNext": [
+      "res-local-micro-qa-linkedin"
+    ],
+    "topics": [
+      "Spring",
+      "Microservices",
+      "Java17",
+      "Caching",
+      "DependencyInjection"
+    ],
+    "tags": [
+      "Spring",
+      "Microservices",
+      "QuickReference",
+      "InterviewReady"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

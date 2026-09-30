@@ -357,6 +357,22 @@ export function getSectionRowClassification(section: Section): RowClassification
     };
   }
 
+  if (sid === 'spring-boot' || sid === 'sec-spring') {
+    return {
+      rowLabels: ['SPRING CORE & DEPENDENCY INJECTION', 'MICROSERVICES ARCHITECTURE & KAFKA', 'LINKEDIN SPRING & SYSTEM DESIGN INTERVIEWS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('59') || t.includes('linkedin') || t.includes('q & a') || t.includes('q&a') || t.includes('system design')) {
+          return 2;
+        }
+        if (t.includes('micro') || t.includes('kafka') || t.includes('distributed') || t.includes('cloud')) {
+          return 1;
+        }
+        return 0;
+      },
+    };
+  }
+
   // Fallback for dynamic sections
   const sub = section.subSections || [];
   const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';

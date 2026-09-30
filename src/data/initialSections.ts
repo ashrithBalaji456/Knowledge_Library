@@ -115,7 +115,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '🌱',
     color: '#10b981', // Emerald Green
     accentColor: '#34d399',
-    subSections: ['Spring Core & Dependency Injection', 'Spring Data JPA & Hibernate', 'Spring Security & OAuth2', 'Microservices & Distributed Tracing'],
+    subSections: ['Spring Core & Dependency Injection', 'Microservices Architecture & Kafka', 'LinkedIn Spring & System Design Interviews', 'Spring Data JPA & Security'],
     wing: 'west',
     anchorPosition: [-24, 0, -14],
     rotationY: 0,

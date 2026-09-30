@@ -129,13 +129,14 @@ interface LibraryStoreState {
   getLibraryStats: () => LibraryStats;
 }
 
-// Persistent user storage helper - defaults to the real user collection from python to ml + java + dsa
-const STORAGE_KEY = 'pk_library_resources_v7_python_java_dsa';
+// Persistent user storage helper - defaults to the real user collection from python to ml + java + dsa + micro
+const STORAGE_KEY = 'pk_library_resources_v8_python_java_dsa_micro';
 
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v7_python_java_dsa');
       localStorage.removeItem('pk_library_resources_v6_python_ml_java');
       localStorage.removeItem('pk_library_resources_v5_python_ml');
       localStorage.removeItem('pk_library_resources_v3');
