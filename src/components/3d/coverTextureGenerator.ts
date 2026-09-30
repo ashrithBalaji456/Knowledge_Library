@@ -27,15 +27,16 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isSystemDesign = category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld');
-  const isDevOps = category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container');
-  const isDatabase = category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql');
-  const isDSA = !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
-  const isSpring = !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
-  const isJava = !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
-  const isPython = !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
-  const isML = !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
-  const isData = !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
+  const isAIAgent = title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute');
+  const isSystemDesign = !isAIAgent && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
+  const isDevOps = !isAIAgent && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
+  const isDatabase = !isAIAgent && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
+  const isDSA = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
+  const isSpring = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
+  const isJava = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isPython = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isML = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
+  const isData = !isAIAgent && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
   const isProject = category.includes('project') || title.toLowerCase().includes('project') || title.toLowerCase().includes('code');
   const isHandbook = category.includes('handbook') || category.includes('cheat') || title.toLowerCase().includes('cheat') || title.toLowerCase().includes('quick');
@@ -48,7 +49,14 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isSystemDesign) {
+  if (isAIAgent) {
+    topBg = '#140826';
+    midBg = '#5B21B6';
+    botBg = '#0B0416';
+    primaryAccent = '#C084FC';
+    secondaryAccent = '#38BDF8';
+    seriesLabel = 'AI CODING AGENTS & GATEWAY INFRASTRUCTURE';
+  } else if (isSystemDesign) {
     topBg = '#1C0D02';
     midBg = '#9A3412';
     botBg = '#0F0601';
@@ -224,7 +232,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -288,6 +296,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isAIAgent: boolean,
   isSystemDesign: boolean,
   isDevOps: boolean,
   isDatabase: boolean,
@@ -317,7 +326,81 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isSystemDesign) {
+  if (isAIAgent) {
+    // --- CLINE AI AGENT & OMNIROUTE GATEWAY TOPOLOGY ---
+    // 1. Top Cline Agent node
+    ctx.fillStyle = '#2E1065';
+    roundRect(ctx, cx - 110, cy - 88, 220, 36, 10);
+    ctx.fill();
+    ctx.strokeStyle = '#C084FC';
+    ctx.lineWidth = 2.5;
+    roundRect(ctx, cx - 110, cy - 88, 220, 36, 10);
+    ctx.stroke();
+
+    ctx.font = '800 13px "Inter", sans-serif';
+    ctx.fillStyle = '#F3E8FF';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🤖 CLINE AI AGENT (VS CODE)', cx, cy - 70);
+
+    // Connector down with protocol label
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 52);
+    ctx.lineTo(cx, cy - 24);
+    ctx.stroke();
+
+    ctx.font = '700 10px "Inter", monospace';
+    ctx.fillStyle = '#38BDF8';
+    ctx.fillText('OpenAI-Compatible API', cx + 75, cy - 38);
+
+    // 2. OmniRoute Local Gateway node
+    ctx.fillStyle = '#0F172A';
+    roundRect(ctx, cx - 130, cy - 24, 260, 42, 10);
+    ctx.fill();
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 2.5;
+    roundRect(ctx, cx - 130, cy - 24, 260, 42, 10);
+    ctx.stroke();
+
+    ctx.font = '800 14px "Inter", sans-serif';
+    ctx.fillStyle = '#FEF08A';
+    ctx.fillText('⚡ OMNIROUTE GATEWAY : 20128', cx, cy - 3);
+
+    // 3. Downward Fan-out connectors to providers
+    const provX = [cx - 105, cx - 35, cx + 35, cx + 105];
+    const provLabels = ['ANTHROPIC', 'OPENAI', 'GEMINI', 'OLLAMA'];
+    const provColors = ['#F97316', '#10B981', '#3B82F6', '#A855F7'];
+
+    provX.forEach((px) => {
+      ctx.strokeStyle = '#E2E8F0';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 18);
+      ctx.lineTo(px, cy + 50);
+      ctx.stroke();
+    });
+
+    provX.forEach((px, i) => {
+      ctx.fillStyle = '#1E1B4B';
+      roundRect(ctx, px - 32, cy + 50, 64, 28, 6);
+      ctx.fill();
+      ctx.strokeStyle = provColors[i];
+      ctx.lineWidth = 2;
+      roundRect(ctx, px - 32, cy + 50, 64, 28, 6);
+      ctx.stroke();
+
+      ctx.font = '800 9px "Inter", sans-serif';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText(provLabels[i], px, cy + 64);
+    });
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#C084FC';
+    ctx.fillText('CLINE  →  OMNIROUTE  →  AI PROVIDERS', cx, cy + 124);
+
+  } else if (isSystemDesign) {
     // --- DISTRIBUTED SYSTEM DESIGN & HIGH-SCALE TOPOLOGY ---
     ctx.strokeStyle = '#FB923C';
     ctx.lineWidth = 2.5;

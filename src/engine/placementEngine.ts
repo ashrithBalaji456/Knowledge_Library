@@ -429,7 +429,7 @@ export function getSectionRowClassification(section: Section): RowClassification
         if (t.includes('rag') || t.includes('retrieval') || t.includes('vector') || t.includes('deep') || t.includes('transformer')) {
           return 1;
         }
-        if (t.includes('llm') || t.includes('agent') || t.includes('prompt')) {
+        if (t.includes('llm') || t.includes('agent') || t.includes('prompt') || t.includes('cline') || t.includes('omniroute')) {
           return 2;
         }
         return 0;

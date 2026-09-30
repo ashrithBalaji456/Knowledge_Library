@@ -129,13 +129,14 @@ interface LibraryStoreState {
   getLibraryStats: () => LibraryStats;
 }
 
-// Persistent user storage helper - defaults to the real user collection from python to ml + java + dsa + micro + handbooks
-const STORAGE_KEY = 'pk_library_resources_v9_handbooks';
+// Persistent user storage helper - defaults to the real user collection from python to ml + java + dsa + micro + handbooks + omniroute
+const STORAGE_KEY = 'pk_library_resources_v10_omniroute_cline';
 
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v9_handbooks');
       localStorage.removeItem('pk_library_resources_v8_python_java_dsa_micro');
       localStorage.removeItem('pk_library_resources_v7_python_java_dsa');
       localStorage.removeItem('pk_library_resources_v6_python_ml_java');

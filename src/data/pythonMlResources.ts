@@ -7118,5 +7118,56 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-omniroute-cline-setup-guide",
+    "title": "OmniRoute + Cline: Complete Setup Guide & AI Gateway Architecture",
+    "author": "AI Developer Tooling & Gateway Working Group",
+    "pages": 7,
+    "fileName": "OmniRoute + Cline Setup Guide.pdf",
+    "category": "ai-ml",
+    "subCategory": "LLM Application Engineering & Agents",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 7,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\OmniRoute + Cline Setup Guide.pdf",
+    "whatIsThisBookFor": "A complete, beginner-friendly walkthrough for connecting OmniRoute local AI gateway to upstream model providers and wiring it into the Cline autonomous coding extension in VS Code.",
+    "summary": "A 7-page comprehensive operational setup guide for running OmniRoute and Cline across Windows and macOS. It documents the full request topology (Cline -> OmniRoute -> AI Provider -> AI Model), Node.js prerequisites, port 20128 dashboard configuration, OpenAI-compatible endpoint bridging, model ID mapping, and systematic troubleshooting.",
+    "keyTakeaways": [
+      "End-to-end request flow: Cline sends requests to localhost:20128/v1 which routes through authenticated AI providers",
+      "Windows & macOS command lines: Node.js verification, global omniroute installation, and daemon lifecycle",
+      "Cline integration: Configuring OpenAI Compatible provider with base URL http://localhost:20128/v1 and API key",
+      "Systematic troubleshooting checklist for model discovery, connection failures, and API key authentication"
+    ],
+    "prerequisites": [
+      "VS Code installed, basic terminal familiarity (PowerShell or macOS Terminal), and an active AI provider account"
+    ],
+    "recommendedNext": [
+      "res-local-rag-complete-notes"
+    ],
+    "topics": [
+      "Cline",
+      "OmniRoute",
+      "AIAgents",
+      "LLM",
+      "VSCode",
+      "DeveloperTools"
+    ],
+    "tags": [
+      "Cline",
+      "OmniRoute",
+      "AIAgent",
+      "Gateway",
+      "VSCode",
+      "Guide"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];
