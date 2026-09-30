@@ -8666,5 +8666,151 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-paraashara-samhita-archival",
+    "title": "Parashara Samhita: Classical Scripture of Sri Anjaneya (Rare Archival Edition)",
+    "author": "Maharshi Parashara (Vedic Commentary - DLI Archive)",
+    "pages": 109,
+    "fileName": "2015.390374.Paraasharasamhita-Srianjaneya.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Parashara Samhita & Esoteric Wisdom",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 109,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.390374.Paraasharasamhita-Srianjaneya.pdf",
+    "whatIsThisBookFor": "Authoritative classical archival print of Sage Parashara's monumental Samhita on Hanuman's spiritual powers and cosmic forms.",
+    "summary": "The historical archival digital preservation of the classical Parashara Samhita on Sri Anjaneya. Contains original Telugu typography, verses on Hanuman's Panchamukha form, mantra vidhi, and profound philosophical hymns.",
+    "keyTakeaways": [
+      "Authentic archival preservation of Sage Parashara's original verses",
+      "Esoteric meaning of Lord Hanuman's five faces and spiritual armor",
+      "Meditation techniques for cultivating fearlessness and mental steadfastness"
+    ],
+    "prerequisites": [
+      "Interest in classical Puranic Samhitas and ancient manuscript literature"
+    ],
+    "recommendedNext": [
+      "res-local-sri-hanumadvishaya-archival"
+    ],
+    "topics": [
+      "ParasharaSamhita",
+      "Hanuman",
+      "Archival",
+      "EsotericWisdom",
+      "Telugu"
+    ],
+    "tags": [
+      "Parashara",
+      "Anjaneya",
+      "Archival",
+      "Scripture",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-hanumadvishaya-archival",
+    "title": "Sri Hanumadvishayamu: Philosophy & Heroic Leadership (Heritage Archive Edition)",
+    "author": "Dharmika Sahitya Samstha (DLI Heritage Archive)",
+    "pages": 134,
+    "fileName": "2015.395679.Sri-Hanumadvishaya.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Parashara Samhita & Esoteric Wisdom",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 134,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.395679.Sri-Hanumadvishaya.pdf",
+    "whatIsThisBookFor": "Heritage archival volume exploring Hanuman's psychological resilience, eloquence, diplomacy, and noble virtues.",
+    "summary": "A 134-page heritage archival edition illuminating Sri Hanuman's extraordinary role as diplomat, statesman, scholar of grammar, and dedicated devotee. It provides timeless lessons for overcoming adversity and achieving life goals.",
+    "keyTakeaways": [
+      "Courage and tactical intelligence in navigating high-stakes crises",
+      "Hanuman's model of self-mastery, humility, and supreme eloquence",
+      "Action-oriented spirituality: merging strength of character with devotion"
+    ],
+    "prerequisites": [
+      "Interest in leadership lessons, Ramayana character studies, and spiritual growth"
+    ],
+    "recommendedNext": [
+      "res-local-puujaahooma-kalpataruvu-vol2"
+    ],
+    "topics": [
+      "Hanuman",
+      "Leadership",
+      "Archival",
+      "Courage",
+      "Telugu"
+    ],
+    "tags": [
+      "Hanuman",
+      "Leadership",
+      "Heritage",
+      "LifeLessons",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-puujaahooma-kalpataruvu-vol2",
+    "title": "Pooja Homa Kalpataruvu: Vedic Rituals, Homa & Sadhana Encyclopedia (Volume II)",
+    "author": "Vedic Ritwik Council & Pundit Assembly",
+    "pages": 454,
+    "fileName": "2015.497549.puujaahooma-kalpataruvu (2).pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Vedic Pooja, Homa & Discipline Kalpataruvu",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 454,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks\\2015.497549.puujaahooma-kalpataruvu (2).pdf",
+    "whatIsThisBookFor": "The comprehensive companion volume and archive of Vedic domestic pooja, yajnas, daily rituals, and samkalpa vidhanam.",
+    "summary": "A monumental 454-page master companion volume of the Pooja Homa Kalpataruvu. Complete with detailed Vedic suktams, sacrificial offering guidelines, Grihya sutra practices, and the philosophical rationale behind ritual worship.",
+    "keyTakeaways": [
+      "Comprehensive procedures for domestic havans, homas, and Shodashopachara pooja",
+      "Vedic mantras with precise swara accents and mental intentions (Bhavana)",
+      "Disciplined spiritual routine for householders to foster domestic peace and harmony"
+    ],
+    "prerequisites": [
+      "Familiarity with Vedic chanting, pooja materials, and traditional rituals"
+    ],
+    "recommendedNext": [
+      "res-local-ttd-nitya-stotravali"
+    ],
+    "topics": [
+      "Pooja",
+      "Homa",
+      "Kalpataruvu",
+      "VedicRituals",
+      "DomesticWorship",
+      "Telugu"
+    ],
+    "tags": [
+      "Pooja",
+      "Homa",
+      "Rituals",
+      "Kalpataruvu",
+      "Volume2",
+      "Telugu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

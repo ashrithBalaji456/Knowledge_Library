@@ -130,12 +130,13 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v11_devotional_sacred';
+const STORAGE_KEY = 'pk_library_resources_v12_all_34_devotional';
 
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v11_devotional_sacred');
       localStorage.removeItem('pk_library_resources_v10_omniroute_cline');
       localStorage.removeItem('pk_library_resources_v9_handbooks');
       localStorage.removeItem('pk_library_resources_v8_python_java_dsa_micro');
