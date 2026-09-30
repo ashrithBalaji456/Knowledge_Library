@@ -6686,5 +6686,437 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sysdes-patterns-top15",
+    "title": "Top 15 System Design Patterns for High-Scale Architectures",
+    "author": "Distributed Systems Architecture Council",
+    "pages": 15,
+    "fileName": "System_Design_Patterns_Top15.pdf",
+    "category": "system-design",
+    "subCategory": "Top 15 System Design Patterns",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 15,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\System_Design_Patterns_Top15.pdf",
+    "whatIsThisBookFor": "Visual architectural blueprints of the top 15 system design patterns required to scale enterprise backends to millions of requests per second.",
+    "summary": "A 15-page visual blueprint breaking down the top 15 architectural patterns for massive scale: Rate Limiting (Token Bucket, Leaky Bucket), Cache-Aside, Write-Through/Write-Back, Circuit Breaker, Saga Pattern, CQRS, Event Sourcing, Consistent Hashing, and Leader-Follower Replication.",
+    "keyTakeaways": [
+      "Core scaling patterns: Cache-Aside vs Write-Through caching guarantees",
+      "Fault tolerance: Circuit Breakers, Bulkheads, and Graceful Degradation",
+      "Event-driven workflows: CQRS and Saga distributed transactions"
+    ],
+    "prerequisites": [
+      "Distributed systems basics, client-server networking, and REST APIs"
+    ],
+    "recommendedNext": [
+      "res-local-sysdes-hld-lld-notes"
+    ],
+    "topics": [
+      "SystemDesign",
+      "Patterns",
+      "DistributedSystems",
+      "Caching",
+      "Scalability"
+    ],
+    "tags": [
+      "SystemDesign",
+      "Top15",
+      "Architecture",
+      "Patterns",
+      "HighScale"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sysdes-hld-lld-notes",
+    "title": "High-Level & Low-Level System Design Comprehensive Guide",
+    "author": "Senior Principal Architects Forum",
+    "pages": 6,
+    "fileName": "System_Design_HLD_LLD_Notes.pdf",
+    "category": "system-design",
+    "subCategory": "HLD & High-Scale Architectures",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 6,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\System_Design_HLD_LLD_Notes.pdf",
+    "whatIsThisBookFor": "Connecting high-level cloud architecture components with low-level class models, object diagrams, and database schemas.",
+    "summary": "A 6-page concentrated roadmap dissecting the bridge between High-Level Design (HLD) component topologies and Low-Level Design (LLD) object diagrams, interface segregation, class structures, and database schema models.",
+    "keyTakeaways": [
+      "HLD blueprinting: Load balancers, API gateways, database sharding, and message brokers",
+      "LLD translating: Converting high-level modules into clean OOP classes and interfaces",
+      "Production trade-offs: Latency vs throughput, consistency vs availability (CAP theorem)"
+    ],
+    "prerequisites": [
+      "Object-oriented programming, basic database schemas, and microservice concepts"
+    ],
+    "recommendedNext": [
+      "res-local-lld-handbook"
+    ],
+    "topics": [
+      "SystemDesign",
+      "HLD",
+      "LLD",
+      "Microservices",
+      "Scalability"
+    ],
+    "tags": [
+      "SystemDesign",
+      "HLD",
+      "LLD",
+      "Architecture",
+      "Engineering"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-lld-handbook",
+    "title": "Low-Level Design (LLD) & Object-Oriented Principles Handbook",
+    "author": "Design Patterns & LLD Collective",
+    "pages": 11,
+    "fileName": "LLD_Handbook.pdf",
+    "category": "system-design",
+    "subCategory": "Low-Level Design & SOLID Principles",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 11,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\LLD_Handbook.pdf",
+    "whatIsThisBookFor": "Mastering SOLID principles, GoF design patterns, and machine coding problems for senior software engineering interviews.",
+    "summary": "An 11-page master handbook on Low-Level Design (LLD), detailing SOLID principles with clean code demonstrations, Factory, Strategy, Observer, Decorator, and Singleton patterns, and end-to-end design problems (Parking Lot, Tic-Tac-Toe, Rate Limiter).",
+    "keyTakeaways": [
+      "SOLID principles in practice: Single responsibility, open-closed, and dependency inversion",
+      "GoF Design patterns: Behavioral, creational, and structural implementations",
+      "Machine coding prep: Designing extensible domain models for interviews"
+    ],
+    "prerequisites": [
+      "Core Java, C++, or Python object-oriented programming"
+    ],
+    "recommendedNext": [
+      "res-local-sysdes-patterns-top15"
+    ],
+    "topics": [
+      "LLD",
+      "SOLID",
+      "DesignPatterns",
+      "OOP",
+      "CleanCode"
+    ],
+    "tags": [
+      "LLD",
+      "SOLID",
+      "DesignPatterns",
+      "MachineCoding",
+      "ObjectOriented"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-docker-k8s-handbook-v2",
+    "title": "Docker & Kubernetes Production Engineering Handbook v2",
+    "author": "Cloud Native Computing & DevOps Specialists",
+    "pages": 20,
+    "fileName": "Docker_Kubernetes_Handbook_v2.pdf",
+    "category": "devops",
+    "subCategory": "Docker & Kubernetes Containers",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 20,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\Docker_Kubernetes_Handbook_v2.pdf",
+    "whatIsThisBookFor": "Containerizing backend applications with Docker and deploying robust orchestrations onto Kubernetes clusters.",
+    "summary": "A 20-page comprehensive guide to modern containerization and Kubernetes orchestration. Covers Dockerfile optimization, multi-stage builds, container networking, Pods, Deployments, StatefulSets, Services, Ingress controllers, and Helm charts.",
+    "keyTakeaways": [
+      "Multi-stage Docker builds to minimize image surface and optimize caching",
+      "Kubernetes primitives: Deployments, Services (ClusterIP/NodePort/LoadBalancer), and ConfigMaps",
+      "Zero-downtime rolling updates, readiness/liveness health probes, and resource requests/limits"
+    ],
+    "prerequisites": [
+      "Linux command line, networking fundamentals, and application packaging"
+    ],
+    "recommendedNext": [
+      "res-local-git-github-complete-notes"
+    ],
+    "topics": [
+      "DevOps",
+      "Docker",
+      "Kubernetes",
+      "Containers",
+      "CloudNative"
+    ],
+    "tags": [
+      "Docker",
+      "Kubernetes",
+      "K8s",
+      "DevOps",
+      "Containers"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-git-github-complete-notes",
+    "title": "Git & GitHub Complete Mastery & Workflow Guide",
+    "author": "Version Control & Collaboration Working Group",
+    "pages": 11,
+    "fileName": "Git_GitHub_Complete_Notes.pdf",
+    "category": "devops",
+    "subCategory": "Git & GitHub Version Control",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "CURRENT_FOCUS",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 11,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\Git_GitHub_Complete_Notes.pdf",
+    "whatIsThisBookFor": "Mastering modern version control, commit trees, branching strategies, rebase operations, and GitHub collaboration workflows.",
+    "summary": "An 11-page complete guide covering Git internals, staging tree mechanics, branching strategies, rebasing vs merging, cherry-picking, stash workflows, merge conflict resolution, and GitHub pull request lifecycle management.",
+    "keyTakeaways": [
+      "Git object model: Commits, trees, blobs, and cryptographic SHA pointers",
+      "Branching and collaboration: Gitflow, trunk-based development, and clean rebase history",
+      "Disaster recovery: git reflog, resetting commits safely, and resolving merge conflicts"
+    ],
+    "prerequisites": [
+      "Basic command line usage and text editing"
+    ],
+    "recommendedNext": [
+      "res-local-docker-k8s-handbook-v2"
+    ],
+    "topics": [
+      "Git",
+      "GitHub",
+      "VersionControl",
+      "DevOps",
+      "Collaboration"
+    ],
+    "tags": [
+      "Git",
+      "GitHub",
+      "VersionControl",
+      "Branching",
+      "Workflow"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sql-fundamentals-14-concepts",
+    "title": "SQL Fundamentals: 14 Core Concepts & Query Engineering",
+    "author": "AskPavan AI & Database Architecture Labs",
+    "pages": 15,
+    "fileName": "SQL_Fundamentals_Instruction_14_Concepts_AskPavan_AI.pdf",
+    "category": "databases",
+    "subCategory": "SQL 14 Core Fundamentals & Joins",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 15,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\SQL_Fundamentals_Instruction_14_Concepts_AskPavan_AI.pdf",
+    "whatIsThisBookFor": "Achieving rock-solid fluency in SQL querying, relational joins, grouping aggregations, subqueries, and window functions.",
+    "summary": "A 15-page masterclass on 14 essential SQL concepts: DDL/DML operations, SELECT execution order, INNER/LEFT/RIGHT/FULL JOINs, GROUP BY aggregations, HAVING clauses, Subqueries, CTEs, Window functions (ROW_NUMBER, RANK, DENSE_RANK), and Indexing basics.",
+    "keyTakeaways": [
+      "Precise SQL query evaluation order: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY",
+      "Mastering relational JOIN semantics and handling NULL propagation",
+      "Analytical window functions (RANK, DENSE_RANK, LEAD, LAG) for enterprise reporting"
+    ],
+    "prerequisites": [
+      "Basic familiarity with tabular data and relational tables"
+    ],
+    "recommendedNext": [
+      "res-local-sysdes-patterns-top15"
+    ],
+    "topics": [
+      "SQL",
+      "Databases",
+      "RelationalData",
+      "Joins",
+      "WindowFunctions"
+    ],
+    "tags": [
+      "SQL",
+      "Database",
+      "PostgreSQL",
+      "QueryTuning",
+      "14Concepts"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-rag-complete-notes",
+    "title": "Retrieval-Augmented Generation (RAG) Complete Engineering Notes",
+    "author": "Applied GenAI & Vector Architecture Collective",
+    "pages": 18,
+    "fileName": "RAG_Complete_Notes.pdf",
+    "category": "ai-ml",
+    "subCategory": "Deep Learning, RAG & Vector Search",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 18,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\RAG_Complete_Notes.pdf",
+    "whatIsThisBookFor": "Architecting enterprise RAG pipelines, semantic vector search, parent-document retrievers, and LLM context optimization.",
+    "summary": "An 18-page deep dive into building production Retrieval-Augmented Generation (RAG) pipelines. Details document chunking strategies, embedding models, vector databases (Chroma, Pinecone, Qdrant), hybrid search (Dense + BM25), re-ranking (Cross-Encoders), and evaluation with RAGAS.",
+    "keyTakeaways": [
+      "Advanced document chunking: Semantic chunking, recursive character splitting, and parent-document retrieval",
+      "Hybrid retrieval strategies combining semantic vector similarity with keyword BM25 search",
+      "Post-retrieval re-ranking, context compression, and hallucination reduction methods"
+    ],
+    "prerequisites": [
+      "Python programming, embedding vectors, and LLM API fundamentals"
+    ],
+    "recommendedNext": [
+      "res-local-sysdes-patterns-top15"
+    ],
+    "topics": [
+      "RAG",
+      "GenAI",
+      "VectorSearch",
+      "LLM",
+      "Embeddings"
+    ],
+    "tags": [
+      "RAG",
+      "GenAI",
+      "AI",
+      "VectorDB",
+      "DeepLearning"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-apache-kafka-notes",
+    "title": "Apache Kafka Architecture & Distributed Event Streaming Notes",
+    "author": "Event-Driven Systems & Data Streaming Guild",
+    "pages": 10,
+    "fileName": "Apache_Kafka_Notes.pdf",
+    "category": "spring-boot",
+    "subCategory": "Microservices Architecture & Kafka",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 10,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\Apache_Kafka_Notes.pdf",
+    "whatIsThisBookFor": "Building resilient, asynchronous event-driven microservices using Apache Kafka brokers and Spring-Kafka.",
+    "summary": "A 10-page architecture guide detailing Apache Kafka event streaming: Topics, Partitions, Consumer Groups, Offsets, Broker replication, Exactly-Once Semantics (EOS), Kafka Connect, and integration with Spring Boot via Spring-Kafka (@KafkaListener, KafkaTemplate).",
+    "keyTakeaways": [
+      "Partitioning mechanics, log compaction, and high-throughput sequential disk writes",
+      "Consumer group rebalancing, offset commit strategies, and lag monitoring",
+      "Building resilient event-driven microservices with Spring Boot and Kafka producers/consumers"
+    ],
+    "prerequisites": [
+      "Java, Spring Boot, and fundamental understanding of messaging queues"
+    ],
+    "recommendedNext": [
+      "res-local-micro-qa-linkedin"
+    ],
+    "topics": [
+      "Kafka",
+      "EventStreaming",
+      "Spring",
+      "Microservices",
+      "Messaging"
+    ],
+    "tags": [
+      "Kafka",
+      "EventDriven",
+      "Streaming",
+      "SpringBoot",
+      "Microservices"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-java27-handbook",
+    "title": "Modern Java 21/27 Language Features & Architecture Handbook",
+    "author": "Modern Java Platform Advocates",
+    "pages": 6,
+    "fileName": "Java27_Handbook.pdf",
+    "category": "java",
+    "subCategory": "Java Core & OOP Foundations",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 6,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\HandBooks_From_LinkedIn_Telegram\\Java27_Handbook.pdf",
+    "whatIsThisBookFor": "Mastering cutting-edge Java 21/27 LTS features, Virtual Threads (Project Loom), structured concurrency, and modern pattern matching.",
+    "summary": "A 6-page cutting-edge reference guide covering modern LTS Java advances: Virtual Threads (Project Loom), Structured Concurrency, Record Patterns, Pattern Matching for switch, Sealed Classes, Sequenced Collections, and JVM JIT/GC enhancements.",
+    "keyTakeaways": [
+      "Virtual Threads (Project Loom) for high-throughput lightweight concurrent I/O",
+      "Modern expressive Java: Pattern matching for switch, record deconstruction, and sealed interfaces",
+      "Sequenced collections API and JVM memory optimizations for cloud-native containers"
+    ],
+    "prerequisites": [
+      "Core Java syntax, OOP inheritance, and basic multithreading"
+    ],
+    "recommendedNext": [
+      "res-local-java-interview-tier1"
+    ],
+    "topics": [
+      "Java",
+      "Java21",
+      "Loom",
+      "VirtualThreads",
+      "Concurrency"
+    ],
+    "tags": [
+      "Java",
+      "ModernJava",
+      "Java27",
+      "VirtualThreads",
+      "Handbook"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

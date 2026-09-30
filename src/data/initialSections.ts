@@ -141,7 +141,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '🏗️',
     color: '#f97316', // Vibrant Orange
     accentColor: '#fb923c',
-    subSections: ['Fundamentals & Scalability', 'Storage & Caching Architectures', 'Event-Driven & Messaging', 'Large Scale Real-World Systems'],
+    subSections: ['Top 15 System Design Patterns', 'HLD & High-Scale Architectures', 'Low-Level Design & SOLID Principles', 'Distributed Consensus & Caching'],
     wing: 'north',
     anchorPosition: [-12, 0, -32],
     rotationY: 0,
@@ -154,7 +154,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '🗄️',
     color: '#06b6d4', // Cyan
     accentColor: '#22d3ee',
-    subSections: ['PostgreSQL & Advanced SQL', 'Index Design & Query Tuning', 'Redis & In-Memory Architectures', 'Distributed ACID & Sharding'],
+    subSections: ['SQL 14 Core Fundamentals & Joins', 'Indexing & Query Performance Tuning', 'NoSQL, Redis & Distributed Storage', 'Database Sharding & Replication'],
     wing: 'east',
     anchorPosition: [24, 0, -14],
     rotationY: 0,
@@ -167,7 +167,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '🤖',
     color: '#ec4899', // Pink / Fuchsia
     accentColor: '#f472b6',
-    subSections: ['Machine Learning Foundations', 'Deep Learning & Transformers', 'LLM Application Engineering', 'Vector Databases & RAG'],
+    subSections: ['Machine Learning Foundations', 'Deep Learning, RAG & Vector Search', 'LLM Application Engineering & Agents', 'Generative AI Pipelines'],
     wing: 'north',
     anchorPosition: [12, 0, -32],
     rotationY: 0,
@@ -193,7 +193,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '⚙️',
     color: '#14b8a6', // Teal
     accentColor: '#2dd4bf',
-    subSections: ['Docker & Linux Containers', 'Kubernetes Cluster Engineering', 'CI/CD & GitOps', 'Observability & Prometheus'],
+    subSections: ['Docker & Kubernetes Containers', 'Git & GitHub Version Control', 'CI/CD Pipelines & SRE Observability', 'Infrastructure as Code'],
     wing: 'east',
     anchorPosition: [24, 0, -34],
     rotationY: 0,

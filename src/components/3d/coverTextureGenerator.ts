@@ -27,12 +27,15 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isDSA = category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive');
-  const isJava = !isDSA && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
-  const isSpring = !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring'));
-  const isPython = !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
-  const isML = category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural');
-  const isData = category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas');
+  const isSystemDesign = category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld');
+  const isDevOps = category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container');
+  const isDatabase = category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql');
+  const isDSA = !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
+  const isSpring = !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
+  const isJava = !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isPython = !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isML = !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
+  const isData = !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
   const isProject = category.includes('project') || title.toLowerCase().includes('project') || title.toLowerCase().includes('code');
   const isHandbook = category.includes('handbook') || category.includes('cheat') || title.toLowerCase().includes('cheat') || title.toLowerCase().includes('quick');
@@ -45,7 +48,28 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isDSA) {
+  if (isSystemDesign) {
+    topBg = '#1C0D02';
+    midBg = '#9A3412';
+    botBg = '#0F0601';
+    primaryAccent = '#FB923C';
+    secondaryAccent = '#FDE047';
+    seriesLabel = 'SYSTEM DESIGN & DISTRIBUTED ARCHITECTURE';
+  } else if (isDevOps) {
+    topBg = '#022C28';
+    midBg = '#0F766E';
+    botBg = '#011917';
+    primaryAccent = '#2DD4BF';
+    secondaryAccent = '#5EEAD4';
+    seriesLabel = 'DEVOPS, CONTAINERS & CLOUD INFRASTRUCTURE';
+  } else if (isDatabase) {
+    topBg = '#082F49';
+    midBg = '#0284C7';
+    botBg = '#031E33';
+    primaryAccent = '#38BDF8';
+    secondaryAccent = '#BAE6FD';
+    seriesLabel = 'RELATIONAL SQL & DATABASE ARCHITECTURE';
+  } else if (isDSA) {
     topBg = '#1E0B36';
     midBg = '#6D28D9';
     botBg = '#100520';
@@ -200,7 +224,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -264,6 +288,9 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isSystemDesign: boolean,
+  isDevOps: boolean,
+  isDatabase: boolean,
   isDSA: boolean,
   isJava: boolean,
   isSpring: boolean,
@@ -290,7 +317,242 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isDSA) {
+  if (isSystemDesign) {
+    // --- DISTRIBUTED SYSTEM DESIGN & HIGH-SCALE TOPOLOGY ---
+    ctx.strokeStyle = '#FB923C';
+    ctx.lineWidth = 2.5;
+
+    // Client node at top
+    ctx.fillStyle = '#431407';
+    roundRect(ctx, cx - 55, cy - 88, 110, 30, 8);
+    ctx.fill();
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 2;
+    roundRect(ctx, cx - 55, cy - 88, 110, 30, 8);
+    ctx.stroke();
+
+    ctx.font = '800 12px "Inter", sans-serif';
+    ctx.fillStyle = '#FEF08A';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('CLIENTS / APPS', cx, cy - 73);
+
+    // Connector down
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 58);
+    ctx.lineTo(cx, cy - 38);
+    ctx.stroke();
+
+    // API Gateway & Load Balancer
+    ctx.fillStyle = '#7C2D12';
+    roundRect(ctx, cx - 110, cy - 38, 220, 32, 8);
+    ctx.fill();
+    ctx.strokeStyle = '#FB923C';
+    ctx.lineWidth = 2.5;
+    roundRect(ctx, cx - 110, cy - 38, 220, 32, 8);
+    ctx.stroke();
+
+    ctx.font = '800 12px "Inter", sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('LOAD BALANCER & API GATEWAY', cx, cy - 22);
+
+    // Connectors from LB to 3 Services
+    const svcX = [cx - 95, cx, cx + 95];
+    const svcLabels = ['AUTH SVC', 'CORE API', 'EVENTS'];
+    ctx.strokeStyle = '#FED7AA';
+    ctx.lineWidth = 2;
+    svcX.forEach((sx) => {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 6);
+      ctx.lineTo(sx, cy + 18);
+      ctx.stroke();
+    });
+
+    // 3 Microservice Nodes
+    svcX.forEach((sx, i) => {
+      ctx.fillStyle = '#9A3412';
+      roundRect(ctx, sx - 42, cy + 18, 84, 28, 6);
+      ctx.fill();
+      ctx.strokeStyle = '#FDBA74';
+      ctx.lineWidth = 1.8;
+      roundRect(ctx, sx - 42, cy + 18, 84, 28, 6);
+      ctx.stroke();
+
+      ctx.font = '700 11px "Inter", sans-serif';
+      ctx.fillStyle = '#FFF7ED';
+      ctx.fillText(svcLabels[i], sx, cy + 32);
+    });
+
+    // Storage tier (Redis Cache on left, Distributed DB on right)
+    ctx.beginPath();
+    ctx.moveTo(cx - 95, cy + 46);
+    ctx.lineTo(cx - 70, cy + 72);
+    ctx.moveTo(cx, cy + 46);
+    ctx.lineTo(cx + 70, cy + 72);
+    ctx.moveTo(cx + 95, cy + 46);
+    ctx.lineTo(cx + 70, cy + 72);
+    ctx.strokeStyle = '#FB923C';
+    ctx.stroke();
+
+    // Cache Node
+    ctx.fillStyle = '#78350F';
+    roundRect(ctx, cx - 120, cy + 72, 100, 30, 8);
+    ctx.fill();
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 2;
+    roundRect(ctx, cx - 120, cy + 72, 100, 30, 8);
+    ctx.stroke();
+    ctx.font = '800 11px "Inter", sans-serif';
+    ctx.fillStyle = '#FEF08A';
+    ctx.fillText('⚡ REDIS CACHE', cx - 70, cy + 87);
+
+    // Database Cluster Node
+    ctx.fillStyle = '#431407';
+    roundRect(ctx, cx + 20, cy + 72, 100, 30, 8);
+    ctx.fill();
+    ctx.strokeStyle = '#FB923C';
+    ctx.lineWidth = 2;
+    roundRect(ctx, cx + 20, cy + 72, 100, 30, 8);
+    ctx.stroke();
+    ctx.font = '800 11px "Inter", sans-serif';
+    ctx.fillStyle = '#FED7AA';
+    ctx.fillText('🗄️ REPLICATED DB', cx + 70, cy + 87);
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FDE047';
+    ctx.fillText('CONSISTENT HASHING  •  CAP THEOREM  •  HLD & LLD', cx, cy + 128);
+
+  } else if (isDevOps) {
+    // --- DOCKER CONTAINERS & KUBERNETES CLOUD PODS ---
+    // Stack of 3 Shipping Containers
+    const containers = [
+      { y: cy - 65, w: 150, color: '#0D9488', border: '#5EEAD4', label: 'DOCKER CONTAINER' },
+      { y: cy - 22, w: 190, color: '#0F766E', border: '#2DD4BF', label: 'KUBERNETES POD' },
+      { y: cy + 22, w: 230, color: '#115E59', border: '#14B8A6', label: 'CI/CD GITOPS RUNNER' },
+    ];
+
+    containers.forEach((c) => {
+      ctx.fillStyle = c.color;
+      roundRect(ctx, cx - c.w / 2, c.y, c.w, 36, 6);
+      ctx.fill();
+      ctx.strokeStyle = c.border;
+      ctx.lineWidth = 2.5;
+      roundRect(ctx, cx - c.w / 2, c.y, c.w, 36, 6);
+      ctx.stroke();
+
+      // Corrugated container ridges
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1.5;
+      const numLines = Math.floor(c.w / 18);
+      for (let i = 1; i < numLines; i++) {
+        const lx = cx - c.w / 2 + i * 18;
+        ctx.beginPath();
+        ctx.moveTo(lx, c.y + 4);
+        ctx.lineTo(lx, c.y + 32);
+        ctx.stroke();
+      }
+
+      ctx.font = '800 12px "Inter", sans-serif';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(c.label, cx, c.y + 18);
+    });
+
+    // Git Branching Tree below containers
+    ctx.strokeStyle = '#5EEAD4';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - 100, cy + 78);
+    ctx.lineTo(cx + 100, cy + 78);
+    ctx.stroke();
+
+    // Branch curve
+    ctx.beginPath();
+    ctx.moveTo(cx - 40, cy + 78);
+    ctx.bezierCurveTo(cx - 20, cy + 96, cx + 20, cy + 96, cx + 40, cy + 78);
+    ctx.stroke();
+
+    // Commit dots
+    const gitNodes = [
+      { x: cx - 80, y: cy + 78 },
+      { x: cx - 40, y: cy + 78 },
+      { x: cx, y: cy + 92 },
+      { x: cx + 40, y: cy + 78 },
+      { x: cx + 80, y: cy + 78 },
+    ];
+    gitNodes.forEach((node) => {
+      ctx.fillStyle = '#042F2E';
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#5EEAD4';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#5EEAD4';
+    ctx.textAlign = 'center';
+    ctx.fillText('DOCKER  •  KUBERNETES  •  GIT ORCHESTRATION', cx, cy + 128);
+
+  } else if (isDatabase) {
+    // --- 3D METALLIC RELATIONAL DATABASE CYLINDERS ---
+    const drawCylinder = (topY: number, h: number, label: string) => {
+      // Cylinder body
+      const cGrad = ctx.createLinearGradient(cx - 100, 0, cx + 100, 0);
+      cGrad.addColorStop(0, '#0369A1');
+      cGrad.addColorStop(0.5, '#38BDF8');
+      cGrad.addColorStop(1, '#0284C7');
+
+      ctx.fillStyle = cGrad;
+      ctx.beginPath();
+      ctx.rect(cx - 90, topY, 180, h);
+      ctx.fill();
+
+      // Bottom ellipse
+      ctx.beginPath();
+      ctx.ellipse(cx, topY + h, 90, 16, 0, 0, Math.PI);
+      ctx.fill();
+      ctx.strokeStyle = '#BAE6FD';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      // Top ellipse
+      ctx.fillStyle = '#0284C7';
+      ctx.beginPath();
+      ctx.ellipse(cx, topY, 90, 16, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#E0F2FE';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      // Disk platter glow line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(cx, topY + h / 2, 88, 14, 0, 0, Math.PI);
+      ctx.stroke();
+
+      ctx.font = '800 12px "Inter", sans-serif';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, cx, topY + h / 2);
+    };
+
+    drawCylinder(cy - 65, 34, 'SQL RELATIONAL SCHEMA');
+    drawCylinder(cy - 20, 34, 'B-TREE INDEXING ENGINE');
+    drawCylinder(cy + 25, 34, 'ACID TRANSACTION LOG');
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#BAE6FD';
+    ctx.textAlign = 'center';
+    ctx.fillText('SELECT * FROM TABLE  •  ACID  •  INDEXING', cx, cy + 126);
+
+  } else if (isDSA) {
     // --- BINARY SEARCH TREE & ALGORITHMIC TOPOLOGY ---
     const rootX = cx;
     const rootY = cy - 65;

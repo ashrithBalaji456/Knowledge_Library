@@ -373,6 +373,70 @@ export function getSectionRowClassification(section: Section): RowClassification
     };
   }
 
+  if (sid === 'system-design') {
+    return {
+      rowLabels: ['TOP 15 SYSTEM DESIGN PATTERNS', 'HLD & HIGH-SCALE ARCHITECTURES', 'LOW-LEVEL DESIGN & SOLID PRINCIPLES'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('pattern') || t.includes('top 15') || t.includes('top15')) {
+          return 0;
+        }
+        if (t.includes('hld') || t.includes('high-scale') || t.includes('scalab') || t.includes('large scale') || t.includes('cloud')) {
+          return 1;
+        }
+        return 2;
+      },
+    };
+  }
+
+  if (sid === 'devops') {
+    return {
+      rowLabels: ['DOCKER & KUBERNETES CONTAINERS', 'GIT & GITHUB VERSION CONTROL', 'CI/CD PIPELINES & SRE OBSERVABILITY'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('docker') || t.includes('kubernetes') || t.includes('k8s') || t.includes('container')) {
+          return 0;
+        }
+        if (t.includes('git') || t.includes('github') || t.includes('version')) {
+          return 1;
+        }
+        return 2;
+      },
+    };
+  }
+
+  if (sid === 'databases') {
+    return {
+      rowLabels: ['SQL 14 CORE FUNDAMENTALS & JOINS', 'INDEXING & QUERY PERFORMANCE TUNING', 'NOSQL, REDIS & DISTRIBUTED STORAGE'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('14') || t.includes('fundamental') || t.includes('concept') || t.includes('join') || t.includes('askpavan')) {
+          return 0;
+        }
+        if (t.includes('index') || t.includes('tuning') || t.includes('query') || t.includes('performance')) {
+          return 1;
+        }
+        return 2;
+      },
+    };
+  }
+
+  if (sid === 'ai-ml') {
+    return {
+      rowLabels: ['MACHINE LEARNING FOUNDATIONS', 'DEEP LEARNING, RAG & VECTOR SEARCH', 'LLM APPLICATION ENGINEERING & AGENTS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('rag') || t.includes('retrieval') || t.includes('vector') || t.includes('deep') || t.includes('transformer')) {
+          return 1;
+        }
+        if (t.includes('llm') || t.includes('agent') || t.includes('prompt')) {
+          return 2;
+        }
+        return 0;
+      },
+    };
+  }
+
   // Fallback for dynamic sections
   const sub = section.subSections || [];
   const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';
