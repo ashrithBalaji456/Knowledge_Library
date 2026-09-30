@@ -27,7 +27,9 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isPython = category.includes('python') || title.toLowerCase().includes('python');
+  const isJava = category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java');
+  const isSpring = category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring');
+  const isPython = !isJava && !isSpring && (category.includes('python') || title.toLowerCase().includes('python'));
   const isML = category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural');
   const isData = category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas');
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
@@ -42,7 +44,21 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isML) {
+  if (isSpring) {
+    topBg = '#022C22';
+    midBg = '#047857';
+    botBg = '#011A14';
+    primaryAccent = '#34D399';
+    secondaryAccent = '#A7F3D0';
+    seriesLabel = 'SPRING BOOT & ENTERPRISE ARCHITECTURE';
+  } else if (isJava) {
+    topBg = '#0A192F';
+    midBg = '#1E3A8A';
+    botBg = '#071020';
+    primaryAccent = '#60A5FA';
+    secondaryAccent = '#F59E0B';
+    seriesLabel = 'JAVA ENTERPRISE & CORE PROGRAMMING';
+  } else if (isML) {
     topBg = '#1E1035';
     midBg = '#3B185F';
     botBg = '#100720';
@@ -176,7 +192,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -240,6 +256,8 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isJava: boolean,
+  isSpring: boolean,
   isPython: boolean,
   isML: boolean,
   isData: boolean,
@@ -263,7 +281,134 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isPython) {
+  if (isSpring) {
+    // --- SPRING BOOT LEAF & MICROSERVICES NETWORK ---
+    ctx.fillStyle = '#10B981';
+    ctx.strokeStyle = '#34D399';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 80);
+    ctx.bezierCurveTo(cx + 80, cy - 60, cx + 80, cy + 40, cx, cy + 80);
+    ctx.bezierCurveTo(cx - 80, cy + 40, cx - 80, cy - 60, cx, cy - 80);
+    ctx.fill();
+    ctx.stroke();
+
+    // White central vein & ribs
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 70);
+    ctx.lineTo(cx, cy + 70);
+    ctx.moveTo(cx, cy - 30);
+    ctx.lineTo(cx - 35, cy - 45);
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx - 45, cy - 15);
+    ctx.moveTo(cx, cy + 30);
+    ctx.lineTo(cx - 35, cy + 15);
+    ctx.moveTo(cx, cy - 30);
+    ctx.lineTo(cx + 35, cy - 45);
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + 45, cy - 15);
+    ctx.moveTo(cx, cy + 30);
+    ctx.lineTo(cx + 35, cy + 15);
+    ctx.stroke();
+
+    // Microservices orbit nodes
+    const orbitNodes = [
+      { x: cx - 110, y: cy - 40, r: 14, label: 'REST' },
+      { x: cx + 110, y: cy - 40, r: 14, label: 'JPA' },
+      { x: cx - 95, y: cy + 55, r: 14, label: 'AUTH' },
+      { x: cx + 95, y: cy + 55, r: 14, label: 'CLOUD' },
+    ];
+    ctx.strokeStyle = 'rgba(52, 211, 153, 0.4)';
+    ctx.lineWidth = 2;
+    orbitNodes.forEach((node) => {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(node.x, node.y);
+      ctx.stroke();
+
+      ctx.fillStyle = '#064E3B';
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#34D399';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.font = '700 10px "Inter", sans-serif';
+      ctx.fillStyle = '#A7F3D0';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.label, node.x, node.y);
+    });
+
+    ctx.font = '700 16px "Inter", monospace';
+    ctx.fillStyle = '#A7F3D0';
+    ctx.textAlign = 'center';
+    ctx.fillText('@SpringBootApplication  •  @RestController', cx, cy + 120);
+
+  } else if (isJava) {
+    // --- ICONIC STEAMING DUKE JAVA CUP & JVM ARCHITECTURE ---
+    // Saucer
+    ctx.fillStyle = '#1E3A8A';
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 60, 75, 12, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Cup body
+    ctx.fillStyle = '#FFFFFF';
+    ctx.strokeStyle = '#93C5FD';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.roundRect(cx - 50, cy - 20, 100, 75, [4, 4, 30, 30]);
+    ctx.fill();
+    ctx.stroke();
+
+    // Gold rim
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(cx - 50, cy - 18);
+    ctx.lineTo(cx + 50, cy - 18);
+    ctx.stroke();
+
+    // Cup handle
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.arc(cx + 52, cy + 12, 22, -Math.PI / 2.2, Math.PI / 2.2);
+    ctx.stroke();
+    ctx.strokeStyle = '#93C5FD';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Java Coffee Steam (3 organic rising curves)
+    const drawSteam = (sx: number, color: string) => {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(sx, cy - 26);
+      ctx.bezierCurveTo(sx - 16, cy - 50, sx + 16, cy - 70, sx - 8, cy - 95);
+      ctx.stroke();
+    };
+    drawSteam(cx - 24, '#EF4444');
+    drawSteam(cx, '#F59E0B');
+    drawSteam(cx + 24, '#3B82F6');
+
+    // Code watermark
+    ctx.font = '700 16px "Inter", monospace';
+    ctx.fillStyle = 'rgba(96, 165, 250, 0.9)';
+    ctx.textAlign = 'center';
+    ctx.fillText('public static void main(String[] args)', cx, cy + 115);
+    ctx.font = '600 14px "Inter", sans-serif';
+    ctx.fillStyle = '#FDE68A';
+    ctx.fillText('JVM BYTECODE  •  OBJECT-ORIENTED  •  GC', cx, cy + 138);
+
+  } else if (isPython) {
     // --- ICONIC PYTHON DUAL SERPENTS IN HIGH FIDELITY ---
     // Top Blue Serpent
     ctx.fillStyle = '#38BDF8';

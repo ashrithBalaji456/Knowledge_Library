@@ -102,7 +102,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '☕',
     color: '#3b82f6', // Sapphire Blue
     accentColor: '#60a5fa',
-    subSections: ['Core Language & OOP', 'Collections & Generics', 'Concurrency & Virtual Threads', 'JVM & Performance Tuning'],
+    subSections: ['Core Language & OOP', 'Java & Spring Boot Architecture', 'Java & Spring Boot Technical Interviews', 'JVM & Concurrency'],
     wing: 'west',
     anchorPosition: [-24, 0, 6],
     rotationY: 0,

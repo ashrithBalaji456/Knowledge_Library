@@ -129,13 +129,14 @@ interface LibraryStoreState {
   getLibraryStats: () => LibraryStats;
 }
 
-// Persistent user storage helper - defaults to the real user collection from python to ml
-const STORAGE_KEY = 'pk_library_resources_v5_python_ml';
+// Persistent user storage helper - defaults to the real user collection from python to ml + java
+const STORAGE_KEY = 'pk_library_resources_v6_python_ml_java';
 
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v5_python_ml');
       localStorage.removeItem('pk_library_resources_v3');
       localStorage.removeItem('pk_library_resources_v2');
       localStorage.removeItem('pk_library_resources');
@@ -145,6 +146,14 @@ function loadStoredResources(): Resource[] {
         const parsed = JSON.parse(raw);
         // Ensure stored resources are the authentic local books and not stale mock items
         if (Array.isArray(parsed) && parsed.length > 0 && parsed.some((r) => r.id && r.id.startsWith('res-local-'))) {
+          // Merge in any new canonical resources (e.g. newly added Java books)
+          const existingIds = new Set(parsed.map((r: Resource) => r.id));
+          const missing = PYTHON_TO_ML_RESOURCES.filter((r) => !existingIds.has(r.id));
+          if (missing.length > 0) {
+            const combined = [...parsed, ...missing];
+            saveStoredResources(combined);
+            return combined;
+          }
           return parsed;
         }
       }
@@ -152,7 +161,7 @@ function loadStoredResources(): Resource[] {
   } catch (e) {
     console.warn('Could not read user library from localStorage:', e);
   }
-  return PYTHON_TO_ML_RESOURCES; // Default to user's real collection from C:\Users\ashri\Downloads\v2\python to ml
+  return PYTHON_TO_ML_RESOURCES; // Default to user's real collection
 }
 
 function saveStoredResources(resources: Resource[]) {

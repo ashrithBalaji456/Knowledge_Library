@@ -325,6 +325,22 @@ export function getSectionRowClassification(section: Section): RowClassification
     };
   }
 
+  if (sid === 'java') {
+    return {
+      rowLabels: ['JAVA CORE & OOP FOUNDATIONS', 'JAVA & SPRING BOOT ARCHITECTURE', 'JAVA & SPRING BOOT TECHNICAL INTERVIEWS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('interview') || t.includes('tier') || t.includes('preparation')) {
+          return 2;
+        }
+        if (t.includes('spring') || t.includes('architecture') || t.includes('springboot')) {
+          return 1;
+        }
+        return 0;
+      },
+    };
+  }
+
   // Fallback for Java, Spring, DSA, or dynamic sections
   const sub = section.subSections || [];
   const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';

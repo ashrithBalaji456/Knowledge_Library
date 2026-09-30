@@ -6338,5 +6338,156 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-09-29",
     "lastOpened": "2026-09-29"
+  },
+  {
+    "id": "res-local-complete-java-notes",
+    "title": "Complete Java Programming Notes",
+    "author": "James Gosling & Java Community",
+    "pages": 80,
+    "fileName": "complete java notes.pdf",
+    "category": "java",
+    "subCategory": "Core Language & OOP",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 80,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\Java\\complete java notes.pdf",
+    "whatIsThisBookFor": "Master foundational and core Java programming: OOP concepts, classes, inheritance, polymorphism, encapsulation, exception handling, and JVM mechanics.",
+    "summary": "An exhaustive 80-page reference covering fundamental Java from language syntax to object-oriented programming paradigms, automatic garbage collection, classloaders, interfaces, packages, exception hierarchies, and multi-threading foundations.",
+    "keyTakeaways": [
+      "Core OOP principles: Encapsulation, Abstraction, Inheritance, and Polymorphism",
+      "Java Runtime Environment (JRE), JVM memory model, and Garbage Collection mechanics",
+      "Robust exception handling (checked vs unchecked) and error management",
+      "String pool immutability, Collections framework, and method overriding best practices"
+    ],
+    "prerequisites": [
+      "Basic understanding of computers and programming logic"
+    ],
+    "recommendedNext": [
+      "res-local-java-and-springboot",
+      "res-local-java-interview-prep"
+    ],
+    "topics": [
+      "Java",
+      "OOP",
+      "JVM",
+      "ExceptionHandling",
+      "Classes",
+      "GarbageCollection"
+    ],
+    "tags": [
+      "Java",
+      "CoreJava",
+      "OOP",
+      "Programming",
+      "JVM"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-java-and-springboot",
+    "title": "Java & Spring Boot Architecture Notes",
+    "author": "Enterprise Java Architecture Team",
+    "pages": 15,
+    "fileName": "java and springBoot.pdf",
+    "category": "java",
+    "subCategory": "Java & Spring Boot Architecture",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 15,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\Java\\java and springBoot.pdf",
+    "whatIsThisBookFor": "Visual architectural cheat sheet and diagrammatic summary connecting modern Java 17/21 mechanics with Spring Boot microservices, Dependency Injection, and annotations.",
+    "summary": "A 15-page visual architectural guide and infographic workbook illustrating core Java mechanics, Spring Boot auto-configuration, Inversion of Control (IoC), Spring Data JPA entity lifecycles, and microservice REST controllers.",
+    "keyTakeaways": [
+      "Spring IoC Container and Dependency Injection patterns (@Autowired, @Component, @Service)",
+      "Spring Boot Auto-Configuration, ApplicationContext, and starter dependencies",
+      "RESTful API design with @RestController, request mapping, and DTO validations",
+      "Spring Data JPA repositories, Hibernate ORM entity relationships, and transaction management"
+    ],
+    "prerequisites": [
+      "Core Java OOP concepts and basic web architecture knowledge"
+    ],
+    "recommendedNext": [
+      "res-local-java-interview-prep"
+    ],
+    "topics": [
+      "Java",
+      "SpringBoot",
+      "Microservices",
+      "DependencyInjection",
+      "JPA",
+      "Architecture"
+    ],
+    "tags": [
+      "Java",
+      "SpringBoot",
+      "Microservices",
+      "Enterprise",
+      "Frameworks"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-java-interview-prep",
+    "title": "Java Developer Interview Preparation (Tier 1 + 2 + 3)",
+    "author": "Senior Java Interview Panel",
+    "pages": 12,
+    "fileName": "java interview.pdf",
+    "category": "java",
+    "subCategory": "Java & Spring Boot Technical Interviews",
+    "resourceType": "INTERVIEW_GUIDE",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 12,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\v2\\Java\\java interview.pdf",
+    "whatIsThisBookFor": "Crack senior Java and Spring Boot technical interviews with tiered high-frequency questions, deep concept breakdowns, code snippets, and system architecture scenarios.",
+    "summary": "An intensive 12-page interview-ready guide tailored for 3–4+ years of Java and Spring Boot engineering experience. Structured into Tier 1 (Core Java), Tier 2 (Spring Boot & Microservices), and Tier 3 (Concurrency, Performance, and System Design).",
+    "keyTakeaways": [
+      "Tier 1 Core Java: == vs equals(), String immutability reasons, HashMap internal mechanics, and exception hierarchies",
+      "Tier 2 Spring Boot: Lifecycle of beans, custom starters, Spring Security filter chains, and distributed tracing",
+      "Tier 3 Concurrency: Volatile vs synchronized, ThreadPoolExecutor tuning, and Java Virtual Threads (Project Loom)",
+      "High-impact interview explanation strategies with time/space complexity tradeoffs"
+    ],
+    "prerequisites": [
+      "Working knowledge of Java 8+ features and Spring Boot concepts"
+    ],
+    "recommendedNext": [
+      "res-local-complete-java-notes"
+    ],
+    "topics": [
+      "Java",
+      "Interviews",
+      "SpringBoot",
+      "Concurrency",
+      "HashMap",
+      "Collections"
+    ],
+    "tags": [
+      "Java",
+      "InterviewPrep",
+      "SpringBoot",
+      "Career",
+      "HighFrequency"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

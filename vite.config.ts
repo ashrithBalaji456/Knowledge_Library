@@ -35,8 +35,8 @@ function localPdfServer(): Plugin {
 
         let resolved = path.resolve(targetPath);
         if (!fs.existsSync(resolved)) {
-          // Attempt searching in user's downloads folder
-          const candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\v2\\python to ml', path.basename(targetPath));
+          // Attempt searching across user's downloads v2 folder (including Java, python to ml, etc.)
+          const candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\v2', path.basename(targetPath));
           if (candidate) resolved = candidate;
         }
 
