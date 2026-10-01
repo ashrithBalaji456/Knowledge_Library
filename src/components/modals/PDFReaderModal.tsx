@@ -245,6 +245,32 @@ export const PDFReaderModal: React.FC = () => {
                 </div>
               </div>
             </div>
+          ) : pdfResource.resourceType === 'GAME' || pdfResource.category.includes('arcade') ? (
+            <div className="flex-1 w-full h-full flex flex-col p-2 bg-stone-950">
+              <div className="flex items-center justify-between px-4 py-2.5 bg-stone-900/90 border border-stone-800 rounded-t-xl text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                  <span className="font-mono text-cyan-300 font-bold uppercase tracking-wider">
+                    Interactive Arcade Session • {pdfResource.fileName || 'Game Arena'}
+                  </span>
+                </div>
+                <a
+                  href={pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1 rounded-lg bg-gradient-to-r from-cyan-600 to-pink-600 hover:from-cyan-500 hover:to-pink-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-900/30 transition cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Launch in Full Browser Window</span>
+                </a>
+              </div>
+              <iframe
+                src={pdfUrl}
+                className="w-full flex-1 border-none rounded-b-xl bg-stone-900 shadow-2xl"
+                title={pdfResource.title}
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+              />
+            </div>
           ) : (
             <div className="flex-1 w-full h-full p-2 bg-stone-950">
               <iframe

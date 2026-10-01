@@ -10081,5 +10081,518 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-k8sgames",
+    "title": "k8sgames: Learn Kubernetes Through Interactive Play",
+    "author": "K8s Community & Cloud Native Labs",
+    "pages": 42,
+    "fileName": "k8sgames.com",
+    "category": "sec-coding-arcade",
+    "subCategory": "Cloud, DevOps, Linux & Git Games",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 42,
+    "source": "uploaded_pdf",
+    "url": "https://k8sgames.com/",
+    "sourceUrl": "https://k8sgames.com/",
+    "whatIsThisBookFor": "Master Kubernetes container orchestration, Pod lifecycles, Service discovery, ConfigMaps, and cluster troubleshooting by completing gamified operational missions.",
+    "summary": "An interactive, browser-based gaming arena designed for cloud engineers and developers to master Kubernetes concepts without getting overwhelmed by raw YAML manifests. Players resolve realistic cluster outages, scale deployments under pressure, and configure ingress controllers through tactical gameplay.",
+    "keyTakeaways": [
+      "Hands-on intuition for Kubernetes Pods, Deployments, ReplicaSets, and Services",
+      "Debugging crashLoopBackOff, networking issues, and OOMKilled events in gamified scenarios",
+      "Interactive visualization of cluster topology and distributed application scaling"
+    ],
+    "prerequisites": [
+      "Basic familiarity with Docker containers and microservice architecture"
+    ],
+    "recommendedNext": [
+      "res-game-devops-games"
+    ],
+    "topics": [
+      "Kubernetes",
+      "K8s",
+      "DevOps",
+      "Containers",
+      "CloudNative",
+      "ClusterManagement",
+      "Gaming"
+    ],
+    "tags": [
+      "Kubernetes",
+      "K8s",
+      "Cloud",
+      "DevOps",
+      "InteractiveGame",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-devops-games",
+    "title": "DevOps Games: CI/CD & Cloud Infrastructure Challenges",
+    "author": "DevOps Games Collective",
+    "pages": 35,
+    "fileName": "devops.games",
+    "category": "sec-coding-arcade",
+    "subCategory": "Cloud, DevOps, Linux & Git Games",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 35,
+    "source": "uploaded_pdf",
+    "url": "https://devops.games/",
+    "sourceUrl": "https://devops.games/",
+    "whatIsThisBookFor": "Learn continuous integration, automated deployment pipelines, infrastructure as code (IaC), and site reliability engineering (SRE) through puzzle-based simulations.",
+    "summary": "A rich gamified learning playground where players design robust automated delivery pipelines, manage cloud rollouts, fix broken deployment scripts, and balance release velocity against system uptime.",
+    "keyTakeaways": [
+      "Designing resilient automated CI/CD build, test, and release stages",
+      "Root cause analysis for pipeline failures, flaky integration tests, and configuration drift",
+      "Balancing throughput and reliability through SRE and observability principles"
+    ],
+    "prerequisites": [
+      "Foundational understanding of software development lifecycles"
+    ],
+    "recommendedNext": [
+      "res-game-overthewire"
+    ],
+    "topics": [
+      "DevOps",
+      "CICD",
+      "Automation",
+      "Pipelines",
+      "Infrastructure",
+      "SRE",
+      "Gaming"
+    ],
+    "tags": [
+      "DevOps",
+      "CICD",
+      "Cloud",
+      "SRE",
+      "InteractiveGame",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-overthewire",
+    "title": "OverTheWire Wargames: Linux Command Line & Bandit Security",
+    "author": "OverTheWire Community",
+    "pages": 34,
+    "fileName": "overthewire.org/wargames",
+    "category": "sec-coding-arcade",
+    "subCategory": "Cloud, DevOps, Linux & Git Games",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 34,
+    "source": "uploaded_pdf",
+    "url": "https://overthewire.org/wargames/",
+    "sourceUrl": "https://overthewire.org/wargames/",
+    "whatIsThisBookFor": "The legendary wargame for mastering Linux command line navigation, SSH connections, file permissions, shell pipelines, grep, and terminal fundamentals from scratch.",
+    "summary": "OverTheWire provides a thrilling series of progressive security wargames. Starting with the famous Bandit series, players SSH into real live remote Linux servers to locate hidden passwords, bypass restrictive shells, decipher encoded data, and master the UNIX terminal through hands-on sleuthing.",
+    "keyTakeaways": [
+      "Fluent navigation of the Linux filesystem using cd, ls, cat, find, grep, and awk",
+      "Mastering file permissions, sticky bits, symbolic links, and hidden file structures",
+      "SSH authentication, private keys, cron jobs, and inter-process piping"
+    ],
+    "prerequisites": [
+      "A terminal or SSH client and curiosity to investigate files"
+    ],
+    "recommendedNext": [
+      "res-game-ohmygit"
+    ],
+    "topics": [
+      "Linux",
+      "Terminal",
+      "Bash",
+      "SSH",
+      "OverTheWire",
+      "Bandit",
+      "Wargames"
+    ],
+    "tags": [
+      "Linux",
+      "Terminal",
+      "Bash",
+      "Security",
+      "Wargames",
+      "OverTheWire"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-ohmygit",
+    "title": "Oh My Git!: An Open Source Visual Git Learning Game",
+    "author": "blinry & Kaethe",
+    "pages": 28,
+    "fileName": "ohmygit.org",
+    "category": "sec-coding-arcade",
+    "subCategory": "Cloud, DevOps, Linux & Git Games",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 28,
+    "source": "uploaded_pdf",
+    "url": "https://ohmygit.org/",
+    "sourceUrl": "https://ohmygit.org/",
+    "whatIsThisBookFor": "Visually master Git version control mechanics—commits, branching, merging, rebasing, detaching HEAD, and resolving merge conflicts through a real-time reactive graph.",
+    "summary": "An acclaimed open-source game that turns the internal data structure of Git repositories into an interactive, animated visual graph. Players issue real terminal commands or use visual action cards to untangle branches, rescue dangling commits, and truly understand how Git works under the hood.",
+    "keyTakeaways": [
+      "Intuitive mental model of Git directed acyclic graphs (DAGs) and commit trees",
+      "Fearless branch creation, rebasing, cherry-picking, and merge conflict resolution",
+      "Understanding HEAD pointers, reset modes (--soft, --hard), and reflog recovery"
+    ],
+    "prerequisites": [
+      "None—designed for beginners and engineers who want absolute Git confidence"
+    ],
+    "recommendedNext": [
+      "res-game-codecombat"
+    ],
+    "topics": [
+      "Git",
+      "VersionControl",
+      "Branching",
+      "Merge",
+      "Rebase",
+      "InteractiveGame"
+    ],
+    "tags": [
+      "Git",
+      "GitHub",
+      "DevOps",
+      "VersionControl",
+      "OpenSource",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-codecombat",
+    "title": "CodeCombat: Learn Python & Computer Science RPG",
+    "author": "CodeCombat Inc.",
+    "pages": 120,
+    "fileName": "codecombat.com",
+    "category": "sec-coding-arcade",
+    "subCategory": "Programming Battles, Python RPG & Language Arenas",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 120,
+    "source": "uploaded_pdf",
+    "url": "https://codecombat.com/",
+    "sourceUrl": "https://codecombat.com/",
+    "whatIsThisBookFor": "Command warrior heroes through dungeon depths by typing real, syntax-accurate Python code—mastering loops, conditionals, variables, and algorithms.",
+    "summary": "A celebrated educational RPG where your hero's movements, attacks, defenses, and spellcasting are entirely driven by writing real Python code. As you explore the Dungeons of Kithgard and the Forest of Kelvintaph, you naturally internalize algorithmic thinking, Boolean logic, functions, and object-oriented programming.",
+    "keyTakeaways": [
+      "Writing real, working Python syntax: while-loops, if-else branches, and arrays",
+      "Algorithmic pathfinding, distance calculation, and event-driven game scripting",
+      "Graduating from basic commands to complex functions, classes, and multiplayer AI arenas"
+    ],
+    "prerequisites": [
+      "No prior coding experience required"
+    ],
+    "recommendedNext": [
+      "res-game-codingame"
+    ],
+    "topics": [
+      "Python",
+      "RPG",
+      "ComputerScience",
+      "Algorithms",
+      "GameDev",
+      "InteractiveGame"
+    ],
+    "tags": [
+      "Python",
+      "CodingGame",
+      "RPG",
+      "BeginnerFriendly",
+      "Algorithms",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-codingame",
+    "title": "CodinGame: 25+ Programming Languages & Multiplayer AI Arenas",
+    "author": "CodinGame Community",
+    "pages": 85,
+    "fileName": "codingame.com",
+    "category": "sec-coding-arcade",
+    "subCategory": "Programming Battles, Python RPG & Language Arenas",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 85,
+    "source": "uploaded_pdf",
+    "url": "https://www.codingame.com/start/",
+    "sourceUrl": "https://www.codingame.com/start/",
+    "whatIsThisBookFor": "Sharpen algorithmic puzzle-solving, data structures, and AI bot programming in over 25 languages (Python, Java, C++, TypeScript, Go, Rust) through competitive video games.",
+    "summary": "CodinGame turns complex programming puzzles and competitive AI development into captivating animated video games. Players program spaceships to blast asteroids, control robotic squads in multiplayer turn-based arena battles, and tackle FAANG-level algorithmic challenges in their favorite programming language.",
+    "keyTakeaways": [
+      "Solving graph search (BFS/DFS), dynamic programming, and minimax game AI",
+      "Multi-language proficiency: easily switch between Python, Java, C++, Rust, and Go",
+      "Real-time automated code testing, performance benchmarking, and global multiplayer leaderboards"
+    ],
+    "prerequisites": [
+      "Familiarity with basic syntax in at least one modern programming language"
+    ],
+    "recommendedNext": [
+      "res-game-sololearn"
+    ],
+    "topics": [
+      "CodingBattles",
+      "MultiLanguage",
+      "Algorithms",
+      "AI",
+      "Python",
+      "Java",
+      "Cpp",
+      "Gaming"
+    ],
+    "tags": [
+      "CodinGame",
+      "MultiLanguage",
+      "CompetitiveProgramming",
+      "AI",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-sololearn",
+    "title": "SoloLearn: Gamified Mobile Coding & Daily Bite-Sized Learning",
+    "author": "SoloLearn",
+    "pages": 50,
+    "fileName": "sololearn.com",
+    "category": "sec-coding-arcade",
+    "subCategory": "Programming Battles, Python RPG & Language Arenas",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 50,
+    "source": "uploaded_pdf",
+    "url": "https://www.sololearn.com/en/",
+    "sourceUrl": "https://www.sololearn.com/en/",
+    "whatIsThisBookFor": "The 'Duolingo for Coding'—learn to code on the go with micro-lessons, gamified streaks, XP progression, instant code execution, and peer coding battles.",
+    "summary": "SoloLearn democratizes programming education through bite-sized, interactive mobile and web lessons. Featuring gamified rewards, daily streaks, community code playgrounds, and head-to-head live quiz duels, it makes learning Python, Web Development, Java, SQL, and C++ an enjoyable daily habit.",
+    "keyTakeaways": [
+      "Bite-sized 5-minute interactive learning modules tailored for consistent daily habits",
+      "Gamified streak mechanics, XP leaderboards, and peer-to-peer coding duels",
+      "Built-in mobile code playground allowing you to compile and test code anywhere"
+    ],
+    "prerequisites": [
+      "None—ideal for absolute beginners and busy professionals"
+    ],
+    "recommendedNext": [
+      "res-game-codepip"
+    ],
+    "topics": [
+      "BiteSized",
+      "MobileCoding",
+      "DuolingoStyle",
+      "Python",
+      "WebDev",
+      "InteractiveGame"
+    ],
+    "tags": [
+      "SoloLearn",
+      "MobileCoding",
+      "BiteSized",
+      "Gamification",
+      "BeginnerFriendly"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-codepip",
+    "title": "Codepip: CSS & HTML Web Layout Games (Flexbox Froggy & Grid Garden)",
+    "author": "Codepip (Thomas Park)",
+    "pages": 60,
+    "fileName": "codepip.com",
+    "category": "sec-coding-arcade",
+    "subCategory": "Web Layout, Cybersecurity & Foundational Visual Logic",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 60,
+    "source": "uploaded_pdf",
+    "url": "https://codepip.com/",
+    "sourceUrl": "https://codepip.com/",
+    "whatIsThisBookFor": "Master modern web layout mechanics—CSS Flexbox, CSS Grid, animations, and selectors by playing beloved puzzle games like Flexbox Froggy and Grid Garden.",
+    "summary": "Codepip is the definitive web development gaming platform. Through visual puzzles like guiding frogs onto lily pads using justify-content and align-items, or watering carrot patches with grid-column-start, developers transform confusing CSS layout rules into second nature.",
+    "keyTakeaways": [
+      "Absolute mastery of CSS Flexbox axis alignment, wrapping, order, and grow/shrink mechanics",
+      "Two-dimensional layout fluency using CSS Grid template areas and fractional units",
+      "Immediate visual feedback connecting code properties directly to browser screen rendering"
+    ],
+    "prerequisites": [
+      "Basic HTML and CSS syntax knowledge"
+    ],
+    "recommendedNext": [
+      "res-game-picoctf"
+    ],
+    "topics": [
+      "CSS",
+      "HTML",
+      "Flexbox",
+      "Grid",
+      "WebDesign",
+      "Frontend",
+      "Gaming"
+    ],
+    "tags": [
+      "Codepip",
+      "CSS",
+      "FlexboxFroggy",
+      "GridGarden",
+      "Frontend",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-picoctf",
+    "title": "picoCTF: Cybersecurity & Ethical Hacking Wargame (Carnegie Mellon University)",
+    "author": "Carnegie Mellon University (CMU CyLab)",
+    "pages": 75,
+    "fileName": "picoctf.org",
+    "category": "sec-coding-arcade",
+    "subCategory": "Web Layout, Cybersecurity & Foundational Visual Logic",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 75,
+    "source": "uploaded_pdf",
+    "url": "https://picoctf.org/",
+    "sourceUrl": "https://picoctf.org/",
+    "whatIsThisBookFor": "Learn ethical hacking, web exploitation, cryptography, binary reverse engineering, and forensics by cracking Capture-The-Flag (CTF) security challenges.",
+    "summary": "Created by world-renowned cybersecurity researchers at Carnegie Mellon University, picoCTF is a free computer security game with an original storyline. Players hack into vulnerable simulated systems, inspect HTTP cookies, decrypt ciphers, and reverse engineer code to capture hidden security flags.",
+    "keyTakeaways": [
+      "Hands-on vulnerability analysis: SQL injection, cross-site scripting (XSS), and cookie tampering",
+      "Applied cryptography: Caesar ciphers, RSA public-key mechanics, and hashing algorithms",
+      "Reverse engineering compiled binaries, inspecting assembly, and network packet analysis (Wireshark)"
+    ],
+    "prerequisites": [
+      "Basic computer science curiosity and willingness to experiment"
+    ],
+    "recommendedNext": [
+      "res-game-scratch"
+    ],
+    "topics": [
+      "Cybersecurity",
+      "CTF",
+      "EthicalHacking",
+      "Cryptography",
+      "ReverseEngineering",
+      "CMU"
+    ],
+    "tags": [
+      "picoCTF",
+      "Cybersecurity",
+      "Hacking",
+      "CTF",
+      "CMU",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-game-scratch",
+    "title": "MIT Scratch: Visual Block Programming & Computational Logic Playground",
+    "author": "MIT Media Lab Lifelong Kindergarten Group",
+    "pages": 100,
+    "fileName": "scratch.mit.edu",
+    "category": "sec-coding-arcade",
+    "subCategory": "Web Layout, Cybersecurity & Foundational Visual Logic",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 100,
+    "source": "uploaded_pdf",
+    "url": "https://scratch.mit.edu/",
+    "sourceUrl": "https://scratch.mit.edu/",
+    "whatIsThisBookFor": "The world's leading visual programming language for complete beginners to grasp computational thinking, event loops, variables, and game physics without syntax errors.",
+    "summary": "Developed by MIT Media Lab, Scratch allows anyone from complete novices to seasoned engineers to build interactive stories, animations, and arcade games by snapping colorful logic blocks together. It eliminates syntax friction to focus 100% on computational design, state machines, broadcast messages, and algorithmic logic.",
+    "keyTakeaways": [
+      "Foundational programming paradigms: event-driven programming, sequence, loops, and conditions",
+      "Variable state management, broadcasting events between game sprites, and collision detection",
+      "Creative confidence to transition smoothly into text-based languages like Python and JavaScript"
+    ],
+    "prerequisites": [
+      "None—designed for anyone beginning their computational journey"
+    ],
+    "recommendedNext": [
+      "res-game-codecombat"
+    ],
+    "topics": [
+      "Scratch",
+      "MIT",
+      "VisualCoding",
+      "Beginners",
+      "ComputationalThinking",
+      "GameDev"
+    ],
+    "tags": [
+      "MITScratch",
+      "Beginners",
+      "VisualCoding",
+      "ComputationalThinking",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

@@ -18,6 +18,7 @@ import {
   Edit3,
   Check,
   ExternalLink,
+  Gamepad2,
 } from 'lucide-react';
 import { openPdfInNewTab, getPdfUrl } from '../../utils/pdfViewer';
 
@@ -424,22 +425,45 @@ export const BookDetailModal: React.FC = () => {
             >
               Close
             </button>
-            <button
-              onClick={() => openPdfReader(resource)}
-              className="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-1.5 border border-stone-700 transition cursor-pointer"
-              title="Open in embedded 3D Reader"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
-              <span>3D Reader</span>
-            </button>
-            <button
-              onClick={handleOpenBook}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-900/40 transition cursor-pointer border border-amber-400/30"
-              title="Open actual PDF in new browser tab"
-            >
-              <ExternalLink className="w-4 h-4 text-white" />
-              <span>Open PDF (New Page)</span>
-            </button>
+            {resource.resourceType === 'GAME' || resource.category.includes('arcade') || (resource.url && !resource.fileName?.endsWith('.pdf') && !resource.fileName?.endsWith('.mp3')) ? (
+              <>
+                <button
+                  onClick={() => openPdfReader(resource)}
+                  className="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-1.5 border border-cyan-500/40 hover:border-cyan-400 transition cursor-pointer"
+                  title="Open in embedded 3D Arcade Screen"
+                >
+                  <Gamepad2 className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Arcade Screen</span>
+                </button>
+                <button
+                  onClick={handleOpenBook}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-pink-600 to-cyan-600 hover:from-cyan-500 hover:to-pink-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-900/40 transition cursor-pointer border border-cyan-400/40"
+                  title="Play game in fresh browser tab"
+                >
+                  <ExternalLink className="w-4 h-4 text-white" />
+                  <span>🎮 Play Game (Launch)</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => openPdfReader(resource)}
+                  className="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-1.5 border border-stone-700 transition cursor-pointer"
+                  title="Open in embedded 3D Reader"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                  <span>3D Reader</span>
+                </button>
+                <button
+                  onClick={handleOpenBook}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-900/40 transition cursor-pointer border border-amber-400/30"
+                  title="Open actual PDF in new browser tab"
+                >
+                  <ExternalLink className="w-4 h-4 text-white" />
+                  <span>Open PDF (New Page)</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -27,21 +27,22 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isMahabharata = title.toLowerCase().includes('mahabharat') || title.toLowerCase().includes('harivansh');
-  const isSurya = !isMahabharata && (title.toLowerCase().includes('surya') || title.toLowerCase().includes('aditya'));
-  const isSamsara = !isMahabharata && !isSurya && title.toLowerCase().includes('samsara');
-  const isAIAgent = !isMahabharata && !isSurya && !isSamsara && (title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute'));
-  const isDevotional = !isMahabharata && !isSurya && !isSamsara && (category.includes('devotional') || category.includes('spirit') || category.includes('itihasa') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga') || title.toLowerCase().includes('sathyadeva') || title.toLowerCase().includes('sandhya') || title.toLowerCase().includes('trivargamu') || title.toLowerCase().includes('pinda') || title.toLowerCase().includes('jagannath'));
+  const isGaming = category.includes('arcade') || category.includes('game') || title.toLowerCase().includes('k8sgames') || title.toLowerCase().includes('devops.games') || title.toLowerCase().includes('overthewire') || title.toLowerCase().includes('oh my git') || title.toLowerCase().includes('codecombat') || title.toLowerCase().includes('codepip') || title.toLowerCase().includes('picoctf') || title.toLowerCase().includes('sololearn') || title.toLowerCase().includes('scratch') || title.toLowerCase().includes('codingame');
+  const isMahabharata = !isGaming && (title.toLowerCase().includes('mahabharat') || title.toLowerCase().includes('harivansh'));
+  const isSurya = !isGaming && !isMahabharata && (title.toLowerCase().includes('surya') || title.toLowerCase().includes('aditya'));
+  const isSamsara = !isGaming && !isMahabharata && !isSurya && title.toLowerCase().includes('samsara');
+  const isAIAgent = !isGaming && !isMahabharata && !isSurya && !isSamsara && (title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute'));
+  const isDevotional = !isGaming && !isMahabharata && !isSurya && !isSamsara && (category.includes('devotional') || category.includes('spirit') || category.includes('itihasa') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga') || title.toLowerCase().includes('sathyadeva') || title.toLowerCase().includes('sandhya') || title.toLowerCase().includes('trivargamu') || title.toLowerCase().includes('pinda') || title.toLowerCase().includes('jagannath'));
   const isHanumanDevotional = isDevotional && (title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('sunderkand'));
   const isTempleDevotional = isDevotional && (category.includes('kshetra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('kshetra') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('kalahasti') || title.toLowerCase().includes('bapatla') || title.toLowerCase().includes('malleshwara') || title.toLowerCase().includes('ranga') || title.toLowerCase().includes('bhavanarayana') || title.toLowerCase().includes('jagannatha'));
   const isVrataDevotional = isDevotional && !isHanumanDevotional && (title.toLowerCase().includes('vrat') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('homa') || title.toLowerCase().includes('sathyadeva') || title.toLowerCase().includes('sandhya') || title.toLowerCase().includes('pinda'));
-  const isSystemDesign = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
-  const isDevOps = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
-  const isDatabase = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
-  const isDSA = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
-  const isSpring = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
-  const isJava = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
-  const isPython = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isSystemDesign = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
+  const isDevOps = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
+  const isDatabase = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
+  const isDSA = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
+  const isSpring = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
+  const isJava = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isPython = !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
   const isML = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
   const isData = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
@@ -56,7 +57,14 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isMahabharata) {
+  if (isGaming) {
+    topBg = '#030712'; // Deep cyber black
+    midBg = '#0284C7'; // Electric neon cyan
+    botBg = '#020617'; // Cyber void
+    primaryAccent = '#06B6D4'; // Glowing neon cyan
+    secondaryAccent = '#EC4899'; // Cyber neon pink
+    seriesLabel = '🎮 INTERACTIVE CODING ARCADE • PLAY TO LEARN';
+  } else if (isMahabharata) {
     topBg = '#3B0910'; // Sacred Gita Press Deep Crimson
     midBg = '#9F1239'; // Rose vermilion
     botBg = '#1E0408'; // Dark sanctuary
@@ -288,7 +296,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isMahabharata, isSurya, isSamsara, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isGaming, isMahabharata, isSurya, isSamsara, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -352,6 +360,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isGaming: boolean,
   isMahabharata: boolean,
   isSurya: boolean,
   isSamsara: boolean,
@@ -605,6 +614,99 @@ function drawThematicArtwork(
     ctx.fillStyle = '#38BDF8';
     ctx.textAlign = 'center';
     ctx.fillText('VALLEY OF THE GODS  •  ATMAYOG  •  KALPAVRIKSHA', cx, cy + 128);
+
+  } else if (isGaming) {
+    // --- CYBER ARCADE RETRO GAMEPAD & SCANLINE TERMINAL ---
+    // 1. CRT Scanlines & Cyber Grid in background
+    ctx.strokeStyle = 'rgba(6, 182, 212, 0.15)';
+    ctx.lineWidth = 1;
+    for (let gy = cy - 90; gy <= cy + 90; gy += 12) {
+      ctx.beginPath();
+      ctx.moveTo(cx - 140, gy);
+      ctx.lineTo(cx + 140, gy);
+      ctx.stroke();
+    }
+
+    // 2. Glowing Holographic Gamepad Body
+    ctx.save();
+    ctx.shadowColor = '#06B6D4';
+    ctx.shadowBlur = 22;
+    ctx.fillStyle = '#0F172A';
+    ctx.strokeStyle = '#06B6D4';
+    ctx.lineWidth = 3.5;
+
+    // Gamepad pill shape
+    ctx.beginPath();
+    ctx.roundRect(cx - 105, cy - 42, 210, 88, [32, 32, 42, 42]);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+
+    // 3. Directional D-Pad (Left)
+    ctx.fillStyle = '#1E293B';
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.rect(cx - 76, cy - 22, 16, 44);
+    ctx.rect(cx - 90, cy - 8, 44, 16);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = '#06B6D4';
+    ctx.beginPath();
+    ctx.arc(cx - 68, cy, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 4. Action Buttons (Right) - ABXY Neon Palette
+    const drawBtn = (bx: number, by: number, color: string, label: string) => {
+      ctx.save();
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 8;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(bx, by, 7.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 8px "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, bx, by);
+    };
+    drawBtn(cx + 62, cy - 16, '#EC4899', 'Y');
+    drawBtn(cx + 46, cy, '#38BDF8', 'X');
+    drawBtn(cx + 78, cy, '#10B981', 'B');
+    drawBtn(cx + 62, cy + 16, '#F59E0B', 'A');
+
+    // 5. Twin Thumbsticks
+    ctx.fillStyle = '#020617';
+    ctx.strokeStyle = '#A855F7';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(cx - 20, cy + 16, 11, 0, Math.PI * 2);
+    ctx.arc(cx + 20, cy + 16, 11, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // 6. Center LED Pixel Screen
+    ctx.fillStyle = '#020617';
+    ctx.strokeStyle = '#EC4899';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(cx - 22, cy - 28, 44, 20);
+    ctx.fillStyle = 'rgba(236, 72, 153, 0.2)';
+    ctx.fillRect(cx - 22, cy - 28, 44, 20);
+
+    ctx.fillStyle = '#EC4899';
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('▶ PLAY', cx, cy - 18);
+
+    // 7. Retro Subtitle Banner
+    ctx.font = '800 13px "Inter", monospace';
+    ctx.fillStyle = '#38BDF8';
+    ctx.textAlign = 'center';
+    ctx.fillText('PRESS START  •  LEVEL UP  •  CODE & PLAY', cx, cy + 95);
 
   } else if (isHanumanDevotional) {
     // --- GOLDEN GADA MACE & SRI ANJANEYA VALOR ---

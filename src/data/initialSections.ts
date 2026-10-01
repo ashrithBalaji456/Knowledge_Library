@@ -316,4 +316,22 @@ export const INITIAL_SECTIONS: Section[] = [
     anchorPosition: [0, 0, -62],
     rotationY: 0,
   },
+  {
+    id: 'sec-coding-arcade',
+    name: 'Interactive Coding Arcade & Gamified Arenas',
+    code: 'ARCADE',
+    description: 'Learn Kubernetes, DevOps, Linux, Git, Python, CSS/HTML, Cybersecurity, and 25+ programming languages through interactive gameplay, RPG battles, and hacking wargames.',
+    icon: '🎮',
+    color: '#06b6d4', // Electric Cyan
+    accentColor: '#ec4899', // Cyber Magenta
+    subSections: [
+      'Cloud, DevOps, Linux & Git Games',
+      'Programming Battles, Python RPG & Language Arenas',
+      'Web Layout, Cybersecurity & Foundational Visual Logic'
+    ],
+    wing: 'north',
+    anchorPosition: [-12, 0, -42],
+    rotationY: 0,
+  },
 ];
+

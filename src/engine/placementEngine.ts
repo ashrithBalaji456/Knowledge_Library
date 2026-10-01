@@ -109,6 +109,10 @@ const COLOR_PALETTES: Record<string, string[]> = {
   'sec-novels-literature': ['#7e22ce', '#9333ea', '#a855f7', '#6b21a8', '#86198f', '#be185d'],
   novels: ['#7e22ce', '#9333ea', '#a855f7', '#6b21a8', '#86198f', '#be185d'],
 
+  // Interactive Coding Games & Arcade
+  'sec-coding-arcade': ['#06b6d4', '#0891b2', '#0284c7', '#ec4899', '#db2777', '#8b5cf6'],
+  arcade: ['#06b6d4', '#0891b2', '#0284c7', '#ec4899', '#db2777', '#8b5cf6'],
+
   // Special Collections
   'must-learn': ['#b45309', '#d97706', '#f59e0b', '#eab308', '#ca8a04', '#92400e'],
   'current-focus': ['#b91c1c', '#dc2626', '#ef4444', '#ea580c', '#c2410c', '#991b1b'],
@@ -532,6 +536,26 @@ export function getSectionRowClassification(section: Section): RowClassification
           return 2;
         }
         return 0; // Classic Literature
+      },
+    };
+  }
+
+  if (sid === 'sec-coding-arcade' || sid === 'arcade' || sid === 'games' || sid.includes('coding-arcade')) {
+    return {
+      rowLabels: [
+        'CLOUD, DEVOPS, LINUX & GIT WARGAMES',
+        'PROGRAMMING BATTLES, PYTHON RPG & LANGUAGE ARENAS',
+        'WEB LAYOUT, CYBERSECURITY & FOUNDATIONAL VISUAL LOGIC',
+      ],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('kubernetes') || t.includes('k8s') || t.includes('devops') || t.includes('linux') || t.includes('wargame') || t.includes('git') || t.includes('overthewire') || t.includes('ohmygit')) {
+          return 0; // Top shelf
+        }
+        if (t.includes('python') || t.includes('codecombat') || t.includes('codingame') || t.includes('sololearn') || t.includes('language') || t.includes('battle') || t.includes('rpg') || t.includes('duolingo')) {
+          return 1; // Middle shelf
+        }
+        return 2; // Bottom shelf: Codepip (CSS/HTML), picoCTF (Cybersecurity), Scratch (Beginners)
       },
     };
   }
