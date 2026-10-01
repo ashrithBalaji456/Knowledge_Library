@@ -8812,5 +8812,57 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-samsara-valley-of-the-gods",
+    "title": "Samsara: Enter the Valley of the Gods",
+    "author": "Saksham Garg",
+    "pages": 317,
+    "fileName": "945619477-Samsara-PDF-Copy.pdf",
+    "category": "sec-novels-literature",
+    "subCategory": "Science Fiction & Fantasy",
+    "resourceType": "NOVEL",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 317,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\945619477-Samsara-PDF-Copy.pdf",
+    "whatIsThisBookFor": "An epic Indian mythological fantasy saga following Aman Chandra into the secret Himalayan valley of Vanyasa, ancient yogic sorcery (Atmayog), and a divine conspiracy of the gods.",
+    "summary": "When shy teenager Aman Chandra is whisked away to Vanyasa, a hidden Himalayan sanctuary of sages and mystical beasts, glowing blue scars mark his induction into Atmayog. Facing divine trials, the brewing rebellion of Chayan, and the dark schemes of Sanaka, Aman must uncover the secrets of the Kalpavriksha and make a fateful choice that will decide the destiny of gods and mortals alike.",
+    "keyTakeaways": [
+      "Atmayog: The ancient yogic sorcery connecting human consciousness with nature, animals, and cosmic energy",
+      "Vanyasa and the Seven Hills: The hidden sanctuary preserving the celestial Kalpavriksha tree hidden by Lord Indra",
+      "Overcoming self-doubt: Aman's transformation from an insecure boy bearing familial stigma to a selfless leader",
+      "The duality of sacrifice: Reconciling personal love and communal duty when confronting corruption and divine power"
+    ],
+    "prerequisites": [
+      "Love for Indian mythology, fantasy world-building, and heroic coming-of-age journeys"
+    ],
+    "recommendedNext": [
+      "res-novel-1"
+    ],
+    "topics": [
+      "Samsara",
+      "IndianMythology",
+      "Atmayog",
+      "Fantasy",
+      "Himalayas",
+      "Indra",
+      "Vanyasa"
+    ],
+    "tags": [
+      "MythologicalFiction",
+      "Fantasy",
+      "SakshamGarg",
+      "Adventure",
+      "Atmayog",
+      "Penguin"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];

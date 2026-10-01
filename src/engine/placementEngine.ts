@@ -504,6 +504,22 @@ export function getSectionRowClassification(section: Section): RowClassification
     };
   }
 
+  if (sid === 'sec-novels-literature' || sid === 'novels' || sid === 'literature') {
+    return {
+      rowLabels: ['CLASSIC & TIMELESS LITERATURE', 'MYTHOLOGICAL FANTASY & SCI-FI SAGAS', 'MYSTERY, SUSPENSE & THRILLERS'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('samsara') || t.includes('fantasy') || t.includes('sci-fi') || t.includes('mytholog') || t.includes('gods')) {
+          return 1;
+        }
+        if (t.includes('mystery') || t.includes('thriller') || t.includes('crime') || t.includes('suspense')) {
+          return 2;
+        }
+        return 0; // Classic Literature
+      },
+    };
+  }
+
   // Fallback for dynamic sections
   const sub = section.subSections || [];
   const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';

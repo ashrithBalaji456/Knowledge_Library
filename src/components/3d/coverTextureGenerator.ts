@@ -27,20 +27,21 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isAIAgent = title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute');
-  const isDevotional = category.includes('devotional') || category.includes('spirit') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga');
+  const isSamsara = title.toLowerCase().includes('samsara');
+  const isAIAgent = !isSamsara && (title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute'));
+  const isDevotional = !isSamsara && (category.includes('devotional') || category.includes('spirit') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga'));
   const isHanumanDevotional = isDevotional && (title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma'));
   const isTempleDevotional = isDevotional && (category.includes('kshetra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('kshetra') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('kalahasti') || title.toLowerCase().includes('bapatla') || title.toLowerCase().includes('malleshwara'));
   const isVrataDevotional = isDevotional && !isHanumanDevotional && (title.toLowerCase().includes('vrat') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('homa'));
-  const isSystemDesign = !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
-  const isDevOps = !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
-  const isDatabase = !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
-  const isDSA = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
-  const isSpring = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
-  const isJava = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
-  const isPython = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
-  const isML = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
-  const isData = !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
+  const isSystemDesign = !isSamsara && !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
+  const isDevOps = !isSamsara && !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
+  const isDatabase = !isSamsara && !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
+  const isDSA = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
+  const isSpring = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
+  const isJava = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isPython = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isML = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
+  const isData = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
   const isProject = category.includes('project') || title.toLowerCase().includes('project') || title.toLowerCase().includes('code');
   const isHandbook = category.includes('handbook') || category.includes('cheat') || title.toLowerCase().includes('cheat') || title.toLowerCase().includes('quick');
@@ -53,7 +54,14 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isAIAgent) {
+  if (isSamsara) {
+    topBg = '#0B041C'; // Cosmic midnight violet
+    midBg = '#4C1D95'; // Glowing mystical purple
+    botBg = '#03010A'; // Deep shadowy valley
+    primaryAccent = '#38BDF8'; // Glowing azure blue
+    secondaryAccent = '#F472B6'; // Rose lotus aura
+    seriesLabel = 'INDIAN MYTHOLOGICAL FANTASY • ENTER THE VALLEY OF THE GODS';
+  } else if (isAIAgent) {
     topBg = '#140826';
     midBg = '#5B21B6';
     botBg = '#0B0416';
@@ -264,7 +272,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isSamsara, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -328,6 +336,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isSamsara: boolean,
   isDevotional: boolean,
   isHanumanDevotional: boolean,
   isTempleDevotional: boolean,
@@ -362,7 +371,131 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isHanumanDevotional) {
+  if (isSamsara) {
+    // --- SAMSARA: ENTER THE VALLEY OF THE GODS CELESTIAL PORTAL ---
+    // 1. Mystical Starry Cosmic Backdrop
+    const portalGrad = ctx.createRadialGradient(cx, cy - 20, 10, cx, cy - 20, 130);
+    portalGrad.addColorStop(0, '#FFFFFF');
+    portalGrad.addColorStop(0.2, '#A855F7');
+    portalGrad.addColorStop(0.5, '#3B82F6');
+    portalGrad.addColorStop(0.85, '#1E1B4B');
+    portalGrad.addColorStop(1, 'rgba(15, 23, 42, 0.9)');
+    ctx.fillStyle = portalGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 20, 120, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 2. Multi-tiered ornate Sacred Torana Gateway (Archway)
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    // Outer arch
+    ctx.arc(cx, cy - 20, 105, Math.PI, 0, false);
+    ctx.lineTo(cx + 105, cy + 90);
+    ctx.moveTo(cx - 105, cy + 90);
+    ctx.lineTo(cx - 105, cy - 20);
+    ctx.stroke();
+
+    // Inner glowing arch
+    ctx.strokeStyle = '#F472B6';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 20, 85, Math.PI, 0, false);
+    ctx.lineTo(cx + 85, cy + 90);
+    ctx.moveTo(cx - 85, cy + 90);
+    ctx.lineTo(cx - 85, cy - 20);
+    ctx.stroke();
+
+    // 3. Central 8-Pointed Star of Indra / Divine Spark
+    ctx.fillStyle = '#FEF08A';
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const angle = (i * Math.PI) / 4;
+      const rOuter = 26;
+      const rInner = 10;
+      const x1 = cx + Math.cos(angle) * rOuter;
+      const y1 = (cy - 45) + Math.sin(angle) * rOuter;
+      const x2 = cx + Math.cos(angle + Math.PI / 8) * rInner;
+      const y2 = (cy - 45) + Math.sin(angle + Math.PI / 8) * rInner;
+      if (i === 0) ctx.moveTo(x1, y1);
+      else ctx.lineTo(x1, y1);
+      ctx.lineTo(x2, y2);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // 4. Twin Celestial Tridents (Trishuls) flanking the arch
+    const drawTrishul = (tx: number, ty: number) => {
+      ctx.strokeStyle = '#FDE047';
+      ctx.lineWidth = 3;
+      // Shaft
+      ctx.beginPath();
+      ctx.moveTo(tx, ty + 60);
+      ctx.lineTo(tx, ty - 25);
+      ctx.stroke();
+      // Center spear
+      ctx.beginPath();
+      ctx.moveTo(tx, ty - 25);
+      ctx.lineTo(tx, ty - 50);
+      ctx.stroke();
+      // Curved prongs
+      ctx.beginPath();
+      ctx.moveTo(tx - 16, ty - 38);
+      ctx.quadraticCurveTo(tx - 16, ty - 20, tx, ty - 20);
+      ctx.quadraticCurveTo(tx + 16, ty - 20, tx + 16, ty - 38);
+      ctx.stroke();
+    };
+    drawTrishul(cx - 72, cy + 10);
+    drawTrishul(cx + 72, cy + 10);
+
+    // 5. Stone Steps leading into the celestial light
+    ctx.fillStyle = '#1E1B4B';
+    ctx.fillRect(cx - 60, cy + 60, 120, 10);
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(cx - 60, cy + 60, 120, 10);
+
+    ctx.fillStyle = '#0F172A';
+    ctx.fillRect(cx - 75, cy + 70, 150, 12);
+    ctx.strokeRect(cx - 75, cy + 70, 150, 12);
+
+    ctx.fillStyle = '#020617';
+    ctx.fillRect(cx - 90, cy + 82, 180, 14);
+    ctx.strokeRect(cx - 90, cy + 82, 180, 14);
+
+    // 6. Silhouette of Traveler (Aman) ascending into the gateway
+    ctx.fillStyle = '#0F0926';
+    ctx.beginPath();
+    // Head
+    ctx.arc(cx, cy + 28, 9, 0, Math.PI * 2);
+    ctx.fill();
+    // Torso & legs
+    ctx.beginPath();
+    ctx.moveTo(cx - 8, cy + 38);
+    ctx.lineTo(cx + 8, cy + 38);
+    ctx.lineTo(cx + 12, cy + 65);
+    ctx.lineTo(cx + 4, cy + 65);
+    ctx.lineTo(cx, cy + 48);
+    ctx.lineTo(cx - 4, cy + 65);
+    ctx.lineTo(cx - 12, cy + 65);
+    ctx.closePath();
+    ctx.fill();
+
+    // Glowing blue runic markings on arms
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(cx - 10, cy + 46, 4, 0, Math.PI * 2);
+    ctx.arc(cx + 10, cy + 46, 4, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 7. Slogan / Valley of the Gods subtitle
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#38BDF8';
+    ctx.textAlign = 'center';
+    ctx.fillText('VALLEY OF THE GODS  •  ATMAYOG  •  KALPAVRIKSHA', cx, cy + 128);
+
+  } else if (isHanumanDevotional) {
     // --- GOLDEN GADA MACE & SRI ANJANEYA VALOR ---
     // Mace handle
     ctx.strokeStyle = '#FDE047';
