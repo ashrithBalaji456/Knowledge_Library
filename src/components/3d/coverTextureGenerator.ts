@@ -27,21 +27,23 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const pages = resource.pages || resource.totalPages || 0;
 
   // Detect domain theme
-  const isSamsara = title.toLowerCase().includes('samsara');
-  const isAIAgent = !isSamsara && (title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute'));
-  const isDevotional = !isSamsara && (category.includes('devotional') || category.includes('spirit') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga'));
-  const isHanumanDevotional = isDevotional && (title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma'));
-  const isTempleDevotional = isDevotional && (category.includes('kshetra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('kshetra') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('kalahasti') || title.toLowerCase().includes('bapatla') || title.toLowerCase().includes('malleshwara'));
-  const isVrataDevotional = isDevotional && !isHanumanDevotional && (title.toLowerCase().includes('vrat') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('homa'));
-  const isSystemDesign = !isSamsara && !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
-  const isDevOps = !isSamsara && !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
-  const isDatabase = !isSamsara && !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
-  const isDSA = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
-  const isSpring = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
-  const isJava = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
-  const isPython = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
-  const isML = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
-  const isData = !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
+  const isMahabharata = title.toLowerCase().includes('mahabharat') || title.toLowerCase().includes('harivansh');
+  const isSurya = !isMahabharata && (title.toLowerCase().includes('surya') || title.toLowerCase().includes('aditya'));
+  const isSamsara = !isMahabharata && !isSurya && title.toLowerCase().includes('samsara');
+  const isAIAgent = !isMahabharata && !isSurya && !isSamsara && (title.toLowerCase().includes('cline') || title.toLowerCase().includes('omniroute'));
+  const isDevotional = !isMahabharata && !isSurya && !isSamsara && (category.includes('devotional') || category.includes('spirit') || category.includes('itihasa') || subCategory.toLowerCase().includes('vrat') || subCategory.toLowerCase().includes('purana') || title.toLowerCase().includes('vrat') || title.toLowerCase().includes('shiva') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('stotra') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('shankara') || title.toLowerCase().includes('karthika') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('ganga') || title.toLowerCase().includes('panduranga') || title.toLowerCase().includes('yuga') || title.toLowerCase().includes('sathyadeva') || title.toLowerCase().includes('sandhya') || title.toLowerCase().includes('trivargamu') || title.toLowerCase().includes('pinda') || title.toLowerCase().includes('jagannath'));
+  const isHanumanDevotional = isDevotional && (title.toLowerCase().includes('anjaneya') || title.toLowerCase().includes('hanuma') || title.toLowerCase().includes('sunderkand'));
+  const isTempleDevotional = isDevotional && (category.includes('kshetra') || title.toLowerCase().includes('desams') || title.toLowerCase().includes('kshetra') || title.toLowerCase().includes('venkata') || title.toLowerCase().includes('srinivasa') || title.toLowerCase().includes('kalahasti') || title.toLowerCase().includes('bapatla') || title.toLowerCase().includes('malleshwara') || title.toLowerCase().includes('ranga') || title.toLowerCase().includes('bhavanarayana') || title.toLowerCase().includes('jagannatha'));
+  const isVrataDevotional = isDevotional && !isHanumanDevotional && (title.toLowerCase().includes('vrat') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('homa') || title.toLowerCase().includes('sathyadeva') || title.toLowerCase().includes('sandhya') || title.toLowerCase().includes('pinda'));
+  const isSystemDesign = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
+  const isDevOps = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
+  const isDatabase = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
+  const isDSA = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
+  const isSpring = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
+  const isJava = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
+  const isPython = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isJava && !isSpring && !isDSA && (category.includes('python') || title.toLowerCase().includes('python'));
+  const isML = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('ai-ml') || category.includes('ml') || category.includes('ai') || title.toLowerCase().includes('learning') || title.toLowerCase().includes('neural') || title.toLowerCase().includes('rag'));
+  const isData = !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('data') || title.toLowerCase().includes('data') || title.toLowerCase().includes('numpy') || title.toLowerCase().includes('pandas'));
   const isInterview = category.includes('interview') || title.toLowerCase().includes('interview') || title.toLowerCase().includes('roadmap');
   const isProject = category.includes('project') || title.toLowerCase().includes('project') || title.toLowerCase().includes('code');
   const isHandbook = category.includes('handbook') || category.includes('cheat') || title.toLowerCase().includes('cheat') || title.toLowerCase().includes('quick');
@@ -54,7 +56,21 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   let secondaryAccent = '#FBBF24';
   let seriesLabel = 'PYTHON PROGRAMMING & ARCHITECTURE';
 
-  if (isSamsara) {
+  if (isMahabharata) {
+    topBg = '#3B0910'; // Sacred Gita Press Deep Crimson
+    midBg = '#9F1239'; // Rose vermilion
+    botBg = '#1E0408'; // Dark sanctuary
+    primaryAccent = '#FBBF24'; // Saffron Gold
+    secondaryAccent = '#FEF08A';
+    seriesLabel = '॥ श्रीहरिः ॥ VEDIC ITIHASA & MAHABHARATA SAMHITA';
+  } else if (isSurya) {
+    topBg = '#451A03'; // Solar Amber
+    midBg = '#EA580C'; // Sunburst Orange
+    botBg = '#1C0601';
+    primaryAccent = '#FDE047'; // Radiant Gold
+    secondaryAccent = '#F97316';
+    seriesLabel = 'ADITYA HRIDAYA STOTRA & SURYA UPASANA';
+  } else if (isSamsara) {
     topBg = '#0B041C'; // Cosmic midnight violet
     midBg = '#4C1D95'; // Glowing mystical purple
     botBg = '#03010A'; // Deep shadowy valley
@@ -272,7 +288,7 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 
   // --- 6. CENTRAL HIGH-IMPACT DOMAIN ILLUSTRATION ---
   const emblemCenterY = 790;
-  drawThematicArtwork(ctx, isSamsara, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
+  drawThematicArtwork(ctx, isMahabharata, isSurya, isSamsara, isDevotional, isHanumanDevotional, isTempleDevotional, isVrataDevotional, isAIAgent, isSystemDesign, isDevOps, isDatabase, isDSA, isJava, isSpring, isPython, isML, isData, isInterview, isProject, isHandbook, emblemCenterY, primaryAccent, secondaryAccent);
 
   // --- 7. SUBCATEGORY PILL BADGE ---
   if (subCategory) {
@@ -336,6 +352,8 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
 // Draw specialized, publisher-grade vector illustrations
 function drawThematicArtwork(
   ctx: CanvasRenderingContext2D,
+  isMahabharata: boolean,
+  isSurya: boolean,
   isSamsara: boolean,
   isDevotional: boolean,
   isHanumanDevotional: boolean,
@@ -371,7 +389,100 @@ function drawThematicArtwork(
   ctx.arc(cx, cy, 160, 0, Math.PI * 2);
   ctx.fill();
 
-  if (isSamsara) {
+  if (isMahabharata) {
+    // --- GITA PRESS GORAKHPUR MAHABHARATA & HARIVANSHA PURANA ---
+    // 1. Golden Chariot Wheel (Dharma Ratha Chakra) of Kurukshetra
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 10, 85, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 10, 72, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Central hub
+    ctx.fillStyle = '#78350F';
+    ctx.beginPath();
+    ctx.arc(cx, cy - 10, 24, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // 12 Golden Spokes of Dharma
+    ctx.strokeStyle = '#FDE047';
+    ctx.lineWidth = 3.5;
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * Math.PI) / 6;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle) * 24, (cy - 10) + Math.sin(angle) * 24);
+      ctx.lineTo(cx + Math.cos(angle) * 85, (cy - 10) + Math.sin(angle) * 85);
+      ctx.stroke();
+    }
+
+    // 2. Divine Gandiva Bow Curve & Conch (Panchajanya)
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 10, 115, -Math.PI * 0.75, Math.PI * 0.75);
+    ctx.stroke();
+
+    // 3. Sacred Inscription: ॥ श्रीहरिः ॥
+    ctx.font = '900 24px "Inter", "Noto Sans", sans-serif';
+    ctx.fillStyle = '#FEF08A';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('॥ श्रीहरिः ॥', cx, cy - 10);
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FDE047';
+    ctx.fillText('MAHARSHI VED VYASA  •  GITA PRESS GORAKHPUR', cx, cy + 128);
+
+  } else if (isSurya) {
+    // --- RADIANT SURYA UPASANA & ADITYA HRIDAYA STOTRA ---
+    // 1. Radiant 12 Solar Rays of Aditya
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * Math.PI) / 6;
+      const r1 = 60;
+      const r2 = 120;
+      ctx.strokeStyle = i % 2 === 0 ? '#FDE047' : '#F97316';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(angle) * r1, (cy - 10) + Math.sin(angle) * r1);
+      ctx.lineTo(cx + Math.cos(angle) * r2, (cy - 10) + Math.sin(angle) * r2);
+      ctx.stroke();
+    }
+
+    // 2. Central Flaming Golden Sun Disc
+    const sunGrad = ctx.createRadialGradient(cx, cy - 10, 10, cx, cy - 10, 60);
+    sunGrad.addColorStop(0, '#FFFFFF');
+    sunGrad.addColorStop(0.3, '#FEF08A');
+    sunGrad.addColorStop(0.7, '#F59E0B');
+    sunGrad.addColorStop(1, '#DC2626');
+    ctx.fillStyle = sunGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 10, 56, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FEF08A';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // 3. Sacred Solar Mantra
+    ctx.font = '800 18px "Inter", "Noto Sans", sans-serif';
+    ctx.fillStyle = '#78350F';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('ॐ सूर्याय नमः', cx, cy - 10);
+
+    ctx.font = '700 15px "Inter", monospace';
+    ctx.fillStyle = '#FDE047';
+    ctx.fillText('ADITYA HRIDAYAM  •  HEALTH & VITALITY  •  SURYA', cx, cy + 128);
+
+  } else if (isSamsara) {
     // --- SAMSARA: ENTER THE VALLEY OF THE GODS CELESTIAL PORTAL ---
     // 1. Mystical Starry Cosmic Backdrop
     const portalGrad = ctx.createRadialGradient(cx, cy - 20, 10, cx, cy - 20, 130);

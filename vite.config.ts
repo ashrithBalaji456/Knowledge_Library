@@ -52,7 +52,9 @@ function localPdfServer(): Plugin {
         const fileSize = stat.size;
         const range = req.headers.range;
 
-        // Support HTTP Range requests for instant PDF page seeking
+        const mimeType = resolved.toLowerCase().endsWith('.mp3') ? 'audio/mpeg' : 'application/pdf';
+
+        // Support HTTP Range requests for instant PDF/audio seeking
         if (range) {
           const parts = range.replace(/bytes=/, '').split('-');
           const start = parseInt(parts[0], 10);
@@ -64,7 +66,7 @@ function localPdfServer(): Plugin {
             'Content-Range': `bytes ${start}-${end}/${fileSize}`,
             'Accept-Ranges': 'bytes',
             'Content-Length': chunksize,
-            'Content-Type': 'application/pdf',
+            'Content-Type': mimeType,
             'Content-Disposition': `inline; filename="${encodeURIComponent(path.basename(resolved))}"`,
             'Access-Control-Allow-Origin': '*',
           });
@@ -72,7 +74,7 @@ function localPdfServer(): Plugin {
         } else {
           res.writeHead(200, {
             'Content-Length': fileSize,
-            'Content-Type': 'application/pdf',
+            'Content-Type': mimeType,
             'Accept-Ranges': 'bytes',
             'Content-Disposition': `inline; filename="${encodeURIComponent(path.basename(resolved))}"`,
             'Access-Control-Allow-Origin': '*',

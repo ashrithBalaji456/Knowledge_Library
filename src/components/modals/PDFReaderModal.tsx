@@ -215,13 +215,45 @@ export const PDFReaderModal: React.FC = () => {
 
         {/* Central Viewport */}
         {pdfUrl ? (
-          <div className="flex-1 w-full h-full p-2 bg-stone-950">
-            <iframe
-              src={pdfUrl}
-              className="w-full h-full border-none rounded-xl bg-white shadow-2xl"
-              title={pdfResource.title}
-            />
-          </div>
+          pdfResource.resourceType === 'AUDIO' || (pdfResource.fileName && pdfResource.fileName.toLowerCase().endsWith('.mp3')) ? (
+            <div className="flex-1 w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-b from-stone-900 via-stone-950 to-black select-none">
+              <div className="max-w-xl w-full p-8 rounded-3xl bg-stone-900/90 border border-stone-800/80 shadow-2xl flex flex-col items-center text-center space-y-6 backdrop-blur-md">
+                <div className="w-32 h-32 rounded-2xl bg-amber-500/10 border-2 border-amber-500/30 flex items-center justify-center text-5xl shadow-inner text-amber-400 animate-pulse">
+                  🎧
+                </div>
+                <div className="space-y-2">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    Sacred Audio Recitation
+                  </span>
+                  <h2 className="text-xl md:text-2xl font-bold text-stone-100 font-heading">
+                    {pdfResource.title}
+                  </h2>
+                  <p className="text-sm text-stone-400">{pdfResource.author}</p>
+                </div>
+                <p className="text-xs text-stone-400 max-w-md leading-relaxed">
+                  {pdfResource.summary || pdfResource.whatIsThisBookFor}
+                </p>
+                <div className="w-full pt-2">
+                  <audio
+                    controls
+                    autoPlay
+                    src={pdfUrl}
+                    className="w-full rounded-xl filter invert hue-rotate-180 brightness-95 opacity-90 shadow-md"
+                  >
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex-1 w-full h-full p-2 bg-stone-950">
+              <iframe
+                src={pdfUrl}
+                className="w-full h-full border-none rounded-xl bg-white shadow-2xl"
+                title={pdfResource.title}
+              />
+            </div>
+          )
         ) : (
           <div className="flex-1 overflow-y-auto p-4 md:p-8 flex justify-center bg-stone-950">
             <div

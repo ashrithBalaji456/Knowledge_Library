@@ -303,4 +303,17 @@ export const INITIAL_SECTIONS: Section[] = [
     anchorPosition: [12, 0, -42],
     rotationY: 0,
   },
+  {
+    id: 'sec-itihasa-mahabharata',
+    name: 'Vedic Itihasa & Mahabharata (Hindi & Sanskrit)',
+    code: 'ITIHASA',
+    description: 'Maharshi Ved Vyasa’s monumental 6-Volume Mahabharata, Harivansha Purana, and sacred Upasanas with authentic Hindi commentaries by Gita Press Gorakhpur.',
+    icon: '🏹',
+    color: '#991b1b', // Sacred Gita Press Deep Crimson
+    accentColor: '#f97316',
+    subSections: ['Mahabharata Volumes 1-3 (Gita Press)', 'Mahabharata Volumes 4-6 (Gita Press)', 'Harivansha Purana & Surya Upasana'],
+    wing: 'north',
+    anchorPosition: [0, 0, -62],
+    rotationY: 0,
+  },
 ];

@@ -442,7 +442,7 @@ export function getSectionRowClassification(section: Section): RowClassification
 
   if (sid === 'sec-devotional' || sid === 'devotional') {
     return {
-      rowLabels: ['MAHA PURANAS & SACRED EPICS', 'ADVAITA PHILOSOPHY & LIFE LESSONS', 'YUGA DHARMA & DEVOTIONAL POETRY'],
+      rowLabels: ['TELUGU: MAHA PURANAS & KARTHIKA MAHATMYAM', 'TELUGU: ADVAITA PHILOSOPHY & LIFE LESSONS', 'TELUGU: TRIVARGAMU & YUGA DHARMA POETRY'],
       assignRow: (r) => {
         const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
         if (t.includes('shiva') || t.includes('panduranga') || t.includes('karthika') || t.includes('purana')) {
@@ -451,55 +451,71 @@ export function getSectionRowClassification(section: Section): RowClassification
         if (t.includes('shankara') || t.includes('advaita') || t.includes('ganga') || t.includes('charitamrutham')) {
           return 1;
         }
-        return 2; // Yugadarsanam, STR
+        return 2; // Trivargamu, Yugadarsanam, STR
       },
     };
   }
 
   if (sid === 'sec-devotional-motivation') {
     return {
-      rowLabels: ['HANUMAN LIFE LESSONS & COURAGE', 'PARASHARA SAMHITA & ESOTERIC WISDOM', 'SRI RAMA RAKSHA & DHARMA IN ACTION'],
+      rowLabels: ['TELUGU: HANUMAN LIFE LESSONS & COURAGE', 'TELUGU: PARASHARA SAMHITA & ESOTERIC WISDOM', 'AWADHI & HINDI: SUNDARKAND UPASANA & RAMA RAKSHA'],
       assignRow: (r) => {
         const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
-        if (t.includes('srianjaneya') || t.includes('ananda') || t.includes('courage') || t.includes('tales')) {
-          return 0;
+        if (t.includes('sunderkand') || t.includes('rama raksha')) {
+          return 2;
         }
         if (t.includes('paraashara') || t.includes('samhita') || t.includes('hanumadvishaya')) {
           return 1;
         }
-        return 2; // Sri Rama Raksha Vratam
+        return 0; // Srianjaneya, Ananda Anjaneyam
       },
     };
   }
 
   if (sid === 'sec-devotional-kshetras') {
     return {
-      rowLabels: ['108 DIVYA DESAMS (ENGLISH SACRED PILGRIMAGE)', 'TIRUMALA & VENKATESWARA DIVINE CHRONICLES', 'SHAIVA & SHAKTI KSHETRA MAHATYAM'],
+      rowLabels: ['ENGLISH: 108 DIVYA DESAMS & PILGRIMAGE TRANSLATIONS', 'TELUGU: TIRUMALA & VENKATESWARA DIVINE CHRONICLES', 'TELUGU: SRIRANGAM, BHAVANARAYANA & SHAIVA KSHETRAS'],
       assignRow: (r) => {
         const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
-        if (t.includes('108') || t.includes('divya desams') || t.includes('english')) {
+        if (t.includes('108') || t.includes('english') || t.includes('translation') || t.includes('satyanarayana')) {
           return 0;
         }
         if (t.includes('venkat') || t.includes('srinivasa') || t.includes('padmavathi') || t.includes('darsanam')) {
           return 1;
         }
-        return 2; // Kalahasti, Malleshwara, Bapatla
+        return 2; // Srirangam, Bhavanarayana, Kalahasti, Malleshwara, Bapatla
       },
     };
   }
 
   if (sid === 'sec-devotional-sadhana') {
     return {
-      rowLabels: ['VEDIC POOJA, HOMA & DISCIPLINE KALPATARUVU', 'TTD NITYA STOTRAVALI & TULASI MAHATMYAM', 'ASHTA-DEVATA VRATA KALPAM & SARASWATHI'],
+      rowLabels: ['TELUGU: VEDIC POOJA, HOMA & THRIKALA SANDHYAVANDANAM', 'TELUGU: TTD NITYA STOTRAVALI & TULASI MAHATMYAM', 'TELUGU: ASHTA-DEVATA VRATA KALPAM & SRI SATYADEVA'],
       assignRow: (r) => {
         const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
-        if (t.includes('kalpataruvu') || t.includes('puuja') || t.includes('homa')) {
+        if (t.includes('kalpataruvu') || t.includes('puuja') || t.includes('homa') || t.includes('sandhya') || t.includes('mudra')) {
           return 0;
         }
         if (t.includes('stothra') || t.includes('stotra') || t.includes('tulasi') || t.includes('ttd') || t.includes('mahalaxmi')) {
           return 1;
         }
-        return 2; // Ashta-Devata Vratams (Narasimha, Durga, Maheswara, Subramanya, Krishna, Saraswathi)
+        return 2; // Ashta-Devata Vratams, Satyadeva, Venkateswara Vratham
+      },
+    };
+  }
+
+  if (sid === 'sec-itihasa-mahabharata' || sid === 'mahabharata' || sid === 'itihasa') {
+    return {
+      rowLabels: ['SANSKRIT & HINDI: MAHABHARATA SAMHITA (VOLS 1 - 3)', 'SANSKRIT & HINDI: MAHABHARATA SAMHITA (VOLS 4 - 6)', 'SANSKRIT & HINDI: HARIVANSHA PURANA & SURYA UPASANA'],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('volume 1') || t.includes('volume 2') || t.includes('volume 3') || t.includes('vol 1') || t.includes('vol 2') || t.includes('vol 3') || t.includes('adi') || t.includes('sabha') || t.includes('vana')) {
+          return 0;
+        }
+        if (t.includes('volume 4') || t.includes('volume 5') || t.includes('volume 6') || t.includes('vol 4') || t.includes('vol 5') || t.includes('vol 6') || t.includes('bhishma') || t.includes('drona') || t.includes('karna') || t.includes('shanti')) {
+          return 1;
+        }
+        return 2; // Harivansha Purana, Surya Upasana, Jagannath Mahatmya, Pinda Dan Vidhi
       },
     };
   }

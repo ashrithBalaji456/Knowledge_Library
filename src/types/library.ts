@@ -20,6 +20,7 @@ export type ResourceType =
   | 'VIDEO'
   | 'ARTICLE'
   | 'COURSE'
+  | 'AUDIO'
   | 'NOTE'
   | 'OTHER';
 

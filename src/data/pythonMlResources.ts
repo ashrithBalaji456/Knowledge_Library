@@ -8864,5 +8864,1222 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahabharata-vol-1",
+    "title": "Mahabharata Volume 1: Adi & Sabha Parva",
+    "author": "Maharshi Ved Vyasa (Gita Press Gorakhpur)",
+    "pages": 96,
+    "fileName": "Mahabharata Volume 1.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Mahabharata Volumes 1-3 (Gita Press)",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 96,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Mahabharata Volume 1.pdf",
+    "whatIsThisBookFor": "The cosmic and ancestral beginnings of the Mahabharata: from the creation of the cosmos and the Lunar Dynasty to the Swayamvara of Draupadi and the fateful dice game in the royal court of Hastinapura.",
+    "summary": "Authentic Gita Press Gorakhpur edition featuring pristine Sanskrit verses paired with Hindi translation and commentary. Explores the genealogy of the Kurus, Shakuni's deceitful game of dice, and Vidura's timeless counsel.",
+    "keyTakeaways": [
+      "The divine origins and moral complexities of the Kuru dynasty",
+      "The construction and architectural splendour of Indraprastha",
+      "The game of dice in Sabha Parva and the eternal moral warnings on greed and unrighteous assembly"
+    ],
+    "prerequisites": [
+      "Reverence for Vedic Itihasa, Sanskrit epics, and ethical philosophy"
+    ],
+    "recommendedNext": [
+      "res-local-mahabharata-vol-2"
+    ],
+    "topics": [
+      "Mahabharata",
+      "AdiParva",
+      "SabhaParva",
+      "GitaPress",
+      "VedVyasa",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Mahabharata",
+      "GitaPress",
+      "VedVyasa",
+      "AdiParva",
+      "Sanskrit",
+      "Hindi",
+      "Vol1"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahabharata-vol-2",
+    "title": "Mahabharata Volume 2: Vana Parva (Aranyaka Parva)",
+    "author": "Maharshi Ved Vyasa (Gita Press Gorakhpur)",
+    "pages": 96,
+    "fileName": "Mahabharata Volume 2.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Mahabharata Volumes 1-3 (Gita Press)",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 96,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Mahabharata Volume 2.pdf",
+    "whatIsThisBookFor": "The twelve-year forest exile of the Pandavas, replete with spiritual pilgrimages, encounters with rishis, the Yaksha Prashna dialogue, and stories of Nala-Damayanti and Savitri-Satyavan.",
+    "summary": "Complete Gita Press Vana Parva edition in Sanskrit and Hindi. Contains profound discourses on Dharma, the divine boons obtained through intense tapasya, and the famous riddles of the Yaksha answered by Dharmaraja Yudhishthira.",
+    "keyTakeaways": [
+      "Yaksha Prashna: Dharmaraja Yudhishthira's profound answers on life, death, contentment, and virtue",
+      "Arjuna's quest for celestial weapons (Divyastras) through intense penance on Mount Indrakeela",
+      "Spiritual strength and patience gained through trial and solitude in sacred forests"
+    ],
+    "prerequisites": [
+      "res-local-mahabharata-vol-1"
+    ],
+    "recommendedNext": [
+      "res-local-mahabharata-vol-3"
+    ],
+    "topics": [
+      "Mahabharata",
+      "VanaParva",
+      "YakshaPrashna",
+      "GitaPress",
+      "VedVyasa",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Mahabharata",
+      "GitaPress",
+      "VedVyasa",
+      "VanaParva",
+      "Sanskrit",
+      "Hindi",
+      "Vol2"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahabharata-vol-3",
+    "title": "Mahabharata Volume 3: Virata & Udyoga Parva",
+    "author": "Maharshi Ved Vyasa (Gita Press Gorakhpur)",
+    "pages": 96,
+    "fileName": "Mahabharata Volume 3.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Mahabharata Volumes 1-3 (Gita Press)",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 96,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Mahabharata Volume 3.pdf",
+    "whatIsThisBookFor": "The year of incognito exile in the kingdom of Virata (Agyatavasa), followed by diplomatic peace missions, Sanjaya Yana, and Lord Krishna's divine peace embassy in Udyoga Parva.",
+    "summary": "Authentic Gita Press Sanskrit and Hindi commentary capturing the incognito period, the slaying of Kichaka, the cattle raid battle, and the dramatic war preparations and diplomacy of Udyoga Parva where Bhagavan Krishna presents his Vishwaroopa to the blind court.",
+    "keyTakeaways": [
+      "Mastery of disguise, self-control, and patience during adversity in Agyatavasa",
+      "Krishna's tireless peace diplomacy and the immutable inevitability of Dharma's war",
+      "Vidura Niti and the Sanatsujatiya philosophical discourses on immortality and truth"
+    ],
+    "prerequisites": [
+      "res-local-mahabharata-vol-2"
+    ],
+    "recommendedNext": [
+      "res-local-mahabharata-vol-4"
+    ],
+    "topics": [
+      "Mahabharata",
+      "VirataParva",
+      "UdyogaParva",
+      "KrishnaDoot",
+      "GitaPress",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Mahabharata",
+      "GitaPress",
+      "VedVyasa",
+      "VirataParva",
+      "Sanskrit",
+      "Hindi",
+      "Vol3"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahabharata-vol-4",
+    "title": "Mahabharata Volume 4: Bhishma & Drona Parva",
+    "author": "Maharshi Ved Vyasa (Gita Press Gorakhpur)",
+    "pages": 96,
+    "fileName": "Mahabharata Volume 4.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Mahabharata Volumes 4-6 (Gita Press)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 96,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Mahabharata Volume 4.pdf",
+    "whatIsThisBookFor": "The colossal clash of Kurukshetra: the revelation of Srimad Bhagavad Gita on the battlefield, the fall of Grandsire Bhishma on the bed of arrows, the Chakravyuha, and Drona's supreme military command.",
+    "summary": "Gita Press Sanskrit-Hindi edition chronicling the opening ten days under Commander Bhishma and the subsequent five days under Acharya Drona. Features the valor of Abhimanyu, the vow of Arjuna, and the fall of venerable elders bound by allegiance.",
+    "keyTakeaways": [
+      "The context and backdrop of Srimad Bhagavad Gita delivered between the two armies",
+      "Military formations (Vyuha) including the invincible Chakravyuha and its profound tragic lessons",
+      "Dharma's triumph over conventional martial power when guided by the divine will of Krishna"
+    ],
+    "prerequisites": [
+      "res-local-mahabharata-vol-3"
+    ],
+    "recommendedNext": [
+      "res-local-mahabharata-vol-5"
+    ],
+    "topics": [
+      "Mahabharata",
+      "BhishmaParva",
+      "DronaParva",
+      "Kurukshetra",
+      "GitaPress",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Mahabharata",
+      "GitaPress",
+      "VedVyasa",
+      "BhishmaParva",
+      "Sanskrit",
+      "Hindi",
+      "Vol4"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahabharata-vol-5",
+    "title": "Mahabharata Volume 5: Karna, Shalya, Sauptika & Stri Parva",
+    "author": "Maharshi Ved Vyasa (Gita Press Gorakhpur)",
+    "pages": 96,
+    "fileName": "Mahabharata Volume 5.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Mahabharata Volumes 4-6 (Gita Press)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 96,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Mahabharata Volume 5.pdf",
+    "whatIsThisBookFor": "The climactic duel between Karna and Arjuna, the mace fight of Bhima and Duryodhana, Ashwatthama's nocturnal massacre in Sauptika Parva, and Queen Gandhari's heartbreaking lamentation in Stri Parva.",
+    "summary": "Gita Press Sanskrit and Hindi commentary capturing the raw intensity of the final days of the Great War, the tragedy of unrighteous choices, and the universal grief of bereaved mothers and widows on the scorched battlefield.",
+    "keyTakeaways": [
+      "The fall of Karna and the karmic reckoning of earlier choices and curses",
+      "The catastrophe of nocturnal vengeance in Sauptika Parva and the fatal Brahmashira weapon",
+      "Queen Gandhari's lamentation in Stri Parva, displaying the ultimate futility and devastation of hatred"
+    ],
+    "prerequisites": [
+      "res-local-mahabharata-vol-4"
+    ],
+    "recommendedNext": [
+      "res-local-mahabharata-vol-6"
+    ],
+    "topics": [
+      "Mahabharata",
+      "KarnaParva",
+      "ShalyaParva",
+      "StriParva",
+      "GitaPress",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Mahabharata",
+      "GitaPress",
+      "VedVyasa",
+      "KarnaParva",
+      "Sanskrit",
+      "Hindi",
+      "Vol5"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-mahabharata-vol-6",
+    "title": "Mahabharata Volume 6: Shanti, Anushasana, Ashvamedhika & Svargarohana Parva",
+    "author": "Maharshi Ved Vyasa (Gita Press Gorakhpur)",
+    "pages": 96,
+    "fileName": "Mahabharata Volume 6.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Mahabharata Volumes 4-6 (Gita Press)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 96,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Mahabharata Volume 6.pdf",
+    "whatIsThisBookFor": "The ultimate crown of the Mahabharata: Bhishma's majestic deathbed discourses on Raja Dharma, Moksha Dharma, Sri Vishnu Sahasranama, and the final journey to heaven in Svargarohana Parva.",
+    "summary": "Authentic Gita Press Sanskrit-Hindi edition containing the greatest treatise on statecraft, ethics, and liberation. Covers the complete coronation of Yudhishthira, the Vishnu Sahasranama Stotram, and the celestial ascent of the Pandavas.",
+    "keyTakeaways": [
+      "Raja Dharma: Bhishma's teachings on virtuous leadership, justice, and civic responsibility",
+      "Moksha Dharma & Sri Vishnu Sahasranama: The 1,000 divine names and spiritual liberation",
+      "Svargarohana Parva: The dog that accompanied Yudhishthira, revealing the true nature of Dharma"
+    ],
+    "prerequisites": [
+      "res-local-mahabharata-vol-5"
+    ],
+    "recommendedNext": [
+      "res-local-harivansha-purana"
+    ],
+    "topics": [
+      "Mahabharata",
+      "ShantiParva",
+      "AnushasanaParva",
+      "VishnuSahasranama",
+      "GitaPress",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Mahabharata",
+      "GitaPress",
+      "VedVyasa",
+      "ShantiParva",
+      "Sanskrit",
+      "Hindi",
+      "Vol6"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-harivansha-purana",
+    "title": "Harivansha Purana (Original Gita Press Gorakhpur Edition)",
+    "author": "Maharshi Ved Vyasa (Hindi Tika: Pt. Ramnarayan Dutt Shastri Pandey)",
+    "pages": 1169,
+    "fileName": "harivansha purana original.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Harivansha Purana & Surya Upasana",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1169,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\harivansha purana original.pdf",
+    "whatIsThisBookFor": "The monumental 1,169-page appendix (Khila) to the Mahabharata: the complete genealogy of Hari (Sri Krishna), the Harivansha Parva, Vishnu Parva, and Bhavishya Parva.",
+    "summary": "The definitive Gita Press masterwork containing the life, pastimes, cosmic feats, and philosophical wisdom of Lord Sri Krishna, Yaduvamsha history, and prophetic accounts of Kali Yuga.",
+    "keyTakeaways": [
+      "Comprehensive genealogy of the Lunar Dynasty and Yaduvamsha origins",
+      "Vrindavan, Mathura, and Dwaraka leelas of Lord Sri Krishna in exhaustive detail",
+      "Cosmic balance between Vishnu and Shiva (Hari-Hara) and prophecies for the future age"
+    ],
+    "prerequisites": [
+      "res-local-mahabharata-vol-6"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Harivansha",
+      "Purana",
+      "SriKrishna",
+      "GitaPress",
+      "VedVyasa",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "Harivansha",
+      "Purana",
+      "GitaPress",
+      "VedVyasa",
+      "SriKrishna",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-surya-upasana-aditya-hriday",
+    "title": "Surya Upasana: Aditya Hriday Stotra Sahit",
+    "author": "World Book Company (Sanskrit Verses & Hindi Tika)",
+    "pages": 163,
+    "fileName": "Surya_Upasana_Aditya_Hriday_Stotra_Sahit_World_Book_Company_1.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Harivansha Purana & Surya Upasana",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 163,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Surya_Upasana_Aditya_Hriday_Stotra_Sahit_World_Book_Company_1.pdf",
+    "whatIsThisBookFor": "Authentic solar worship treatise comprising Aditya Hridaya Stotram from Valmiki Ramayana, Surya Sahasranama, Gayatri Arghya Vidhi, and health-bestowing Surya Upasanas.",
+    "summary": "A 163-page guide to solar sadhana featuring original Sanskrit stotras, kavachas, and Hindi explanations. Imparts daily methods for awakening vitality, intellect (Tejas), and inner illumination through the Sun God.",
+    "keyTakeaways": [
+      "The divine revelation of Aditya Hriday Stotra by Sage Agastya to Lord Rama on the battlefield",
+      "Daily Surya Namaskara mantras, Beeja Aksharas, and Arghya ritual practices",
+      "Therapeutic and psychological benefits of solar alignment and early morning Gayatri meditation"
+    ],
+    "prerequisites": [
+      "Interest in Vedic solar worship, mantra meditation, and vitality sadhana"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "SuryaUpasana",
+      "AdityaHriday",
+      "SolarWorship",
+      "Gayatri",
+      "Sanskrit",
+      "Hindi"
+    ],
+    "tags": [
+      "SuryaUpasana",
+      "AdityaHriday",
+      "Stotra",
+      "Sanskrit",
+      "Hindi",
+      "SolarWorship",
+      "Gayatri"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-jagannath-mahatmya-naval-kishore",
+    "title": "Jagannath Mahatmya with Tika (1907 Naval Kishore Press)",
+    "author": "Pt. Ramasvarupa Sharma (Naval Kishore Press Archive)",
+    "pages": 76,
+    "fileName": "Jagannath Mahatmya with Tika1907 - Naval Kishore Press.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Harivansha Purana & Surya Upasana",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 76,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Jagannath Mahatmya with Tika1907 - Naval Kishore Press.pdf",
+    "whatIsThisBookFor": "Rare 1907 archival edition from the historic Naval Kishore Press printing of the Utkala Khanda Skanda Purana Jagannath Mahatmya with full Sanskrit text and Hindi Tika.",
+    "summary": "A historical treasure detailing the divine advent of Lord Jagannatha at Puri, King Indradyumna's penance, the carving of the Daru Brahma murtis, and the sanctity of the Ratha Yatra festival.",
+    "keyTakeaways": [
+      "The mystical legend of Neela Madhava and the transformation into the holy wooden Daru Brahma",
+      "Sacred rituals, Mahaprasad glories, and pilgrimage rules of Jagannath Puri Kshetra",
+      "Authentic early 20th-century lithographic Sanskrit and Hindi typography from Lucknow"
+    ],
+    "prerequisites": [
+      "Interest in Puri Jagannath history, archival lithographs, and Sanskrit Puranas"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Jagannath",
+      "Puri",
+      "NavalKishorePress",
+      "Sanskrit",
+      "Hindi",
+      "1907Archive"
+    ],
+    "tags": [
+      "Jagannath",
+      "Puri",
+      "NavalKishorePress",
+      "Sanskrit",
+      "Hindi",
+      "1907Archive"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-pinda-dan-vidhi-pandulipi",
+    "title": "Pinda Dan Vidhi (Sanskrit Manuscript Pandulipi)",
+    "author": "Chunilal Gandhi Vidyabhavan Surat Collection",
+    "pages": 15,
+    "fileName": "WG1162-2020 or before -Pinda Dan Vidhi -Pandulipi.pdf",
+    "category": "sec-itihasa-mahabharata",
+    "subCategory": "Harivansha Purana & Surya Upasana",
+    "resourceType": "HANDBOOK",
+    "difficulty": "ADVANCED",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 15,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\WG1162-2020 or before -Pinda Dan Vidhi -Pandulipi.pdf",
+    "whatIsThisBookFor": "Original high-resolution digitised Sanskrit manuscript (Pandulipi) detailing the ancestral Pitru Tarpana and Pinda Dana rites preserved in Chunilal Gandhi Vidyabhavan archives.",
+    "summary": "Authentic handwritten Devanagari manuscript displaying traditional foliation, red vermilion marginalia, and precise Vedic mantra formulas for ancestor offerings and Gaya shraddha rites.",
+    "keyTakeaways": [
+      "Traditional manuscript palaeography and layout conventions in medieval India",
+      "Vedic procedures for ancestral tarpana, sesame offerings, and kusha grass sanctification",
+      "The philosophy of gratitude to past generations (Pitru Rina) in Hindu Dharma"
+    ],
+    "prerequisites": [
+      "Familiarity with Devanagari manuscript handwriting and Vedic rituals"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "PindaDan",
+      "Manuscript",
+      "Pandulipi",
+      "Sanskrit",
+      "SuratArchive",
+      "VedicRitual"
+    ],
+    "tags": [
+      "PindaDan",
+      "Manuscript",
+      "Pandulipi",
+      "Sanskrit",
+      "VedicRitual",
+      "SuratArchive"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sunderkand-mp3",
+    "title": "Sri Sunderkand Sampoorna (Sacred Audio Recitation)",
+    "author": "Goswami Tulsidas (Sri Ramcharitmanas)",
+    "pages": 1,
+    "fileName": "sunderkand.mp3",
+    "category": "sec-devotional-motivation",
+    "subCategory": "AWADHI & HINDI: SUNDARKAND UPASANA & RAMA RAKSHA",
+    "resourceType": "AUDIO",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\sunderkand\\sunderkand.mp3",
+    "whatIsThisBookFor": "Immerse in the complete musical and devotional recitation of the Sunderkand from Goswami Tulsidas' Sri Ramcharitmanas, radiating courage, clarity, and divine surrender.",
+    "summary": "A 241 MB high-fidelity audio rendition capturing Hanuman's epic flight across the ocean, his encounter with Surasa and Lankini, finding Mother Sita in the Ashoka Vatika, Lanka Dahan, and returning with the Choodamani.",
+    "keyTakeaways": [
+      "The psychology of supreme confidence and overcoming immense obstacles with faith",
+      "The divine diplomacy of Hanuman in the court of Ravana",
+      "The profound peace and spiritual energy experienced during listening to Sunderkand"
+    ],
+    "prerequisites": [
+      "Open heart to listen to the nectar of Rama Bhakti and Hanuman's valor"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Sunderkand",
+      "Audio",
+      "Tulsidas",
+      "Awadhi",
+      "Hindi",
+      "Ramcharitmanas",
+      "Hanuman"
+    ],
+    "tags": [
+      "Sunderkand",
+      "Audio",
+      "Tulsidas",
+      "Awadhi",
+      "Hindi",
+      "Ramcharitmanas",
+      "Hanuman"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-thrikala-sandhyavandhanam-telugu",
+    "title": "Thrikala Sandhyavandhanam Vidhanamu (Telugu Mudralu Sahitanga)",
+    "author": "Vedic Scholars (Telugu Mudra Illustrations)",
+    "pages": 5,
+    "fileName": "67296216-Thrikala-Sandhyavandhanam-Vidhanamu-in-telugu-mudralu-sahitanga.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Vedic Pooja, Homa & Discipline Kalpataruvu",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 5,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\67296216-Thrikala-Sandhyavandhanam-Vidhanamu-in-telugu-mudralu-sahitanga.pdf",
+    "whatIsThisBookFor": "Step-by-step practical manual for performing Thrikala Sandhyavandanam in Telugu with clear pictorial illustrations of all 24 Gayatri mudras, Arghya pradana, and Pranayama.",
+    "summary": "Concise 5-page illustrated practitioner sheet explaining the exact physical hand mudras (Sankha, Chakra, Gada, Padma, Dhenu, etc.), achamana procedure, and Gayatri mantra japa for morning, noon, and evening sandhya.",
+    "keyTakeaways": [
+      "All 24 Gayatri Mudras illustrated clearly for correct ritual execution",
+      "Systematic step-by-step sequence: Achamanam, Marjanam, Pranayamam, and Arghya Pradanam",
+      "How daily Sandhyavandanam sharpens cognitive intellect and sustains spiritual balance"
+    ],
+    "prerequisites": [
+      "Upanayanam or aspiration to learn Vedic daily discipline in Telugu"
+    ],
+    "recommendedNext": [
+      "res-local-venkateswara-vratham-1"
+    ],
+    "topics": [
+      "Sandhyavandanam",
+      "Gayatri",
+      "Mudralu",
+      "Telugu",
+      "VedicDailyDiscipline"
+    ],
+    "tags": [
+      "Sandhyavandanam",
+      "Gayatri",
+      "Mudralu",
+      "Telugu",
+      "VedicDailyDiscipline"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-venkateswara-vratham-1",
+    "title": "Sri Venkateswara Vratham & Vrata Kalpam (Viswepathi)",
+    "author": "Viswepathi (Sri Venkateswara Swami Charitra)",
+    "pages": 44,
+    "fileName": "VenkateshwaraVratham-1.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 44,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\VenkateshwaraVratham-1.pdf",
+    "whatIsThisBookFor": "The blessed household vrata kalpam dedicated to Lord Venkateswara of the Seven Hills, featuring simple puja procedures, five miraculous stories (Katha), and harati songs in Telugu.",
+    "summary": "Authored by Viswepathi, this 44-page book offers a deeply accessible devotional vrata manual practiced across Andhra and Telangana for family peace, career success, and removal of obstacles.",
+    "keyTakeaways": [
+      "Simple puja vidhi accessible to all householders without elaborate prerequisites",
+      "Five inspiring parayana stories depicting Lord Srinivasa's unconditional grace",
+      "Mangala harati and prasada offerings dedicated to Lord Venkateswara and Padmavathi Devi"
+    ],
+    "prerequisites": [
+      "Devotion to Lord Venkateswara of Tirumala"
+    ],
+    "recommendedNext": [
+      "res-local-sri-sathyadeva-annavaram"
+    ],
+    "topics": [
+      "VenkateshwaraVratham",
+      "VrataKalpam",
+      "Viswepathi",
+      "Telugu",
+      "Bhakti"
+    ],
+    "tags": [
+      "VenkateshwaraVratham",
+      "VrataKalpam",
+      "Viswepathi",
+      "Telugu",
+      "Bhakti"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-sathyadeva-annavaram",
+    "title": "Sri Sathyadeva: Annavaram Satyanarayana Swamy Charitra & Vratham",
+    "author": "Sri Satyanarayana Swamy Devasthanam Annavaram",
+    "pages": 102,
+    "fileName": "Sri-Sathyadeva.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 102,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Sri-Sathyadeva.pdf",
+    "whatIsThisBookFor": "Comprehensive chronicle of the holy Ratnagiri hill sanctuary at Annavaram, the manifestation of Lord Satyadeva, the Sri Satyanarayana Swamy Vrata Kalpam, and stotras in Telugu.",
+    "summary": "Official 102-page Devasthanam publication exploring the sthala puranam of Annavaram on the banks of Pampa river, the architectural majesty of the Yantra-shaped temple, and the sacred stories of the Vratam.",
+    "keyTakeaways": [
+      "The divine advent of Sri Satyadeva on the Ratnagiri hill at Annavaram",
+      "The five allegorical chapters (Katha) of Sri Satyanarayana Vratha Kalpam in pure Telugu",
+      "Significance of truth (Satya), vow integrity, and communal prasada distribution"
+    ],
+    "prerequisites": [
+      "Reverence for Lord Satyanarayana and temple lore in Telugu"
+    ],
+    "recommendedNext": [
+      "res-local-sri-sathyadeva-archive"
+    ],
+    "topics": [
+      "Sathyadeva",
+      "Satyanarayana",
+      "Annavaram",
+      "Telugu",
+      "Vratam"
+    ],
+    "tags": [
+      "Sathyadeva",
+      "Satyanarayana",
+      "Annavaram",
+      "Telugu",
+      "Vratam"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-sathyadeva-archive",
+    "title": "Sri Sathyadeva Vratha Katha & Mahatmyamu (Archival Edition)",
+    "author": "Sri Satyanarayana Devasthanam (Classical Telugu Archive)",
+    "pages": 102,
+    "fileName": "2015.373659.Sri-Sathyadeva.pdf",
+    "category": "sec-devotional-sadhana",
+    "subCategory": "Ashta-Devata Vrata Kalpam & Saraswathi",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 102,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\2015.373659.Sri-Sathyadeva.pdf",
+    "whatIsThisBookFor": "Archival digitized scan preserving the classical Telugu literary exposition of Sri Sathyadeva's kshetras, stotras, and ceremonial rituals.",
+    "summary": "Preserved by digital heritage libraries, this edition offers historical Telugu typography, devotional poems (padyalu), and insightful notes on the Ratnagiri pilgrimage traditions.",
+    "keyTakeaways": [
+      "Classical Telugu padyalu dedicated to Lord Sri Satyanarayana",
+      "Detailed ritual manual for observing the vrata on Purnima (full moon days)",
+      "Cultural insights into Andhra's revered pilgrimage centers along the Godavari"
+    ],
+    "prerequisites": [
+      "res-local-sri-sathyadeva-annavaram"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Sathyadeva",
+      "Satyanarayana",
+      "Annavaram",
+      "Telugu",
+      "ArchivalEdition"
+    ],
+    "tags": [
+      "Sathyadeva",
+      "Satyanarayana",
+      "Annavaram",
+      "Telugu",
+      "ArchivalEdition"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-telugu-audio-sree-venkateswara-vratham",
+    "title": "Sree Venkateswara Vratham (Telugu Audio Recording)",
+    "author": "Tirumala Tirupati Devasthanam Sadhana Recitations",
+    "pages": 1,
+    "fileName": "Telugu Audio - Sree Venkateswara Vratham MP3.mp3",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Tirumala & Venkateswara Divine Chronicles",
+    "resourceType": "AUDIO",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Telugu Audio - Sree Venkateswara Vratham MP3.mp3",
+    "whatIsThisBookFor": "Full-length 71 MB Telugu audio recording of the Sri Venkateswara Swamy Vratha Kalpam, ideal for listening during household worship and spiritual contemplation.",
+    "summary": "Clear, melodious Telugu audio recording with traditional chanting, bell chimes, and narration of Lord Srinivasa's divine leelas, creating a serene temple atmosphere wherever played.",
+    "keyTakeaways": [
+      "Complete acoustic rendition of the Sri Venkateswara Vratha Kalpam in pure Telugu",
+      "Authentic pronunciation of traditional Telugu stotras and dhyana shlokas",
+      "Enhances spiritual focus, peace of mind, and sanctifies domestic living spaces"
+    ],
+    "prerequisites": [
+      "Love for listening to devotional chants and Telugu parayana"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "VenkateswaraVratham",
+      "Audio",
+      "Telugu",
+      "Tirumala",
+      "Sadhana"
+    ],
+    "tags": [
+      "VenkateswaraVratham",
+      "Audio",
+      "Telugu",
+      "Tirumala",
+      "Sadhana"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sriranga-mahatmyamu-telugu",
+    "title": "Sri Ranga Mahatmyamu (Telugu Classical Kavya)",
+    "author": "Kasturi Ranga Kavi & Traditional Commentators",
+    "pages": 164,
+    "fileName": "srirangamahatyam023623mbp.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Srirangam & Southern Divya Desam Traditions",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 164,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\srirangamahatyam023623mbp.pdf",
+    "whatIsThisBookFor": "The supreme Vaishnava Kshetra of Srirangam celebrated in Telugu poetry: the advent of Sri Ranganatha's vimanam, the Kaveri river sanctification, and Vibhishana's pilgrimage.",
+    "summary": "A 164-page classical Telugu kavya detailing the origins of Sri Ranga Vimana carried by Ikshvaku kings, gifted by Lord Rama to King Vibhishana, and its permanent sanctification on the island of Srirangam.",
+    "keyTakeaways": [
+      "The primordial descent of the Sri Ranga Vimana from Satyaloka to the mortal realm",
+      "Vibhishana's journey and why Lord Ranganatha chose to remain facing Lanka on the Kaveri banks",
+      "Exquisite classical Telugu poetic descriptions of the seven courtyards (Prakaras) of Srirangam"
+    ],
+    "prerequisites": [
+      "Appreciation of Telugu classical poetry and South Indian Divya Desam lore"
+    ],
+    "recommendedNext": [
+      "res-local-sri-bhavanarayana-mahatmyam"
+    ],
+    "topics": [
+      "Srirangam",
+      "Mahatmyamu",
+      "DivyaDesam",
+      "Telugu",
+      "Ranganatha"
+    ],
+    "tags": [
+      "Srirangam",
+      "Mahatmyamu",
+      "DivyaDesam",
+      "Telugu",
+      "Ranganatha"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-bhavanarayana-mahatmyam",
+    "title": "Sri Bhavanarayana Mahatmyam (Bapatla & Ponnur Kshetra Sthala Puranam)",
+    "author": "Sri Bhavanarayana Swami Devasthanam Scholars",
+    "pages": 204,
+    "fileName": "SriBhavnarayana_mahatyam.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Srirangam & Southern Divya Desam Traditions",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 204,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\SriBhavnarayana_mahatyam.pdf",
+    "whatIsThisBookFor": "The sacred sthala puranam of the ancient Sri Bhavanarayana Swamy shrines at Bapatla and Ponnur in Andhra Pradesh, revealing their Puranic origins and architectural glory.",
+    "summary": "An in-depth 204-page historical and devotional work detailing Sage Agastya's consecration of Lord Bhavanarayana, the royal patronage of Chola and Vijayanagara kings, and sacred pilgrim routes in coastal Andhra.",
+    "keyTakeaways": [
+      "The legend of Lord Narayana manifesting as 'Bhavanarayana' to dispel worldly fears",
+      "Historical inscriptions, temple architecture, and annual Brahmotsavam traditions of Bapatla",
+      "Puranic geography connecting the sacred waters of the Krishna river delta to divine grace"
+    ],
+    "prerequisites": [
+      "Interest in Andhra temple heritage and Vaishnava kshetra history"
+    ],
+    "recommendedNext": [
+      "res-local-sri-kalahasti-mahatmyamu"
+    ],
+    "topics": [
+      "Bhavanarayana",
+      "Bapatla",
+      "KshetraMahatmyam",
+      "Telugu",
+      "SthalaPuranam"
+    ],
+    "tags": [
+      "Bhavanarayana",
+      "Bapatla",
+      "KshetraMahatmyam",
+      "Telugu",
+      "SthalaPuranam"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-sri-kalahasti-mahatmyamu",
+    "title": "Sri Kalahasti Kshetra Mahatmyamu (Vayu Linga & Kannappa Bhakti)",
+    "author": "Sri Kalahasteeswara Devasthanam Archive",
+    "pages": 126,
+    "fileName": "2015.386976.Sri-Kalahasti.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Srirangam & Southern Divya Desam Traditions",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 126,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\2015.386976.Sri-Kalahasti.pdf",
+    "whatIsThisBookFor": "The profound sthala puranam of Sri Kalahasti—the Pancha Bhoota Vayu Linga kshetra on the banks of Swarnamukhi river, celebrated for the pure devotion of Kannappa Nayanar.",
+    "summary": "126-page classical Telugu work chronicling how the Spider (Sri), the Serpent (Kala), and the Elephant (Hasti) attained liberation through unconditional worship, and the pinnacle of hunter Kannappa's unshakeable love for Lord Shiva.",
+    "keyTakeaways": [
+      "The mysticism of the Pancha Bhoota Sthala representing the Vayu (Air) element",
+      "The story of Sri, Kala, and Hasti: innocent creature devotion leading to Moksha",
+      "Kannappa Nayanar's sacrifice: the ultimate paradigm of pure, unconditioned devotion"
+    ],
+    "prerequisites": [
+      "Reverence for Lord Shiva, Pancha Bhoota kshetras, and Telugu spiritual lore"
+    ],
+    "recommendedNext": [
+      "res-local-malleshwara-kshetra-2"
+    ],
+    "topics": [
+      "Kalahasti",
+      "VayuLinga",
+      "Kannappa",
+      "Telugu",
+      "ShaivaKshetra"
+    ],
+    "tags": [
+      "Kalahasti",
+      "VayuLinga",
+      "Kannappa",
+      "Telugu",
+      "ShaivaKshetra"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-malleshwara-kshetra-2",
+    "title": "Sri Malleshwara Kshetra Mahatmyam (Vijayawada Indrakeeladri Volume 2)",
+    "author": "Kanaka Durga Malleshwara Swami Devasthanam",
+    "pages": 114,
+    "fileName": "Malleshwara-Kshetra (2).pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Srirangam & Southern Divya Desam Traditions",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 114,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\Malleshwara-Kshetra (2).pdf",
+    "whatIsThisBookFor": "Volume 2 of the divine chronicles of Indrakeeladri hill in Vijayawada, detailing Lord Malleshwara Swamy (consort of Kanaka Durga Devi) and Arjuna's Pasupatastra penance.",
+    "summary": "114 pages in Telugu describing the sacred Indrakeeladri mountain on the Krishna river, the duel between Arjuna and Lord Shiva disguised as a Kirata hunter, and the consecrated Shivalingam worship traditions.",
+    "keyTakeaways": [
+      "The mythological background of Indrakeeladri hill as the seat of Mother Kanaka Durga and Malleshwara",
+      "Arjuna's penance and the divine test before receiving the celestial Pasupatastra",
+      "Ritual procedures, festivals, and historical sthala traditions of Vijayawada"
+    ],
+    "prerequisites": [
+      "res-local-sri-kalahasti-mahatmyamu"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Malleshwara",
+      "Indrakeeladri",
+      "Vijayawada",
+      "Telugu",
+      "KshetraMahatmyam"
+    ],
+    "tags": [
+      "Malleshwara",
+      "Indrakeeladri",
+      "Vijayawada",
+      "Telugu",
+      "KshetraMahatmyam"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-karthika-mahatmyam-skanda-telugu",
+    "title": "Karthika Mahatmyam: Daily Chapters, Deepa Danam & Rituals",
+    "author": "Skanda Puranam (Telugu Translation & Commentary)",
+    "pages": 228,
+    "fileName": "2015.333803.Karthika-Mathmayam.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Maha Puranas, Shiva Purana & Kartheeka Mahatmyam",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 228,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\2015.333803.Karthika-Mathmayam.pdf",
+    "whatIsThisBookFor": "The complete 30-day Karthika Masa parayana scripture in Telugu: daily katha chapters, deepa danam merits, Usiri (Amla) puja, and the unity of Shiva and Vishnu.",
+    "summary": "A 228-page classical edition from Skanda Puranam detailing the spiritual significance of the sacred month of Karthika, river baths (Nadi Snana), lighting oil lamps in temples, and liberating ancestral lineages.",
+    "keyTakeaways": [
+      "Daily chapter-by-chapter reading guide for all 30 days of the sacred Karthika month",
+      "The metaphysical philosophy of Deepa Danam: lighting the inner light of knowledge",
+      "Synthesis of Shaivism and Vaishnavism (Hari-Hara Abheda) central to Andhra traditions"
+    ],
+    "prerequisites": [
+      "Desire to observe Karthika Masa sadhana and read Telugu Puranic literature"
+    ],
+    "recommendedNext": [
+      "res-local-panduranga-mahatmyamu-tenali"
+    ],
+    "topics": [
+      "KarthikaMahatmyam",
+      "SkandaPuranam",
+      "DeepaDanam",
+      "Telugu",
+      "ShivaKeshavulu"
+    ],
+    "tags": [
+      "KarthikaMahatmyam",
+      "SkandaPuranam",
+      "DeepaDanam",
+      "Telugu",
+      "ShivaKeshavulu"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-panduranga-mahatmyamu-tenali",
+    "title": "Panduranga Mahatmyamu: Classical Telugu Kavya",
+    "author": "Tenali Ramakrishna Kavi",
+    "pages": 415,
+    "fileName": "2015.389677.PandurangaMahathyamu.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Maha Puranas, Shiva Purana & Kartheeka Mahatmyam",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 415,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\2015.389677.PandurangaMahathyamu.pdf",
+    "whatIsThisBookFor": "Tenali Ramakrishna's immortal Telugu poetic masterpiece celebrating Lord Vitthala of Pandharpur, Pundalika's filial devotion, and the sanctity of the Bhima river.",
+    "summary": "A 415-page monumental Mahakavya considered one of the gems of Vijayanagara Telugu literature. Employs breathtaking imagery, complex metrical verses, and poignant devotion to Lord Panduranga standing on the brick.",
+    "keyTakeaways": [
+      "The legend of Pundalika: how honoring parents brought Lord Krishna to wait upon a brick",
+      "Tenali Ramakrishna's extraordinary mastery of Telugu poetic diction, rasa, and alliteration",
+      "The universality of the Bhakti movement connecting Maharashtra and Andhra spiritual traditions"
+    ],
+    "prerequisites": [
+      "Familiarity with classical Telugu Prabandha and Kavya literature"
+    ],
+    "recommendedNext": [
+      "res-local-trivargamu-telugu"
+    ],
+    "topics": [
+      "PandurangaMahatmyamu",
+      "TenaliRamakrishna",
+      "TeluguKavya",
+      "Vitthala",
+      "Bhakti"
+    ],
+    "tags": [
+      "PandurangaMahatmyamu",
+      "TenaliRamakrishna",
+      "TeluguKavya",
+      "Vitthala",
+      "Bhakti"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-trivargamu-telugu",
+    "title": "Trivargamu (Dharma, Artha, Kama & Purushartha Wisdom in Telugu)",
+    "author": "Traditional Telugu Vidwans",
+    "pages": 150,
+    "fileName": "TriVargamu_text.pdf",
+    "category": "sec-devotional",
+    "subCategory": "Yugadarsanam, STR & Telugu Spiritual Heritage",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "NORMAL",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 150,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\TriVargamu_text.pdf",
+    "whatIsThisBookFor": "A classical treatise on the Trivarga—the three foundational pursuits of human life (Dharma, Artha, Kama) balanced ethically towards achieving Moksha.",
+    "summary": "150 pages in Telugu analyzing practical ethics, governance, wealth creation, family duties, and individual conduct in alignment with Sanatana Dharma's Purusharthas.",
+    "keyTakeaways": [
+      "Harmonizing wealth (Artha) and desire (Kama) within the protective bounds of righteousness (Dharma)",
+      "Daily ethical dilemmas and practical guidance from traditional Telugu moral literature",
+      "Cultivating peace of mind and intellectual integrity in personal and professional spheres"
+    ],
+    "prerequisites": [
+      "Interest in Indian philosophy, Purusharthas, and Telugu ethical thought"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Trivargamu",
+      "DharmaArthaKama",
+      "Purushartha",
+      "Telugu",
+      "Wisdom"
+    ],
+    "tags": [
+      "Trivargamu",
+      "DharmaArthaKama",
+      "Purushartha",
+      "Telugu",
+      "Wisdom"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-parashara-samhita-telugu-complete",
+    "title": "Parashara Samhita: Sri Anjaneya Charitramu (Complete Shastra Telugu Tika)",
+    "author": "Maharshi Parashara (Commentary by Vedic Scholars)",
+    "pages": 216,
+    "fileName": "2015.395190.Parasharasamhitha-Srianjaneya.pdf",
+    "category": "sec-devotional-motivation",
+    "subCategory": "Parashara Samhita & Hanumadvishayamu",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 216,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\2015.395190.Parasharasamhitha-Srianjaneya.pdf",
+    "whatIsThisBookFor": "The esoteric treasure trove of Hanuman worship: Maharshi Parashara's comprehensive Samhita containing the birth leelas, Suvarchala vivaham, and potent kavachas in Telugu.",
+    "summary": "A 216-page authoritative edition offering original Sanskrit shlokas and lucid Telugu commentary on Parashara Samhita. Unveils the deeper esoteric secrets of Lord Hanuman as the embodiment of Vayu and the dispeller of all fear.",
+    "keyTakeaways": [
+      "The divine revelation of Sage Parashara to Sage Maitreya on the supreme nature of Sri Hanuman",
+      "The esoteric meaning of the Suvarchala-Hanuman Kalyanam as Surya-Vayu spiritual union",
+      "Powerful Hanuman Mantras, Yantras, and Kavachas for overcoming anxiety and invoking courage"
+    ],
+    "prerequisites": [
+      "Reverence for Lord Hanuman, Mantra Shastra, and Telugu spiritual literature"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "ParasharaSamhita",
+      "SriAnjaneya",
+      "Telugu",
+      "HanumanShastra",
+      "MantraShastra"
+    ],
+    "tags": [
+      "ParasharaSamhita",
+      "SriAnjaneya",
+      "Telugu",
+      "HanumanShastra",
+      "MantraShastra"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-local-jagannatha-kshetra-mahatyam-english",
+    "title": "Sri Jagannatha Kshetra Mahatyam (English Translation)",
+    "author": "M.V. Satyanarayana",
+    "pages": 33,
+    "fileName": "Sri Jagannatha Kshetra Mahatyam_English Translation_MVSatyanarayana.pdf",
+    "category": "sec-devotional-kshetras",
+    "subCategory": "Divya Desams & 108 Sacred Temples",
+    "resourceType": "BOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 33,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Telegram Desktop\\Another\\SriJagannathaKshetraMahatyamEnglishTranslationMVSatyanarayana\\Sri Jagannatha Kshetra Mahatyam_English Translation_MVSatyanarayana.pdf",
+    "whatIsThisBookFor": "A lucid, accessible English translation explaining the sacred traditions, iconography, history, and spiritual philosophy of Sri Jagannatha Puri Kshetra.",
+    "summary": "M.V. Satyanarayana's 33-page concise translation introduces global readers to the divine mysteries of Lord Jagannatha, Balabhadra, Subhadra, the Sudarshana Chakra, Navakalevara festival, and the universal fraternity of Mahaprasad.",
+    "keyTakeaways": [
+      "The universal fraternity of Jagannatha Puri where caste barriers dissolve before the Lord",
+      "The unique wooden murti tradition and the esoteric Navakalevara (rebirth) ceremony",
+      "Significance of Ratha Yatra and the temple rituals explained clearly in modern English"
+    ],
+    "prerequisites": [
+      "Curiosity about Indian temple traditions and Puri Jagannatha philosophy in English"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "Jagannatha",
+      "PuriKshetra",
+      "EnglishTranslation",
+      "MVSatyanarayana",
+      "Pilgrimage"
+    ],
+    "tags": [
+      "Jagannatha",
+      "PuriKshetra",
+      "EnglishTranslation",
+      "MVSatyanarayana",
+      "Pilgrimage"
+    ],
+    "dateAdded": "2026-10-01",
+    "lastOpened": "2026-10-01"
   }
 ];
