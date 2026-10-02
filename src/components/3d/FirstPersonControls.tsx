@@ -3,12 +3,12 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useLibraryStore } from '../../store/useLibraryStore';
 import { sound } from '../../engine/soundEngine';
+import { INTERACTIVE_BOOK_OBJECTS } from './Book3D';
 
 export const FirstPersonControls: React.FC = () => {
-  const { camera, gl, scene } = useThree();
+  const { camera, gl } = useThree();
 
-  const playerLocation = useLibraryStore((s) => s.playerLocation);
-  const playerRotationY = useLibraryStore((s) => s.playerRotationY);
+  // Optimized store selectors (avoids subscribing to playerLocation/playerRotationY which caused component to re-render during movement!)
   const setPlayerTransform = useLibraryStore((s) => s.setPlayerTransform);
   const setHoveredResource = useLibraryStore((s) => s.setHoveredResource);
   const preferences = useLibraryStore((s) => s.preferences);
@@ -29,9 +29,10 @@ export const FirstPersonControls: React.FC = () => {
   const previousMousePosition = useRef({ x: 0, y: 0 });
 
   // Camera angles (yaw and pitch) with target smoothing (default 0 faces forward into the nave towards -Z)
-  const yaw = useRef(playerRotationY ?? 0);
+  const initialYaw = useLibraryStore.getState().playerRotationY ?? 0;
+  const yaw = useRef(initialYaw);
   const pitch = useRef(0);
-  const targetYaw = useRef(playerRotationY ?? 0);
+  const targetYaw = useRef(initialYaw);
   const targetPitch = useRef(0);
 
   // Velocity vector for smooth physical acceleration and deceleration
@@ -51,7 +52,8 @@ export const FirstPersonControls: React.FC = () => {
 
   // Initialize camera position
   useEffect(() => {
-    camera.position.set(playerLocation[0], playerLocation[1], playerLocation[2]);
+    const initialPos = useLibraryStore.getState().playerLocation;
+    camera.position.set(initialPos[0], initialPos[1], initialPos[2]);
     camera.rotation.order = 'YXZ';
   }, []);
 
@@ -209,20 +211,25 @@ export const FirstPersonControls: React.FC = () => {
       return;
     }
 
-    // Smooth rotational damping (eliminates mouse jitter)
-    yaw.current = THREE.MathUtils.damp(yaw.current, targetYaw.current, 22, delta);
-    pitch.current = THREE.MathUtils.damp(pitch.current, targetPitch.current, 22, delta);
+    // Clamp delta to prevent sudden spikes if a frame takes long
+    const safeDelta = Math.min(delta, 0.05);
+
+    // Ultra-smooth rotational damping tuned for 120 FPS high refresh
+    // Damping at 52 (instead of 22) eliminates trailing mouse drag / lag on sudden turns!
+    const lookDamping = preferences.targetFps120 ? 52 : 36;
+    yaw.current = THREE.MathUtils.damp(yaw.current, targetYaw.current, lookDamping, safeDelta);
+    pitch.current = THREE.MathUtils.damp(pitch.current, targetPitch.current, lookDamping, safeDelta);
 
     camera.rotation.x = pitch.current;
     camera.rotation.y = yaw.current;
 
     if (activeModal) return;
 
-    // Movement acceleration & friction physics
+    // Movement acceleration & friction physics (snappy athletic response for 120 FPS)
     const isSprint = keys.current['ShiftLeft'] || keys.current['ShiftRight'];
-    const maxSpeed = isSprint ? 10.5 : preferences.moveSpeed;
-    const accelRate = 45.0; // Fast responsive acceleration
-    const friction = 12.0; // Smooth deceleration
+    const maxSpeed = isSprint ? (preferences.targetFps120 ? 11.5 : 10.5) : preferences.moveSpeed;
+    const accelRate = preferences.targetFps120 ? 68.0 : 48.0; // Instant responsive acceleration
+    const friction = preferences.targetFps120 ? 16.0 : 12.0; // Crisp deceleration without slide lag
 
     const forward = new THREE.Vector3(0, 0, -1).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw.current);
     const right = new THREE.Vector3(1, 0, 0).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw.current);
@@ -235,21 +242,21 @@ export const FirstPersonControls: React.FC = () => {
 
     if (inputDir.lengthSq() > 0) {
       inputDir.normalize();
-      velocity.current.addScaledVector(inputDir, accelRate * delta);
+      velocity.current.addScaledVector(inputDir, accelRate * safeDelta);
       // Cap speed
       if (velocity.current.length() > maxSpeed) {
         velocity.current.setLength(maxSpeed);
       }
     } else {
       // Natural deceleration friction
-      velocity.current.multiplyScalar(Math.max(0, 1 - friction * delta));
+      velocity.current.multiplyScalar(Math.max(0, 1 - friction * safeDelta));
     }
 
     // Apply movement if moving
     const speed = velocity.current.length();
     if (speed > 0.05) {
-      const nextX = camera.position.x + velocity.current.x * delta;
-      const nextZ = camera.position.z + velocity.current.z * delta;
+      const nextX = camera.position.x + velocity.current.x * safeDelta;
+      const nextZ = camera.position.z + velocity.current.z * safeDelta;
 
       // Library boundary clamping
       const clampedX = Math.max(-41, Math.min(41, nextX));
@@ -259,13 +266,13 @@ export const FirstPersonControls: React.FC = () => {
       camera.position.z = clampedZ;
 
       // Subtle human head-bobbing
-      walkDistance.current += speed * delta;
+      walkDistance.current += speed * safeDelta;
       const headBobY = 1.7 + Math.sin(walkDistance.current * 4.5) * 0.025;
       camera.position.y = headBobY;
 
       // Footstep audio
       if (preferences.footstepsEnabled) {
-        stepTimer.current += delta;
+        stepTimer.current += safeDelta;
         const stepInterval = isSprint ? 0.28 : 0.42;
         if (stepTimer.current > stepInterval) {
           sound.playFootstep();
@@ -286,10 +293,9 @@ export const FirstPersonControls: React.FC = () => {
         }
       });
 
-      if (closestDistSq < 144) {
-        setActiveChunk(closestSection);
-      } else {
-        setActiveChunk('central');
+      const nextChunk = closestDistSq < 144 ? closestSection : 'central';
+      if (nextChunk !== useLibraryStore.getState().activeChunk) {
+        setActiveChunk(nextChunk);
       }
     }
 
@@ -308,26 +314,32 @@ export const FirstPersonControls: React.FC = () => {
       }
     }
 
-    // Center-screen crosshair raycasting throttled to ~28 Hz (35ms)
-    // Huge CPU savings over raycasting thousands of meshes every single frame!
-    raycastTimer.current += delta;
-    if (!activeModal && raycastTimer.current >= 0.035) {
+    // Center-screen crosshair raycasting throttled to ~30 Hz (33ms)
+    // Micro-optimized to raycast ONLY against registered book colliders,
+    // avoiding traversal of thousands of non-book room and architecture meshes!
+    raycastTimer.current += safeDelta;
+    if (!activeModal && raycastTimer.current >= 0.033) {
       raycastTimer.current = 0;
       centerRaycaster.current.setFromCamera(centerPoint.current, camera);
       centerRaycaster.current.far = 14.0; // 14-meter interaction range
-      const hits = centerRaycaster.current.intersectObjects(scene.children, true);
+
+      const bookObjects = Array.from(INTERACTIVE_BOOK_OBJECTS.keys());
+      const hits = centerRaycaster.current.intersectObjects(bookObjects, true);
       let hitBookId: string | null = null;
 
-      for (const hit of hits) {
-        let cur: THREE.Object3D | null = hit.object;
+      if (hits.length > 0) {
+        let cur: THREE.Object3D | null = hits[0].object;
         while (cur) {
+          if (INTERACTIVE_BOOK_OBJECTS.has(cur)) {
+            hitBookId = INTERACTIVE_BOOK_OBJECTS.get(cur)!;
+            break;
+          }
           if (cur.userData && cur.userData.bookId) {
             hitBookId = cur.userData.bookId;
             break;
           }
           cur = cur.parent;
         }
-        if (hitBookId) break;
       }
 
       if (hitBookId) {

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { Resource } from '../../types/library';
@@ -119,16 +119,33 @@ function getOrCreateBookSpineTexture(
   return texture;
 }
 
+// Global interactive registry for zero-overhead crosshair raycasting (avoids traversing full scene graph)
+export const INTERACTIVE_BOOK_OBJECTS = new Map<THREE.Object3D, string>();
+
 export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   const meshRef = useRef<THREE.Group>(null);
   const [isHoveredLocal, setIsHoveredLocal] = useState(false);
 
   const setHoveredResource = useLibraryStore((s) => s.setHoveredResource);
   const selectResource = useLibraryStore((s) => s.selectResource);
-  const hoveredResourceId = useLibraryStore((s) => s.hoveredResourceId);
-  const selectedResourceId = useLibraryStore((s) => s.selectedResourceId);
-  const highlightedResourceId = useLibraryStore((s) => s.highlightedResourceId);
+
+  // Micro-optimized boolean selectors: only this specific book re-renders when hovered/selected,
+  // preventing all 200+ books from re-rendering simultaneously!
+  const isSelected = useLibraryStore((s) => s.selectedResourceId === resource.id);
+  const isHoveredFromStore = useLibraryStore((s) => s.hoveredResourceId === resource.id);
+  const isHighlighted = useLibraryStore((s) => s.highlightedResourceId === resource.id);
   const activeModal = useLibraryStore((s) => s.activeModal);
+
+  // Register interactive mesh in registry for instant raycasting
+  useEffect(() => {
+    const mesh = meshRef.current;
+    if (mesh) {
+      INTERACTIVE_BOOK_OBJECTS.set(mesh, resource.id);
+      return () => {
+        INTERACTIVE_BOOK_OBJECTS.delete(mesh);
+      };
+    }
+  }, [resource.id]);
 
   const loc = resource.location;
   if (!loc) return null;
@@ -136,9 +153,7 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   const { height, width: depth, thickness } = loc.dimensions;
   const [origX, origY, origZ] = loc.position;
 
-  const isSelected = selectedResourceId === resource.id;
-  const isHovered = isHoveredLocal || hoveredResourceId === resource.id;
-  const isHighlighted = highlightedResourceId === resource.id;
+  const isHovered = isHoveredLocal || isHoveredFromStore;
   const isMustLearn = resource.priority === 'MUST_LEARN';
   const isCurrentFocus = resource.priority === 'CURRENT_FOCUS';
 

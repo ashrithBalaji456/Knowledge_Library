@@ -212,6 +212,7 @@ export interface UserPreferences {
   pointerLock: boolean;
   atmosphere: AtmosphereMode;
   showFpsMonitor: boolean;
+  targetFps120: boolean;
 }
 
 export interface LibraryStats {

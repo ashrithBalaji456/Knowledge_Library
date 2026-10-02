@@ -206,6 +206,7 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
     pointerLock: false,
     atmosphere: 'day',
     showFpsMonitor: false,
+    targetFps120: true,
   },
 
   atmosphere: 'day',
@@ -249,6 +250,7 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   },
 
   setActiveChunk: (chunk) => {
+    if (get().activeChunk === chunk) return;
     set({ activeChunk: chunk });
   },
 

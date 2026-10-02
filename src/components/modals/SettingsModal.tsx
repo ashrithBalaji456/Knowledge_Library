@@ -104,6 +104,24 @@ export const SettingsModal: React.FC = () => {
               />
             </div>
 
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950/60 border border-emerald-500/30 bg-emerald-950/10">
+              <div>
+                <span className="text-xs text-emerald-300 font-bold flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                  120 FPS High-Refresh & Anti-Lag Mode
+                </span>
+                <span className="text-[11px] text-slate-400 block mt-0.5">
+                  Eliminates camera drag & stutter during sudden turns & sprints
+                </span>
+              </div>
+              <input
+                type="checkbox"
+                checked={preferences.targetFps120}
+                onChange={(e) => updatePreferences({ targetFps120: e.target.checked })}
+                className="w-4 h-4 accent-emerald-400 cursor-pointer"
+              />
+            </div>
+
             <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800/80 text-xs">
               <span className="text-slate-300">Graphics Quality Profile</span>
               <div className="flex items-center gap-1">

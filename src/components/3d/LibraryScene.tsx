@@ -81,6 +81,7 @@ export const LibraryScene: React.FC = () => {
   const resources = useLibraryStore((s) => s.resources);
   const atmosphere = useLibraryStore((s) => s.atmosphere);
   const activeModal = useLibraryStore((s) => s.activeModal);
+  const preferences = useLibraryStore((s) => s.preferences);
 
   const placementResult = useMemo(() => {
     return computeLibraryPlacements(sections, resources);
@@ -147,13 +148,15 @@ export const LibraryScene: React.FC = () => {
       }}
     >
       <Canvas
-        dpr={[1, 1.5]}
-        camera={{ position: [0, 1.7, 24], fov: 65, near: 0.1, far: 200 }}
+        dpr={preferences.targetFps120 ? [1, 1.25] : [1, 1.5]}
+        camera={{ position: [0, 1.7, 24], fov: 65, near: 0.1, far: 180 }}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
           stencil: false,
           depth: true,
+          alpha: false,
+          precision: 'highp',
         }}
         frameloop={activeModal === 'pdf' ? 'demand' : 'always'}
       >
