@@ -584,6 +584,26 @@ export function getSectionRowClassification(section: Section): RowClassification
     };
   }
 
+  if (sid === 'interviews' || sid === 'sec-interviews' || sid.includes('interview')) {
+    return {
+      rowLabels: [
+        'PLACEMENT DRIVES & TOP MNC QUESTION BANKS (COGNIZANT & ACCENTURE)',
+        'TECHNICAL CODING INTERVIEWS & SYSTEM SCREENING',
+        'HR INTERVIEW MASTERY, BEHAVIORAL QUESTIONS & GD CRACKING TIPS',
+      ],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.fileName || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('cognizant') || t.includes('placement question bank') || t.includes('company') || t.includes('roadmap 2022') || t.includes('syllabus')) {
+          return 0; // Top shelf: Company question banks & comprehensive roadmaps
+        }
+        if (t.includes('accenture') || t.includes('coding questions') || t.includes('algorithm') || t.includes('dsa') || t.includes('technical') || t.includes('python tutorial')) {
+          return 1; // Middle shelf: Technical & Coding screening
+        }
+        return 2; // Bottom shelf: HR questions, GD cracking, behavioral
+      },
+    };
+  }
+
   // Fallback for dynamic sections
   const sub = section.subSections || [];
   const label0 = sub[0] ? sub[0].toUpperCase() : 'CORE FOUNDATIONS';

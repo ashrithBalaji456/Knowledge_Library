@@ -187,12 +187,35 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     secondaryAccent = '#FDE68A';
     seriesLabel = 'DATA SCIENCE & STATISTICAL COMPUTING';
   } else if (isInterview) {
-    topBg = '#2A080C';
-    midBg = '#991B1B';
-    botBg = '#1A0407';
-    primaryAccent = '#F87171';
-    secondaryAccent = '#FBBF24';
-    seriesLabel = 'TECHNICAL INTERVIEW MASTERY';
+    if (title.toLowerCase().includes('cognizant')) {
+      topBg = '#05192D';
+      midBg = '#0052CC';
+      botBg = '#020C18';
+      primaryAccent = '#38BDF8';
+      secondaryAccent = '#FBBF24';
+      seriesLabel = '✦ CAMPUS PLACEMENT QUESTION BANK • COGNIZANT ✦';
+    } else if (title.toLowerCase().includes('accenture')) {
+      topBg = '#160226';
+      midBg = '#5B21B6';
+      botBg = '#0A0112';
+      primaryAccent = '#C084FC';
+      secondaryAccent = '#FDE047';
+      seriesLabel = '✦ ACCENTURE TECHNICAL SCREENING • CODING DRILLS ✦';
+    } else if (title.toLowerCase().includes('hr') || title.toLowerCase().includes('group discussion') || title.toLowerCase().includes('gd')) {
+      topBg = '#1E1B4B';
+      midBg = '#4338CA';
+      botBg = '#0F0E2A';
+      primaryAccent = '#818CF8';
+      secondaryAccent = '#FBBF24';
+      seriesLabel = '✦ BEHAVIORAL & HR INTERVIEW MASTERY • GD CRACKING ✦';
+    } else {
+      topBg = '#2A080C';
+      midBg = '#991B1B';
+      botBg = '#1A0407';
+      primaryAccent = '#F87171';
+      secondaryAccent = '#FBBF24';
+      seriesLabel = 'TECHNICAL INTERVIEW MASTERY';
+    }
   } else if (isHandbook) {
     topBg = '#2D1305';
     midBg = '#9A3412';

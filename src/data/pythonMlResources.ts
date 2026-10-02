@@ -11064,5 +11064,263 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-02",
     "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-gd-cracking-tips",
+    "title": "Group Discussion (GD) Cracking Tips",
+    "author": "Mubeen",
+    "pages": 2,
+    "fileName": "Group_Discussion_GD_Cracking_Tips.pdf",
+    "category": "interviews",
+    "subCategory": "Behavioral & HR Interview Mastery",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 2,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides\\Group_Discussion_GD_Cracking_Tips.pdf",
+    "whatIsThisBookFor": "A high-impact 2-page pocket guide for excelling in campus placement Group Discussion (GD) rounds, with opening strategies, body language posture, and active listening etiquette.",
+    "summary": "Concise field guide breaking down the 4 pillars of cracking any GD round: 1. Starting first with confident opening phrases, 2. Maintaining confident smiling posture and eye contact, 3. Structuring points of view clearly, and 4. Mock GD repetition. Includes bonus tips on non-interruption and concluding summaries.",
+    "keyTakeaways": [
+      "Starting first sets the tone and displays leadership; use conversational anchors like quotes or background context",
+      "Confident posture: maintain relaxed eye contact across the entire panel and validate peers ('I agree with him because...')",
+      "Structuring your POV: provide brief context followed by a strong opening argument (e.g. Online vs Traditional Education)",
+      "Golden rules: Never interrupt others, support assertions with real-world examples, and always volunteer to summarize when given the opportunity"
+    ],
+    "prerequisites": [
+      "Preparation for campus placement drives, technical hiring rounds, and management screening"
+    ],
+    "recommendedNext": [
+      "res-interview-top-15-hr"
+    ],
+    "topics": [
+      "Interviews",
+      "GroupDiscussion",
+      "PlacementPrep",
+      "SoftSkills",
+      "Communication",
+      "CampusDrives"
+    ],
+    "tags": [
+      "GD",
+      "Interviews",
+      "Placement",
+      "Communication",
+      "SoftSkills"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-cognizant-question-bank",
+    "title": "Complete Placement Question Bank (COGNIZANT)",
+    "author": "Campus Placement Training Editorial",
+    "pages": 7,
+    "fileName": "Complete_Placement_Question_Bank_Cognizant.pdf",
+    "category": "interviews",
+    "subCategory": "Placement Drives & Company Question Banks",
+    "resourceType": "HANDBOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 7,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides\\Complete_Placement_Question_Bank_Cognizant.pdf",
+    "whatIsThisBookFor": "The definitive, exhaustive 7-page technical and HR interview syllabus checklist for Cognizant GenC, GenC Next, and digital specialist placement drives.",
+    "summary": "An all-in-one comprehensive question bank spanning 9 core recruitment modules: Core Java (OOP, multithreading, collections, strings), SQL & Databases (joins, indexing, salary queries), Python (data types, decorators, memory management), Web Tech (HTML, CSS, JS, React), Cloud & AI (S3, service models, GenAI), DSA (trees, sorting, duplicates), Aptitude, Real-World Projects, and HR Behavioral Rounds.",
+    "keyTakeaways": [
+      "Core Java: 4 pillars of OOP, abstract classes vs interfaces, JVM/JRE/JDK, multithreading lifecycle, Streams & Lambdas, and String immutability",
+      "SQL: DDL vs DML, CRUD, second-highest salary queries, indexing optimization, normalization, and stored procedures vs views",
+      "Python: Lists vs tuples, list comprehension, memory management, shallow vs deep copy, and map/filter/reduce lambda expressions",
+      "Modern Web & Cloud: React components, JS form validation, AWS S3 buckets, cloud deployment models, and Generative AI fundamentals",
+      "Behavioral: Self-introduction, tech flexibility, night shifts, relocation, and situational teamwork questions"
+    ],
+    "prerequisites": [
+      "Undergraduate degree in CS/IT/ECE or related engineering disciplines preparing for IT services placement"
+    ],
+    "recommendedNext": [
+      "res-interview-accenture-top-10"
+    ],
+    "topics": [
+      "Cognizant",
+      "PlacementPrep",
+      "Java",
+      "SQL",
+      "Python",
+      "React",
+      "CloudComputing",
+      "DSA",
+      "HR"
+    ],
+    "tags": [
+      "Cognizant",
+      "QuestionBank",
+      "Placement",
+      "CampusDrive",
+      "Java",
+      "SQL"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-accenture-top-10",
+    "title": "Top 10 Coding Questions Asked in Accenture Technical Interviews",
+    "author": "@thebeardedengineer_",
+    "pages": 2,
+    "fileName": "Accenture_Top_10_Technical_Interview_Coding_Questions.pdf",
+    "category": "interviews",
+    "subCategory": "Technical & Coding Interview Screening",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 2,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides\\Accenture_Top_10_Technical_Interview_Coding_Questions.pdf",
+    "whatIsThisBookFor": "The top 10 most frequently asked algorithmic problem-solving questions in Accenture technical screening interviews.",
+    "summary": "Targeted cheat sheet curating the 10 highest-yield data structure and algorithm questions for Accenture technical rounds, focusing on linked lists, two pointers, stacks, hash maps, and binary tree traversals.",
+    "keyTakeaways": [
+      "1. Reverse a Linked List (iterative and recursive in-place pointer reversal)",
+      "2. Longest Palindromic Substring (expand around center dynamic programming technique)",
+      "3. Merge Two Sorted Arrays (two-pointer linear merging without extra space)",
+      "4. Detect a Cycle in a Linked List (Floyd's Tortoise and Hare algorithm)",
+      "5. Find Missing Number in Array & Majority Element (Boyer-Moore voting algorithm)",
+      "6. Binary Tree Level Order Traversal & Longest Substring Without Repeating Characters (Sliding Window)"
+    ],
+    "prerequisites": [
+      "Basic data structures and algorithms in Java, Python, C++, or C"
+    ],
+    "recommendedNext": [
+      "res-interview-accenture-coding-problems"
+    ],
+    "topics": [
+      "Accenture",
+      "CodingQuestions",
+      "DSA",
+      "LinkedList",
+      "BinaryTree",
+      "SlidingWindow",
+      "TwoPointers"
+    ],
+    "tags": [
+      "Accenture",
+      "DSA",
+      "CodingInterview",
+      "Algorithms",
+      "Placement"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-top-15-hr",
+    "title": "Top 15 HR Interview Questions & Proven Response Strategies",
+    "author": "@thebeardedengineer_",
+    "pages": 1,
+    "fileName": "Top_15_HR_Interview_Questions.pdf",
+    "category": "interviews",
+    "subCategory": "Behavioral & HR Interview Mastery",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides\\Top_15_HR_Interview_Questions.pdf",
+    "whatIsThisBookFor": "Essential 15 behavioral and human resources interview questions commonly asked across IT services, product companies, and campus placement drives.",
+    "summary": "A master flashcard guide addressing the pivotal questions HR managers use to assess culture fit, stress tolerance, adaptability, conflict resolution, career aspirations, and salary expectations.",
+    "keyTakeaways": [
+      "Value proposition answers: 'Why should we hire you?' and 'Why do you want to work at our company?'",
+      "Adaptability & resilience: Working under pressure, night shift flexibility, and relocation willingness",
+      "Self-awareness & emotional intelligence: Strengths/weaknesses, confidence vs overconfidence, and handling workplace anger",
+      "Career trajectory: 5-year outlook, transitioning from non-IT to software engineering, and smart work vs hard work",
+      "Closing impressions: High-impact reverse questions to ask the interviewer"
+    ],
+    "prerequisites": [
+      "Candidates preparing for HR, cultural fit, and managerial interview rounds"
+    ],
+    "recommendedNext": [
+      "res-interview-gd-cracking-tips"
+    ],
+    "topics": [
+      "HRInterviews",
+      "BehavioralQuestions",
+      "PlacementPrep",
+      "CareerTips",
+      "SoftSkills"
+    ],
+    "tags": [
+      "HR",
+      "InterviewPrep",
+      "Behavioral",
+      "Placement",
+      "SoftSkills"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-accenture-coding-problems",
+    "title": "Accenture Coding Exam: Hands-on Problem Solving (Tom & Alice Challenges)",
+    "author": "@thebeardedengineer_",
+    "pages": 2,
+    "fileName": "Accenture_Coding_Questions_Secret_Message_And_Occurrences.pdf",
+    "category": "interviews",
+    "subCategory": "Technical & Coding Interview Screening",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 2,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides\\Accenture_Coding_Questions_Secret_Message_And_Occurrences.pdf",
+    "whatIsThisBookFor": "Real hands-on coding assessment questions from Accenture's recruitment drive with problem statements, constraints, and test case walkthroughs.",
+    "summary": "Direct exam sheet covering Question 1: Secret Message character swap restoration function (swapping occurrences of ch1 and ch2 simultaneously), and Question 2: Finding occurrence frequency of the second-highest element in sorted consecutive arrays.",
+    "keyTakeaways": [
+      "Question 1 (String Manipulation): Mutual character swap algorithm preserving untouched characters (e.g. 'apples' with ch1='a' and ch2='p' -> 'paales')",
+      "Edge case handling in string replacement: avoiding accidental double substitution by processing characters in a single pass",
+      "Question 2 (Array Search): Frequency counting of the second highest value in an array with identical element edge cases (returns 0 if all equal)",
+      "Consecutive and sorted array traversal optimization in O(N) linear time with O(1) auxiliary space"
+    ],
+    "prerequisites": [
+      "Basic string manipulation, array indexing, and conditional logic in any programming language"
+    ],
+    "recommendedNext": [
+      "res-interview-accenture-top-10"
+    ],
+    "topics": [
+      "Accenture",
+      "CodingQuestions",
+      "StringManipulation",
+      "Arrays",
+      "Algorithms",
+      "AssessmentExam"
+    ],
+    "tags": [
+      "Accenture",
+      "CodingExam",
+      "Placement",
+      "Strings",
+      "Arrays"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
   }
 ];
