@@ -1,0 +1,277 @@
+import fs from 'fs';
+import path from 'path';
+
+const newBooks = [
+  {
+    id: "res-sql-interview-beginners-to-advance-68",
+    title: "SQL Interview Master: 68-Page Beginners to Advanced Question Vault",
+    author: "Industry Tech Mentors",
+    pages: 68,
+    fileName: "SQL_Interview_Question_Beginners_To_Advance_68P.pdf",
+    category: "databases",
+    subCategory: "SQL 14 Core Fundamentals & Joins",
+    resourceType: "HANDBOOK",
+    difficulty: "INTERMEDIATE",
+    priority: "MUST_LEARN",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 68,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\New LinkedIn Notes\\SQL\\SQL Interview Question Pdf for Beginners to advance level.pdf",
+    whatIsThisBookFor: "A comprehensive 68-page question vault covering foundational queries, joins, group by, aggregations, subqueries, and advanced interview problems asked across tier-1 tech firms.",
+    summary: "Curated 68-page question and answer guide covering basic to advanced SQL topics: clauses, joins, aggregate functions, subqueries, analytical queries, indexing concepts, and common technical interview traps.",
+    keyTakeaways: [
+      "Extensive coverage of basic, intermediate, and advanced SQL interview scenarios",
+      "Real query patterns for data manipulation, aggregation, and analytical grouping",
+      "Scenario-based problem solving with complete query explanations and outputs"
+    ],
+    prerequisites: ["Basic SQL understanding"],
+    recommendedNext: ["res-sql-50-interview-queries-real", "res-sql-300-interview-questions-pwc-deloitte"],
+    topics: ["SQL", "Interview", "Joins", "Aggregations", "Subqueries", "AdvancedSQL"],
+    tags: ["SQL", "Interview", "68Pages", "BeginnerToAdvance", "Questions", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-50-interview-queries-real",
+    title: "50 Real-World SQL Interview Queries & Practical Solutions",
+    author: "Senior Data Architects",
+    pages: 20,
+    fileName: "50_SQL_Interview_Queries_Real_Scenarios_20P.pdf",
+    category: "databases",
+    subCategory: "SQL 14 Core Fundamentals & Joins",
+    resourceType: "HANDBOOK",
+    difficulty: "INTERMEDIATE",
+    priority: "MUST_LEARN",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 20,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\SQl\\Recent_LinkedIn\\50_SQL_INTERVIEW_QUERIES.pdf",
+    whatIsThisBookFor: "50 handpicked real-world query problems commonly tested in FAANG and enterprise data engineer interviews with elegant solutions.",
+    summary: "A battle-tested handbook containing 50 realistic SQL queries including finding duplicates, second highest salary, consecutive logins, running totals, cumulative sums, and customer retention metrics.",
+    keyTakeaways: [
+      "50 practical queries addressing the most common SQL interview challenges",
+      "Deep dive into window functions (ROW_NUMBER, DENSE_RANK, LEAD/LAG)",
+      "High performance approaches avoiding slow nested loops and cross joins"
+    ],
+    prerequisites: ["SQL syntax and basic join mechanics"],
+    recommendedNext: ["res-sql-queries-prep-guide", "res-sql-handwritten-notes-comprehensive-121"],
+    topics: ["SQL", "Queries", "InterviewPuzzles", "WindowFunctions", "Aggregations"],
+    tags: ["SQL", "50Queries", "Interview", "RealWorld", "Puzzles", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-zero-to-pro-roadmap",
+    title: "SQL Zero to Pro: Fast-Track Developer Roadmap",
+    author: "Data Engineering Community",
+    pages: 24,
+    fileName: "SQL_Zero_To_Pro_Roadmap_24P.pdf",
+    category: "databases",
+    subCategory: "SQL 14 Core Fundamentals & Joins",
+    resourceType: "HANDBOOK",
+    difficulty: "BEGINNER",
+    priority: "MUST_LEARN",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 24,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\SQl\\sql zero to pro.pdf",
+    whatIsThisBookFor: "An accelerated 24-page roadmap guiding beginners from writing their first SELECT statement all the way to complex nested joins, views, and stored procedures.",
+    summary: "A step-by-step 24-page guide charting the progression from foundational relational principles, DDL/DML, clauses (WHERE, HAVING, ORDER BY), multi-table joins, set operations, subqueries, and practical database administration tips.",
+    keyTakeaways: [
+      "Structured zero-to-pro learning path designed for quick revision and foundational mastery",
+      "Visual query breakdown explaining query execution order (FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY)",
+      "Essential guidelines for writing maintainable and index-friendly SQL queries"
+    ],
+    prerequisites: ["None"],
+    recommendedNext: ["res-sql-topperworld-handwritten-notes", "res-sql-quick-revision-notes"],
+    topics: ["SQL", "Roadmap", "BeginnerGuide", "QueryExecutionOrder", "Joins"],
+    tags: ["SQL", "ZeroToPro", "Roadmap", "Foundations", "Handbook", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-queries-prep-guide",
+    title: "SQL Query-Based Interview Preparation Guide",
+    author: "Technical Interview Editorial",
+    pages: 15,
+    fileName: "SQL_Interview_Questions_Queries_Prep_Guide.pdf",
+    category: "databases",
+    subCategory: "Indexing & Query Performance Tuning",
+    resourceType: "HANDBOOK",
+    difficulty: "INTERMEDIATE",
+    priority: "RECOMMENDED",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 15,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\SQl\\SQL Interview Questions – Queries-Based Preparation Guide.pdf",
+    whatIsThisBookFor: "A query-focused interview handbook that tests analytical thinking using real tables: employees, departments, sales orders, and customer tracking.",
+    summary: "Focused 15-page guide packed with scenario questions: computing department-wise top earners, tracking month-over-month growth, handling null coalescing, and self-joins for hierarchical manager-employee relationships.",
+    keyTakeaways: [
+      "Hierarchical self-joins and recursive querying techniques",
+      "Department-wise window partition computations and ranking",
+      "Clean syntax templates for complex multi-condition analytical queries"
+    ],
+    prerequisites: ["Intermediate SQL proficiency"],
+    recommendedNext: ["res-sql-50-interview-queries-real", "res-sql-300-interview-questions-pwc-deloitte"],
+    topics: ["SQL", "InterviewQueries", "SelfJoins", "Hierarchies", "Partitions"],
+    tags: ["SQL", "QueryPrep", "Interviews", "Analytics", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-quick-revision-notes",
+    title: "SQL Quick Revision Handbook & Syntax Cheat Book",
+    author: "Database Engineering Guild",
+    pages: 25,
+    fileName: "SQL_Quick_Revision_Notes.pdf",
+    category: "databases",
+    subCategory: "SQL 14 Core Fundamentals & Joins",
+    resourceType: "HANDBOOK",
+    difficulty: "BEGINNER",
+    priority: "RECOMMENDED",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 25,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\SQl\\SQL-Notes.pdf",
+    whatIsThisBookFor: "A concise 25-page summary of core relational database syntax, clauses, datatypes, and constraints for last-minute review.",
+    summary: "Clear 25-page revision manual summarizing primary/foreign keys, check constraints, cascade deletes, string functions, date functions, conditional CASE statements, and transaction basics.",
+    keyTakeaways: [
+      "Rapid revision of all fundamental SQL statements and integrity constraints",
+      "Concise syntax tables for date, string, and math functions",
+      "Summary of transaction isolation levels and ACID guarantees"
+    ],
+    prerequisites: ["Basic database concepts"],
+    recommendedNext: ["res-sql-visual-handbook-part1", "res-sql-visual-cheat-sheet"],
+    topics: ["SQL", "Revision", "Syntax", "Constraints", "Transactions"],
+    tags: ["SQL", "Notes", "Revision", "CheatSheet", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-visual-handbook-part1",
+    title: "Visual SQL Handbook (Part 1): Architecture & Query Foundations",
+    author: "Visual Code Series",
+    pages: 9,
+    fileName: "SQL_Visual_Handbook_Part1.pdf",
+    category: "databases",
+    subCategory: "SQL 14 Core Fundamentals & Joins",
+    resourceType: "HANDBOOK",
+    difficulty: "BEGINNER",
+    priority: "MUST_LEARN",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 9,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\Insta HandBooks\\SQL\\Sql handbook 1.pdf",
+    whatIsThisBookFor: "High-retention visual diagrams and infographics illustrating database storage, query operations, and key relational mechanics.",
+    summary: "An aesthetic visual guide using full-color infographic diagrams to explain relational table structures, data types, query execution flows, filtering logic, and primary key relationships.",
+    keyTakeaways: [
+      "High-impact visual diagrams representing database architecture",
+      "Color-coded query structure making clauses instantly intuitive",
+      "Ideal for visual learners seeking swift mental model consolidation"
+    ],
+    prerequisites: ["None"],
+    recommendedNext: ["res-sql-visual-handbook-part2", "res-sql-visual-cheat-sheet"],
+    topics: ["SQL", "VisualGuide", "Infographics", "Architecture", "Basics"],
+    tags: ["SQL", "Visual", "Handbook", "Part1", "Infographics", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-visual-handbook-part2",
+    title: "Visual SQL Handbook (Part 2): Advanced Joins, Aggregations & Views",
+    author: "Visual Code Series",
+    pages: 10,
+    fileName: "SQL_Visual_Handbook_Part2.pdf",
+    category: "databases",
+    subCategory: "Indexing & Query Performance Tuning",
+    resourceType: "HANDBOOK",
+    difficulty: "INTERMEDIATE",
+    priority: "MUST_LEARN",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 10,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\Insta HandBooks\\SQL\\Sql part 2.pdf",
+    whatIsThisBookFor: "Visual Venn diagrams and illustrated data flow models for multi-table joins, GROUP BY aggregations, and virtual views.",
+    summary: "Visual continuation featuring illustrated Venn diagrams and step-by-step record flow illustrations for INNER, LEFT, RIGHT, and FULL OUTER joins, aggregate rollups, subquery unnesting, and view materialization.",
+    keyTakeaways: [
+      "Intuitive Venn diagrams and record mappings for all relational join variations",
+      "Visual breakdown of GROUP BY grouping buckets and aggregate computations",
+      "View mechanics and virtualization patterns clearly diagrammed"
+    ],
+    prerequisites: ["Visual SQL Handbook Part 1"],
+    recommendedNext: ["res-sql-visual-cheat-sheet", "res-sql-handwritten-notes-comprehensive-121"],
+    topics: ["SQL", "VisualGuide", "Joins", "VennDiagrams", "Aggregations", "Views"],
+    tags: ["SQL", "Visual", "Handbook", "Part2", "Joins", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  },
+  {
+    id: "res-sql-visual-cheat-sheet",
+    title: "SQL Visual Cheat Sheet: High-Density Syntax & Clause Reference",
+    author: "Visual Code Series",
+    pages: 3,
+    fileName: "SQL_Visual_Cheat_Sheet.pdf",
+    category: "databases",
+    subCategory: "SQL 14 Core Fundamentals & Joins",
+    resourceType: "HANDBOOK",
+    difficulty: "BEGINNER",
+    priority: "RECOMMENDED",
+    status: "NOT_STARTED",
+    readingStatus: "NOT_STARTED",
+    progress: 0,
+    currentPage: 0,
+    totalPages: 3,
+    source: "uploaded_pdf",
+    sourceUrl: "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\LinkedIn Notes\\Insta HandBooks\\SQL\\Sql cheat sheet.pdf",
+    whatIsThisBookFor: "An ultra-compact 3-page visual quick-reference sheet to keep beside your keyboard while writing SQL queries or revising for coding rounds.",
+    summary: "High-density 3-page infographic cheat sheet covering clause ordering, join types, built-in string/numeric functions, wildcard patterns, date formats, and constraint declarations.",
+    keyTakeaways: [
+      "Ultra-dense visual desk reference for instant clause and function lookup",
+      "Summarizes execution order, joins, and common functions on 3 concise sheets",
+      "Essential companion during active database development and interview rounds"
+    ],
+    prerequisites: ["Basic SQL syntax"],
+    recommendedNext: ["res-sql-interview-beginners-to-advance-68"],
+    topics: ["SQL", "CheatSheet", "Syntax", "Clauses", "QuickReference"],
+    tags: ["SQL", "CheatSheet", "Visual", "QuickReference", "Databases"],
+    dateAdded: "2026-10-02",
+    lastOpened: "2026-10-02"
+  }
+];
+
+const filePath = path.join(process.cwd(), 'src/data/pythonMlResources.ts');
+let content = fs.readFileSync(filePath, 'utf8');
+
+// Find the position of the last closing array bracket
+const lastBracketIndex = content.lastIndexOf('];');
+if (lastBracketIndex === -1) {
+  console.error("Could not find '];' in file");
+  process.exit(1);
+}
+
+const formattedJson = ',\n' + newBooks.map(b => '  ' + JSON.stringify(b, null, 2)).join(',\n') + '\n';
+const updatedContent = content.slice(0, lastBracketIndex) + formattedJson + content.slice(lastBracketIndex);
+
+fs.writeFileSync(filePath, updatedContent, 'utf8');
+console.log(`Successfully added ${newBooks.length} new SQL books to pythonMlResources.ts!`);

@@ -156,6 +156,16 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
       ? '✦ COMPLETE DBMS & ER-MODEL HANDWRITTEN NOTES ✦'
       : title.toLowerCase().includes('121')
       ? '✦ 121-PAGE COMPREHENSIVE SQL HANDWRITTEN COMPENDIUM ✦'
+      : title.toLowerCase().includes('50')
+      ? '✦ 50 REAL-WORLD SQL INTERVIEW QUERIES & SOLUTIONS ✦'
+      : title.toLowerCase().includes('zero to pro')
+      ? '✦ SQL ZERO TO PRO: FAST-TRACK ROADMAP ✦'
+      : title.toLowerCase().includes('visual')
+      ? '✦ VISUAL SQL HANDBOOK & INFOGRAPHIC GUIDE ✦'
+      : title.toLowerCase().includes('68-page') || title.toLowerCase().includes('vault')
+      ? '✦ SQL INTERVIEW 68-PAGE MASTER QUESTION VAULT ✦'
+      : title.toLowerCase().includes('query-based')
+      ? '✦ SQL SCENARIO-BASED QUERY PREPARATION GUIDE ✦'
       : title.toLowerCase().includes('interview')
       ? '✦ 300 REAL SQL INTERVIEWS • PwC, DELOITTE & ACCENTURE ✦'
       : title.toLowerCase().includes('handwritten')

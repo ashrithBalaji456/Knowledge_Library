@@ -130,7 +130,7 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v22_topperworld_sql_complete';
+const STORAGE_KEY = 'pk_library_resources_v23_all_sql_master_vault';
 
 function loadStoredResources(): Resource[] {
   try {
