@@ -64,7 +64,9 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     botBg = '#030712'; // Midnight void
     primaryAccent = '#F59E0B'; // Regal Gold
     secondaryAccent = '#60A5FA'; // Sapphire Blue
-    seriesLabel = '✦ GATE 2026 • GRADUATE APTITUDE TEST IN ENGINEERING ✦';
+    seriesLabel = title.toLowerCase().includes('cracking')
+      ? '✦ GATE TOPPERS’ PLAYBOOK • AIR < 100 & < 250 ROADMAP ✦'
+      : '✦ GATE 2026 • GRADUATE APTITUDE TEST IN ENGINEERING ✦';
   } else if (isGaming) {
     topBg = '#030712'; // Deep cyber black
     midBg = '#0284C7'; // Electric neon cyan

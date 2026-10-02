@@ -11007,5 +11007,62 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-02",
     "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-cracking-cs",
+    "title": "Cracking GATE CS: Told By The People Who Actually Did It",
+    "author": "GATE CS & DA Toppers (AIR < 100 & AIR < 250)",
+    "pages": 12,
+    "fileName": "Cracking_GATE_CS.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Computer Science & IT (CS1 & CS2)",
+    "resourceType": "BOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 12,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\Cracking_GATE_CS.pdf",
+    "whatIsThisBookFor": "A straight-talking, battle-tested preparation guide compiled from unedited conversations with two GATE toppers (AIR < 250 and AIR < 100 who also cracked GATE DA). Covers timelines, subject sequences, YouTube playlists, PYQ strategies, test series, and PSU/BARC/ISRO cutoffs.",
+    "summary": "12-page distilled master blueprint for cracking GATE CS & DA. Outlines the 5-month, 3-phase study framework (Concept Building -> Revision + PYQs 2008+ -> GoClasses Test Series). Details recommended instructors per subject, how to tackle the lecture-to-problem gap, and unedited WhatsApp/LinkedIn chat transcripts.",
+    "keyTakeaways": [
+      "5 Months, 3 Phases: 1. Learn concepts, 2. Revise + PYQs from 2008 onward, 3. GoClasses weekly/topic/mixed test series",
+      "Subject-wise recommended instructors: C/DS (Abhishek PW), Algo (Aditya Sir), DLD (Chandan Gupta), COA/DBMS (Vijay Sir), OS (Vishwadeep), TOC/CD (Deva Sir GFG), CN (Ravindra Babu Ravula / Ankit Doyala), Maths (GoClasses free playlist)",
+      "PYQ Mastery: The lecture-to-problem gap closes with repetition via Practice Paper topic-wise PYQs; one-shots are strictly for pre-test revision",
+      "Post-Exam Paths: PSU recruitment requires current-year scores; BARC CBT requires ~130/300 or 820+ GATE score followed by interview",
+      "CS + DA Dual Strategy: AIR < 100 approach leveraging heavy overlap between CS and DA syllabi (e.g., DBMS 15 marks)"
+    ],
+    "prerequisites": [
+      "Aspirations for GATE CS 2026/2027, DA, M.Tech IIT/IISc, or PSU/BARC/ISRO roles"
+    ],
+    "recommendedNext": [
+      "res-gate-cs1",
+      "res-gate-cs2"
+    ],
+    "topics": [
+      "GATE2026",
+      "GATECS",
+      "GATEDA",
+      "TopperStrategy",
+      "Roadmap",
+      "PYQs",
+      "GoClasses",
+      "BARC",
+      "PSU"
+    ],
+    "tags": [
+      "GATE",
+      "CS",
+      "DA",
+      "TopperNotes",
+      "Strategy",
+      "PreparationGuide",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
   }
 ];
