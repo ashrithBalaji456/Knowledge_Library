@@ -35,8 +35,10 @@ function localPdfServer(): Plugin {
 
         let resolved = path.resolve(targetPath);
         if (!fs.existsSync(resolved)) {
-          // Attempt searching across user's downloads folders (Placement_Interview_Guides, Gate_2026, Telegram Desktop, v2, etc.)
-          let candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides', path.basename(targetPath));
+          // Attempt searching across user's downloads folders (Placement_Interview_Guides, Kodthe Bomma Thirigipovaley, Gate_2026, etc.)
+          let candidate = findInFolderRecursive('C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\Yet_To_Start_Preparing-Completed', path.basename(targetPath));
+          if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley', path.basename(targetPath));
+          if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Gate_2026', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\.gemini\\antigravity-ide\\brain\\c174c11b-268e-4dc1-8934-ec84fa0fa18d\\.user_uploaded', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks', path.basename(targetPath));

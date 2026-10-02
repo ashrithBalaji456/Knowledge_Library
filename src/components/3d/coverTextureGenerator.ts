@@ -201,6 +201,20 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
       primaryAccent = '#C084FC';
       secondaryAccent = '#FDE047';
       seriesLabel = '✦ ACCENTURE TECHNICAL SCREENING • CODING DRILLS ✦';
+    } else if (title.toLowerCase().includes('infosys')) {
+      topBg = '#031B33';
+      midBg = '#005596';
+      botBg = '#010E1C';
+      primaryAccent = '#38BDF8';
+      secondaryAccent = '#FFB81C';
+      seriesLabel = '✦ INFOSYS SPECIALIST PROGRAMMER (SP) & DSE CODING PREP ✦';
+    } else if (title.toLowerCase().includes('6month') || title.toLowerCase().includes('6 month') || title.toLowerCase().includes('job prepar')) {
+      topBg = '#141E28';
+      midBg = '#1E3A5F';
+      botBg = '#0B121A';
+      primaryAccent = '#38BDF8';
+      secondaryAccent = '#FBBF24';
+      seriesLabel = '✦ 6-MONTH COMPLETE SOFTWARE ENGINEERING PLACEMENT ROADMAP ✦';
     } else if (title.toLowerCase().includes('hr') || title.toLowerCase().includes('group discussion') || title.toLowerCase().includes('gd')) {
       topBg = '#1E1B4B';
       midBg = '#4338CA';

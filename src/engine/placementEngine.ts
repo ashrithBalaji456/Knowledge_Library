@@ -587,13 +587,13 @@ export function getSectionRowClassification(section: Section): RowClassification
   if (sid === 'interviews' || sid === 'sec-interviews' || sid.includes('interview')) {
     return {
       rowLabels: [
-        'PLACEMENT DRIVES & TOP MNC QUESTION BANKS (COGNIZANT & ACCENTURE)',
+        'PLACEMENT DRIVES & TOP MNC QUESTION BANKS (COGNIZANT, ACCENTURE & INFOSYS)',
         'TECHNICAL CODING INTERVIEWS & SYSTEM SCREENING',
         'HR INTERVIEW MASTERY, BEHAVIORAL QUESTIONS & GD CRACKING TIPS',
       ],
       assignRow: (r) => {
         const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.fileName || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
-        if (t.includes('cognizant') || t.includes('placement question bank') || t.includes('company') || t.includes('roadmap 2022') || t.includes('syllabus')) {
+        if (t.includes('cognizant') || t.includes('infosys') || t.includes('placement question bank') || t.includes('company') || t.includes('roadmap 2022') || t.includes('6month') || t.includes('6 month') || t.includes('syllabus')) {
           return 0; // Top shelf: Company question banks & comprehensive roadmaps
         }
         if (t.includes('accenture') || t.includes('coding questions') || t.includes('algorithm') || t.includes('dsa') || t.includes('technical') || t.includes('python tutorial')) {

@@ -11322,5 +11322,157 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-02",
     "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-dsa-master-handbook",
+    "title": "DSA Master Handbook (266-Page FAANG & Competitive Problem Solving)",
+    "author": "Algorithmic Research Editorial",
+    "pages": 266,
+    "fileName": "DSA_Master_Handbook.pdf",
+    "category": "dsa",
+    "subCategory": "Competitive & FAANG Patterns",
+    "resourceType": "HANDBOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 266,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\Yet_To_Start_Preparing-Completed\\DSA_Master_Handbook.pdf",
+    "whatIsThisBookFor": "An encyclopedic 266-page master handbook covering all core data structures, algorithms, space-time complexities, and high-frequency FAANG interview patterns.",
+    "summary": "Exhaustive field manual synthesizing fundamental to advanced algorithmic patterns: Arrays, Strings, Two Pointers, Sliding Window, Linked Lists, Stacks & Queues, Binary Search, Trees, Heaps, Graph BFS/DFS, Dynamic Programming, and Greedy Algorithms with optimal implementations.",
+    "keyTakeaways": [
+      "Core linear structures: Two-pointer techniques, prefix sums, and sliding window string optimizations",
+      "Non-linear topologies: Binary search trees, balanced AVL/Red-Black trees, tries, and priority queues",
+      "Graph traversals: BFS shortest path, Dijkstra's algorithm, Topological Sort, and Disjoint Set Union (DSU)",
+      "Dynamic programming paradigms: 0/1 Knapsack, longest common subsequence, grid paths, and bitmask DP"
+    ],
+    "prerequisites": [
+      "Proficiency in at least one programming language (Java, C++, or Python)"
+    ],
+    "recommendedNext": [
+      "res-interview-infosys-sp-dse"
+    ],
+    "topics": [
+      "DSA",
+      "Algorithms",
+      "DataStructures",
+      "CompetitiveProgramming",
+      "FAANG",
+      "DynamicProgramming",
+      "Graphs"
+    ],
+    "tags": [
+      "DSA",
+      "MasterHandbook",
+      "Algorithms",
+      "Trees",
+      "Graphs",
+      "DP"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-infosys-sp-dse",
+    "title": "Infosys SP & DSE Coding Preparation Material",
+    "author": "Infosys Specialist Hiring Editorial",
+    "pages": 8,
+    "fileName": "INFOSYS SP - DSE CODING PREPARATION MATERIAL.pdf",
+    "category": "interviews",
+    "subCategory": "Placement Drives & Company Question Banks",
+    "resourceType": "HANDBOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 8,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\Yet_To_Start_Preparing-Completed\\INFOSYS SP - DSE CODING PREPARATION MATERIAL.pdf",
+    "whatIsThisBookFor": "Official curriculum breakdown and coding problem collection for Infosys Specialist Programmer (SP) and Digital Specialist Engineer (DSE) competitive placement drives.",
+    "summary": "High-yield preparation guide focusing on the advanced algorithmic problem types that separate SP/DSE selections: greedy optimization, tree queries, multi-source graph BFS, modular arithmetic, and string hashing.",
+    "keyTakeaways": [
+      "Specialist Programmer (SP) syllabus: Segment trees, Fenwick trees, game theory, and advanced dynamic programming",
+      "Digital Specialist Engineer (DSE) syllabus: Graph cycles, recursion trees, dynamic array manipulation, and hash maps",
+      "Coding round breakdown: Time constraints, partial marking strategies, and handling edge cases with large constraints (10^5 to 10^9)"
+    ],
+    "prerequisites": [
+      "Intermediate to advanced knowledge of data structures and problem-solving"
+    ],
+    "recommendedNext": [
+      "res-interview-6month-job-prep"
+    ],
+    "topics": [
+      "Infosys",
+      "SpecialistProgrammer",
+      "DSE",
+      "PlacementPrep",
+      "CodingExam",
+      "AdvancedDSA"
+    ],
+    "tags": [
+      "Infosys",
+      "SP",
+      "DSE",
+      "Placement",
+      "CodingExam",
+      "MNC"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-interview-6month-job-prep",
+    "title": "6-Month Complete Software Engineering Job Preparation Roadmap",
+    "author": "Software Engineering Career Editorial",
+    "pages": 5,
+    "fileName": "6MonthJobPrepar.pdf",
+    "category": "interviews",
+    "subCategory": "Career Roadmaps & Study Plans",
+    "resourceType": "HANDBOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 5,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\6MonthJobPrepar.pdf",
+    "whatIsThisBookFor": "A battle-tested month-by-month sprint roadmap to go from foundations to landing top software engineering and campus placement offers in 6 months.",
+    "summary": "Structured timeline guiding candidates through: Month 1-2 (Language mastery & basic DSA), Month 3-4 (Advanced DSA, trees, graphs, and core CS fundamentals: OS, DBMS, Networks), Month 5 (Full-stack project development and system design basics), Month 6 (Mock interviews, company test series, and resume optimization).",
+    "keyTakeaways": [
+      "Phase 1 (Months 1–2): Core programming fluency and 100 essential LeetCode easy-medium problems",
+      "Phase 2 (Months 3–4): Advanced algorithms, graph theory, OS process scheduling, and SQL query optimization",
+      "Phase 3 (Month 5): Capstone portfolio project integration with cloud deployment and clean README documentation",
+      "Phase 4 (Month 6): Company-specific mock screening, time management drills, and behavioral STAR method storytelling"
+    ],
+    "prerequisites": [
+      "Undergraduate students or aspiring software engineers targeting upcoming hiring drives"
+    ],
+    "recommendedNext": [
+      "res-dsa-master-handbook"
+    ],
+    "topics": [
+      "CareerRoadmap",
+      "PlacementPrep",
+      "6MonthPlan",
+      "SoftwareEngineering",
+      "StudyPlan",
+      "Interviews"
+    ],
+    "tags": [
+      "Roadmap",
+      "6Months",
+      "Placement",
+      "StudyPlan",
+      "Career"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
   }
 ];
