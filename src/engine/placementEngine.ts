@@ -418,16 +418,16 @@ export function getSectionRowClassification(section: Section): RowClassification
 
   if (sid === 'databases') {
     return {
-      rowLabels: ['SQL 14 CORE FUNDAMENTALS & JOINS', 'INDEXING & QUERY PERFORMANCE TUNING', 'NOSQL, REDIS & DISTRIBUTED STORAGE'],
+      rowLabels: ['SQL CORE FOUNDATIONS & HANDWRITTEN NOTES', 'INDEXING, QUERY TUNING & 300 INTERVIEW QUESTIONS', 'NOSQL, REDIS & DISTRIBUTED STORAGE'],
       assignRow: (r) => {
         const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
-        if (t.includes('14') || t.includes('fundamental') || t.includes('concept') || t.includes('join') || t.includes('askpavan')) {
-          return 0;
-        }
-        if (t.includes('index') || t.includes('tuning') || t.includes('query') || t.includes('performance')) {
+        if (t.includes('interview') || t.includes('pwc') || t.includes('deloitte') || t.includes('tuning') || t.includes('performance') || t.includes('postgres') || t.includes('explain')) {
           return 1;
         }
-        return 2;
+        if (t.includes('redis') || t.includes('nosql') || t.includes('distributed') || t.includes('storage') || t.includes('internals')) {
+          return 2;
+        }
+        return 0;
       },
     };
   }

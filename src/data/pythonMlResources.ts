@@ -11474,5 +11474,174 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-02",
     "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-sql-essential-query-patterns",
+    "title": "SQL Essential Query Problems & Query Patterns",
+    "author": "SQL Engineering Collective",
+    "pages": 3,
+    "fileName": "SQL-1.pdf",
+    "category": "databases",
+    "subCategory": "SQL 14 Core Fundamentals & Joins",
+    "resourceType": "CHEAT_SHEET",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 3,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\SQL New-completed\\SQL-1.pdf",
+    "whatIsThisBookFor": "Master the three essential SQL problem patterns frequently tested in technical rounds: identifying duplicates, retrieving top N records per group, and detecting sequence gaps.",
+    "summary": "A high-impact query guide covering 3 fundamental SQL problem patterns: (1) Find Duplicate Records across tables for deduplication and order reconciliation, (2) Top N Records per Category using ROW_NUMBER() and DENSE_RANK() window functions, and (3) Detect Missing Data & Sequence Gaps using LEAD/LAG and serial sequence joins.",
+    "keyTakeaways": [
+      "Query Pattern 1: Finding duplicate orders or customer entries using GROUP BY with HAVING COUNT(*) > 1 or ROW_NUMBER() OVER(PARTITION BY ...)",
+      "Query Pattern 2: Extracting top N earners or highest-revenue products per department using DENSE_RANK() and CTE filtering",
+      "Query Pattern 3: Detecting missing invoice numbers or skipped sequential IDs using self-joins and LEAD/LAG window offsets"
+    ],
+    "prerequisites": [
+      "Basic SQL SELECT, GROUP BY, and JOIN syntax"
+    ],
+    "recommendedNext": [
+      "res-sql-300-interview-questions-pwc-deloitte",
+      "res-sql-handwritten-notes-master"
+    ],
+    "topics": [
+      "SQL",
+      "Databases",
+      "WindowFunctions",
+      "DuplicateDetection",
+      "TopNPerGroup",
+      "GapAnalysis",
+      "QueryOptimization"
+    ],
+    "tags": [
+      "SQL",
+      "QueryPatterns",
+      "WindowFunctions",
+      "Duplicates",
+      "TopN",
+      "Databases"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-sql-handwritten-notes-master",
+    "title": "Complete SQL Handwritten Master Notes",
+    "author": "Database & SQL Mentorship Team",
+    "pages": 41,
+    "fileName": "SQL Handwritten Notes 🔥.pdf",
+    "category": "databases",
+    "subCategory": "SQL 14 Core Fundamentals & Joins",
+    "resourceType": "HANDBOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 41,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\SQL New-completed\\SQL Handwritten Notes 🔥.pdf",
+    "whatIsThisBookFor": "An exhaustive 41-page handwritten revision guide covering entire SQL from relational foundations to advanced indexing and triggers for interviews and exams.",
+    "summary": "Comprehensive 41-page handwritten revision manual structured into clear topics: Introduction to RDBMS vs DBMS, SQL Architecture, DDL (CREATE, ALTER, DROP, TRUNCATE), DML (INSERT, UPDATE, DELETE), DCL (GRANT, REVOKE), TCL (COMMIT, ROLLBACK, SAVEPOINT), Integrity Constraints (PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK, NOT NULL), SQL Clauses (WHERE, GROUP BY, HAVING, ORDER BY), Aggregate Functions (SUM, AVG, MIN, MAX, COUNT), All Types of Joins (INNER, LEFT, RIGHT, FULL, CROSS, SELF), Nested Subqueries & Correlated Subqueries, Views, Indexes (Clustered & Non-Clustered), and Database Normalization (1NF, 2NF, 3NF, BCNF).",
+    "keyTakeaways": [
+      "Complete breakdown of DDL, DML, DCL, and TCL commands with syntax and visual schemas",
+      "In-depth visual representation of INNER JOIN, LEFT OUTER, RIGHT OUTER, FULL OUTER, and SELF JOIN Venn diagrams and execution flows",
+      "Correlated vs Non-Correlated subqueries: Execution mechanics, inner loop vs single evaluation",
+      "Indexing architectures: How B-Trees accelerate lookups and difference between Clustered vs Non-Clustered indexes",
+      "Normalization roadmap: Eliminating insert, update, and deletion anomalies from 1NF up to BCNF"
+    ],
+    "prerequisites": [
+      "Basic computer science fundamentals or curiosity about data storage"
+    ],
+    "recommendedNext": [
+      "res-sql-300-interview-questions-pwc-deloitte",
+      "res-db-1",
+      "res-db-2"
+    ],
+    "topics": [
+      "SQL",
+      "HandwrittenNotes",
+      "RDBMS",
+      "Joins",
+      "Subqueries",
+      "Normalization",
+      "Indexes",
+      "DDL",
+      "DML",
+      "Constraints"
+    ],
+    "tags": [
+      "SQL",
+      "Handwritten",
+      "Notes",
+      "Databases",
+      "RDBMS",
+      "Revision",
+      "Normalization"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-sql-300-interview-questions-pwc-deloitte",
+    "title": "300 Real SQL Interview Questions (PwC, Deloitte, EY, Accenture & KPMG)",
+    "author": "Enterprise SQL & Data Engineering Panel",
+    "pages": 119,
+    "fileName": "SQL Interview Questions.pdf",
+    "category": "databases",
+    "subCategory": "Indexing & Query Performance Tuning",
+    "resourceType": "HANDBOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 119,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\SQL New-completed\\SQL Interview Questions.pdf",
+    "whatIsThisBookFor": "Crack technical SQL screening and whiteboard coding rounds at Big 4 consulting firms, product MNCs, and analytics giants with 300 authentic real-world interview problems.",
+    "summary": "A premier 119-page compilation of 300 medium-to-advanced SQL interview questions asked across tier-1 consulting and tech firms including PwC, Deloitte, EY, KPMG, Tredence, Persistent Systems, Accenture, and more. Features full problem statements, schema definitions, edge-case analysis, and optimized SQL solutions covering 2nd/Nth highest salary, employee-manager self joins, running totals, median calculations, date-time transformations, pivot queries, window rank functions, and query optimization techniques.",
+    "keyTakeaways": [
+      "300 authentic questions curated directly from recent interview experiences at Big 4 and top consulting firms",
+      "Advanced Window Functions: Mastering ROW_NUMBER(), RANK(), DENSE_RANK(), NTILE(), LEAD(), and LAG() with partition strategies",
+      "Hierarchical and recursive queries: Self-joins for manager-employee trees and organizational charts",
+      "Complex aggregations: Running totals, 7-day moving averages, cumulative distribution, and percentile calculations",
+      "Query tuning best practices: SARGable queries, index utilization, avoiding SELECT *, and optimizing CTE execution"
+    ],
+    "prerequisites": [
+      "Intermediate SQL proficiency, familiarity with joins and subqueries"
+    ],
+    "recommendedNext": [
+      "res-sql-handwritten-notes-master",
+      "res-db-2"
+    ],
+    "topics": [
+      "SQL",
+      "InterviewQuestions",
+      "Big4",
+      "PwC",
+      "Deloitte",
+      "Accenture",
+      "WindowFunctions",
+      "QueryTuning",
+      "AdvancedSQL"
+    ],
+    "tags": [
+      "SQL",
+      "Interview",
+      "Questions",
+      "Big4",
+      "PwC",
+      "Deloitte",
+      "Accenture",
+      "300Questions"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
   }
 ];

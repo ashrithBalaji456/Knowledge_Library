@@ -35,8 +35,9 @@ function localPdfServer(): Plugin {
 
         let resolved = path.resolve(targetPath);
         if (!fs.existsSync(resolved)) {
-          // Attempt searching across user's downloads folders (Placement_Interview_Guides, Kodthe Bomma Thirigipovaley, Gate_2026, etc.)
-          let candidate = findInFolderRecursive('C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\Yet_To_Start_Preparing-Completed', path.basename(targetPath));
+          let candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\SQL_Preparation', path.basename(targetPath));
+          if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\SQL New-completed', path.basename(targetPath));
+          if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\Yet_To_Start_Preparing-Completed', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Placement_Interview_Guides', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Gate_2026', path.basename(targetPath));

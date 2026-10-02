@@ -150,7 +150,11 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     botBg = '#031E33';
     primaryAccent = '#38BDF8';
     secondaryAccent = '#BAE6FD';
-    seriesLabel = 'RELATIONAL SQL & DATABASE ARCHITECTURE';
+    seriesLabel = title.toLowerCase().includes('interview')
+      ? '✦ 300 REAL SQL INTERVIEWS • PwC, DELOITTE & ACCENTURE ✦'
+      : title.toLowerCase().includes('handwritten')
+      ? '✦ COMPLETE SQL HANDWRITTEN MASTER REVISION NOTES ✦'
+      : 'RELATIONAL SQL & DATABASE ARCHITECTURE';
   } else if (isDSA) {
     topBg = '#1E0B36';
     midBg = '#6D28D9';
