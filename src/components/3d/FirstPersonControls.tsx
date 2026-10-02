@@ -258,9 +258,9 @@ export const FirstPersonControls: React.FC = () => {
       const nextX = camera.position.x + velocity.current.x * safeDelta;
       const nextZ = camera.position.z + velocity.current.z * safeDelta;
 
-      // Library boundary clamping
-      const clampedX = Math.max(-41, Math.min(41, nextX));
-      const clampedZ = Math.max(-58, Math.min(27, nextZ));
+      // Library boundary clamping (extended for enlarged 116m x 164m royal hall)
+      const clampedX = Math.max(-55, Math.min(55, nextX));
+      const clampedZ = Math.max(-116, Math.min(40, nextZ));
 
       camera.position.x = clampedX;
       camera.position.z = clampedZ;

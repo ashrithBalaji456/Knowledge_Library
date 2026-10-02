@@ -50,7 +50,7 @@ function getWarmWoodFloorTexture(): THREE.CanvasTexture {
   cachedFloorTexture = new THREE.CanvasTexture(canvas);
   cachedFloorTexture.wrapS = THREE.RepeatWrapping;
   cachedFloorTexture.wrapT = THREE.RepeatWrapping;
-  cachedFloorTexture.repeat.set(16, 16);
+  cachedFloorTexture.repeat.set(24, 32);
   return cachedFloorTexture;
 }
 
@@ -178,139 +178,138 @@ export const LibraryArchitecture: React.FC = () => {
   const outdoorSunLightColor =
     atmosphere === 'day' ? '#FFFBEB' : atmosphere === 'evening' ? '#FED7AA' : '#38BDF8';
 
-  const pillarZPositions = [20, 10, 0, -10, -20, -30, -40, -50];
+  // Stately colonnade pillars spaced along the grand nave (100% collision-free)
+  const pillarZPositions = [32, 20, 8, -4, -16, -28, -40, -52, -64, -76, -88, -100, -112];
+  const windowZPositions = [-105, -85, -65, -45, -25, -5, 15, 35];
 
-  // Reading table locations
+  // Reading table locations in quiet promenade alcoves
   const studyTables = [
-    { x: -5.5, z: 4 },
-    { x: 5.5, z: 4 },
-    { x: -5.5, z: -20 },
-    { x: 5.5, z: -20 },
+    { x: -6.0, z: -8 },
+    { x: 6.0, z: -8 },
+    { x: -6.0, z: -28 },
+    { x: 6.0, z: -28 },
   ];
 
   // Book cart locations
   const bookCarts = [
-    { x: -2.8, z: 12, rot: 0.25 },
-    { x: 2.8, z: -10, rot: -0.18 },
+    { x: -3.2, z: 22, rot: 0.25 },
+    { x: 3.2, z: -2, rot: -0.18 },
   ];
 
-  // Botanical Indoor Planter Locations (Ficus, Olive, and Fiddle-Leaf conservatory trees)
+  // Botanical Indoor Planter Locations aligned with colonnade bays
   const planterLocations = [
-    { x: -8.8, z: 22, rot: 0.3, variant: 'fiddle-leaf' as const, scale: 1.05 },
-    { x: 8.8, z: 22, rot: -0.5, variant: 'olive' as const, scale: 1.0 },
-    { x: -8.8, z: -52, rot: 1.2, variant: 'olive' as const, scale: 1.08 },
-    { x: 8.8, z: -52, rot: -1.0, variant: 'fiddle-leaf' as const, scale: 1.05 },
-    { x: -8.8, z: -15, rot: 2.1, variant: 'fiddle-leaf' as const, scale: 1.1 },
-    { x: 8.8, z: -15, rot: -2.3, variant: 'olive' as const, scale: 1.05 },
-    { x: -7.5, z: 12, rot: 0.8, variant: 'olive' as const, scale: 0.95 },
-    { x: 7.5, z: 12, rot: -0.7, variant: 'fiddle-leaf' as const, scale: 0.95 },
-    { x: -7.5, z: -32, rot: 1.7, variant: 'fiddle-leaf' as const, scale: 1.0 },
-    { x: 7.5, z: -32, rot: -1.4, variant: 'olive' as const, scale: 1.0 },
+    { x: -13.6, z: 32, rot: 0.3, variant: 'fiddle-leaf' as const, scale: 1.05 },
+    { x: 13.6, z: 32, rot: -0.5, variant: 'olive' as const, scale: 1.0 },
+    { x: -13.6, z: -100, rot: 1.2, variant: 'olive' as const, scale: 1.08 },
+    { x: 13.6, z: -100, rot: -1.0, variant: 'fiddle-leaf' as const, scale: 1.05 },
+    { x: -13.6, z: -16, rot: 2.1, variant: 'fiddle-leaf' as const, scale: 1.1 },
+    { x: 13.6, z: -16, rot: -2.3, variant: 'olive' as const, scale: 1.05 },
+    { x: -13.6, z: 8, rot: 0.8, variant: 'olive' as const, scale: 0.95 },
+    { x: 13.6, z: 8, rot: -0.7, variant: 'fiddle-leaf' as const, scale: 0.95 },
+    { x: -13.6, z: -64, rot: 1.7, variant: 'fiddle-leaf' as const, scale: 1.0 },
+    { x: 13.6, z: -64, rot: -1.4, variant: 'olive' as const, scale: 1.0 },
   ];
 
   return (
     <group>
-      {/* --- WARM NATURAL OAK WOOD FLOOR --- */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -15]} receiveShadow>
-        <planeGeometry args={[94, 116]} />
+      {/* --- ENLARGED WARM NATURAL OAK WOOD FLOOR (124m x 172m) --- */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -38]} receiveShadow>
+        <planeGeometry args={[124, 172]} />
         <primitive object={floorMaterial} attach="material" />
       </mesh>
 
-      {/* --- MAIN AISLE CARPET RUNNER (Rich Burgundy / Emerald with Gold Trim) --- */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, -15]}>
-        <planeGeometry args={[4.2, 98]} />
-        <meshStandardMaterial color="#7F1D1D" roughness={0.88} /> {/* Rich warm burgundy runner */}
+      {/* --- MAIN AISLE CARPET RUNNER (Rich Burgundy with Gold Trim) --- */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, -38]}>
+        <planeGeometry args={[4.8, 164]} />
+        <meshStandardMaterial color="#7F1D1D" roughness={0.88} />
       </mesh>
       {/* Warm Brass Carpet Trim Rails */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-2.1, 0.008, -15]}>
-        <planeGeometry args={[0.09, 98]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-2.4, 0.008, -38]}>
+        <planeGeometry args={[0.1, 164]} />
         <primitive object={brassMaterial} attach="material" />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[2.1, 0.008, -15]}>
-        <planeGeometry args={[0.09, 98]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[2.4, 0.008, -38]}>
+        <planeGeometry args={[0.1, 164]} />
         <primitive object={brassMaterial} attach="material" />
       </mesh>
 
-      {/* --- WARM IVORY WALLS WITH OAK WAINSCOTING --- */}
-      {/* South Wall (Entrance Doorway) */}
-      <group position={[0, 0, 30]}>
-        {/* Upper Cream Wall */}
+      {/* --- EXPANDED ROYAL HALL WALLS WITH OAK WAINSCOTING --- */}
+      {/* South Wall (Entrance Doorway at Z = +44) */}
+      <group position={[0, 0, 44]}>
         <mesh position={[0, 5.2, 0]}>
-          <boxGeometry args={[94, 5.6, 0.8]} />
+          <boxGeometry args={[120, 5.6, 0.8]} />
           <primitive object={wallMaterial} attach="material" />
         </mesh>
-        {/* Lower Oak Wainscoting */}
         <mesh position={[0, 1.2, 0]}>
-          <boxGeometry args={[94, 2.4, 0.9]} />
+          <boxGeometry args={[120, 2.4, 0.9]} />
           <primitive object={wainscotingMaterial} attach="material" />
         </mesh>
-        {/* Wainscoting Chair Rail Moulding */}
         <mesh position={[0, 2.42, 0.06]}>
-          <boxGeometry args={[94, 0.12, 1.0]} />
+          <boxGeometry args={[120, 0.12, 1.0]} />
           <primitive object={warmOakMaterial} attach="material" />
         </mesh>
       </group>
 
-      {/* North Far Wall */}
-      <group position={[0, 0, -62]}>
+      {/* North Far Wall (Z = -120, Giving Grand Space for Vedic Itihasa) */}
+      <group position={[0, 0, -120]}>
         <mesh position={[0, 5.2, 0]}>
-          <boxGeometry args={[94, 5.6, 0.8]} />
+          <boxGeometry args={[120, 5.6, 0.8]} />
           <primitive object={wallMaterial} attach="material" />
         </mesh>
         <mesh position={[0, 1.2, 0]}>
-          <boxGeometry args={[94, 2.4, 0.9]} />
+          <boxGeometry args={[120, 2.4, 0.9]} />
           <primitive object={wainscotingMaterial} attach="material" />
         </mesh>
         <mesh position={[0, 2.42, 0.06]}>
-          <boxGeometry args={[94, 0.12, 1.0]} />
+          <boxGeometry args={[120, 0.12, 1.0]} />
           <primitive object={warmOakMaterial} attach="material" />
         </mesh>
       </group>
 
-      {/* West Wall */}
-      <group position={[-44, 0, -15]}>
+      {/* West Wall (X = -58, Roomy Technical Wing) */}
+      <group position={[-58, 0, -38]}>
         <mesh position={[0, 5.2, 0]}>
-          <boxGeometry args={[0.8, 5.6, 102]} />
+          <boxGeometry args={[0.8, 5.6, 168]} />
           <primitive object={wallMaterial} attach="material" />
         </mesh>
         <mesh position={[0, 1.2, 0]}>
-          <boxGeometry args={[0.9, 2.4, 102]} />
+          <boxGeometry args={[0.9, 2.4, 168]} />
           <primitive object={wainscotingMaterial} attach="material" />
         </mesh>
         <mesh position={[0.06, 2.42, 0]}>
-          <boxGeometry args={[1.0, 0.12, 102]} />
+          <boxGeometry args={[1.0, 0.12, 168]} />
           <primitive object={warmOakMaterial} attach="material" />
         </mesh>
       </group>
 
-      {/* East Wall */}
-      <group position={[44, 0, -15]}>
+      {/* East Wall (X = +58, Roomy Data & AI Wing) */}
+      <group position={[58, 0, -38]}>
         <mesh position={[0, 5.2, 0]}>
-          <boxGeometry args={[0.8, 5.6, 102]} />
+          <boxGeometry args={[0.8, 5.6, 168]} />
           <primitive object={wallMaterial} attach="material" />
         </mesh>
         <mesh position={[0, 1.2, 0]}>
-          <boxGeometry args={[0.9, 2.4, 102]} />
+          <boxGeometry args={[0.9, 2.4, 168]} />
           <primitive object={wainscotingMaterial} attach="material" />
         </mesh>
         <mesh position={[-0.06, 2.42, 0]}>
-          <boxGeometry args={[1.0, 0.12, 102]} />
+          <boxGeometry args={[1.0, 0.12, 168]} />
           <primitive object={warmOakMaterial} attach="material" />
         </mesh>
       </group>
 
-      {/* --- LARGE SUNLIT ARCHED LIBRARY WINDOWS (With Genuine 3D Courtyard Garden & Towering Trees Outside) --- */}
-      {[-30, -10, 10].map((z, i) => (
-        <group key={`win-w-${i}`} position={[-43.4, 4.6, z]}>
+      {/* --- LARGE SUNLIT ARCHED LIBRARY WINDOWS (West and East Expanses) --- */}
+      {windowZPositions.map((z, i) => (
+        <group key={`win-w-${i}`} position={[-57.4, 4.6, z]}>
           {/* Outdoor Sky Backdrop */}
           <mesh position={[-5.0, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-            <planeGeometry args={[12, 7.5]} />
+            <planeGeometry args={[14, 7.5]} />
             <meshBasicMaterial color={skyColor} />
           </mesh>
 
           {/* Outdoor rolling green lawn ground */}
           <mesh position={[-3.5, -4.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[10, 14]} />
+            <planeGeometry args={[10, 16]} />
             <meshStandardMaterial color="#1E3A1A" roughness={0.9} />
           </mesh>
 
@@ -338,17 +337,17 @@ export const LibraryArchitecture: React.FC = () => {
         </group>
       ))}
 
-      {[-30, -10, 10].map((z, i) => (
-        <group key={`win-e-${i}`} position={[43.4, 4.6, z]}>
+      {windowZPositions.map((z, i) => (
+        <group key={`win-e-${i}`} position={[57.4, 4.6, z]}>
           {/* Outdoor Sky Backdrop */}
           <mesh position={[5.0, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
-            <planeGeometry args={[12, 7.5]} />
+            <planeGeometry args={[14, 7.5]} />
             <meshBasicMaterial color={skyColor} />
           </mesh>
 
           {/* Outdoor rolling green lawn ground */}
           <mesh position={[3.5, -4.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[10, 14]} />
+            <planeGeometry args={[10, 16]} />
             <meshStandardMaterial color="#1E3A1A" roughness={0.9} />
           </mesh>
 
@@ -376,14 +375,14 @@ export const LibraryArchitecture: React.FC = () => {
         </group>
       ))}
 
-      {/* --- WARM IVORY VAULTED CEILING WITH TIMBER CROSSBEAMS --- */}
-      <mesh position={[0, 8.2, -15]} rotation={[Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[94, 102]} />
-        <meshStandardMaterial color="#F8F4EA" roughness={0.92} /> {/* Warm ivory ceiling */}
+      {/* --- WARM IVORY VAULTED CEILING WITH TIMBER CROSSBEAMS (120m x 168m) --- */}
+      <mesh position={[0, 8.2, -38]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[120, 168]} />
+        <meshStandardMaterial color="#F8F4EA" roughness={0.92} />
       </mesh>
       {/* Central Glass Skylight pouring warm natural light down */}
-      <mesh position={[0, 8.16, -15]} rotation={[Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[6.5, 94]} />
+      <mesh position={[0, 8.16, -38]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[7.0, 156]} />
         <meshBasicMaterial color={outdoorSunLightColor} />
       </mesh>
 
@@ -391,7 +390,7 @@ export const LibraryArchitecture: React.FC = () => {
       {pillarZPositions.map((z, idx) => (
         <group key={`ceiling-beam-${idx}`} position={[0, 8.0, z]}>
           <mesh>
-            <boxGeometry args={[94, 0.45, 0.55]} />
+            <boxGeometry args={[120, 0.45, 0.55]} />
             <primitive object={warmOakMaterial} attach="material" />
           </mesh>
           {/* Classical Brass Chandelier Pendant */}
@@ -413,11 +412,11 @@ export const LibraryArchitecture: React.FC = () => {
         </group>
       ))}
 
-      {/* --- NEOCLASSICAL CREAM STONE PILLARS WITH BRASS TRIM & WALL SCONCES --- */}
+      {/* --- NEOCLASSICAL CREAM STONE COLONNADE PILLARS AT X = +-15 (100% COLLISION FREE) --- */}
       {pillarZPositions.map((z, idx) => (
         <group key={`pillars-${idx}`}>
-          {/* Left Pillar */}
-          <group position={[-10, 0, z]}>
+          {/* Left Colonnade Pillar at X = -15 */}
+          <group position={[-15, 0, z]}>
             <mesh position={[0, 0.3, 0]}>
               <boxGeometry args={[1.2, 0.6, 1.2]} />
               <primitive object={warmOakMaterial} attach="material" />
@@ -433,22 +432,18 @@ export const LibraryArchitecture: React.FC = () => {
 
             {/* Classical Antique Brass Wall Sconce facing Central Hall (+X) */}
             <group position={[0.44, 3.6, 0]}>
-              {/* Backplate */}
               <mesh position={[0.015, 0, 0]}>
                 <boxGeometry args={[0.03, 0.36, 0.14]} />
                 <primitive object={brassMaterial} attach="material" />
               </mesh>
-              {/* Sconce curved arm */}
               <mesh position={[0.12, -0.06, 0]} rotation={[0, 0, -Math.PI / 4]}>
                 <cylinderGeometry args={[0.012, 0.012, 0.18, 8]} />
                 <primitive object={brassMaterial} attach="material" />
               </mesh>
-              {/* Brass cup collar */}
               <mesh position={[0.18, 0.02, 0]}>
                 <cylinderGeometry args={[0.05, 0.03, 0.06, 12]} />
                 <primitive object={brassMaterial} attach="material" />
               </mesh>
-              {/* Warm frosted glass glowing candle flame */}
               <mesh position={[0.18, 0.1, 0]}>
                 <sphereGeometry args={[0.065, 12, 12]} />
                 <primitive object={sconceGlowMaterial} attach="material" />
@@ -456,8 +451,8 @@ export const LibraryArchitecture: React.FC = () => {
             </group>
           </group>
 
-          {/* Right Pillar */}
-          <group position={[10, 0, z]}>
+          {/* Right Colonnade Pillar at X = +15 */}
+          <group position={[15, 0, z]}>
             <mesh position={[0, 0.3, 0]}>
               <boxGeometry args={[1.2, 0.6, 1.2]} />
               <primitive object={warmOakMaterial} attach="material" />
@@ -473,22 +468,18 @@ export const LibraryArchitecture: React.FC = () => {
 
             {/* Classical Antique Brass Wall Sconce facing Central Hall (-X) */}
             <group position={[-0.44, 3.6, 0]}>
-              {/* Backplate */}
               <mesh position={[-0.015, 0, 0]}>
                 <boxGeometry args={[0.03, 0.36, 0.14]} />
                 <primitive object={brassMaterial} attach="material" />
               </mesh>
-              {/* Sconce curved arm */}
               <mesh position={[-0.12, -0.06, 0]} rotation={[0, 0, Math.PI / 4]}>
                 <cylinderGeometry args={[0.012, 0.012, 0.18, 8]} />
                 <primitive object={brassMaterial} attach="material" />
               </mesh>
-              {/* Brass cup collar */}
               <mesh position={[-0.18, 0.02, 0]}>
                 <cylinderGeometry args={[0.05, 0.03, 0.06, 12]} />
                 <primitive object={brassMaterial} attach="material" />
               </mesh>
-              {/* Warm frosted glass glowing candle flame */}
               <mesh position={[-0.18, 0.1, 0]}>
                 <sphereGeometry args={[0.065, 12, 12]} />
                 <primitive object={sconceGlowMaterial} attach="material" />
@@ -741,8 +732,8 @@ export const LibraryArchitecture: React.FC = () => {
         />
       ))}
 
-      {/* --- GRAND ENTRANCE RECEPTION & INFORMATION DESK --- */}
-      <group position={[0, 0, 24]}>
+      {/* --- GRAND ENTRANCE RECEPTION & INFORMATION DESK (Foyer at Z = +36) --- */}
+      <group position={[0, 0, 36]}>
         <mesh position={[0, 0.52, 0]}>
           <boxGeometry args={[4.4, 1.04, 1.2]} />
           <primitive object={warmOakMaterial} attach="material" />

@@ -151,53 +151,61 @@ function resolveDynamicSectionAnchors(sections: Section[]): Map<string, [number,
 
   // Pre-configured primary anchor slots per wing
   const wingSlots: Record<WingType, [number, number, number][]> = {
-    // West Wing: Technical / Programming (x < 0)
+    // West Wing: Technical / Programming (x <= -26)
     west: [
-      [-17, 0, 8],
-      [-17, 0, -8],
-      [-17, 0, -24],
-      [-26, 0, 8],
-      [-26, 0, -8],
-      [-26, 0, -24],
+      [-36, 0, 8],
+      [-36, 0, -8],
+      [-36, 0, -24],
+      [-36, 0, -40],
+      [-46, 0, 8],
+      [-46, 0, -8],
     ],
-    // East Wing: Databases / Cloud / DevOps / AI (x > 0)
+    // East Wing: Databases / Cloud / DevOps / AI (x >= 26)
     east: [
-      [17, 0, 8],
-      [17, 0, -8],
-      [17, 0, -24],
-      [26, 0, 8],
-      [26, 0, -8],
-      [26, 0, -24],
+      [36, 0, 8],
+      [36, 0, -8],
+      [36, 0, -24],
+      [36, 0, -40],
+      [36, 0, -56],
+      [46, 0, 8],
     ],
     // Central Grand Hall
     central: [
-      [-5.5, 0, -10],
-      [5.5, 0, -10],
-      [-5.5, 0, -26],
-      [5.5, 0, -26],
+      [-8, 0, 16],
+      [8, 0, 16],
+      [-8, 0, 2],
+      [8, 0, 2],
+      [0, 0, -16],
     ],
     // Handbooks Pavilion (Rule 4: Dedicated Major Wing)
     handbooks: [
-      [17, 0, 20],
-      [26, 0, 20],
-      [17, 0, 28],
+      [26, 0, 26],
+      [36, 0, 26],
+      [26, 0, 36],
     ],
     // North Wing / Humanities: Literature, Devotional, English
     north: [
-      [-12, 0, -42],
-      [0, 0, -42],
-      [12, 0, -42],
-      [-12, 0, -52],
-      [12, 0, -52],
+      [0, 0, -40],
+      [-20, 0, -56],
+      [20, 0, -56],
+      [-20, 0, -72],
+      [20, 0, -72],
+      [-24, 0, -88],
+      [-8, 0, -88],
+      [8, 0, -88],
+      [24, 0, -88],
+      [0, 0, -104],
     ],
     humanities: [
-      [-12, 0, -42],
-      [0, 0, -42],
-      [12, 0, -42],
+      [-24, 0, -88],
+      [-8, 0, -88],
+      [8, 0, -88],
+      [24, 0, -88],
+      [0, 0, -104],
     ],
     south: [
-      [-10, 0, 24],
-      [10, 0, 24],
+      [-26, 0, 26],
+      [26, 0, 26],
     ],
   };
 

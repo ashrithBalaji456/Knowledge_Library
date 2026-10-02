@@ -94,8 +94,8 @@ export const LibraryScene: React.FC = () => {
         return {
           backgroundColor: '#F3E8DC', // Warm sunlit cream
           fogColor: '#F0E2D2', // Soft warm haze (not dark!)
-          fogNear: 38,
-          fogFar: 140,
+          fogNear: 60,
+          fogFar: 220,
           ambientColor: '#FFF8EB', // 4000K warm white
           ambientIntensity: 1.15,
           sunColor: '#FFFBEB',
@@ -108,8 +108,8 @@ export const LibraryScene: React.FC = () => {
         return {
           backgroundColor: '#45231E', // Warm sunset amber glow
           fogColor: '#4A2822',
-          fogNear: 35,
-          fogFar: 130,
+          fogNear: 55,
+          fogFar: 210,
           ambientColor: '#FED7AA', // 2800K golden hour
           ambientIntensity: 1.05,
           sunColor: '#F97316',
@@ -123,8 +123,8 @@ export const LibraryScene: React.FC = () => {
         return {
           backgroundColor: '#1E1B2E', // Deep indigo twilight outside
           fogColor: '#28233C',
-          fogNear: 32,
-          fogFar: 120,
+          fogNear: 50,
+          fogFar: 190,
           ambientColor: '#FEF3C7', // Warm 3000K indoor study lamps
           ambientIntensity: 0.85,
           sunColor: '#93C5FD',
@@ -149,7 +149,7 @@ export const LibraryScene: React.FC = () => {
     >
       <Canvas
         dpr={preferences.targetFps120 ? [1, 1.25] : [1, 1.5]}
-        camera={{ position: [0, 1.7, 24], fov: 65, near: 0.1, far: 180 }}
+        camera={{ position: [0, 1.7, 24], fov: 65, near: 0.1, far: 260 }}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',

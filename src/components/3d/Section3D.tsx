@@ -115,9 +115,15 @@ export const Section3D = React.memo<Section3DProps>(({ section, shelves, resourc
     []
   );
 
-  const archZ = secZ + 3.2;
-  const archWidth = 5.2;
-  const archHeight = 4.0;
+  // Determine front of the section aisle so archway never collides with any cupboard
+  const maxShelfFrontZ = useMemo(() => {
+    if (!shelves || shelves.length === 0) return secZ + 3.2;
+    return shelves.reduce((max, s) => Math.max(max, s.position[2] + s.width / 2), secZ);
+  }, [shelves, secZ]);
+
+  const archZ = maxShelfFrontZ + 1.4;
+  const archWidth = 7.4; // 7.4m wide portal so pillars stand completely clear of bookshelves
+  const archHeight = 4.2;
   const pillarThickness = 0.42;
 
   return (

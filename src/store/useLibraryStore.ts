@@ -130,12 +130,13 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v20_sql_handwritten_collection';
+const STORAGE_KEY = 'pk_library_resources_v21_expanded_hall_no_collision';
 
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v20_sql_handwritten_collection');
       localStorage.removeItem('pk_library_resources_v19_infosys_dsa_prep');
       localStorage.removeItem('pk_library_resources_v18_placement_prep');
       localStorage.removeItem('pk_library_resources_v17_cracking_gate');

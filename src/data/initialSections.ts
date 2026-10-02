@@ -12,7 +12,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fb923c',
     subSections: ['Python Cheatsheets & Syntax', 'Machine Learning Cheat Sheets', 'Visualization References', 'Quick References & Summaries', 'Java & JVM Handbooks'],
     wing: 'handbooks',
-    anchorPosition: [17, 0, 22],
+    anchorPosition: [26, 0, 26],
     rotationY: 0,
     isHandbookSection: true,
   },
@@ -26,7 +26,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#38bdf8',
     subSections: ['Core Syntax & Fundamentals', 'Hands-on Coding & Tutorials', 'Comprehensive Language Notes', 'Domain-Specific Python'],
     wing: 'west',
-    anchorPosition: [-24, 0, -2],
+    anchorPosition: [-36, 0, 8],
     rotationY: 0,
   },
   {
@@ -39,7 +39,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#22d3ee',
     subSections: ['Data Cleaning & Preprocessing', 'Data Manipulation with NumPy & Pandas', 'Mathematical & Statistical Foundations', 'Exploratory Data Analysis'],
     wing: 'east',
-    anchorPosition: [24, 0, -2],
+    anchorPosition: [36, 0, 8],
     rotationY: 0,
   },
   {
@@ -52,7 +52,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fbbf24',
     subSections: ['Python Technical Interviews', 'Data Science & ML Interviews', 'NLP & Deep Learning Questions', 'Career Roadmaps & Study Plans'],
     wing: 'central',
-    anchorPosition: [-7, 0, 18],
+    anchorPosition: [-8, 0, 16],
     rotationY: 0,
   },
   {
@@ -64,8 +64,8 @@ export const INITIAL_SECTIONS: Section[] = [
     color: '#8b5cf6', // Violet
     accentColor: '#a78bfa',
     subSections: ['End-to-End Predictive Models', 'Portfolio Projects & Source Code', 'Production AI Labs'],
-    wing: 'north',
-    anchorPosition: [0, 0, -24],
+    wing: 'central',
+    anchorPosition: [8, 0, 2],
     rotationY: 0,
   },
   {
@@ -78,7 +78,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fbbf24',
     subSections: ['Core Fundamentals', 'Architectural Essentials', 'Production Readiness'],
     wing: 'central',
-    anchorPosition: [-7, 0, 10],
+    anchorPosition: [-8, 0, 2],
     rotationY: 0,
   },
   {
@@ -91,7 +91,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#f87171',
     subSections: ['Active Sprints', 'Interview Preparation', 'Hands-on Labs'],
     wing: 'central',
-    anchorPosition: [7, 0, 10],
+    anchorPosition: [8, 0, 16],
     rotationY: 0,
   },
   {
@@ -104,7 +104,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#60a5fa',
     subSections: ['Core Language & OOP', 'Java & Spring Boot Architecture', 'Java & Spring Boot Technical Interviews', 'JVM & Concurrency'],
     wing: 'west',
-    anchorPosition: [-24, 0, 6],
+    anchorPosition: [-36, 0, -8],
     rotationY: 0,
   },
   {
@@ -117,7 +117,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#34d399',
     subSections: ['Spring Core & Dependency Injection', 'Microservices Architecture & Kafka', 'LinkedIn Spring & System Design Interviews', 'Spring Data JPA & Security'],
     wing: 'west',
-    anchorPosition: [-24, 0, -14],
+    anchorPosition: [-36, 0, -24],
     rotationY: 0,
   },
   {
@@ -130,7 +130,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#a78bfa',
     subSections: ['Competitive & FAANG Patterns', 'Campus Recruitment & Coding Tests', 'Trees & Graph Topologies', 'Dynamic Programming & Recursion'],
     wing: 'east',
-    anchorPosition: [24, 0, 6],
+    anchorPosition: [36, 0, -8],
     rotationY: 0,
   },
   {
@@ -143,7 +143,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fb923c',
     subSections: ['Top 15 System Design Patterns', 'HLD & High-Scale Architectures', 'Low-Level Design & SOLID Principles', 'Distributed Consensus & Caching'],
     wing: 'north',
-    anchorPosition: [-12, 0, -32],
+    anchorPosition: [-20, 0, -56],
     rotationY: 0,
   },
   {
@@ -156,7 +156,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#22d3ee',
     subSections: ['SQL 14 Core Fundamentals & Joins', 'Indexing & Query Performance Tuning', 'NoSQL, Redis & Distributed Storage', 'Database Sharding & Replication'],
     wing: 'east',
-    anchorPosition: [24, 0, -14],
+    anchorPosition: [36, 0, -24],
     rotationY: 0,
   },
   {
@@ -169,7 +169,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#f472b6',
     subSections: ['Machine Learning Foundations', 'Deep Learning, RAG & Vector Search', 'LLM Application Engineering & Agents', 'Generative AI Pipelines'],
     wing: 'north',
-    anchorPosition: [12, 0, -32],
+    anchorPosition: [20, 0, -56],
     rotationY: 0,
   },
   {
@@ -181,8 +181,8 @@ export const INITIAL_SECTIONS: Section[] = [
     color: '#eab308', // Warm Amber
     accentColor: '#fde047',
     subSections: ['AWS Core Infrastructure', 'Serverless & Event-Driven', 'Multi-Region & High Availability', 'Cloud Security & IAM'],
-    wing: 'north',
-    anchorPosition: [-12, 0, -48],
+    wing: 'east',
+    anchorPosition: [36, 0, -56],
     rotationY: 0,
   },
   {
@@ -195,7 +195,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#2dd4bf',
     subSections: ['Docker & Kubernetes Containers', 'Git & GitHub Version Control', 'CI/CD Pipelines & SRE Observability', 'Infrastructure as Code'],
     wing: 'east',
-    anchorPosition: [24, 0, -34],
+    anchorPosition: [36, 0, -40],
     rotationY: 0,
   },
   {
@@ -208,7 +208,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#f87171',
     subSections: ['Application Security (OWASP)', 'OAuth2 / OIDC Deep Dive', 'Cryptography & Zero Trust', 'Cloud Security Posture'],
     wing: 'west',
-    anchorPosition: [-24, 0, -34],
+    anchorPosition: [-36, 0, -40],
     rotationY: 0,
   },
   {
@@ -221,7 +221,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#6ee7b7',
     subSections: ['Finished Books', 'Completed Courses', 'Archived Research'],
     wing: 'central',
-    anchorPosition: [0, 0, -14],
+    anchorPosition: [0, 0, -16],
     rotationY: 0,
   },
   // --- NON-TECHNICAL & HUMANITIES WINGS (Rules 3 & 37) ---
@@ -235,7 +235,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#f59e0b',
     subSections: ['Maha Puranas & Sacred Epics', 'Advaita Philosophy & Life Lessons', 'Yuga Dharma & Devotional Poetry'],
     wing: 'north',
-    anchorPosition: [-12, 0, -42],
+    anchorPosition: [-24, 0, -88],
     rotationY: 0,
   },
   {
@@ -248,7 +248,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fb923c',
     subSections: ['Hanuman Life Lessons & Courage', 'Parashara Samhita & Esoteric Wisdom', 'Sri Rama Raksha & Dharma in Action'],
     wing: 'north',
-    anchorPosition: [-16, 0, -52],
+    anchorPosition: [-8, 0, -88],
     rotationY: 0,
   },
   {
@@ -261,7 +261,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fde047',
     subSections: ['108 Divya Desams (English Sacred Pilgrimage)', 'Tirumala & Venkateswara Divine Chronicles', 'Shaiva & Shakti Kshetra Mahatyam'],
     wing: 'north',
-    anchorPosition: [0, 0, -52],
+    anchorPosition: [8, 0, -88],
     rotationY: 0,
   },
   {
@@ -274,7 +274,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#fb923c',
     subSections: ['Vedic Pooja, Homa & Discipline Kalpataruvu', 'TTD Nitya Stotravali & Tulasi Mahatmyam', 'Ashta-Devata Vrata Kalpam & Saraswathi'],
     wing: 'north',
-    anchorPosition: [16, 0, -52],
+    anchorPosition: [24, 0, -88],
     rotationY: 0,
   },
   {
@@ -287,7 +287,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#38bdf8',
     subSections: ['Grammar & Syntax', 'Vocabulary & Idioms', 'Communication & Speaking', 'Professional Writing'],
     wing: 'north',
-    anchorPosition: [0, 0, -42],
+    anchorPosition: [-20, 0, -72],
     rotationY: 0,
   },
   {
@@ -300,7 +300,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#c084fc',
     subSections: ['Classic Literature', 'Science Fiction & Fantasy', 'Mystery & Thriller', 'Contemporary Fiction'],
     wing: 'north',
-    anchorPosition: [12, 0, -42],
+    anchorPosition: [20, 0, -72],
     rotationY: 0,
   },
   {
@@ -313,7 +313,7 @@ export const INITIAL_SECTIONS: Section[] = [
     accentColor: '#f97316',
     subSections: ['Mahabharata Volumes 1-3 (Gita Press)', 'Mahabharata Volumes 4-6 (Gita Press)', 'Harivansha Purana & Surya Upasana'],
     wing: 'north',
-    anchorPosition: [0, 0, -62],
+    anchorPosition: [0, 0, -104],
     rotationY: 0,
   },
   {
@@ -330,7 +330,7 @@ export const INITIAL_SECTIONS: Section[] = [
       'Web Layout, Cybersecurity & Foundational Visual Logic'
     ],
     wing: 'north',
-    anchorPosition: [-12, 0, -42],
+    anchorPosition: [0, 0, -40],
     rotationY: 0,
   },
   {
@@ -347,7 +347,7 @@ export const INITIAL_SECTIONS: Section[] = [
       'GATE: Mechanical, Civil & Aerospace (ME, CE & AE)'
     ],
     wing: 'south',
-    anchorPosition: [-14, 0, 26],
+    anchorPosition: [-26, 0, 26],
     rotationY: 0,
   },
 ];
