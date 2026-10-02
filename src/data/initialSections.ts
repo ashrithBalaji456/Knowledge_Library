@@ -333,5 +333,22 @@ export const INITIAL_SECTIONS: Section[] = [
     anchorPosition: [-12, 0, -42],
     rotationY: 0,
   },
+  {
+    id: 'sec-gate-engineering',
+    name: 'GATE 2026 Engineering Compendium',
+    code: 'GATE',
+    description: 'Official Graduate Aptitude Test in Engineering papers, rigorous problem sets, and solutions across Computer Science, Electronics, Electrical, Mechanical, Civil, and Aerospace disciplines.',
+    icon: '⚙️',
+    color: '#1d4ed8', // Royal Examination Blue
+    accentColor: '#f59e0b', // Regal Gold
+    subSections: [
+      'GATE: Computer Science & IT (CS1 & CS2)',
+      'GATE: Electronics & Electrical Sciences (EC & EE)',
+      'GATE: Mechanical, Civil & Aerospace (ME, CE & AE)'
+    ],
+    wing: 'south',
+    anchorPosition: [-14, 0, 26],
+    rotationY: 0,
+  },
 ];
 

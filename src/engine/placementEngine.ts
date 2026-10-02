@@ -113,6 +113,10 @@ const COLOR_PALETTES: Record<string, string[]> = {
   'sec-coding-arcade': ['#06b6d4', '#0891b2', '#0284c7', '#ec4899', '#db2777', '#8b5cf6'],
   arcade: ['#06b6d4', '#0891b2', '#0284c7', '#ec4899', '#db2777', '#8b5cf6'],
 
+  // GATE 2026 Engineering Compendium
+  'sec-gate-engineering': ['#1d4ed8', '#1e40af', '#2563eb', '#1e3a8a', '#d97706', '#b45309'],
+  gate: ['#1d4ed8', '#1e40af', '#2563eb', '#1e3a8a', '#d97706', '#b45309'],
+
   // Special Collections
   'must-learn': ['#b45309', '#d97706', '#f59e0b', '#eab308', '#ca8a04', '#92400e'],
   'current-focus': ['#b91c1c', '#dc2626', '#ef4444', '#ea580c', '#c2410c', '#991b1b'],
@@ -556,6 +560,26 @@ export function getSectionRowClassification(section: Section): RowClassification
           return 1; // Middle shelf
         }
         return 2; // Bottom shelf: Codepip (CSS/HTML), picoCTF (Cybersecurity), Scratch (Beginners)
+      },
+    };
+  }
+
+  if (sid === 'sec-gate-engineering' || sid === 'gate' || sid.includes('gate-engineering')) {
+    return {
+      rowLabels: [
+        'GATE: COMPUTER SCIENCE & IT (CS1 & CS2)',
+        'GATE: ELECTRONICS & ELECTRICAL SCIENCES (EC & EE)',
+        'GATE: MECHANICAL, CIVIL & AEROSPACE (ME, CE & AE)',
+      ],
+      assignRow: (r) => {
+        const t = (r.title + ' ' + (r.subCategory || '') + ' ' + (r.fileName || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+        if (t.includes('computer science') || t.includes('cs1') || t.includes('cs2') || t.includes('cs_gate') || t.includes('information technology')) {
+          return 0; // Top shelf (CS1 & CS2)
+        }
+        if (t.includes('electronics') || t.includes('electrical') || t.includes('ec_gate') || t.includes('ee_gate') || t.includes('communication') || t.includes('circuits')) {
+          return 1; // Middle shelf (EC & EE)
+        }
+        return 2; // Bottom shelf: Mechanical (ME), Civil (CE1, CE2), Aerospace (AE)
       },
     };
   }

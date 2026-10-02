@@ -10594,5 +10594,418 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-01",
     "lastOpened": "2026-10-01"
+  },
+  {
+    "id": "res-gate-cs1",
+    "title": "GATE 2026: Computer Science & IT (Paper 1)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 64,
+    "fileName": "CS1_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Computer Science & IT (CS1 & CS2)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 64,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\CS1_gate.pdf",
+    "whatIsThisBookFor": "Official Graduate Aptitude Test in Engineering paper for Computer Science & IT Paper 1, testing algorithmic problem solving, operating systems, DBMS, theory of computation, and networks.",
+    "summary": "Comprehensive 64-page official GATE examination paper containing General Aptitude questions, multiple choice questions (MCQ), multiple select questions (MSQ), and numerical answer type (NAT) questions across core CS domains.",
+    "keyTakeaways": [
+      "Data structures & algorithms: asymptotic complexity, dynamic programming, and graph traversals",
+      "Operating systems: virtual memory, paging, CPU scheduling, and synchronization semaphores",
+      "Database management systems: SQL queries, normal forms, B+ trees, and transaction concurrency",
+      "Theory of Computation & Compiler Design: regular expressions, CFGs, Turing machines, and parsing"
+    ],
+    "prerequisites": [
+      "Undergraduate degree coursework in Computer Science & Information Technology"
+    ],
+    "recommendedNext": [
+      "res-gate-cs2"
+    ],
+    "topics": [
+      "GATE2026",
+      "ComputerScience",
+      "Algorithms",
+      "OperatingSystems",
+      "DBMS",
+      "Networks",
+      "TOC"
+    ],
+    "tags": [
+      "GATE",
+      "CS1",
+      "ComputerScience",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-cs2",
+    "title": "GATE 2026: Computer Science & IT (Paper 2)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 48,
+    "fileName": "CS2_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Computer Science & IT (CS1 & CS2)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 48,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\CS2_gate.pdf",
+    "whatIsThisBookFor": "Official GATE paper for Computer Science & IT Paper 2, focusing on discrete mathematics, digital logic, computer organization & architecture, and programming fundamentals.",
+    "summary": "48-page official GATE paper testing mathematical maturity, proposition logic, combinatorics, graph theory, boolean algebra, pipelining, cache memory hierarchies, and C programming edge cases.",
+    "keyTakeaways": [
+      "Discrete mathematics: propositional logic, recurrence relations, sets, relations, and combinatorics",
+      "Computer architecture: instruction pipelining, branch prediction, and multi-level cache mapping",
+      "Digital logic design: Karnaugh maps, multiplexers, flip-flops, and sequential circuit state analysis",
+      "Rigorous MSQ and NAT problem formulations requiring exact mathematical precision"
+    ],
+    "prerequisites": [
+      "res-gate-cs1"
+    ],
+    "recommendedNext": [
+      "res-gate-ec"
+    ],
+    "topics": [
+      "GATE2026",
+      "ComputerScience",
+      "DiscreteMath",
+      "ComputerArchitecture",
+      "DigitalLogic",
+      "CS2"
+    ],
+    "tags": [
+      "GATE",
+      "CS2",
+      "ComputerScience",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-ec",
+    "title": "GATE 2026: Electronics & Communication Engineering (EC)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 52,
+    "fileName": "EC_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Electronics & Electrical Sciences (EC & EE)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 52,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\EC_gate.pdf",
+    "whatIsThisBookFor": "Official GATE Electronics & Communication Engineering paper covering signals & systems, analog & digital communication, semiconductors, electromagnetic waves, and network theory.",
+    "summary": "A 52-page rigorous national examination testing Fourier & Laplace transforms, MOSFET & BJT small-signal models, digital modulation techniques (QAM, PSK), Maxwell's equations, and transmission lines.",
+    "keyTakeaways": [
+      "Continuous and discrete-time signals: convolution, z-transforms, and stability analysis",
+      "Semiconductor physics: carrier transport, PN junctions, and modern MOSFET device physics",
+      "Communication systems: signal-to-noise ratio (SNR), matched filters, and information capacity",
+      "Electromagnetics: plane waves, reflection, transmission, waveguides, and antenna arrays"
+    ],
+    "prerequisites": [
+      "Undergraduate degree coursework in Electronics & Communication Engineering"
+    ],
+    "recommendedNext": [
+      "res-gate-ee"
+    ],
+    "topics": [
+      "GATE2026",
+      "Electronics",
+      "Communication",
+      "SignalsSystems",
+      "Semiconductors",
+      "Electromagnetics"
+    ],
+    "tags": [
+      "GATE",
+      "EC",
+      "Electronics",
+      "Communication",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-ee",
+    "title": "GATE 2026: Electrical Engineering (EE)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 51,
+    "fileName": "EE_Gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Electronics & Electrical Sciences (EC & EE)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 51,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\EE_Gate.pdf",
+    "whatIsThisBookFor": "Official GATE Electrical Engineering paper testing electrical machinery, power systems, power electronics, control systems, and electromagnetic field theory.",
+    "summary": "51-page official examination containing high-level numerical and conceptual problems on transformer equivalent circuits, synchronous generators, fault analysis, DC-DC buck/boost converters, and Nyquist/Bode plots.",
+    "keyTakeaways": [
+      "Electrical machines: transformers, 3-phase induction motors, and synchronous machine saliency",
+      "Power systems: load flow analysis, symmetrical components, power system stability, and protection",
+      "Power electronics: thyristor rectifiers, PWM inverters, and switching loss calculations",
+      "Control systems: root locus, state-space representations, and phase/gain margins"
+    ],
+    "prerequisites": [
+      "Undergraduate degree coursework in Electrical Engineering"
+    ],
+    "recommendedNext": [
+      "res-gate-me"
+    ],
+    "topics": [
+      "GATE2026",
+      "ElectricalEngineering",
+      "PowerSystems",
+      "Machines",
+      "PowerElectronics",
+      "ControlSystems"
+    ],
+    "tags": [
+      "GATE",
+      "EE",
+      "Electrical",
+      "PowerSystems",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-me",
+    "title": "GATE 2026: Mechanical Engineering (ME)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 41,
+    "fileName": "ME_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Mechanical, Civil & Aerospace (ME, CE & AE)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 41,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\ME_gate.pdf",
+    "whatIsThisBookFor": "Official GATE Mechanical Engineering paper testing applied mechanics, strength of materials, fluid mechanics, thermodynamics, heat transfer, and manufacturing science.",
+    "summary": "41-page official question paper testing Mohr's circle stress analysis, Navier-Stokes and Bernoulli flow equations, Carnot & Rankine power cycles, conduction/convection heat transfer, and machining mechanics.",
+    "keyTakeaways": [
+      "Engineering mechanics & strength of materials: beam deflection, shear stress, and torsion equations",
+      "Thermodynamics & thermal engineering: entropy generation, refrigeration cycles, and psychrometrics",
+      "Fluid mechanics & turbo machinery: boundary layer theory, pipe friction, and hydraulic turbines",
+      "Manufacturing & industrial engineering: casting, welding, metal forming, and linear programming"
+    ],
+    "prerequisites": [
+      "Undergraduate degree coursework in Mechanical Engineering"
+    ],
+    "recommendedNext": [
+      "res-gate-ce1"
+    ],
+    "topics": [
+      "GATE2026",
+      "MechanicalEngineering",
+      "Thermodynamics",
+      "FluidMechanics",
+      "Manufacturing",
+      "Mechanics"
+    ],
+    "tags": [
+      "GATE",
+      "ME",
+      "Mechanical",
+      "Thermodynamics",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-ce1",
+    "title": "GATE 2026: Civil Engineering (Paper 1)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 43,
+    "fileName": "CE1_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Mechanical, Civil & Aerospace (ME, CE & AE)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 43,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\CE1_gate.pdf",
+    "whatIsThisBookFor": "Official GATE Civil Engineering Paper 1, testing structural analysis, reinforced concrete structures, steel design, geotechnical engineering, and soil mechanics.",
+    "summary": "43-page official examination challenging civil engineers on indeterminate frame analysis, limit state design of beams/slabs, effective stress principles in soils, shear strength (Mohr-Coulomb), and foundation engineering.",
+    "keyTakeaways": [
+      "Structural analysis: slope deflection, moment distribution, and matrix stiffness methods",
+      "Reinforced cement concrete (RCC) & pre-stressed concrete: limit state flexure, shear, and bond",
+      "Soil mechanics: Darcy's seepage law, consolidation settlement, and lateral earth pressures",
+      "Foundation engineering: Terzaghi's bearing capacity and deep pile foundation design"
+    ],
+    "prerequisites": [
+      "Undergraduate degree coursework in Civil Engineering"
+    ],
+    "recommendedNext": [
+      "res-gate-ce2"
+    ],
+    "topics": [
+      "GATE2026",
+      "CivilEngineering",
+      "Structures",
+      "Geotechnical",
+      "SoilMechanics",
+      "RCC"
+    ],
+    "tags": [
+      "GATE",
+      "CE1",
+      "CivilEngineering",
+      "Structures",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-ce2",
+    "title": "GATE 2026: Civil Engineering (Paper 2)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 38,
+    "fileName": "CE2_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Mechanical, Civil & Aerospace (ME, CE & AE)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 38,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\CE2_gate.pdf",
+    "whatIsThisBookFor": "Official GATE Civil Engineering Paper 2, focusing on water resources, fluid mechanics, environmental engineering, transportation highways, and geomatics surveying.",
+    "summary": "38-page official examination testing hydrology hydrographs, open channel flow equations, BOD/COD water treatment kinetics, highway geometric design, traffic flow models, and GPS surveying.",
+    "keyTakeaways": [
+      "Environmental engineering: municipal water demand, activated sludge process, and air quality index",
+      "Hydrology & water resources: unit hydrograph derivations, flood routing, and reservoir storage",
+      "Transportation engineering: stopping sight distance (SSD), super-elevation, and pavement design",
+      "Geomatics surveying: leveling errors, traversing, photogrammetry, and GIS coordinate systems"
+    ],
+    "prerequisites": [
+      "res-gate-ce1"
+    ],
+    "recommendedNext": [
+      "res-gate-ae"
+    ],
+    "topics": [
+      "GATE2026",
+      "CivilEngineering",
+      "EnvironmentalEngineering",
+      "Transportation",
+      "Hydrology",
+      "Surveying"
+    ],
+    "tags": [
+      "GATE",
+      "CE2",
+      "CivilEngineering",
+      "Hydrology",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-gate-ae",
+    "title": "GATE 2026: Aerospace Engineering (AE)",
+    "author": "GATE Organizing Committee (IISc Bangalore & IITs)",
+    "pages": 34,
+    "fileName": "AE_gate.pdf",
+    "category": "sec-gate-engineering",
+    "subCategory": "GATE: Mechanical, Civil & Aerospace (ME, CE & AE)",
+    "resourceType": "BOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 34,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Downloads\\Gate_2026\\AE_gate.pdf",
+    "whatIsThisBookFor": "Official GATE Aerospace Engineering paper covering aerodynamics, flight mechanics, propulsion systems, aircraft structures, and space dynamics.",
+    "summary": "34-page official question paper testing supersonic shock waves, airfoil circulation theory, aircraft stability and control derivatives, gas turbine rocket propulsion cycles, and thin-walled structural analysis.",
+    "keyTakeaways": [
+      "Aerodynamics: potential flow theory, vortex panel methods, normal/oblique shocks, and Prandtl-Meyer expansion",
+      "Flight mechanics: longitudinal and lateral static/dynamic stability, cruise range, and climb ceilings",
+      "Aerospace propulsion: Brayton cycle, turbojet/turbofan thrust equations, and solid/liquid rocket motors",
+      "Aircraft structures: V-n flight envelopes, energy methods, and shear flow in thin-walled multicell boxes"
+    ],
+    "prerequisites": [
+      "Undergraduate degree coursework in Aerospace / Aeronautical Engineering"
+    ],
+    "recommendedNext": [],
+    "topics": [
+      "GATE2026",
+      "Aerospace",
+      "Aerodynamics",
+      "Propulsion",
+      "FlightMechanics",
+      "Structures"
+    ],
+    "tags": [
+      "GATE",
+      "AE",
+      "Aerospace",
+      "Aeronautics",
+      "IIT",
+      "IISc",
+      "ExamPaper"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
   }
 ];

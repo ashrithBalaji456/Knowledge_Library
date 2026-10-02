@@ -35,10 +35,12 @@ function localPdfServer(): Plugin {
 
         let resolved = path.resolve(targetPath);
         if (!fs.existsSync(resolved)) {
-          // Attempt searching across user's downloads folders (v2, Telegram Desktop DevotionalBooks, etc.)
-          let candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks', path.basename(targetPath));
+          // Attempt searching across user's downloads folders (Gate_2026, Telegram Desktop, v2, etc.)
+          let candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Gate_2026', path.basename(targetPath));
+          if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Telegram Desktop\\DevotioanalBooks', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\Telegram Desktop', path.basename(targetPath));
           if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads\\v2', path.basename(targetPath));
+          if (!candidate) candidate = findInFolderRecursive('C:\\Users\\ashri\\Downloads', path.basename(targetPath));
           if (candidate) resolved = candidate;
         }
 
