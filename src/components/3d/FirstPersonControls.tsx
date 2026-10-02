@@ -3,7 +3,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useLibraryStore } from '../../store/useLibraryStore';
 import { sound } from '../../engine/soundEngine';
-import { INTERACTIVE_BOOK_OBJECTS } from './Book3D';
+import { INTERACTIVE_BOOK_OBJECTS } from './interactiveRegistry';
 
 export const FirstPersonControls: React.FC = () => {
   const { camera, gl } = useThree();

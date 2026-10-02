@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { Resource } from '../../types/library';
 import { useLibraryStore } from '../../store/useLibraryStore';
 import { getOrCreateBookCoverTexture } from './coverTextureGenerator';
+import { INTERACTIVE_BOOK_OBJECTS } from './interactiveRegistry';
 
 interface Book3DProps {
   resource: Resource;
@@ -118,9 +119,6 @@ function getOrCreateBookSpineTexture(
   SPINE_TEXTURE_CACHE.set(key, texture);
   return texture;
 }
-
-// Global interactive registry for zero-overhead crosshair raycasting (avoids traversing full scene graph)
-export const INTERACTIVE_BOOK_OBJECTS = new Map<THREE.Object3D, string>();
 
 export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   const meshRef = useRef<THREE.Group>(null);
