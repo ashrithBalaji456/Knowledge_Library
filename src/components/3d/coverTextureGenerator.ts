@@ -150,7 +150,13 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     botBg = '#031E33';
     primaryAccent = '#38BDF8';
     secondaryAccent = '#BAE6FD';
-    seriesLabel = title.toLowerCase().includes('interview')
+    seriesLabel = title.toLowerCase().includes('topperworld')
+      ? '✦ TOPPERWORLD SQL HANDWRITTEN MASTER NOTES ✦'
+      : title.toLowerCase().includes('dbms')
+      ? '✦ COMPLETE DBMS & ER-MODEL HANDWRITTEN NOTES ✦'
+      : title.toLowerCase().includes('121')
+      ? '✦ 121-PAGE COMPREHENSIVE SQL HANDWRITTEN COMPENDIUM ✦'
+      : title.toLowerCase().includes('interview')
       ? '✦ 300 REAL SQL INTERVIEWS • PwC, DELOITTE & ACCENTURE ✦'
       : title.toLowerCase().includes('handwritten')
       ? '✦ COMPLETE SQL HANDWRITTEN MASTER REVISION NOTES ✦'

@@ -11643,5 +11643,182 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     ],
     "dateAdded": "2026-10-02",
     "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-sql-topperworld-handwritten-notes",
+    "title": "SQL Handwritten Notes: Complete Foundations to Functions (Topperworld)",
+    "author": "Topperworld Technical Editorial",
+    "pages": 42,
+    "fileName": "SQL_handwritten_note.pdf",
+    "category": "databases",
+    "subCategory": "SQL 14 Core Fundamentals & Joins",
+    "resourceType": "HANDBOOK",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 42,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\SQL_handwritten_note.pdf",
+    "whatIsThisBookFor": "Master SQL from IBM 1970s origins to complex built-in functions, set operators, wildcards, identity columns, and null handling through clean handwritten diagrams and syntax.",
+    "summary": "An authentic 42-page handwritten revision handbook authored by Topperworld. Features structured diagrams and examples covering: (1) SQL history and RDBMS communication, (2) Sublanguages: DDL (CREATE, ALTER, SP_RENAME, TRUNCATE, DROP), DML (INSERT implicit/explicit, UPDATE, DELETE), DQL (SELECT), TCL (COMMIT, ROLLBACK, SAVEPOINT), DCL (GRANT, REVOKE), (3) Detailed comparison of DELETE vs TRUNCATE, (4) Handling NULL values and ISNULL() functions, (5) LIKE operator pattern matching with wildcards (%, _, []) and ESCAPE syntax, (6) Set Operators: UNION, UNION ALL, INTERSECT, EXCEPT with cross-branch multi-table queries, (7) Table and column aliases with buffer memory diagrams, (8) IDENTITY(seed, increment) auto-incrementing columns and SET IDENTITY_INSERT overrides, (9) Comprehensive SQL Server Operators: Arithmetic, Relational, Logical (AND, OR, NOT truth tables), Special (IN, NOT IN, BETWEEN, IS NULL), and (10) Complete built-in functions catalog: Number (ABS, CEILING, FLOOR, POWER, PI, LOG), String (LEN, ASCII, CHAR, LOWER, UPPER, LTRIM, RTRIM, REVERSE, REPLICATE, REPLACE, CONCAT, SUBSTRING), Date/Time (GETDATE, GETUTCDATE, DATEPART, DATENAME, DATEADD, DATEDIFF), and Aggregations (SUM, AVG, MAX, MIN, COUNT(*), COUNT(col), COUNT(DISTINCT)).",
+    "keyTakeaways": [
+      "Crystal-clear handwritten diagrams showing user-to-SQL-to-database communication flows and buffer memory virtualization",
+      "Rigorous syntax and practical examples for all 5 sublanguages (DDL, DML, DQL, TCL, DCL)",
+      "Systematic comparison of DELETE vs TRUNCATE across DML/DDL types, WHERE support, rollback mechanics, and execution speed",
+      "Complete set operators (UNION, UNION ALL, INTERSECT, EXCEPT) with real multi-branch employee salary queries",
+      "Full reference catalog for SQL built-in string, date/time, mathematical, and multi-variant COUNT aggregations"
+    ],
+    "prerequisites": [
+      "Basic understanding of tabular data and computer systems"
+    ],
+    "recommendedNext": [
+      "res-dbms-handwritten-notes-patil",
+      "res-sql-300-interview-questions-pwc-deloitte",
+      "res-sql-handwritten-notes-comprehensive-121"
+    ],
+    "topics": [
+      "SQL",
+      "HandwrittenNotes",
+      "Topperworld",
+      "DDL",
+      "DML",
+      "TCL",
+      "SetOperators",
+      "Wildcards",
+      "Functions",
+      "Identity"
+    ],
+    "tags": [
+      "SQL",
+      "Handwritten",
+      "Topperworld",
+      "Notes",
+      "DDL",
+      "DML",
+      "Functions",
+      "Databases"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-dbms-handwritten-notes-patil",
+    "title": "Complete Database Management System (DBMS) Handwritten Notes",
+    "author": "Damini Patil (CodeWithCurious)",
+    "pages": 56,
+    "fileName": "DBMS Handwritten Notes!.pdf",
+    "category": "databases",
+    "subCategory": "SQL 14 Core Fundamentals & Joins",
+    "resourceType": "HANDBOOK",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 56,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\DBMS Handwritten Notes!.pdf",
+    "whatIsThisBookFor": "Comprehensive 56-page computer science degree and exam revision notes covering core DBMS theoretical concepts, ER modeling, relational algebra, normalization, transactions, and concurrency protocols.",
+    "summary": "Master 56-page handwritten notes on Database Management Systems written by Damini Patil (CSE). Thoroughly covers: (1) DBMS architecture, file system vs DBMS comparison, 3-tier schema architecture, data independence, (2) Entity-Relationship (ER) Modeling: entities, attributes, relationships, cardinality ratios, and converting ER diagrams to relational tables, (3) Relational Data Model: relations, keys (Candidate, Primary, Super, Foreign, Alternate), integrity constraints, (4) Relational Algebra operators: Selection, Projection, Cartesian Product, Join (Theta, Equi, Natural, Outer), (5) Database Normalization: Functional Dependencies, Armstrong's Axioms, 1NF, 2NF, 3NF, BCNF, lossless join decomposition and dependency preservation, (6) Transaction Processing & ACID properties, (7) Serializability, Conflict Serializability, Precedence Graph method, View Serializability, (8) Concurrency Control: Lock-based protocols (Shared/Exclusive, 2PL, Strict 2PL), Timestamp Ordering protocol, and (9) Deadlock detection, prevention, and recovery mechanisms.",
+    "keyTakeaways": [
+      "Clear visual diagrams of 3-level ANSI/SPARC schema architecture and physical vs logical data independence",
+      "Comprehensive ER diagram rules and conversion algorithms to relational tables",
+      "Complete Relational Algebra query formulations and operator semantics",
+      "Step-by-step normalization guide from unnormalized tables up to BCNF with functional dependency proofs",
+      "ACID transactions, schedules, conflict serializability precedence graphs, and two-phase locking (2PL) protocols"
+    ],
+    "prerequisites": [
+      "Basic mathematics, set theory, and computer science concepts"
+    ],
+    "recommendedNext": [
+      "res-sql-topperworld-handwritten-notes",
+      "res-db-1",
+      "res-sql-300-interview-questions-pwc-deloitte"
+    ],
+    "topics": [
+      "DBMS",
+      "ERModel",
+      "RelationalAlgebra",
+      "Normalization",
+      "BCNF",
+      "ACID",
+      "Transactions",
+      "ConcurrencyControl",
+      "2PL"
+    ],
+    "tags": [
+      "DBMS",
+      "Handwritten",
+      "Notes",
+      "Normalization",
+      "ERDiagram",
+      "Transactions",
+      "ComputerScience"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
+  },
+  {
+    "id": "res-sql-handwritten-notes-comprehensive-121",
+    "title": "Master SQL Handwritten Notes: 121-Page Comprehensive Edition",
+    "author": "SQL & Database Engineering Mentorship",
+    "pages": 121,
+    "fileName": "SQL Handwritten Notes .pdf",
+    "category": "databases",
+    "subCategory": "Indexing & Query Performance Tuning",
+    "resourceType": "HANDBOOK",
+    "difficulty": "ADVANCED",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 121,
+    "source": "uploaded_pdf",
+    "sourceUrl": "C:\\Users\\ashri\\Kodthe Bomma Thirigipovaley\\SQL\\SQL Handwritten Notes .pdf",
+    "whatIsThisBookFor": "The ultimate 121-page handwritten master repository covering end-to-end SQL: syntax, execution phases, joins, subqueries, procedural SQL, triggers, views, indexing, and performance optimization.",
+    "summary": "An encyclopedic 121-page handwritten SQL manual. Spans: (1) SQL foundations, architecture, relational models, datatypes, (2) Full DDL, DML, DQL, DCL, and TCL operations with detailed schema diagrams, (3) Deep dive into Joins: Inner, Left, Right, Full Outer, Cross, Self Joins, non-equi joins, and multi-table joins, (4) Subqueries: Single-row, multi-row, correlated subqueries, EXISTS and NOT EXISTS operators, (5) Advanced SQL: Common Table Expressions (CTEs), Recursive CTEs, Window Functions (ROW_NUMBER, RANK, DENSE_RANK, NTILE, LEAD, LAG, FIRST_VALUE, LAST_VALUE), (6) Views: Simple views, complex views, materialized views, check options, (7) Stored Procedures & User Defined Functions: Parameters (IN, OUT, INOUT), control flow (IF/ELSE, CASE, LOOP, WHILE), (8) Triggers: BEFORE, AFTER, INSTEAD OF triggers, auditing use cases, (9) Cursor programming, (10) Transactions, isolation levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable), and concurrency phenomena (Dirty Read, Non-repeatable Read, Phantom Read), (11) Indexing architectures: B-Tree, Hash, Clustered vs Non-Clustered indexes, index design best practices, and EXPLAIN query plan optimization.",
+    "keyTakeaways": [
+      "121 exhaustive pages of handwritten notes detailing every facet of relational query engineering",
+      "In-depth query diagrams for every join variant, correlated subquery mechanics, and window function frame specifications",
+      "Full procedural SQL coverage: stored procedures, triggers, custom functions, and cursors with clean templates",
+      "Transaction isolation levels and detailed diagrams of concurrency anomalies (dirty reads, phantom reads)",
+      "Query optimization: SARGability, index scan vs seek, B-Tree traversal mechanics, and execution plan tuning"
+    ],
+    "prerequisites": [
+      "Fundamental database knowledge and desire to master advanced SQL"
+    ],
+    "recommendedNext": [
+      "res-sql-300-interview-questions-pwc-deloitte",
+      "res-db-2"
+    ],
+    "topics": [
+      "AdvancedSQL",
+      "HandwrittenNotes",
+      "CTEs",
+      "WindowFunctions",
+      "StoredProcedures",
+      "Triggers",
+      "Transactions",
+      "IsolationLevels",
+      "Indexing",
+      "QueryTuning"
+    ],
+    "tags": [
+      "SQL",
+      "Handwritten",
+      "121Pages",
+      "Comprehensive",
+      "Procedures",
+      "Triggers",
+      "Indexing",
+      "Databases"
+    ],
+    "dateAdded": "2026-10-02",
+    "lastOpened": "2026-10-02"
   }
 ];
