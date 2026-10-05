@@ -66,6 +66,8 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     secondaryAccent = '#60A5FA'; // Sapphire Blue
     seriesLabel = title.toLowerCase().includes('cracking')
       ? '✦ GATE TOPPERS’ PLAYBOOK • AIR < 100 & < 250 ROADMAP ✦'
+      : title.toLowerCase().includes('free practice') || title.toLowerCase().includes('gate overflow')
+      ? '✦ GATE CSE FREE PRACTICE DIRECTORY & MOCK TEST STRATEGY ✦'
       : '✦ GATE 2026 • GRADUATE APTITUDE TEST IN ENGINEERING ✦';
   } else if (isGaming) {
     topBg = '#030712'; // Deep cyber black
@@ -177,14 +179,18 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     botBg = '#100520';
     primaryAccent = '#A78BFA';
     secondaryAccent = '#FBBF24';
-    seriesLabel = 'DATA STRUCTURES & ALGORITHMIC PATTERNS';
+    seriesLabel = title.toLowerCase().includes('codevita')
+      ? '✦ TCS CODEVITA: GLOBAL COMPETITIVE PROGRAMMING VAULT ✦'
+      : 'DATA STRUCTURES & ALGORITHMIC PATTERNS';
   } else if (isSpring) {
     topBg = '#022C22';
     midBg = '#047857';
     botBg = '#011A14';
     primaryAccent = '#34D399';
     secondaryAccent = '#A7F3D0';
-    seriesLabel = 'SPRING BOOT & ENTERPRISE ARCHITECTURE';
+    seriesLabel = title.toLowerCase().includes('data jpa')
+      ? '✦ SPRING BOOT 3 & DATA JPA COMPLETE GUIDE (HIBERNATE 6) ✦'
+      : 'SPRING BOOT & ENTERPRISE ARCHITECTURE';
   } else if (isJava) {
     topBg = '#0A192F';
     midBg = '#1E3A8A';
