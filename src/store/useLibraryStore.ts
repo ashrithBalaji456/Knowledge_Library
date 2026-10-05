@@ -130,7 +130,7 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v24_spring_jpa_codevita';
+const STORAGE_KEY = 'pk_library_resources_v25_spring_security_concepts';
 
 function loadStoredResources(): Resource[] {
   try {

@@ -190,6 +190,8 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     secondaryAccent = '#A7F3D0';
     seriesLabel = title.toLowerCase().includes('data jpa')
       ? '✦ SPRING BOOT 3 & DATA JPA COMPLETE GUIDE (HIBERNATE 6) ✦'
+      : title.toLowerCase().includes('security')
+      ? '✦ 10 SPRING SECURITY CONCEPTS YOU MUST KNOW ✦'
       : 'SPRING BOOT & ENTERPRISE ARCHITECTURE';
   } else if (isJava) {
     topBg = '#0A192F';
