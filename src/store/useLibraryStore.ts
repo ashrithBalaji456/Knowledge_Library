@@ -130,7 +130,7 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v26_google_flow_prompts';
+const STORAGE_KEY = 'pk_library_resources_v27_remotion_session_hijacking';
 
 function loadStoredResources(): Resource[] {
   try {

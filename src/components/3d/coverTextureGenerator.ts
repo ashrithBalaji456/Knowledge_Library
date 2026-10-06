@@ -39,7 +39,8 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
   const isVrataDevotional = isDevotional && !isHanumanDevotional && (title.toLowerCase().includes('vrat') || title.toLowerCase().includes('puuja') || title.toLowerCase().includes('stothra') || title.toLowerCase().includes('tulasi') || title.toLowerCase().includes('homa') || title.toLowerCase().includes('sathyadeva') || title.toLowerCase().includes('sandhya') || title.toLowerCase().includes('pinda'));
   const isSystemDesign = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('system-design') || category.includes('sysdes') || title.toLowerCase().includes('system design') || title.toLowerCase().includes('lld') || title.toLowerCase().includes('hld') || subCategory.toLowerCase().includes('system design') || subCategory.toLowerCase().includes('lld') || subCategory.toLowerCase().includes('hld'));
   const isDevOps = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('devops') || title.toLowerCase().includes('docker') || title.toLowerCase().includes('kubernetes') || title.toLowerCase().includes('git') || subCategory.toLowerCase().includes('devops') || subCategory.toLowerCase().includes('container'));
-  const isDatabase = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
+  const isSecurity = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && (category.includes('security') || title.toLowerCase().includes('session hijacking') || title.toLowerCase().includes('cybersecurity') || title.toLowerCase().includes('owasp'));
+  const isDatabase = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSecurity && (category.includes('database') || title.toLowerCase().includes('sql') || title.toLowerCase().includes('postgres') || title.toLowerCase().includes('mysql') || subCategory.toLowerCase().includes('database') || subCategory.toLowerCase().includes('sql'));
   const isDSA = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && (category.includes('dsa') || title.toLowerCase().includes('dsa') || title.toLowerCase().includes('neetcode') || title.toLowerCase().includes('striver') || title.toLowerCase().includes('leetcode') || subCategory.toLowerCase().includes('dsa') || subCategory.toLowerCase().includes('competitive'));
   const isSpring = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && (category.includes('spring') || title.toLowerCase().includes('spring') || subCategory.toLowerCase().includes('spring') || title.toLowerCase().includes('kafka'));
   const isJava = !isGate && !isGaming && !isMahabharata && !isSurya && !isSamsara && !isAIAgent && !isDevotional && !isSystemDesign && !isDevOps && !isDatabase && !isDSA && !isSpring && (category.includes('java') || title.toLowerCase().includes('java') || subCategory.toLowerCase().includes('java'));
@@ -208,6 +209,13 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
       primaryAccent = '#E879F9';
       secondaryAccent = '#38BDF8';
       seriesLabel = '✦ 55 GOOGLE FLOW PROMPTS FOR AI VIDEO MARKETING ✦';
+    } else if (title.toLowerCase().includes('remotion')) {
+      topBg = '#0B021C';
+      midBg = '#581C87';
+      botBg = '#05010E';
+      primaryAccent = '#A855F7';
+      secondaryAccent = '#38BDF8';
+      seriesLabel = '✦ REMOTION AI VIDEO PRODUCTION • 4K RENDER BLUEPRINT ✦';
     } else {
       topBg = '#1E1035';
       midBg = '#3B185F';
@@ -216,6 +224,15 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
       secondaryAccent = '#38BDF8';
       seriesLabel = 'ARTIFICIAL INTELLIGENCE & DEEP LEARNING';
     }
+  } else if (isSecurity) {
+    topBg = '#2A0404';
+    midBg = '#991B1B';
+    botBg = '#140101';
+    primaryAccent = '#F87171';
+    secondaryAccent = '#FDE047';
+    seriesLabel = title.toLowerCase().includes('session hijacking')
+      ? '✦ SESSION HIJACKING • MOBILE & WEB DEFENSE GUIDE ✦'
+      : 'CYBERSECURITY & DISTRIBUTED AUTHENTICATION';
   } else if (isData) {
     topBg = '#042F2E';
     midBg = '#0D9488';
