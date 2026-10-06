@@ -201,12 +201,21 @@ export function getOrCreateBookCoverTexture(resource: Resource, bookColor: strin
     secondaryAccent = '#F59E0B';
     seriesLabel = 'JAVA ENTERPRISE & CORE PROGRAMMING';
   } else if (isML) {
-    topBg = '#1E1035';
-    midBg = '#3B185F';
-    botBg = '#100720';
-    primaryAccent = '#A78BFA';
-    secondaryAccent = '#38BDF8';
-    seriesLabel = 'ARTIFICIAL INTELLIGENCE & DEEP LEARNING';
+    if (title.toLowerCase().includes('google flow') || title.toLowerCase().includes('flow prompts')) {
+      topBg = '#1A0B2E';
+      midBg = '#4F1D77';
+      botBg = '#0B0414';
+      primaryAccent = '#E879F9';
+      secondaryAccent = '#38BDF8';
+      seriesLabel = '✦ 55 GOOGLE FLOW PROMPTS FOR AI VIDEO MARKETING ✦';
+    } else {
+      topBg = '#1E1035';
+      midBg = '#3B185F';
+      botBg = '#100720';
+      primaryAccent = '#A78BFA';
+      secondaryAccent = '#38BDF8';
+      seriesLabel = 'ARTIFICIAL INTELLIGENCE & DEEP LEARNING';
+    }
   } else if (isData) {
     topBg = '#042F2E';
     midBg = '#0D9488';

@@ -130,7 +130,7 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v25_spring_security_concepts';
+const STORAGE_KEY = 'pk_library_resources_v26_google_flow_prompts';
 
 function loadStoredResources(): Resource[] {
   try {
