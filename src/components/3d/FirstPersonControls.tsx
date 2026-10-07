@@ -17,35 +17,40 @@ const STATIC_EULER = new THREE.Euler(0, 0, 0, 'YXZ');
 
 // Multi-level architectural height calculation
 function getFloorElevation(x: number, z: number, currentCamY: number): number {
-  // West Ramp: x in [-17.5, -12.5], z in [6, 24]
-  if (Math.abs(x - (-15)) <= 2.5 && z >= 6 && z <= 24) {
-    const t = (24 - z) / 18; // 0 at entrance z=24, 1.0 at upper mezzanine z=6
-    return t * 4.8;
-  }
-  // East Ramp: x in [12.5, 17.5], z in [6, 24]
-  if (Math.abs(x - 15) <= 2.5 && z >= 6 && z <= 24) {
-    const t = (24 - z) / 18; // 0 at entrance z=24, 1.0 at upper mezzanine z=6
-    return t * 4.8;
+  // Grand Sweeping Curved Staircase: ascending to Level 2 around atrium (0, -14)
+  const distToAtrium = Math.hypot(x, z - (-14));
+  if (distToAtrium >= 8.5 && distToAtrium <= 13.5 && currentCamY < 5.8) {
+    const angle = Math.atan2(z - (-14), x);
+    // Staircase sector from angle -0.45*PI to 0.40*PI
+    if (angle >= -1.45 && angle <= 1.35) {
+      const t = (angle - (-1.45)) / (1.35 - (-1.45));
+      return Math.min(5.2, Math.max(0, t * 5.2));
+    }
   }
 
-  // Upper Mezzanine & Skybridge Level (y = 4.8m) if player is already elevated
+  // West & East Pedestrian Ramps at x = +/-15: z in [6, 24]
+  if ((Math.abs(x - (-15)) <= 2.5 || Math.abs(x - 15) <= 2.5) && z >= 6 && z <= 24) {
+    const t = (24 - z) / 18; // 0 at z=24, 1.0 at z=6
+    return t * 5.2;
+  }
+
+  // Upper Mezzanine & Skybridge Level (y = 5.2m)
   if (currentCamY > 3.2) {
-    // Rotunda Mezzanine ring around Atrium (0, -18)
-    const distToAtrium = Math.hypot(x, z - (-18));
-    if (distToAtrium >= 10.0 && distToAtrium <= 17.0) {
-      return 4.8;
+    // Rotunda Mezzanine ring around Atrium (0, -14)
+    if (distToAtrium >= 10.5 && distToAtrium <= 17.5) {
+      return 5.2;
     }
-    // South Skybridge: z in [3.5, 8.5], x in [-22, 22]
-    if (z >= 3.5 && z <= 8.5 && Math.abs(x) <= 22) {
-      return 4.8;
+    // South Skybridge: z in [3.8, 8.2], x in [-22, 22]
+    if (z >= 3.8 && z <= 8.2 && Math.abs(x) <= 22) {
+      return 5.2;
     }
-    // North Skybridge: z in [-44.5, -39.5], x in [-22, 22]
-    if (z >= -44.5 && z <= -39.5 && Math.abs(x) <= 22) {
-      return 4.8;
+    // North Skybridge: z in [-36.2, -31.8], x in [-22, 22]
+    if (z >= -36.2 && z <= -31.8 && Math.abs(x) <= 22) {
+      return 5.2;
     }
-    // Longitudinal promenades: x near +/-15, z in [-44, 8]
-    if ((Math.abs(x - (-15)) <= 2.8 || Math.abs(x - 15) <= 2.8) && z >= -44 && z <= 8) {
-      return 4.8;
+    // Longitudinal promenades: x near +/-15, z in [-36, 8]
+    if ((Math.abs(x - (-15)) <= 2.8 || Math.abs(x - 15) <= 2.8) && z >= -36 && z <= 8) {
+      return 5.2;
     }
   }
 

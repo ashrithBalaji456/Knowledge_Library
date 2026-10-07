@@ -116,60 +116,60 @@ export const LibraryScene: React.FC = () => {
     return computeLibraryPlacements(sections, resources);
   }, [sections, resources]);
 
-  // Premium Futuristic Cyberpunk lighting setups
+  // High-visibility luxury architectural lighting matching reference images
   const lighting = useMemo(() => {
     switch (atmosphere) {
       case 'day':
         return {
-          backgroundColor: '#0B1528', // Deep architectural navy sky
-          fogColor: '#0E1B33', // Soft blue-gray depth mist
-          fogNear: 85,
-          fogFar: 290,
-          ambientColor: '#E0F2FE',
-          ambientIntensity: 1.15,
+          backgroundColor: '#38BDF8', // Vibrant azure open sky seen through glass dome
+          fogColor: '#BAE6FD', // Bright atmospheric horizon haze (maximum visibility!)
+          fogNear: 120,
+          fogFar: 380,
+          ambientColor: '#FFFFFF',
+          ambientIntensity: 1.45,
           hemiSky: '#38BDF8',
-          hemiGround: '#1E293B',
-          hemiIntensity: 0.55,
-          sunColor: '#F0F9FF',
-          sunIntensity: 1.35,
-          sunPos: [15, 26, -10] as [number, number, number],
-          hallAccentColor: '#06B6D4',
-          hallAccentIntensity: 0.95,
+          hemiGround: '#FDE68A',
+          hemiIntensity: 0.9,
+          sunColor: '#FFFBEB', // Warm glorious sunlight pouring through dome
+          sunIntensity: 2.4,
+          sunPos: [15, 32, -10] as [number, number, number],
+          hallAccentColor: '#FDE68A',
+          hallAccentIntensity: 1.2,
         };
       case 'evening':
         return {
-          backgroundColor: '#130E26', // Deep twilight violet-indigo
-          fogColor: '#181230',
-          fogNear: 80,
-          fogFar: 275,
-          ambientColor: '#EDE9FE',
-          ambientIntensity: 1.05,
+          backgroundColor: '#1E1B4B', // Warm twilight sky
+          fogColor: '#312E81',
+          fogNear: 100,
+          fogFar: 340,
+          ambientColor: '#FEF3C7',
+          ambientIntensity: 1.25,
           hemiSky: '#A78BFA',
-          hemiGround: '#1E1B4B',
-          hemiIntensity: 0.50,
-          sunColor: '#DDD6FE',
-          sunIntensity: 1.15,
-          sunPos: [-20, 20, -20] as [number, number, number],
-          hallAccentColor: '#8B5CF6',
-          hallAccentIntensity: 1.0,
+          hemiGround: '#78350F',
+          hemiIntensity: 0.75,
+          sunColor: '#F59E0B',
+          sunIntensity: 1.8,
+          sunPos: [-20, 24, -20] as [number, number, number],
+          hallAccentColor: '#FDE68A',
+          hallAccentIntensity: 1.3,
         };
       case 'night':
       default:
         return {
-          backgroundColor: '#0A1224', // Architectural midnight slate (clearly visible, never pitch black!)
-          fogColor: '#0D162C',
-          fogNear: 75,
-          fogFar: 260,
-          ambientColor: '#BAE6FD',
-          ambientIntensity: 0.92,
-          hemiSky: '#06B6D4',
-          hemiGround: '#0F172A',
-          hemiIntensity: 0.42,
-          sunColor: '#38BDF8',
-          sunIntensity: 0.95,
-          sunPos: [0, 24, 0] as [number, number, number],
-          hallAccentColor: '#06B6D4',
-          hallAccentIntensity: 1.1,
+          backgroundColor: '#0F172A', // Deep architectural night sky
+          fogColor: '#1E293B',
+          fogNear: 90,
+          fogFar: 320,
+          ambientColor: '#E2E8F0',
+          ambientIntensity: 1.15,
+          hemiSky: '#38BDF8',
+          hemiGround: '#1E293B',
+          hemiIntensity: 0.65,
+          sunColor: '#FDE68A', // Warm golden interior library illumination
+          sunIntensity: 1.5,
+          sunPos: [0, 26, 0] as [number, number, number],
+          hallAccentColor: '#FDE68A',
+          hallAccentIntensity: 1.4,
         };
     }
   }, [atmosphere]);
@@ -190,7 +190,7 @@ export const LibraryScene: React.FC = () => {
     >
       <Canvas
         dpr={preferences.targetFps120 ? [1, 1.25] : [1, 1.5]}
-        camera={{ position: [0, 1.7, 24], fov: 65, near: 0.1, far: 260 }}
+        camera={{ position: [0, 1.7, 20], fov: 65, near: 0.1, far: 380 }}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
