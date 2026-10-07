@@ -227,9 +227,9 @@ export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
               />
             )}
 
-            {/* Recessed Cyan Under-Shelf Illumination Strip (lights up book spines below) */}
-            {idx < shelfYPositions.length - 1 && (
-              <mesh position={[0, -shelfThickness / 2 - 0.01, 0]}>
+            {/* Recessed Cyan Under-Shelf Illumination Strip (casts soft downlight on books below) */}
+            {idx > 0 && (
+              <mesh position={[0, -shelfThickness / 2 - 0.008, 0]}>
                 <boxGeometry args={[width - sideThickness * 2 - 0.1, 0.012, 0.08]} />
                 <primitive object={SHARED_SHELF_LIGHT_STRIP_MATERIAL} attach="material" />
               </mesh>

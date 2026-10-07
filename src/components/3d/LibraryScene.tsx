@@ -40,24 +40,52 @@ const PerformanceTelemetry: React.FC = () => {
   return null;
 };
 
-// Subtle atmospheric data motes floating in calm architectural space
-const AmbientDustMotes: React.FC = () => {
+// Cyber Holographic Data Particles drifting calmly through architectural space
+const AtmosphericDataDrift: React.FC = () => {
   const pointsRef = useRef<THREE.Points>(null);
-  const count = 120;
+  const count = 220;
 
-  const positions = useMemo(() => {
+  const [positions, initialData] = useMemo(() => {
     const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 50;
-      pos[i * 3 + 1] = Math.random() * 6.0 + 1.0;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 80;
-    }
-    return pos;
-  }, []);
+    const data: Array<{ baseSpeed: number; swaySpeed: number; seed: number }> = [];
 
-  useFrame((_, delta) => {
+    for (let i = 0; i < count; i++) {
+      // Distributed widely across the entire library nave and wings
+      pos[i * 3] = (Math.random() - 0.5) * 90;
+      pos[i * 3 + 1] = Math.random() * 11.0 + 0.5;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 140 - 20;
+
+      data.push({
+        baseSpeed: 0.15 + Math.random() * 0.25,
+        swaySpeed: 0.4 + Math.random() * 0.8,
+        seed: Math.random() * Math.PI * 2,
+      });
+    }
+    return [pos, data];
+  }, [count]);
+
+  useFrame((state, delta) => {
     if (!pointsRef.current) return;
-    pointsRef.current.rotation.y += delta * 0.015;
+    const geom = pointsRef.current.geometry;
+    const posAttr = geom.attributes.position as THREE.BufferAttribute;
+    const array = posAttr.array as Float32Array;
+    const time = state.clock.getElapsedTime();
+
+    for (let i = 0; i < count; i++) {
+      const idx = i * 3;
+      const { baseSpeed, swaySpeed, seed } = initialData[i];
+
+      // Gentle vertical floating drift
+      array[idx + 1] += delta * baseSpeed;
+      // Gentle lateral data packet swaying
+      array[idx] += Math.sin(time * swaySpeed + seed) * 0.008;
+
+      // Wrap around bounds so data stream is perpetual
+      if (array[idx + 1] > 12.0) {
+        array[idx + 1] = 0.5;
+      }
+    }
+    posAttr.needsUpdate = true;
   });
 
   return (
@@ -66,11 +94,12 @@ const AmbientDustMotes: React.FC = () => {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.05}
-        color="#38BDF8"
+        size={0.065}
+        color="#06B6D4"
         transparent
-        opacity={0.3}
+        opacity={0.42}
         blending={THREE.AdditiveBlending}
+        depthWrite={false}
       />
     </points>
   );
@@ -92,49 +121,61 @@ export const LibraryScene: React.FC = () => {
     switch (atmosphere) {
       case 'day':
         return {
-          backgroundColor: '#040814',
-          fogColor: '#060D1A',
-          fogNear: 60,
-          fogFar: 220,
+          backgroundColor: '#030712',
+          fogColor: '#050D1C',
+          fogNear: 65,
+          fogFar: 230,
           ambientColor: '#D8ECF8',
-          ambientIntensity: 0.95,
+          ambientIntensity: 0.85,
+          hemiSky: '#38BDF8',
+          hemiGround: '#030712',
+          hemiIntensity: 0.45,
           sunColor: '#A5F3FC',
           sunIntensity: 1.15,
-          sunPos: [15, 22, -10] as [number, number, number],
-          hallAccentColor: '#22D3EE',
-          hallAccentIntensity: 0.85,
+          sunPos: [15, 24, -10] as [number, number, number],
+          hallAccentColor: '#06B6D4',
+          hallAccentIntensity: 0.75,
         };
       case 'evening':
         return {
-          backgroundColor: '#080514',
-          fogColor: '#0B081C',
-          fogNear: 55,
-          fogFar: 210,
+          backgroundColor: '#060412',
+          fogColor: '#0A061C',
+          fogNear: 60,
+          fogFar: 220,
           ambientColor: '#DDD6FE',
-          ambientIntensity: 0.85,
+          ambientIntensity: 0.75,
+          hemiSky: '#A78BFA',
+          hemiGround: '#05030E',
+          hemiIntensity: 0.40,
           sunColor: '#C084FC',
-          sunIntensity: 1.05,
-          sunPos: [-20, 14, -20] as [number, number, number],
+          sunIntensity: 0.95,
+          sunPos: [-20, 18, -20] as [number, number, number],
           hallAccentColor: '#8B5CF6',
-          hallAccentIntensity: 1.0,
+          hallAccentIntensity: 0.85,
         };
       case 'night':
       default:
         return {
-          backgroundColor: '#02040A',
-          fogColor: '#030612',
-          fogNear: 50,
-          fogFar: 200,
+          backgroundColor: '#020409',
+          fogColor: '#030714',
+          fogNear: 55,
+          fogFar: 210,
           ambientColor: '#67E8F9',
-          ambientIntensity: 0.70,
+          ambientIntensity: 0.65,
+          hemiSky: '#06B6D4',
+          hemiGround: '#02040A',
+          hemiIntensity: 0.35,
           sunColor: '#38BDF8',
-          sunIntensity: 0.60,
-          sunPos: [0, 20, 0] as [number, number, number],
+          sunIntensity: 0.70,
+          sunPos: [0, 22, 0] as [number, number, number],
           hallAccentColor: '#06B6D4',
-          hallAccentIntensity: 1.2,
+          hallAccentIntensity: 1.0,
         };
     }
   }, [atmosphere]);
+
+  // Longitudinal aisle beacon positions along central nave
+  const aisleBeaconZ = [18, -12, -42, -72, -102];
 
   return (
     <div
@@ -160,33 +201,40 @@ export const LibraryScene: React.FC = () => {
         }}
         frameloop={activeModal === 'pdf' ? 'demand' : 'always'}
       >
-        {/* Warm Atmospheric Sky & Fog */}
+        {/* Futuristic Cyberpunk Fog & Sky */}
         <color attach="background" args={[lighting.backgroundColor]} />
         <fog attach="fog" args={[lighting.fogColor, lighting.fogNear, lighting.fogFar]} />
 
-        {/* Global Warm Ambient Fill Lighting */}
+        {/* Global Cool Sci-Fi Ambient Fill Lighting */}
         <ambientLight intensity={lighting.ambientIntensity} color={lighting.ambientColor} />
 
-        {/* Directional Warm Sunlight / Skylight */}
+        {/* Cyber Hemisphere Sky/Ground Light */}
+        <hemisphereLight args={[lighting.hemiSky, lighting.hemiGround, lighting.hemiIntensity]} />
+
+        {/* Directional Skylight / Sunlight Beam */}
         <directionalLight
           position={lighting.sunPos}
           intensity={lighting.sunIntensity}
           color={lighting.sunColor}
         />
 
-        {/* Warm Golden Hall Study Accent Lighting */}
-        <pointLight
-          position={[0, 5.0, 4]}
-          intensity={lighting.hallAccentIntensity}
-          color={lighting.hallAccentColor}
-          distance={32}
-        />
+        {/* Longitudinal Central Nave Accent Beacons */}
+        {aisleBeaconZ.map((z, idx) => (
+          <pointLight
+            key={idx}
+            position={[0, 5.2, z]}
+            intensity={lighting.hallAccentIntensity * 0.45}
+            color={lighting.hallAccentColor}
+            distance={26}
+            decay={2}
+          />
+        ))}
 
-        {/* Grand Architecture: warm wood floor, cream walls, study tables, banker lamps, plants */}
+        {/* Grand Architecture */}
         <LibraryArchitecture />
 
-        {/* Ambient floating dust */}
-        <AmbientDustMotes />
+        {/* Subtle Cyan Atmospheric Data Particle Drift */}
+        <AtmosphericDataDrift />
 
         {/* Sections, Shelves & Distance-Culled Books */}
         {sections.map((section) => {

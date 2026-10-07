@@ -17,9 +17,10 @@ const SIGN_TEXTURE_CACHE = new Map<string, THREE.CanvasTexture>();
 function getOrCreatePhysicalSectionSign(
   name: string,
   icon: string,
-  colorHex: string
+  colorHex: string,
+  bookCount: number
 ): THREE.CanvasTexture {
-  const key = `${name}-${colorHex}`;
+  const key = `${name}-${colorHex}-${bookCount}`;
   if (SIGN_TEXTURE_CACHE.has(key)) {
     return SIGN_TEXTURE_CACHE.get(key)!;
   }
@@ -88,17 +89,17 @@ function getOrCreatePhysicalSectionSign(
   ctx.shadowColor = '#06B6D4';
   ctx.shadowBlur = 14;
   ctx.fillStyle = '#F8FAFC';
-  ctx.font = 'bold 56px "Outfit", "Inter", sans-serif';
+  ctx.font = 'bold 54px "Outfit", "Inter", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(`${icon}  ${name.toUpperCase()}`, 512, 108);
+  ctx.fillText(`${icon}  ${name.toUpperCase()}`, 512, 106);
 
-  // Domain subtitle with glowing section accent color
+  // Domain subtitle with volume count and glowing section accent color
   ctx.shadowBlur = 8;
   ctx.shadowColor = colorHex;
   ctx.font = '700 18px "Inter", monospace';
   ctx.fillStyle = '#38BDF8';
-  ctx.fillText('NEURAL ARCHIVE // ADVANCED RESEARCH SECTOR', 512, 172);
+  ctx.fillText(`NEURAL ARCHIVE // ${bookCount} CATALOGED VOLUMES`, 512, 172);
 
   // Reset shadow
   ctx.shadowBlur = 0;
@@ -112,8 +113,8 @@ export const Section3D = React.memo<Section3DProps>(({ section, shelves, resourc
   const [secX, secY, secZ] = section.anchorPosition;
 
   const signTexture = useMemo(
-    () => getOrCreatePhysicalSectionSign(section.name, section.icon, section.color),
-    [section.name, section.icon, section.color]
+    () => getOrCreatePhysicalSectionSign(section.name, section.icon, section.color, resources.length),
+    [section.name, section.icon, section.color, resources.length]
   );
 
   const signMaterial = useMemo(
@@ -276,6 +277,15 @@ export const Section3D = React.memo<Section3DProps>(({ section, shelves, resourc
           <planeGeometry args={[4.2, 1.05]} />
           <primitive object={signMaterial} attach="material" />
         </mesh>
+
+        {/* Subtle Portal Threshold Downlight in Section Accent Color */}
+        <pointLight
+          position={[0, archHeight * 0.95, 0]}
+          color={section.color}
+          intensity={0.4}
+          distance={7.5}
+          decay={2}
+        />
       </group>
 
       {/* --- BOOKSHELVES FOR THIS SECTION --- */}
