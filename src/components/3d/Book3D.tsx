@@ -25,6 +25,11 @@ const SHARED_GOLD_FOIL_MATERIAL = new THREE.MeshStandardMaterial({
   metalness: 0.85,
 });
 
+const COLOR_CYAN = new THREE.Color('#06B6D4');
+const COLOR_BLUE = new THREE.Color('#38BDF8');
+const COLOR_VIOLET = new THREE.Color('#8B5CF6');
+const COLOR_BLACK = new THREE.Color('#000000');
+
 // Cache for generated spine textures with crisp vertical typography
 const SPINE_TEXTURE_CACHE = new Map<string, THREE.CanvasTexture>();
 
@@ -209,9 +214,9 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   }, [spineTexture, isMustLearn, isCurrentFocus]);
 
   // Update emissive intensity directly on material without shader re-compilation
-  coverArtMaterial.emissive = isSelected ? new THREE.Color('#06B6D4') : isHovered ? new THREE.Color('#38BDF8') : new THREE.Color('#000000');
+  coverArtMaterial.emissive = isSelected ? COLOR_CYAN : isHovered ? COLOR_BLUE : COLOR_BLACK;
   coverArtMaterial.emissiveIntensity = isSelected ? 0.32 : isHovered ? 0.18 : 0.0;
-  spineMaterial.emissive = isSelected ? new THREE.Color('#06B6D4') : isHovered ? new THREE.Color('#38BDF8') : isMustLearn ? new THREE.Color('#06B6D4') : isCurrentFocus ? new THREE.Color('#8B5CF6') : new THREE.Color('#000000');
+  spineMaterial.emissive = isSelected ? COLOR_CYAN : isHovered ? COLOR_BLUE : isMustLearn ? COLOR_CYAN : isCurrentFocus ? COLOR_VIOLET : COLOR_BLACK;
   spineMaterial.emissiveIntensity = isSelected ? 0.45 : isHovered ? 0.28 : isMustLearn || isCurrentFocus ? 0.22 : 0.0;
 
   // Dynamic pull-out on hover or selection (with high-perf early exit for resting books)
@@ -310,14 +315,10 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
       onPointerOut={handlePointerOut}
       onClick={handleClick}
     >
-      {/* Dedicated high-hit-rate interaction collider box covering the book */}
+      {/* Interaction collider box */}
       <mesh
         position={[0, 0, 0]}
         userData={{ bookId: resource.id }}
-        onPointerOver={handlePointerOver}
-        onPointerMove={handlePointerMove}
-        onPointerOut={handlePointerOut}
-        onClick={handleClick}
       >
         <boxGeometry args={[depth + 0.02, height + 0.02, thickness + 0.01]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />

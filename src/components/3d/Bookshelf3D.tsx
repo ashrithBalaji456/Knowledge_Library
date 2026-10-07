@@ -6,38 +6,38 @@ interface Bookshelf3DProps {
   shelf: ShelfInfo;
 }
 
-// Sleek dark graphite, titanium and smoked glass materials
+// Refined architectural graphite, titanium and smoked glass materials (never pitch black!)
 const SHARED_GRAPHITE_FRAME_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#0A101D', // Deep obsidian-graphite alloy
-  roughness: 0.38,
-  metalness: 0.62,
+  color: '#1E293B', // Refined slate-graphite frame
+  roughness: 0.32,
+  metalness: 0.65,
 });
 
 const SHARED_TITANIUM_TRIM_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#1E293B', // Brushed titanium
-  roughness: 0.3,
-  metalness: 0.78,
+  color: '#334155', // Brushed aerospace titanium
+  roughness: 0.28,
+  metalness: 0.8,
 });
 
 const SHARED_CYBER_SHELF_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#0E1726', // Dark carbon composite shelf tier plate
-  roughness: 0.32,
+  color: '#182438', // Dark slate composite shelf tier plate
+  roughness: 0.3,
   metalness: 0.45,
 });
 
 const SHARED_CYBER_BACKBOARD_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#060B14', // Deep midnight carbon backboard (makes colorful book spines pop!)
-  roughness: 0.8,
-  metalness: 0.15,
+  color: '#0F172A', // Midnight carbon backboard
+  roughness: 0.75,
+  metalness: 0.2,
 });
 
 // Smoked glass side panels
 const SHARED_SMOKED_SIDE_GLASS = new THREE.MeshStandardMaterial({
-  color: '#0F1E38',
-  roughness: 0.18,
-  metalness: 0.2,
+  color: '#0284C7',
+  roughness: 0.12,
+  metalness: 0.15,
   transparent: true,
-  opacity: 0.65,
+  opacity: 0.52,
 });
 
 // Recessed cyan architectural LED strip under each shelf tier

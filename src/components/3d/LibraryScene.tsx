@@ -121,55 +121,55 @@ export const LibraryScene: React.FC = () => {
     switch (atmosphere) {
       case 'day':
         return {
-          backgroundColor: '#030712',
-          fogColor: '#050D1C',
-          fogNear: 65,
-          fogFar: 230,
-          ambientColor: '#D8ECF8',
-          ambientIntensity: 0.85,
+          backgroundColor: '#0B1528', // Deep architectural navy sky
+          fogColor: '#0E1B33', // Soft blue-gray depth mist
+          fogNear: 85,
+          fogFar: 290,
+          ambientColor: '#E0F2FE',
+          ambientIntensity: 1.15,
           hemiSky: '#38BDF8',
-          hemiGround: '#030712',
-          hemiIntensity: 0.45,
-          sunColor: '#A5F3FC',
-          sunIntensity: 1.15,
-          sunPos: [15, 24, -10] as [number, number, number],
+          hemiGround: '#1E293B',
+          hemiIntensity: 0.55,
+          sunColor: '#F0F9FF',
+          sunIntensity: 1.35,
+          sunPos: [15, 26, -10] as [number, number, number],
           hallAccentColor: '#06B6D4',
-          hallAccentIntensity: 0.75,
+          hallAccentIntensity: 0.95,
         };
       case 'evening':
         return {
-          backgroundColor: '#060412',
-          fogColor: '#0A061C',
-          fogNear: 60,
-          fogFar: 220,
-          ambientColor: '#DDD6FE',
-          ambientIntensity: 0.75,
+          backgroundColor: '#130E26', // Deep twilight violet-indigo
+          fogColor: '#181230',
+          fogNear: 80,
+          fogFar: 275,
+          ambientColor: '#EDE9FE',
+          ambientIntensity: 1.05,
           hemiSky: '#A78BFA',
-          hemiGround: '#05030E',
-          hemiIntensity: 0.40,
-          sunColor: '#C084FC',
-          sunIntensity: 0.95,
-          sunPos: [-20, 18, -20] as [number, number, number],
+          hemiGround: '#1E1B4B',
+          hemiIntensity: 0.50,
+          sunColor: '#DDD6FE',
+          sunIntensity: 1.15,
+          sunPos: [-20, 20, -20] as [number, number, number],
           hallAccentColor: '#8B5CF6',
-          hallAccentIntensity: 0.85,
+          hallAccentIntensity: 1.0,
         };
       case 'night':
       default:
         return {
-          backgroundColor: '#020409',
-          fogColor: '#030714',
-          fogNear: 55,
-          fogFar: 210,
-          ambientColor: '#67E8F9',
-          ambientIntensity: 0.65,
+          backgroundColor: '#0A1224', // Architectural midnight slate (clearly visible, never pitch black!)
+          fogColor: '#0D162C',
+          fogNear: 75,
+          fogFar: 260,
+          ambientColor: '#BAE6FD',
+          ambientIntensity: 0.92,
           hemiSky: '#06B6D4',
-          hemiGround: '#02040A',
-          hemiIntensity: 0.35,
+          hemiGround: '#0F172A',
+          hemiIntensity: 0.42,
           sunColor: '#38BDF8',
-          sunIntensity: 0.70,
-          sunPos: [0, 22, 0] as [number, number, number],
+          sunIntensity: 0.95,
+          sunPos: [0, 24, 0] as [number, number, number],
           hallAccentColor: '#06B6D4',
-          hallAccentIntensity: 1.0,
+          hallAccentIntensity: 1.1,
         };
     }
   }, [atmosphere]);

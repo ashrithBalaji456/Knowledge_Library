@@ -129,28 +129,28 @@ export const Section3D = React.memo<Section3DProps>(({ section, shelves, resourc
     [signTexture, section.color]
   );
 
-  // Dark graphite titanium composite for portal pylons
+  // Architectural slate-titanium composite for portal pylons
   const titaniumMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#111827',
-        roughness: 0.32,
-        metalness: 0.85,
+        color: '#243248', // Visible dark slate-titanium
+        roughness: 0.3,
+        metalness: 0.8,
       }),
     []
   );
 
-  // Smoked glass panel material with blue tint
+  // Smoked glass panel material with luminous blue tint
   const smokedGlassMaterial = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: '#081226',
+        color: '#0284C7',
         roughness: 0.08,
-        metalness: 0.2,
+        metalness: 0.15,
         transparent: true,
-        opacity: 0.72,
-        transmission: 0.45,
-        reflectivity: 0.9,
+        opacity: 0.55,
+        transmission: 0.5,
+        reflectivity: 0.88,
       }),
     []
   );

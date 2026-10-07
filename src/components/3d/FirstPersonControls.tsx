@@ -5,6 +5,53 @@ import { useLibraryStore } from '../../store/useLibraryStore';
 import { sound } from '../../engine/soundEngine';
 import { INTERACTIVE_BOOK_OBJECTS } from './interactiveRegistry';
 
+// Static pre-allocated 3D math primitives to completely prevent per-frame GC allocations
+const STATIC_FORWARD = new THREE.Vector3();
+const STATIC_RIGHT = new THREE.Vector3();
+const STATIC_INPUT_DIR = new THREE.Vector3();
+const STATIC_AXIS_Y = new THREE.Vector3(0, 1, 0);
+const STATIC_LOOK_AT_VEC = new THREE.Vector3();
+const STATIC_TARGET_ROT = new THREE.Matrix4();
+const STATIC_TARGET_QUAT = new THREE.Quaternion();
+const STATIC_EULER = new THREE.Euler(0, 0, 0, 'YXZ');
+
+// Multi-level architectural height calculation
+function getFloorElevation(x: number, z: number, currentCamY: number): number {
+  // West Ramp: x in [-17.5, -12.5], z in [6, 24]
+  if (Math.abs(x - (-15)) <= 2.5 && z >= 6 && z <= 24) {
+    const t = (24 - z) / 18; // 0 at entrance z=24, 1.0 at upper mezzanine z=6
+    return t * 4.8;
+  }
+  // East Ramp: x in [12.5, 17.5], z in [6, 24]
+  if (Math.abs(x - 15) <= 2.5 && z >= 6 && z <= 24) {
+    const t = (24 - z) / 18; // 0 at entrance z=24, 1.0 at upper mezzanine z=6
+    return t * 4.8;
+  }
+
+  // Upper Mezzanine & Skybridge Level (y = 4.8m) if player is already elevated
+  if (currentCamY > 3.2) {
+    // Rotunda Mezzanine ring around Atrium (0, -18)
+    const distToAtrium = Math.hypot(x, z - (-18));
+    if (distToAtrium >= 10.0 && distToAtrium <= 17.0) {
+      return 4.8;
+    }
+    // South Skybridge: z in [3.5, 8.5], x in [-22, 22]
+    if (z >= 3.5 && z <= 8.5 && Math.abs(x) <= 22) {
+      return 4.8;
+    }
+    // North Skybridge: z in [-44.5, -39.5], x in [-22, 22]
+    if (z >= -44.5 && z <= -39.5 && Math.abs(x) <= 22) {
+      return 4.8;
+    }
+    // Longitudinal promenades: x near +/-15, z in [-44, 8]
+    if ((Math.abs(x - (-15)) <= 2.8 || Math.abs(x - 15) <= 2.8) && z >= -44 && z <= 8) {
+      return 4.8;
+    }
+  }
+
+  return 0; // Ground Concourse Level
+}
+
 export const FirstPersonControls: React.FC = () => {
   const { camera, gl } = useThree();
 
@@ -194,19 +241,16 @@ export const FirstPersonControls: React.FC = () => {
       camera.position.z = THREE.MathUtils.damp(camera.position.z, cameraTarget[2], 6.5, delta);
 
       if (cameraLookAt) {
-        const targetRot = new THREE.Matrix4().lookAt(
-          camera.position,
-          new THREE.Vector3(...cameraLookAt),
-          new THREE.Vector3(0, 1, 0)
-        );
-        const targetQuat = new THREE.Quaternion().setFromRotationMatrix(targetRot);
-        camera.quaternion.slerp(targetQuat, 0.12);
+        STATIC_LOOK_AT_VEC.set(cameraLookAt[0], cameraLookAt[1], cameraLookAt[2]);
+        STATIC_TARGET_ROT.lookAt(camera.position, STATIC_LOOK_AT_VEC, STATIC_AXIS_Y);
+        STATIC_TARGET_QUAT.setFromRotationMatrix(STATIC_TARGET_ROT);
+        camera.quaternion.slerp(STATIC_TARGET_QUAT, 0.12);
 
-        const euler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
-        yaw.current = euler.y;
-        pitch.current = euler.x;
-        targetYaw.current = euler.y;
-        targetPitch.current = euler.x;
+        STATIC_EULER.setFromQuaternion(camera.quaternion, 'YXZ');
+        yaw.current = STATIC_EULER.y;
+        pitch.current = STATIC_EULER.x;
+        targetYaw.current = STATIC_EULER.y;
+        targetPitch.current = STATIC_EULER.x;
       }
       return;
     }
@@ -231,18 +275,18 @@ export const FirstPersonControls: React.FC = () => {
     const accelRate = preferences.targetFps120 ? 68.0 : 48.0; // Instant responsive acceleration
     const friction = preferences.targetFps120 ? 16.0 : 12.0; // Crisp deceleration without slide lag
 
-    const forward = new THREE.Vector3(0, 0, -1).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw.current);
-    const right = new THREE.Vector3(1, 0, 0).applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw.current);
+    STATIC_FORWARD.set(0, 0, -1).applyAxisAngle(STATIC_AXIS_Y, yaw.current);
+    STATIC_RIGHT.set(1, 0, 0).applyAxisAngle(STATIC_AXIS_Y, yaw.current);
 
-    const inputDir = new THREE.Vector3();
-    if (keys.current['KeyW'] || keys.current['ArrowUp']) inputDir.add(forward);
-    if (keys.current['KeyS'] || keys.current['ArrowDown']) inputDir.sub(forward);
-    if (keys.current['KeyD'] || keys.current['ArrowRight']) inputDir.add(right);
-    if (keys.current['KeyA'] || keys.current['ArrowLeft']) inputDir.sub(right);
+    STATIC_INPUT_DIR.set(0, 0, 0);
+    if (keys.current['KeyW'] || keys.current['ArrowUp']) STATIC_INPUT_DIR.add(STATIC_FORWARD);
+    if (keys.current['KeyS'] || keys.current['ArrowDown']) STATIC_INPUT_DIR.sub(STATIC_FORWARD);
+    if (keys.current['KeyD'] || keys.current['ArrowRight']) STATIC_INPUT_DIR.add(STATIC_RIGHT);
+    if (keys.current['KeyA'] || keys.current['ArrowLeft']) STATIC_INPUT_DIR.sub(STATIC_RIGHT);
 
-    if (inputDir.lengthSq() > 0) {
-      inputDir.normalize();
-      velocity.current.addScaledVector(inputDir, accelRate * safeDelta);
+    if (STATIC_INPUT_DIR.lengthSq() > 0) {
+      STATIC_INPUT_DIR.normalize();
+      velocity.current.addScaledVector(STATIC_INPUT_DIR, accelRate * safeDelta);
       // Cap speed
       if (velocity.current.length() > maxSpeed) {
         velocity.current.setLength(maxSpeed);
@@ -258,17 +302,14 @@ export const FirstPersonControls: React.FC = () => {
       const nextX = camera.position.x + velocity.current.x * safeDelta;
       const nextZ = camera.position.z + velocity.current.z * safeDelta;
 
-      // Library boundary clamping (extended for enlarged 116m x 164m royal hall)
+      // Library boundary clamping
       const clampedX = Math.max(-55, Math.min(55, nextX));
       const clampedZ = Math.max(-116, Math.min(40, nextZ));
 
       camera.position.x = clampedX;
       camera.position.z = clampedZ;
 
-      // Subtle human head-bobbing
       walkDistance.current += speed * safeDelta;
-      const headBobY = 1.7 + Math.sin(walkDistance.current * 4.5) * 0.025;
-      camera.position.y = headBobY;
 
       // Footstep audio
       if (preferences.footstepsEnabled) {
@@ -298,6 +339,12 @@ export const FirstPersonControls: React.FC = () => {
         setActiveChunk(nextChunk);
       }
     }
+
+    // Smooth multi-level architectural floor elevation + human eye height + subtle head-bob
+    const targetFloorY = getFloorElevation(camera.position.x, camera.position.z, camera.position.y);
+    const headBobY = speed > 0.05 ? Math.sin(walkDistance.current * 4.5) * 0.025 : 0;
+    const targetCameraY = targetFloorY + 1.7 + headBobY;
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, targetCameraY, 14, safeDelta);
 
     // High-performance throttled store update for 2D Minimap (~10 Hz)
     // Completely eliminates 60-144 FPS React re-renders while walking!
