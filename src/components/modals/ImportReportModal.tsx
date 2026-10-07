@@ -28,29 +28,32 @@ export const ImportReportModal: React.FC = () => {
   const hasDuplicates = lastReport.duplicates.length > 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
-      <div className="relative w-full max-w-3xl overflow-hidden glass-panel-glow rounded-2xl border border-amber-600/30 bg-stone-900/95 shadow-2xl text-stone-100 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl">
+      <div className="relative w-full max-w-3xl overflow-hidden cyber-glass-dense rounded-2xl border border-cyan-500/30 shadow-2xl text-slate-100 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-stone-800 bg-stone-900/80">
+        <div className="flex items-center justify-between p-6 border-b border-cyan-900/40 bg-[#040814]/70">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+            <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-400/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               <CheckCircle className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold font-heading text-stone-100 flex items-center gap-2">
-                Ingestion Complete
-                <span className="text-xs font-mono py-0.5 px-2.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  {lastReport.added.length} Resources Added
+              <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">
+                INGESTION TELEMETRY // REPORT
+              </div>
+              <h2 className="text-xl font-bold font-heading text-slate-100 flex items-center gap-2">
+                Deployment Complete
+                <span className="text-xs font-mono py-0.5 px-2.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                  {lastReport.added.length} Tomes Added
                 </span>
               </h2>
-              <p className="text-xs text-stone-400">
-                All resources have been intelligently organized and placed on the shelves in the 3D library.
+              <p className="text-xs text-slate-400 font-light">
+                All neural assets have been indexed, classified, and spatialized onto shelves in the 3D space.
               </p>
             </div>
           </div>
           <button
             onClick={closeModal}
-            className="p-1.5 rounded-lg text-stone-400 hover:text-stone-100 hover:bg-stone-800 transition"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/40 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

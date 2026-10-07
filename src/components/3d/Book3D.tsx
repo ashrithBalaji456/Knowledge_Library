@@ -198,19 +198,21 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
     return new THREE.MeshStandardMaterial({
       map: spineTexture,
       roughness: 0.38,
-      metalness: 0.08,
+      metalness: 0.12,
       emissive: isMustLearn
-        ? new THREE.Color('#D97706')
+        ? new THREE.Color('#06B6D4')
         : isCurrentFocus
-        ? new THREE.Color('#DC2626')
+        ? new THREE.Color('#8B5CF6')
         : new THREE.Color('#000000'),
-      emissiveIntensity: isMustLearn || isCurrentFocus ? 0.18 : 0.0,
+      emissiveIntensity: isMustLearn || isCurrentFocus ? 0.22 : 0.0,
     });
   }, [spineTexture, isMustLearn, isCurrentFocus]);
 
   // Update emissive intensity directly on material without shader re-compilation
-  coverArtMaterial.emissiveIntensity = isSelected ? 0.35 : isHovered ? 0.2 : 0.0;
-  spineMaterial.emissiveIntensity = isSelected ? 0.5 : isHovered ? 0.35 : isMustLearn || isCurrentFocus ? 0.18 : 0.0;
+  coverArtMaterial.emissive = isSelected ? new THREE.Color('#06B6D4') : isHovered ? new THREE.Color('#38BDF8') : new THREE.Color('#000000');
+  coverArtMaterial.emissiveIntensity = isSelected ? 0.32 : isHovered ? 0.18 : 0.0;
+  spineMaterial.emissive = isSelected ? new THREE.Color('#06B6D4') : isHovered ? new THREE.Color('#38BDF8') : isMustLearn ? new THREE.Color('#06B6D4') : isCurrentFocus ? new THREE.Color('#8B5CF6') : new THREE.Color('#000000');
+  spineMaterial.emissiveIntensity = isSelected ? 0.45 : isHovered ? 0.28 : isMustLearn || isCurrentFocus ? 0.22 : 0.0;
 
   // Dynamic pull-out on hover or selection (with high-perf early exit for resting books)
   useFrame((_, delta) => {
@@ -384,17 +386,28 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
         </mesh>
       )}
 
-      {/* Warm Golden Selection Halo when selected */}
+      {/* Cyber Holographic Selection Reticle when selected / highlighted */}
       {(isSelected || isHighlighted) && (
-        <mesh position={[0, -height / 2 + 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[0.08, 0.22, 16]} />
-          <meshBasicMaterial
-            color={isHighlighted ? '#F59E0B' : '#38BDF8'}
-            transparent
-            opacity={0.8}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
+        <group position={[0, -height / 2 + 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <mesh>
+            <ringGeometry args={[0.08, 0.16, 32]} />
+            <meshBasicMaterial
+              color={isHighlighted ? '#F59E0B' : '#06B6D4'}
+              transparent
+              opacity={0.85}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+          <mesh>
+            <ringGeometry args={[0.18, 0.22, 32]} />
+            <meshBasicMaterial
+              color={isHighlighted ? '#F59E0B' : '#3B82F6'}
+              transparent
+              opacity={0.45}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        </group>
       )}
     </group>
   );

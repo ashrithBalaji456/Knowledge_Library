@@ -75,39 +75,42 @@ export const DashboardModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
-      <div className="relative w-full max-w-4xl overflow-hidden glass-panel-glow rounded-3xl border border-amber-600/30 bg-stone-900/95 shadow-2xl text-stone-100 flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl">
+      <div className="relative w-full max-w-4xl overflow-hidden cyber-glass-dense rounded-3xl border border-cyan-500/30 shadow-2xl text-slate-100 flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-stone-800 bg-stone-950/70">
+        <div className="flex items-center justify-between p-6 border-b border-cyan-900/40 bg-[#040814]/70">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400">
+            <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               <BarChart3 className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold font-heading text-stone-100 flex items-center gap-2">
-                Personal Library Dashboard & Curator
+              <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">
+                TELEMETRY & SECTOR CURATOR
+              </div>
+              <h2 className="text-xl font-bold font-heading text-slate-100 flex items-center gap-2">
+                Neural Archive Dashboard
               </h2>
-              <p className="text-xs text-stone-400">
-                Live collection telemetry, reading progress metrics, and dynamic section management.
+              <p className="text-xs text-slate-400 font-light">
+                Real-time collection metrics, cognitive mastery indexes, and architectural sector management.
               </p>
             </div>
           </div>
           <button
             onClick={closeModal}
-            className="p-1.5 rounded-lg text-stone-400 hover:text-stone-100 hover:bg-stone-800 transition"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/40 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Selection */}
-        <div className="flex items-center gap-4 px-6 pt-3 border-b border-stone-800 text-xs font-semibold">
+        <div className="flex items-center gap-4 px-6 pt-3 border-b border-cyan-900/40 text-xs font-semibold bg-[#040814]/50">
           <button
             onClick={() => setActiveTab('analytics')}
-            className={`pb-3 border-b-2 transition flex items-center gap-1.5 ${
+            className={`pb-3 border-b-2 transition flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'analytics'
-                ? 'border-amber-500 text-amber-400'
-                : 'border-transparent text-stone-400 hover:text-stone-200'
+                ? 'border-cyan-400 text-cyan-300'
+                : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
             <BarChart3 className="w-4 h-4" />
@@ -115,14 +118,14 @@ export const DashboardModal: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('sections')}
-            className={`pb-3 border-b-2 transition flex items-center gap-1.5 ${
+            className={`pb-3 border-b-2 transition flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'sections'
-                ? 'border-amber-500 text-amber-400'
-                : 'border-transparent text-stone-400 hover:text-stone-200'
+                ? 'border-cyan-400 text-cyan-300'
+                : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
             <FolderTree className="w-4 h-4" />
-            <span>Section & Shelf Manager (Merge / Rename)</span>
+            <span>Sector Manager (Merge / Rename)</span>
           </button>
         </div>
 
@@ -132,40 +135,40 @@ export const DashboardModal: React.FC = () => {
             <>
               {/* Primary Stats Grid (Rules 78, 79) */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="p-4 rounded-2xl bg-stone-800/60 border border-stone-700/60">
-                  <div className="flex items-center gap-2 text-stone-400 text-xs font-semibold mb-1">
-                    <BookOpen className="w-4 h-4 text-amber-400" />
-                    <span>Total Resources</span>
+                <div className="p-4 rounded-2xl cyber-glass-card shadow-md">
+                  <div className="flex items-center gap-2 text-slate-400 text-xs font-semibold mb-1">
+                    <BookOpen className="w-4 h-4 text-cyan-400" />
+                    <span>Total Tomes</span>
                   </div>
-                  <div className="text-2xl font-bold font-mono text-stone-100">{stats.totalResources}</div>
-                  <div className="text-[11px] text-amber-400/90 font-medium">{stats.totalHandbooks} Handbooks & Guides</div>
+                  <div className="text-2xl font-bold font-mono text-slate-100">{stats.totalResources}</div>
+                  <div className="text-[11px] text-cyan-400/90 font-medium font-mono">{stats.totalHandbooks} Handbooks & Guides</div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-stone-800/60 border border-stone-700/60">
-                  <div className="flex items-center gap-2 text-stone-400 text-xs font-semibold mb-1">
+                <div className="p-4 rounded-2xl cyber-glass-card shadow-md">
+                  <div className="flex items-center gap-2 text-slate-400 text-xs font-semibold mb-1">
                     <CheckCircle className="w-4 h-4 text-emerald-400" />
                     <span>Completed</span>
                   </div>
                   <div className="text-2xl font-bold font-mono text-emerald-400">{stats.completedCount}</div>
-                  <div className="text-[11px] text-stone-400">{stats.readingCount} Currently Reading</div>
+                  <div className="text-[11px] text-slate-400 font-mono">{stats.readingCount} Active Reading</div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-stone-800/60 border border-stone-700/60">
-                  <div className="flex items-center gap-2 text-stone-400 text-xs font-semibold mb-1">
-                    <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                <div className="p-4 rounded-2xl cyber-glass-card shadow-md">
+                  <div className="flex items-center gap-2 text-slate-400 text-xs font-semibold mb-1">
+                    <Star className="w-4 h-4 text-cyan-300 fill-cyan-300" />
                     <span>Must Learn</span>
                   </div>
-                  <div className="text-2xl font-bold font-mono text-stone-100">{stats.mustLearnCount}</div>
-                  <div className="text-[11px] text-orange-400 font-medium">{stats.currentFocusCount} In Active Focus</div>
+                  <div className="text-2xl font-bold font-mono text-slate-100">{stats.mustLearnCount}</div>
+                  <div className="text-[11px] text-violet-400 font-medium font-mono">{stats.currentFocusCount} In Active Focus</div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-stone-800/60 border border-stone-700/60">
-                  <div className="flex items-center gap-2 text-stone-400 text-xs font-semibold mb-1">
+                <div className="p-4 rounded-2xl cyber-glass-card shadow-md">
+                  <div className="flex items-center gap-2 text-slate-400 text-xs font-semibold mb-1">
                     <Heart className="w-4 h-4 text-rose-400 fill-rose-400" />
                     <span>Favorites & Rating</span>
                   </div>
                   <div className="text-2xl font-bold font-mono text-rose-400">{stats.favoriteCount}</div>
-                  <div className="text-[11px] text-stone-400">★ {stats.averageRating} Avg Rating</div>
+                  <div className="text-[11px] text-slate-400 font-mono">★ {stats.averageRating} Avg Rating</div>
                 </div>
               </div>
 

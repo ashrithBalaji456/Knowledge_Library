@@ -157,52 +157,55 @@ export const ManageModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md pointer-events-auto">
-      <div className="relative w-full max-w-4xl h-[85vh] rounded-3xl bg-slate-900/95 border border-slate-800 shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto">
+      <div className="relative w-full max-w-4xl h-[85vh] rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between gap-4 bg-slate-950/60">
+        <div className="px-6 py-4 border-b border-cyan-900/40 flex items-center justify-between gap-4 bg-[#040814]/70">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+            <div className="p-2.5 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-400/40 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               <PlusCircle className="w-5 h-5" />
             </div>
             <div>
+              <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">
+                SYSTEM CONSOLE // RESOURCE MANAGER
+              </div>
               <h2 className="text-base font-bold text-slate-100 font-['Outfit']">
-                LIBRARY MANAGEMENT CONSOLE
+                KNOWLEDGE ARCHIVE CONSOLE
               </h2>
-              <p className="text-xs text-slate-400">
-                Add, edit, organize resources and define knowledge connections
+              <p className="text-xs text-slate-400 font-light">
+                Add, edit, organize resources and define neural knowledge connections
               </p>
             </div>
           </div>
 
           <button
             onClick={closeModal}
-            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-full hover:bg-cyan-950/40 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Strip */}
-        <div className="px-6 py-2 border-b border-slate-800 bg-slate-950/40 flex items-center gap-2 text-xs">
+        <div className="px-6 py-2 border-b border-cyan-900/30 bg-[#040814]/50 flex items-center gap-2 text-xs">
           <button
             onClick={() => {
               setActiveTab('add');
               setEditingId(null);
             }}
-            className={`px-4 py-2 rounded-xl font-semibold cursor-pointer transition-colors ${
+            className={`px-4 py-2 rounded-xl font-semibold cursor-pointer transition-all ${
               activeTab === 'add'
-                ? 'bg-amber-500 text-slate-950 font-bold'
-                : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.6)]'
+                : 'text-slate-400 hover:bg-slate-850 hover:text-slate-200'
             }`}
           >
-            {editingId ? 'Edit Resource' : '+ Add Resource'}
+            {editingId ? 'Edit Tome' : '+ Add Tome'}
           </button>
           <button
             onClick={() => setActiveTab('list')}
-            className={`px-4 py-2 rounded-xl font-semibold cursor-pointer transition-colors ${
+            className={`px-4 py-2 rounded-xl font-semibold cursor-pointer transition-all ${
               activeTab === 'list'
-                ? 'bg-amber-500 text-slate-950 font-bold'
+                ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.6)]'
                 : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
             }`}
           >

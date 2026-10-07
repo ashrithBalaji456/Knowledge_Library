@@ -78,28 +78,28 @@ export const BookDetailModal: React.FC = () => {
   const currentRating = resource.personalRating || 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md pointer-events-auto overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto overflow-y-auto">
       <div
-        className="relative w-full max-w-2xl my-6 rounded-3xl bg-stone-900/95 border border-stone-700/60 shadow-2xl flex flex-col overflow-hidden max-h-[92vh]"
+        className="relative w-full max-w-2xl my-6 rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden max-h-[92vh]"
         style={{ borderTopColor: sectionColor, borderTopWidth: '4px' }}
       >
         {/* Header Ribbon */}
-        <div className="flex items-center justify-between px-6 py-3.5 border-b border-stone-800 bg-stone-950/70">
+        <div className="flex items-center justify-between px-6 py-3.5 border-b border-cyan-900/40 bg-[#040814]/70">
           <div className="flex items-center gap-2.5">
             <span
               className="px-2.5 py-0.5 rounded-full text-xs font-bold font-mono uppercase tracking-wider"
               style={{
                 backgroundColor: `${sectionColor}22`,
                 color: sectionColor,
-                border: `1px solid ${sectionColor}44`,
+                border: `1px solid ${sectionColor}55`,
               }}
             >
               {section?.name || resource.category}
             </span>
-            <span className="text-xs text-stone-400 font-medium">
+            <span className="text-xs text-slate-400 font-medium font-mono">
               → {resource.subCategory || 'General'}
             </span>
-            <span className="px-2 py-0.5 rounded-md bg-stone-800 text-stone-300 border border-stone-700 text-[10px] font-mono font-semibold uppercase">
+            <span className="px-2 py-0.5 rounded-md bg-slate-900/80 text-slate-300 border border-slate-700/60 text-[10px] font-mono font-semibold uppercase">
               {resource.resourceType || 'BOOK'}
             </span>
           </div>
@@ -110,7 +110,7 @@ export const BookDetailModal: React.FC = () => {
               className={`p-2 rounded-xl transition ${
                 resource.isFavorite
                   ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
-                  : 'bg-stone-800/80 text-stone-400 hover:text-stone-200'
+                  : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800'
               }`}
               title="Add to Favorites"
             >
@@ -120,8 +120,8 @@ export const BookDetailModal: React.FC = () => {
               onClick={() => toggleCurrentFocus(resource.id)}
               className={`p-2 rounded-xl transition ${
                 resource.priority === 'CURRENT_FOCUS'
-                  ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40'
-                  : 'bg-stone-800/80 text-stone-400 hover:text-stone-200'
+                  ? 'bg-violet-500/20 text-violet-400 border border-violet-500/40'
+                  : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800'
               }`}
               title="Set as Current Focus"
             >
@@ -129,7 +129,7 @@ export const BookDetailModal: React.FC = () => {
             </button>
             <button
               onClick={closeModal}
-              className="p-2 rounded-xl bg-stone-800/80 text-stone-400 hover:text-stone-100 hover:bg-stone-700 transition"
+              className="p-2 rounded-xl bg-slate-900/80 text-slate-400 hover:text-cyan-300 border border-slate-800 hover:border-cyan-500/40 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -407,13 +407,13 @@ export const BookDetailModal: React.FC = () => {
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between p-6 border-t border-stone-800 bg-stone-950/80">
+        <div className="flex items-center justify-between p-6 border-t border-cyan-900/40 bg-[#040814]/80">
           {loc && (
             <button
               onClick={() => locateBook(resource.id)}
-              className="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-2 border border-stone-700 transition"
+              className="cyber-btn px-4 py-2.5 rounded-xl text-slate-200 text-xs font-semibold flex items-center gap-2"
             >
-              <MapPin className="w-4 h-4 text-amber-400" />
+              <MapPin className="w-4 h-4 text-cyan-400" />
               <span>Locate on 3D Shelf</span>
             </button>
           )}
@@ -421,7 +421,7 @@ export const BookDetailModal: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <button
               onClick={closeModal}
-              className="px-3.5 py-2 text-xs font-medium rounded-xl text-stone-400 hover:text-stone-200 transition cursor-pointer"
+              className="cyber-btn px-3.5 py-2 text-xs font-medium rounded-xl text-slate-400 hover:text-slate-200 transition cursor-pointer"
             >
               Close
             </button>
@@ -429,7 +429,7 @@ export const BookDetailModal: React.FC = () => {
               <>
                 <button
                   onClick={() => openPdfReader(resource)}
-                  className="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-1.5 border border-cyan-500/40 hover:border-cyan-400 transition cursor-pointer"
+                  className="cyber-btn px-3.5 py-2.5 rounded-xl text-slate-200 text-xs font-semibold flex items-center gap-1.5"
                   title="Open in embedded 3D Arcade Screen"
                 >
                   <Gamepad2 className="w-3.5 h-3.5 text-cyan-400" />
@@ -437,7 +437,7 @@ export const BookDetailModal: React.FC = () => {
                 </button>
                 <button
                   onClick={handleOpenBook}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-pink-600 to-cyan-600 hover:from-cyan-500 hover:to-pink-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-900/40 transition cursor-pointer border border-cyan-400/40"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950/50 transition cursor-pointer border border-cyan-400/40"
                   title="Play game in fresh browser tab"
                 >
                   <ExternalLink className="w-4 h-4 text-white" />
@@ -448,15 +448,15 @@ export const BookDetailModal: React.FC = () => {
               <>
                 <button
                   onClick={() => openPdfReader(resource)}
-                  className="px-3.5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold flex items-center gap-1.5 border border-stone-700 transition cursor-pointer"
+                  className="cyber-btn px-3.5 py-2.5 rounded-xl text-slate-200 text-xs font-semibold flex items-center gap-1.5"
                   title="Open in embedded 3D Reader"
                 >
-                  <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                  <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
                   <span>3D Reader</span>
                 </button>
                 <button
                   onClick={handleOpenBook}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-900/40 transition cursor-pointer border border-amber-400/30"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950/50 transition cursor-pointer border border-cyan-400/40"
                   title="Open actual PDF in new browser tab"
                 >
                   <ExternalLink className="w-4 h-4 text-white" />

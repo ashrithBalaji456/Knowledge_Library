@@ -64,53 +64,56 @@ export const KnowledgeGraphModal: React.FC = () => {
   const activeNode = activeNodeId ? resources.find((r) => r.id === activeNodeId) : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-md pointer-events-auto">
-      <div className="relative w-full max-w-5xl h-[85vh] rounded-3xl bg-slate-900/95 border border-slate-800 shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto">
+      <div className="relative w-full max-w-5xl h-[85vh] rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between gap-4 bg-slate-950/60">
+        <div className="px-6 py-4 border-b border-cyan-900/40 flex items-center justify-between gap-4 bg-[#040814]/70">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30">
+            <div className="p-2.5 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-400/40 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               <Network className="w-5 h-5" />
             </div>
             <div>
+              <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">
+                NEURAL TOPOLOGY // KNOWLEDGE GRAPH
+              </div>
               <h2 className="text-base font-bold text-slate-100 font-['Outfit']">
-                KNOWLEDGE RELATIONSHIPS GRAPH
+                KNOWLEDGE RELATIONSHIPS CONSTELLATION
               </h2>
-              <p className="text-xs text-slate-400">
-                Explore concept dependencies, prerequisites, and learning progressions
+              <p className="text-xs text-slate-400 font-light">
+                Explore concept dependencies, architectural prerequisites, and inter-domain links
               </p>
             </div>
           </div>
 
           <button
             onClick={closeModal}
-            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-full hover:bg-cyan-950/40 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Toolbar: Category pills & search */}
-        <div className="px-6 py-3 border-b border-slate-800/80 bg-slate-950/40 flex flex-wrap items-center justify-between gap-3">
+        <div className="px-6 py-3 border-b border-cyan-900/30 bg-[#040814]/50 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 overflow-x-auto max-w-xl pb-1">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold cursor-pointer transition-colors ${
+              className={`px-3 py-1 rounded-full text-xs font-semibold cursor-pointer transition-all ${
                 selectedCategory === 'all'
-                  ? 'bg-amber-500 text-slate-950'
-                  : 'bg-slate-800 text-slate-400 hover:bg-slate-750'
+                  ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.6)]'
+                  : 'bg-slate-900/80 text-slate-400 hover:bg-slate-850 border border-slate-800'
               }`}
             >
-              All Domains
+              All Sectors
             </button>
             {sections.slice(0, 6).map((sec) => (
               <button
                 key={sec.id}
                 onClick={() => setSelectedCategory(sec.id)}
-                className={`px-3 py-1 rounded-full text-xs font-medium cursor-pointer whitespace-nowrap transition-colors ${
+                className={`px-3 py-1 rounded-full text-xs font-medium cursor-pointer whitespace-nowrap transition-all ${
                   selectedCategory === sec.id
-                    ? 'bg-purple-600 text-white font-semibold'
-                    : 'bg-slate-800/80 text-slate-400 hover:bg-slate-800'
+                    ? 'bg-violet-600 text-white font-semibold shadow-[0_0_12px_rgba(139,92,246,0.6)]'
+                    : 'bg-slate-900/80 text-slate-400 hover:bg-slate-850 border border-slate-800'
                 }`}
               >
                 {sec.icon} {sec.name.split(' ')[0]}
@@ -120,19 +123,19 @@ export const KnowledgeGraphModal: React.FC = () => {
 
           {/* Search box */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-cyan-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              placeholder="Search concepts in graph..."
-              className="pl-8 pr-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500"
+              placeholder="Search graph nodes..."
+              className="pl-8 pr-3 py-1.5 rounded-xl bg-slate-900/80 border border-cyan-900/50 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
             />
           </div>
         </div>
 
         {/* SVG Graph Viewport */}
-        <div className="flex-1 relative overflow-hidden bg-slate-950 flex items-center justify-center">
+        <div className="flex-1 relative overflow-hidden bg-[#030612] flex items-center justify-center">
           <svg className="w-full h-full" viewBox="0 0 900 550">
             <defs>
               <marker
@@ -143,7 +146,7 @@ export const KnowledgeGraphModal: React.FC = () => {
                 refY="3"
                 orient="auto"
               >
-                <polygon points="0 0, 8 3, 0 6" fill="#a78bfa" />
+                <polygon points="0 0, 8 3, 0 6" fill="#06B6D4" />
               </marker>
             </defs>
 
@@ -163,11 +166,11 @@ export const KnowledgeGraphModal: React.FC = () => {
                     y1={sourceNode.y}
                     x2={targetNode.x}
                     y2={targetNode.y}
-                    stroke={isHighlighted ? '#f59e0b' : '#475569'}
+                    stroke={isHighlighted ? '#06B6D4' : '#1e293b'}
                     strokeWidth={isHighlighted ? 2.5 : 1.2}
                     strokeDasharray={rel.type === 'PREREQUISITE' ? '4 3' : undefined}
                     markerEnd="url(#arrowhead)"
-                    opacity={isHighlighted ? 1 : 0.6}
+                    opacity={isHighlighted ? 1 : 0.65}
                   />
                 </g>
               );
@@ -189,8 +192,8 @@ export const KnowledgeGraphModal: React.FC = () => {
                   {/* Outer halo */}
                   <circle
                     r={isActive ? 22 : 16}
-                    fill={isMustLearn ? '#f59e0b22' : '#3b82f622'}
-                    stroke={isActive ? '#fbbf24' : isMustLearn ? '#f59e0b' : '#38bdf8'}
+                    fill={isMustLearn ? '#06b6d422' : '#3b82f622'}
+                    stroke={isActive ? '#06B6D4' : isMustLearn ? '#38BDF8' : '#6366F1'}
                     strokeWidth={isActive ? 3 : 1.5}
                     className="transition-all"
                   />
@@ -198,17 +201,17 @@ export const KnowledgeGraphModal: React.FC = () => {
                   {/* Node icon / dot */}
                   <circle
                     r={isActive ? 8 : 6}
-                    fill={isActive ? '#fbbf24' : '#f8fafc'}
+                    fill={isActive ? '#06B6D4' : '#f8fafc'}
                   />
 
                   {/* Title Label */}
                   <text
                     y={28}
                     textAnchor="middle"
-                    fill={isActive ? '#fde68a' : '#cbd5e1'}
+                    fill={isActive ? '#38BDF8' : '#94a3b8'}
                     fontSize={isActive ? '11px' : '9px'}
                     fontWeight={isActive ? 'bold' : 'normal'}
-                    className="select-none pointer-events-none"
+                    className="select-none pointer-events-none font-mono"
                   >
                     {res.title.length > 20 ? res.title.slice(0, 18) + '..' : res.title}
                   </text>
@@ -219,9 +222,9 @@ export const KnowledgeGraphModal: React.FC = () => {
 
           {/* Active Node Detail Card (Flyout inside graph) */}
           {activeNode && (
-            <div className="absolute bottom-6 right-6 max-w-sm p-4 rounded-2xl bg-slate-900/95 border border-slate-700 shadow-2xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150">
+            <div className="absolute bottom-6 right-6 max-w-sm p-4 rounded-2xl cyber-glass-glow shadow-2xl animate-in fade-in zoom-in-95 duration-150">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider font-mono">
                   {activeNode.priority} • {activeNode.category}
                 </span>
                 <button
@@ -235,7 +238,7 @@ export const KnowledgeGraphModal: React.FC = () => {
               <h4 className="text-sm font-bold text-slate-100 font-['Outfit'] mb-1">
                 {activeNode.title}
               </h4>
-              <p className="text-xs text-slate-400 line-clamp-2 mb-3">
+              <p className="text-xs text-slate-400 line-clamp-2 mb-3 font-light">
                 {activeNode.description}
               </p>
 
@@ -245,14 +248,14 @@ export const KnowledgeGraphModal: React.FC = () => {
                     closeModal();
                     locateBook(activeNode.id);
                   }}
-                  className="flex-1 py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="flex-1 py-1.5 px-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-cyan-950/60"
                 >
-                  <MapPin className="w-3.5 h-3.5" /> Locate in 3D
+                  <MapPin className="w-3.5 h-3.5" /> Warp in 3D
                 </button>
 
                 <button
                   onClick={() => selectResource(activeNode.id)}
-                  className="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 cursor-pointer"
+                  className="cyber-btn py-1.5 px-3 rounded-xl text-slate-200 text-xs font-semibold cursor-pointer"
                 >
                   Inspect
                 </button>

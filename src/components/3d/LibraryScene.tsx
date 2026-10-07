@@ -40,24 +40,24 @@ const PerformanceTelemetry: React.FC = () => {
   return null;
 };
 
-// Subtle atmospheric dust motes floating in warm sunlight
+// Subtle atmospheric data motes floating in calm architectural space
 const AmbientDustMotes: React.FC = () => {
   const pointsRef = useRef<THREE.Points>(null);
-  const count = 100;
+  const count = 120;
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 40;
-      pos[i * 3 + 1] = Math.random() * 5.0 + 1.0;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 60;
+      pos[i * 3] = (Math.random() - 0.5) * 50;
+      pos[i * 3 + 1] = Math.random() * 6.0 + 1.0;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 80;
     }
     return pos;
   }, []);
 
   useFrame((_, delta) => {
     if (!pointsRef.current) return;
-    pointsRef.current.rotation.y += delta * 0.02;
+    pointsRef.current.rotation.y += delta * 0.015;
   });
 
   return (
@@ -66,10 +66,10 @@ const AmbientDustMotes: React.FC = () => {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.06}
-        color="#FEF3C7"
+        size={0.05}
+        color="#38BDF8"
         transparent
-        opacity={0.35}
+        opacity={0.3}
         blending={THREE.AdditiveBlending}
       />
     </points>
@@ -87,51 +87,51 @@ export const LibraryScene: React.FC = () => {
     return computeLibraryPlacements(sections, resources);
   }, [sections, resources]);
 
-  // Warm, inviting, and radiant library lighting setups
+  // Premium Futuristic Cyberpunk lighting setups
   const lighting = useMemo(() => {
     switch (atmosphere) {
       case 'day':
         return {
-          backgroundColor: '#F3E8DC', // Warm sunlit cream
-          fogColor: '#F0E2D2', // Soft warm haze (not dark!)
+          backgroundColor: '#040814',
+          fogColor: '#060D1A',
           fogNear: 60,
           fogFar: 220,
-          ambientColor: '#FFF8EB', // 4000K warm white
-          ambientIntensity: 1.15,
-          sunColor: '#FFFBEB',
-          sunIntensity: 1.35,
+          ambientColor: '#D8ECF8',
+          ambientIntensity: 0.95,
+          sunColor: '#A5F3FC',
+          sunIntensity: 1.15,
           sunPos: [15, 22, -10] as [number, number, number],
-          hallAccentColor: '#FEF3C7',
-          hallAccentIntensity: 0.9,
+          hallAccentColor: '#22D3EE',
+          hallAccentIntensity: 0.85,
         };
       case 'evening':
         return {
-          backgroundColor: '#45231E', // Warm sunset amber glow
-          fogColor: '#4A2822',
+          backgroundColor: '#080514',
+          fogColor: '#0B081C',
           fogNear: 55,
           fogFar: 210,
-          ambientColor: '#FED7AA', // 2800K golden hour
-          ambientIntensity: 1.05,
-          sunColor: '#F97316',
-          sunIntensity: 1.25,
+          ambientColor: '#DDD6FE',
+          ambientIntensity: 0.85,
+          sunColor: '#C084FC',
+          sunIntensity: 1.05,
           sunPos: [-20, 14, -20] as [number, number, number],
-          hallAccentColor: '#FBBF24',
-          hallAccentIntensity: 1.2,
+          hallAccentColor: '#8B5CF6',
+          hallAccentIntensity: 1.0,
         };
       case 'night':
       default:
         return {
-          backgroundColor: '#1E1B2E', // Deep indigo twilight outside
-          fogColor: '#28233C',
+          backgroundColor: '#02040A',
+          fogColor: '#030612',
           fogNear: 50,
-          fogFar: 190,
-          ambientColor: '#FEF3C7', // Warm 3000K indoor study lamps
-          ambientIntensity: 0.85,
-          sunColor: '#93C5FD',
-          sunIntensity: 0.45,
+          fogFar: 200,
+          ambientColor: '#67E8F9',
+          ambientIntensity: 0.70,
+          sunColor: '#38BDF8',
+          sunIntensity: 0.60,
           sunPos: [0, 20, 0] as [number, number, number],
-          hallAccentColor: '#FDE68A',
-          hallAccentIntensity: 1.4,
+          hallAccentColor: '#06B6D4',
+          hallAccentIntensity: 1.2,
         };
     }
   }, [atmosphere]);

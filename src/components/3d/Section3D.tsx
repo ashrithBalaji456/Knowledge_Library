@@ -11,7 +11,7 @@ interface Section3DProps {
   resources: Resource[];
 }
 
-// Cached section sign textures with physical carved wood, brass border & elegant typography
+// Cached section sign textures with physical cyber dark-glass, glowing cyan/accent borders & sharp typography
 const SIGN_TEXTURE_CACHE = new Map<string, THREE.CanvasTexture>();
 
 function getOrCreatePhysicalSectionSign(
@@ -29,35 +29,79 @@ function getOrCreatePhysicalSectionSign(
   canvas.height = 256;
   const ctx = canvas.getContext('2d')!;
 
-  // Warm dark walnut wooden plaque background
-  ctx.fillStyle = '#3F2212';
+  // Deep obsidian/graphite glass panel background with cyber grid
+  const bgGrad = ctx.createLinearGradient(0, 0, 1024, 256);
+  bgGrad.addColorStop(0, '#040914');
+  bgGrad.addColorStop(0.5, '#071022');
+  bgGrad.addColorStop(1, '#040914');
+  ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, 1024, 256);
 
-  // Outer polished brass frame
-  ctx.strokeStyle = '#D4AF37';
-  ctx.lineWidth = 14;
-  ctx.strokeRect(10, 10, 1004, 236);
+  // Subtle interior grid lines
+  ctx.strokeStyle = 'rgba(6, 182, 212, 0.08)';
+  ctx.lineWidth = 1;
+  for (let x = 32; x < 1024; x += 48) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, 256);
+    ctx.stroke();
+  }
+  for (let y = 32; y < 256; y += 48) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(1024, y);
+    ctx.stroke();
+  }
 
-  // Inset section accent color line
+  // Outer glowing border in section accent color
   ctx.strokeStyle = colorHex;
   ctx.lineWidth = 6;
+  ctx.strokeRect(10, 10, 1004, 236);
+
+  // High-tech corner tech brackets
+  ctx.fillStyle = '#06B6D4';
+  const bLen = 28;
+  const bThick = 5;
+  // Top-left
+  ctx.fillRect(10, 10, bLen, bThick);
+  ctx.fillRect(10, 10, bThick, bLen);
+  // Top-right
+  ctx.fillRect(1014 - bLen, 10, bLen, bThick);
+  ctx.fillRect(1014 - bThick, 10, bThick, bLen);
+  // Bottom-left
+  ctx.fillRect(10, 246 - bThick, bLen, bThick);
+  ctx.fillRect(10, 246 - bLen, bThick, bLen);
+  // Bottom-right
+  ctx.fillRect(1014 - bLen, 246 - bThick, bLen, bThick);
+  ctx.fillRect(1014 - bThick, 246 - bLen, bThick, bLen);
+
+  // Inset subtle cyan neon trace line
+  ctx.strokeStyle = 'rgba(6, 182, 212, 0.45)';
+  ctx.lineWidth = 2;
   ctx.strokeRect(26, 26, 972, 204);
 
-  // Inner parchment / cream label plate in center
-  ctx.fillStyle = '#FAF5EB';
-  ctx.fillRect(40, 40, 944, 176);
+  // Inner dark glass core backing
+  ctx.fillStyle = 'rgba(10, 20, 42, 0.75)';
+  ctx.fillRect(36, 36, 952, 184);
 
-  // Section Icon & Name in crisp dark charcoal serif typography
-  ctx.fillStyle = '#1E1B18';
-  ctx.font = 'bold 56px "Outfit", "Inter", serif';
+  // Section Icon & Name in crisp luminous typography
+  ctx.shadowColor = '#06B6D4';
+  ctx.shadowBlur = 14;
+  ctx.fillStyle = '#F8FAFC';
+  ctx.font = 'bold 56px "Outfit", "Inter", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(`${icon}  ${name.toUpperCase()}`, 512, 110);
+  ctx.fillText(`${icon}  ${name.toUpperCase()}`, 512, 108);
 
-  // Domain subtitle with section accent color
-  ctx.font = '700 20px "Inter", sans-serif';
-  ctx.fillStyle = colorHex;
-  ctx.fillText('DEPARTMENT OF ADVANCED STUDIES & RESEARCH', 512, 175);
+  // Domain subtitle with glowing section accent color
+  ctx.shadowBlur = 8;
+  ctx.shadowColor = colorHex;
+  ctx.font = '700 18px "Inter", monospace';
+  ctx.fillStyle = '#38BDF8';
+  ctx.fillText('NEURAL ARCHIVE // ADVANCED RESEARCH SECTOR', 512, 172);
+
+  // Reset shadow
+  ctx.shadowBlur = 0;
 
   const texture = new THREE.CanvasTexture(canvas);
   SIGN_TEXTURE_CACHE.set(key, texture);
@@ -76,43 +120,62 @@ export const Section3D = React.memo<Section3DProps>(({ section, shelves, resourc
     () =>
       new THREE.MeshStandardMaterial({
         map: signTexture,
-        roughness: 0.38,
+        roughness: 0.15,
+        metalness: 0.85,
+        emissive: new THREE.Color(section.color),
+        emissiveIntensity: 0.18,
+      }),
+    [signTexture, section.color]
+  );
+
+  // Dark graphite titanium composite for portal pylons
+  const titaniumMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#111827',
+        roughness: 0.32,
+        metalness: 0.85,
+      }),
+    []
+  );
+
+  // Smoked glass panel material with blue tint
+  const smokedGlassMaterial = useMemo(
+    () =>
+      new THREE.MeshPhysicalMaterial({
+        color: '#081226',
+        roughness: 0.08,
         metalness: 0.2,
-      }),
-    [signTexture]
-  );
-
-  // Warm creamy sandstone for arch pillars
-  const stoneMaterial = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: '#EFE7D8',
-        roughness: 0.65,
-        metalness: 0.05,
+        transparent: true,
+        opacity: 0.72,
+        transmission: 0.45,
+        reflectivity: 0.9,
       }),
     []
   );
 
-  // Warm walnut for arch beam
-  const walnutMaterial = useMemo(
+  // Cyan laser edge trim
+  const cyanGlowMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#6B4226',
-        roughness: 0.5,
-        metalness: 0.05,
+        color: '#06B6D4',
+        emissive: new THREE.Color('#06B6D4'),
+        emissiveIntensity: 0.85,
+        roughness: 0.2,
       }),
     []
   );
 
-  // Brass trim
-  const brassMaterial = useMemo(
+  // Section accent light channel
+  const accentLightMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#C69C3A',
-        roughness: 0.28,
-        metalness: 0.8,
+        color: section.color,
+        emissive: new THREE.Color(section.color),
+        emissiveIntensity: 0.95,
+        roughness: 0.2,
       }),
-    []
+    [section.color]
   );
 
   // Determine front of the section aisle so archway never collides with any cupboard
@@ -128,56 +191,88 @@ export const Section3D = React.memo<Section3DProps>(({ section, shelves, resourc
 
   return (
     <group>
-      {/* --- PHYSICAL ARCHWAY AT SECTION AISLE ENTRANCE --- */}
+      {/* --- CYBER HOLOGRAPHIC PORTAL AT SECTION AISLE ENTRANCE --- */}
       <group position={[secX, secY, archZ]}>
-        {/* Left Stone Pillar with Oak Base */}
+        {/* Ground guide threshold strip */}
+        <mesh position={[0, 0.02, 0]}>
+          <boxGeometry args={[archWidth - 0.2, 0.04, 0.3]} />
+          <primitive object={titaniumMaterial} attach="material" />
+        </mesh>
+        <mesh position={[0, 0.025, 0]}>
+          <boxGeometry args={[archWidth - 0.6, 0.02, 0.04]} />
+          <primitive object={accentLightMaterial} attach="material" />
+        </mesh>
+
+        {/* Left Titanium Pylon */}
         <mesh position={[-archWidth / 2 + pillarThickness / 2, 0.3, 0]}>
-          <boxGeometry args={[pillarThickness + 0.1, 0.6, pillarThickness + 0.1]} />
-          <primitive object={walnutMaterial} attach="material" />
+          <boxGeometry args={[pillarThickness + 0.12, 0.6, pillarThickness + 0.12]} />
+          <primitive object={titaniumMaterial} attach="material" />
         </mesh>
         <mesh position={[-archWidth / 2 + pillarThickness / 2, archHeight / 2 + 0.2, 0]}>
           <boxGeometry args={[pillarThickness, archHeight - 0.2, pillarThickness]} />
-          <primitive object={stoneMaterial} attach="material" />
+          <primitive object={titaniumMaterial} attach="material" />
         </mesh>
-        {/* Left Brass Capital */}
+        {/* Left vertical light channel */}
+        <mesh position={[-archWidth / 2 + pillarThickness + 0.01, archHeight / 2 + 0.2, 0]}>
+          <boxGeometry args={[0.03, archHeight - 0.4, 0.08]} />
+          <primitive object={accentLightMaterial} attach="material" />
+        </mesh>
+        {/* Left Pylon Capital & Cyan Collar */}
         <mesh position={[-archWidth / 2 + pillarThickness / 2, archHeight + 0.05, 0]}>
-          <boxGeometry args={[pillarThickness + 0.12, 0.15, pillarThickness + 0.12]} />
-          <primitive object={brassMaterial} attach="material" />
+          <boxGeometry args={[pillarThickness + 0.14, 0.15, pillarThickness + 0.14]} />
+          <primitive object={cyanGlowMaterial} attach="material" />
         </mesh>
 
-        {/* Right Stone Pillar with Oak Base */}
+        {/* Right Titanium Pylon */}
         <mesh position={[archWidth / 2 - pillarThickness / 2, 0.3, 0]}>
-          <boxGeometry args={[pillarThickness + 0.1, 0.6, pillarThickness + 0.1]} />
-          <primitive object={walnutMaterial} attach="material" />
+          <boxGeometry args={[pillarThickness + 0.12, 0.6, pillarThickness + 0.12]} />
+          <primitive object={titaniumMaterial} attach="material" />
         </mesh>
         <mesh position={[archWidth / 2 - pillarThickness / 2, archHeight / 2 + 0.2, 0]}>
           <boxGeometry args={[pillarThickness, archHeight - 0.2, pillarThickness]} />
-          <primitive object={stoneMaterial} attach="material" />
+          <primitive object={titaniumMaterial} attach="material" />
         </mesh>
-        {/* Right Brass Capital */}
+        {/* Right vertical light channel */}
+        <mesh position={[archWidth / 2 - pillarThickness - 0.01, archHeight / 2 + 0.2, 0]}>
+          <boxGeometry args={[0.03, archHeight - 0.4, 0.08]} />
+          <primitive object={accentLightMaterial} attach="material" />
+        </mesh>
+        {/* Right Pylon Capital & Cyan Collar */}
         <mesh position={[archWidth / 2 - pillarThickness / 2, archHeight + 0.05, 0]}>
-          <boxGeometry args={[pillarThickness + 0.12, 0.15, pillarThickness + 0.12]} />
-          <primitive object={brassMaterial} attach="material" />
+          <boxGeometry args={[pillarThickness + 0.14, 0.15, pillarThickness + 0.14]} />
+          <primitive object={cyanGlowMaterial} attach="material" />
         </mesh>
 
-        {/* Solid Walnut Header Beam */}
+        {/* Cantilever Titanium Overhead Arch Beam */}
         <mesh position={[0, archHeight + 0.25, 0]}>
-          <boxGeometry args={[archWidth + 0.3, 0.5, 0.45]} />
-          <primitive object={walnutMaterial} attach="material" />
+          <boxGeometry args={[archWidth + 0.3, 0.38, 0.42]} />
+          <primitive object={titaniumMaterial} attach="material" />
         </mesh>
-        <mesh position={[0, archHeight + 0.52, 0]}>
-          <boxGeometry args={[archWidth + 0.4, 0.06, 0.5]} />
-          <primitive object={brassMaterial} attach="material" />
+        {/* Glowing cyan underside beam ribbon */}
+        <mesh position={[0, archHeight + 0.06, 0]}>
+          <boxGeometry args={[archWidth - 0.2, 0.02, 0.12]} />
+          <primitive object={cyanGlowMaterial} attach="material" />
+        </mesh>
+        {/* Upper accent light strip */}
+        <mesh position={[0, archHeight + 0.45, 0]}>
+          <boxGeometry args={[archWidth + 0.36, 0.04, 0.46]} />
+          <primitive object={accentLightMaterial} attach="material" />
         </mesh>
 
-        {/* Double-Sided Physical Wood & Brass Section Sign */}
+        {/* Smoked glass backing plate for sign */}
+        <mesh position={[0, archHeight + 0.25, 0]}>
+          <boxGeometry args={[4.4, 1.15, 0.46]} />
+          <primitive object={smokedGlassMaterial} attach="material" />
+        </mesh>
+
+        {/* Double-Sided Cyber Holographic Section Sign */}
         {/* Front */}
-        <mesh position={[0, archHeight + 0.25, 0.23]}>
+        <mesh position={[0, archHeight + 0.25, 0.24]}>
           <planeGeometry args={[4.2, 1.05]} />
           <primitive object={signMaterial} attach="material" />
         </mesh>
         {/* Back */}
-        <mesh position={[0, archHeight + 0.25, -0.23]} rotation={[0, Math.PI, 0]}>
+        <mesh position={[0, archHeight + 0.25, -0.24]} rotation={[0, Math.PI, 0]}>
           <planeGeometry args={[4.2, 1.05]} />
           <primitive object={signMaterial} attach="material" />
         </mesh>

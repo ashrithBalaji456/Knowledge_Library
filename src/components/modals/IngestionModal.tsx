@@ -66,30 +66,33 @@ export const IngestionModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
-      <div className="relative w-full max-w-2xl overflow-hidden glass-panel-glow rounded-2xl border border-amber-600/30 bg-stone-900/95 shadow-2xl text-stone-100 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl">
+      <div className="relative w-full max-w-2xl overflow-hidden cyber-glass-dense rounded-2xl border border-cyan-500/30 shadow-2xl text-slate-100 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-stone-800">
+        <div className="flex items-center justify-between p-6 border-b border-cyan-900/40 bg-[#040814]/70">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-400/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               <Upload className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold font-heading text-stone-100 flex items-center gap-2">
-                Ingest New Knowledge Resources
-                <span className="text-xs font-mono py-0.5 px-2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                  AI Librarian Active
+              <div className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">
+                AUTOMATED INGESTION PIPELINE
+              </div>
+              <h2 className="text-xl font-bold font-heading text-slate-100 flex items-center gap-2">
+                Ingest Neural Knowledge Assets
+                <span className="text-xs font-mono py-0.5 px-2 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                  AI Auto
                 </span>
               </h2>
-              <p className="text-xs text-stone-400">
-                Upload individual PDFs or a ZIP archive. The system automatically reads, classifies, and organizes everything into the 3D library.
+              <p className="text-xs text-slate-400 font-light">
+                Upload individual PDFs or a ZIP archive. The neural classifier indexes and allocates each book into the 3D space.
               </p>
             </div>
           </div>
           {!isIngesting && (
             <button
               onClick={closeModal}
-              className="p-1.5 rounded-lg text-stone-400 hover:text-stone-100 hover:bg-stone-800 transition"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/40 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -259,8 +262,8 @@ export const IngestionModal: React.FC = () => {
 
         {/* Modal Footer */}
         {!isIngesting && (
-          <div className="flex items-center justify-between p-6 border-t border-stone-800 bg-stone-900/90">
-            <span className="text-xs text-stone-400">
+          <div className="flex items-center justify-between p-6 border-t border-cyan-900/40 bg-[#040814]/80">
+            <span className="text-xs text-slate-400 font-mono">
               {selectedFiles.length === 0
                 ? 'Select or drop files to proceed'
                 : `${selectedFiles.length} file${selectedFiles.length > 1 ? 's' : ''} queued`}
@@ -268,7 +271,7 @@ export const IngestionModal: React.FC = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 text-xs font-medium rounded-xl text-stone-300 hover:bg-stone-800 transition"
+                className="cyber-btn px-4 py-2 text-xs font-medium rounded-xl text-slate-300 transition"
               >
                 Cancel
               </button>
@@ -277,12 +280,12 @@ export const IngestionModal: React.FC = () => {
                 disabled={selectedFiles.length === 0}
                 className={`px-5 py-2.5 text-xs font-bold rounded-xl transition flex items-center gap-2 shadow-lg ${
                   selectedFiles.length > 0
-                    ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-amber-900/40 cursor-pointer'
-                    : 'bg-stone-800 text-stone-500 cursor-not-allowed border border-stone-700/50'
+                    ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white shadow-cyan-950/60 cursor-pointer border border-cyan-400/40'
+                    : 'bg-slate-900 text-slate-600 cursor-not-allowed border border-slate-800'
                 }`}
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Process & Place in 3D Library</span>
+                <span>Process & Deploy in 3D Space</span>
               </button>
             </div>
           </div>

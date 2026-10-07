@@ -36,19 +36,22 @@ export const SectionEntranceToast: React.FC = () => {
   return (
     <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none animate-in fade-in slide-in-from-top-4 duration-300">
       <div
-        className="px-6 py-3 rounded-2xl bg-slate-950/90 backdrop-blur-xl border shadow-2xl flex items-center gap-3 text-center"
-        style={{ borderColor: `${currentSection.color}66` }}
+        className="px-6 py-3 rounded-2xl cyber-glass-glow border shadow-2xl flex items-center gap-3.5 text-center"
+        style={{ borderColor: `${currentSection.color}88` }}
       >
-        <span className="text-2xl">{currentSection.icon}</span>
+        <span className="text-2xl drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">{currentSection.icon}</span>
         <div className="text-left">
+          <div className="text-[9px] font-mono tracking-widest text-cyan-400 uppercase">
+            ENTERING SECTOR
+          </div>
           <h3
             className="text-sm font-extrabold tracking-wide font-['Outfit']"
             style={{ color: currentSection.accentColor }}
           >
             {currentSection.name.toUpperCase()}
           </h3>
-          <p className="text-[11px] text-slate-400">
-            {count} Interactive Resources & Tomes
+          <p className="text-[11px] text-slate-400 font-mono">
+            {count} Indexed Neural Archives
           </p>
         </div>
       </div>

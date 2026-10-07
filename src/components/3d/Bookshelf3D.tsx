@@ -6,74 +6,83 @@ interface Bookshelf3DProps {
   shelf: ShelfInfo;
 }
 
-// Warm natural walnut and oak materials (#6B4226, #8B5A35, #A06B42)
-const SHARED_WALNUT_FRAME_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#6B4226', // Warm deep walnut
-  roughness: 0.52,
-  metalness: 0.04,
+// Sleek dark graphite, titanium and smoked glass materials
+const SHARED_GRAPHITE_FRAME_MATERIAL = new THREE.MeshStandardMaterial({
+  color: '#0A101D', // Deep obsidian-graphite alloy
+  roughness: 0.38,
+  metalness: 0.62,
 });
 
-const SHARED_OAK_SHELF_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#8B5A35', // Warm golden-brown oak
-  roughness: 0.48,
-  metalness: 0.04,
+const SHARED_TITANIUM_TRIM_MATERIAL = new THREE.MeshStandardMaterial({
+  color: '#1E293B', // Brushed titanium
+  roughness: 0.3,
+  metalness: 0.78,
 });
 
-const SHARED_BACKBOARD_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#A06B42', // Warm amber-tan interior wood backboard (makes books pop!)
-  roughness: 0.6,
-  metalness: 0.02,
+const SHARED_CYBER_SHELF_MATERIAL = new THREE.MeshStandardMaterial({
+  color: '#0E1726', // Dark carbon composite shelf tier plate
+  roughness: 0.32,
+  metalness: 0.45,
 });
 
-// Antique brass / warm gold (#C69C3A)
-const SHARED_BRASS_TRIM_MATERIAL = new THREE.MeshStandardMaterial({
-  color: '#C69C3A',
-  roughness: 0.28,
-  metalness: 0.82,
+const SHARED_CYBER_BACKBOARD_MATERIAL = new THREE.MeshStandardMaterial({
+  color: '#060B14', // Deep midnight carbon backboard (makes colorful book spines pop!)
+  roughness: 0.8,
+  metalness: 0.15,
 });
 
-// Luminous warm LED strip under each shelf tier (3000K warm glow)
+// Smoked glass side panels
+const SHARED_SMOKED_SIDE_GLASS = new THREE.MeshStandardMaterial({
+  color: '#0F1E38',
+  roughness: 0.18,
+  metalness: 0.2,
+  transparent: true,
+  opacity: 0.65,
+});
+
+// Recessed cyan architectural LED strip under each shelf tier
 const SHARED_SHELF_LIGHT_STRIP_MATERIAL = new THREE.MeshBasicMaterial({
-  color: '#FEF3C7', // Warm incandescent golden-white
+  color: '#22D3EE', // Calm electric cyan
 });
 
+// Row badge texture cache
 const ROW_BADGE_CACHE = new Map<string, THREE.CanvasTexture>();
 
 function getOrCreateRowBadgeTexture(label: string): THREE.CanvasTexture {
   if (ROW_BADGE_CACHE.has(label)) return ROW_BADGE_CACHE.get(label)!;
 
   const canvas = document.createElement('canvas');
-  // High-resolution 2048x128 canvas for crisp, large, readable typography from any distance
+  // High-resolution 2048x128 canvas for crisp typography from any distance
   canvas.width = 2048;
   canvas.height = 128;
   const ctx = canvas.getContext('2d')!;
 
-  // Deep obsidian & brushed brass plaque background
+  // Deep obsidian glass plaque background
   const bgGrad = ctx.createLinearGradient(0, 0, 2048, 0);
-  bgGrad.addColorStop(0, '#0c0a09');
-  bgGrad.addColorStop(0.12, '#292524');
-  bgGrad.addColorStop(0.5, '#14110e');
-  bgGrad.addColorStop(0.88, '#292524');
-  bgGrad.addColorStop(1, '#0c0a09');
+  bgGrad.addColorStop(0, '#040711');
+  bgGrad.addColorStop(0.12, '#0B1528');
+  bgGrad.addColorStop(0.5, '#070E1C');
+  bgGrad.addColorStop(0.88, '#0B1528');
+  bgGrad.addColorStop(1, '#040711');
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, 2048, 128);
 
-  // Outer polished gold frame
-  ctx.strokeStyle = '#F59E0B';
-  ctx.lineWidth = 6;
+  // Outer glowing cyan cyber border
+  ctx.strokeStyle = '#22D3EE';
+  ctx.lineWidth = 4;
   ctx.strokeRect(6, 6, 2036, 116);
 
-  ctx.strokeStyle = '#FDE68A';
+  ctx.strokeStyle = 'rgba(85, 223, 255, 0.4)';
   ctx.lineWidth = 2;
   ctx.strokeRect(14, 14, 2020, 100);
 
-  // Left & right decorative gold stars
-  ctx.fillStyle = '#FBBF24';
+  // Left & right cyan cyber diamond glyphs
+  ctx.fillStyle = '#55DFFF';
   ctx.font = 'bold 44px sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('✦', 60, 64);
-  ctx.fillText('✦', 2048 - 60, 64);
+  ctx.fillText('◈', 60, 64);
+  ctx.fillText('◈', 2048 - 60, 64);
 
   // High-contrast, large, bold typography with drop shadow
   ctx.save();
@@ -81,8 +90,8 @@ function getOrCreateRowBadgeTexture(label: string): THREE.CanvasTexture {
   ctx.shadowBlur = 12;
   ctx.shadowOffsetY = 4;
 
-  ctx.font = '900 58px "Outfit", "Inter", sans-serif';
-  ctx.fillStyle = '#FFFBEB';
+  ctx.font = '900 56px "Outfit", "Inter", sans-serif';
+  ctx.fillStyle = '#F4F8FF';
   ctx.fillText(label.toUpperCase(), 1024, 65);
   ctx.restore();
 
@@ -107,17 +116,16 @@ const ShelfRowBadge: React.FC<{ text: string; width: number; position: [number, 
     () =>
       new THREE.MeshStandardMaterial({
         map: texture,
-        roughness: 0.3,
-        metalness: 0.35,
-        emissive: new THREE.Color('#261A05'),
-        emissiveIntensity: 0.25,
+        roughness: 0.25,
+        metalness: 0.45,
+        emissive: new THREE.Color('#082F49'),
+        emissiveIntensity: 0.35,
       }),
     [texture]
   );
 
   return (
     <mesh position={position}>
-      {/* Enlarged 7.4cm tall plaque for maximum legibility */}
       <boxGeometry args={[width, 0.074, 0.012]} />
       <primitive object={material} attach="material" />
     </mesh>
@@ -126,7 +134,7 @@ const ShelfRowBadge: React.FC<{ text: string; width: number; position: [number, 
 
 export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
   const { width, height, depth, position, rotation } = shelf;
-  // Scaled shelf tier heights matching the enlarged 2.85m tall cupboard
+  // Scaled shelf tier heights matching the enlarged 2.85m tall cupboard (strictly identical!)
   const shelfYPositions = [0.40, 1.22, 2.04, 2.80];
 
   const sideThickness = 0.09;
@@ -134,41 +142,61 @@ export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
 
   return (
     <group position={position} rotation={rotation}>
-      {/* Left Upright Side Panel */}
-      <mesh position={[-width / 2 + sideThickness / 2, height / 2, 0]}>
-        <boxGeometry args={[sideThickness, height, depth]} />
-        <primitive object={SHARED_WALNUT_FRAME_MATERIAL} attach="material" />
-      </mesh>
+      {/* Left Upright Side Panel (Titanium Frame + Inset Smoked Glass Window) */}
+      <group position={[-width / 2 + sideThickness / 2, height / 2, 0]}>
+        <mesh>
+          <boxGeometry args={[sideThickness, height, depth]} />
+          <primitive object={SHARED_GRAPHITE_FRAME_MATERIAL} attach="material" />
+        </mesh>
+        <mesh position={[-0.01, 0, 0]}>
+          <boxGeometry args={[0.02, height - 0.2, depth - 0.1]} />
+          <primitive object={SHARED_SMOKED_SIDE_GLASS} attach="material" />
+        </mesh>
+      </group>
 
-      {/* Right Upright Side Panel */}
-      <mesh position={[width / 2 - sideThickness / 2, height / 2, 0]}>
-        <boxGeometry args={[sideThickness, height, depth]} />
-        <primitive object={SHARED_WALNUT_FRAME_MATERIAL} attach="material" />
-      </mesh>
+      {/* Right Upright Side Panel (Titanium Frame + Inset Smoked Glass Window) */}
+      <group position={[width / 2 - sideThickness / 2, height / 2, 0]}>
+        <mesh>
+          <boxGeometry args={[sideThickness, height, depth]} />
+          <primitive object={SHARED_GRAPHITE_FRAME_MATERIAL} attach="material" />
+        </mesh>
+        <mesh position={[0.01, 0, 0]}>
+          <boxGeometry args={[0.02, height - 0.2, depth - 0.1]} />
+          <primitive object={SHARED_SMOKED_SIDE_GLASS} attach="material" />
+        </mesh>
+      </group>
 
-      {/* Warm Oak Interior Backboard Panel (Brightens the shelf cavity so colorful book spines pop!) */}
+      {/* Midnight Carbon Backboard Panel */}
       <mesh position={[0, height / 2, -depth / 2 + 0.02]}>
         <boxGeometry args={[width, height, 0.03]} />
-        <primitive object={SHARED_BACKBOARD_MATERIAL} attach="material" />
+        <primitive object={SHARED_CYBER_BACKBOARD_MATERIAL} attach="material" />
       </mesh>
 
-      {/* Sturdy Bottom Base Plinth */}
+      {/* Sleek Beveled Base Plinth with Recessed Cyan Underglow */}
       <mesh position={[0, 0.16, 0]}>
         <boxGeometry args={[width + 0.06, 0.32, depth + 0.08]} />
-        <primitive object={SHARED_WALNUT_FRAME_MATERIAL} attach="material" />
+        <primitive object={SHARED_GRAPHITE_FRAME_MATERIAL} attach="material" />
+      </mesh>
+      <mesh position={[0, 0.02, depth / 2 + 0.04]}>
+        <boxGeometry args={[width, 0.02, 0.02]} />
+        <primitive object={SHARED_SHELF_LIGHT_STRIP_MATERIAL} attach="material" />
       </mesh>
 
-      {/* Decorative Crown Cornice (Top Moulding with Brass Filigree Accent) */}
+      {/* Crown Cornice (Upper Titanium Canopy with Cyan Edge Accent) */}
       <mesh position={[0, height + 0.07, 0]}>
         <boxGeometry args={[width + 0.12, 0.14, depth + 0.12]} />
-        <primitive object={SHARED_WALNUT_FRAME_MATERIAL} attach="material" />
+        <primitive object={SHARED_GRAPHITE_FRAME_MATERIAL} attach="material" />
       </mesh>
       <mesh position={[0, height + 0.13, depth / 2 + 0.04]}>
-        <boxGeometry args={[width + 0.1, 0.025, 0.02]} />
-        <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
+        <boxGeometry args={[width + 0.1, 0.018, 0.02]} />
+        <primitive object={SHARED_TITANIUM_TRIM_MATERIAL} attach="material" />
+      </mesh>
+      <mesh position={[0, height + 0.13, depth / 2 + 0.055]}>
+        <boxGeometry args={[width + 0.06, 0.008, 0.008]} />
+        <primitive object={SHARED_SHELF_LIGHT_STRIP_MATERIAL} attach="material" />
       </mesh>
 
-      {/* Horizontal Shelves, Brass Front Edges & Prominent Language/Topic Row Plaques */}
+      {/* Horizontal Shelves, Brushed Titanium Front Edges & Cyber Row Plaques */}
       {shelfYPositions.map((y, idx) => {
         let rowText: string | null = null;
         if (shelf.rowLabels && shelf.rowLabels.length >= 3) {
@@ -179,18 +207,18 @@ export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
 
         return (
           <group key={idx} position={[0, y, 0]}>
-            {/* Wooden Shelf Plate */}
+            {/* Shelf Plate */}
             <mesh>
               <boxGeometry args={[width - sideThickness * 2, shelfThickness, depth - 0.04]} />
-              <primitive object={SHARED_OAK_SHELF_MATERIAL} attach="material" />
+              <primitive object={SHARED_CYBER_SHELF_MATERIAL} attach="material" />
             </mesh>
-            {/* Polished Brass Front Edge Trim */}
+            {/* Brushed Titanium Front Edge Trim */}
             <mesh position={[0, 0, depth / 2 - 0.02]}>
-              <boxGeometry args={[width - sideThickness * 2, shelfThickness + 0.02, 0.014]} />
-              <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
+              <boxGeometry args={[width - sideThickness * 2, shelfThickness + 0.015, 0.014]} />
+              <primitive object={SHARED_TITANIUM_TRIM_MATERIAL} attach="material" />
             </mesh>
 
-            {/* Explicit Language & Topic Plaque mounted prominently on this shelf row */}
+            {/* Language & Topic Cyber Plaque */}
             {rowText && (
               <ShelfRowBadge
                 text={rowText}
@@ -199,10 +227,10 @@ export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
               />
             )}
 
-            {/* Warm Under-Shelf Integrated Lighting Strip (illuminates books below) */}
+            {/* Recessed Cyan Under-Shelf Illumination Strip (lights up book spines below) */}
             {idx < shelfYPositions.length - 1 && (
               <mesh position={[0, -shelfThickness / 2 - 0.01, 0]}>
-                <boxGeometry args={[width - sideThickness * 2 - 0.1, 0.014, 0.1]} />
+                <boxGeometry args={[width - sideThickness * 2 - 0.1, 0.012, 0.08]} />
                 <primitive object={SHARED_SHELF_LIGHT_STRIP_MATERIAL} attach="material" />
               </mesh>
             )}
@@ -210,14 +238,14 @@ export const Bookshelf3D: React.FC<Bookshelf3DProps> = ({ shelf }) => {
         );
       })}
 
-      {/* Endcap Brass Plaque for Shelf Identifiers */}
+      {/* Endcap Metallic Plaque for Shelf Identifiers */}
       <mesh position={[width / 2 + 0.002, height * 0.72, 0]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[0.28, 0.14]} />
-        <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
+        <primitive object={SHARED_TITANIUM_TRIM_MATERIAL} attach="material" />
       </mesh>
       <mesh position={[-width / 2 - 0.002, height * 0.72, 0]} rotation={[0, -Math.PI / 2, 0]}>
         <planeGeometry args={[0.28, 0.14]} />
-        <primitive object={SHARED_BRASS_TRIM_MATERIAL} attach="material" />
+        <primitive object={SHARED_TITANIUM_TRIM_MATERIAL} attach="material" />
       </mesh>
     </group>
   );

@@ -85,27 +85,27 @@ export const PDFReaderModal: React.FC = () => {
   const progressPct = Math.round((currentPage / totalPages) * 100);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-stone-950 text-stone-100 select-none overflow-hidden">
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#030712] text-slate-100 select-none overflow-hidden">
       {/* Top Toolbar */}
-      <div className="h-16 px-4 md:px-6 bg-stone-900/95 border-b border-stone-800 flex items-center justify-between gap-4 shrink-0 shadow-lg">
+      <div className="h-16 px-4 md:px-6 bg-[#040814]/90 border-b border-cyan-900/40 flex items-center justify-between gap-4 shrink-0 shadow-lg backdrop-blur-md">
         {/* Return to Library (Rule 43: returns to exact physical 3D position) */}
         <button
           onClick={closePdfReader}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-bold border border-stone-700 hover:border-amber-400/50 transition-all cursor-pointer group"
+          className="cyber-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold"
         >
-          <ArrowLeft className="w-4 h-4 text-amber-400 group-hover:-translate-x-0.5 transition-transform" />
-          <span>RETURN TO LIBRARY</span>
+          <ArrowLeft className="w-4 h-4 text-cyan-400 group-hover:-translate-x-0.5 transition-transform" />
+          <span>RETURN TO ARCHIVE</span>
         </button>
 
         {/* Book Title & Progress Pill */}
         <div className="flex flex-col items-center max-w-md truncate text-center">
-          <h2 className="text-sm font-bold text-stone-100 font-heading truncate">
+          <h2 className="text-sm font-bold text-slate-100 font-heading truncate">
             {pdfResource.title}
           </h2>
-          <div className="flex items-center gap-2 text-[11px] text-stone-400">
+          <div className="flex items-center gap-2 text-[11px] text-slate-400">
             <span>by {pdfResource.author}</span>
-            <span>•</span>
-            <span className="font-mono text-amber-400 font-semibold">
+            <span className="text-cyan-800">•</span>
+            <span className="font-mono text-cyan-300 font-semibold">
               Page {currentPage} of {totalPages} ({progressPct}%)
             </span>
           </div>
@@ -116,7 +116,7 @@ export const PDFReaderModal: React.FC = () => {
           {pdfUrl && (
             <button
               onClick={() => openPdfInNewTab(pdfResource)}
-              className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-amber-950 transition cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-950/60 transition cursor-pointer border border-cyan-400/40"
               title="Open actual PDF in new browser tab"
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -126,8 +126,8 @@ export const PDFReaderModal: React.FC = () => {
 
           <button
             onClick={() => setShowToc(!showToc)}
-            className={`p-2 rounded-xl border text-xs cursor-pointer transition-colors ${
-              showToc ? 'bg-amber-500/20 border-amber-500 text-amber-300' : 'bg-stone-800 border-stone-700 text-stone-300 hover:bg-stone-700'
+            className={`cyber-btn p-2 rounded-xl text-xs cursor-pointer ${
+              showToc ? 'cyber-btn-active text-cyan-300' : 'text-slate-300'
             }`}
             title="Table of Contents"
           >
@@ -139,27 +139,27 @@ export const PDFReaderModal: React.FC = () => {
               setIsBookmarked(!isBookmarked);
               sound.playChime();
             }}
-            className={`p-2 rounded-xl border text-xs cursor-pointer transition-colors ${
-              isBookmarked ? 'bg-amber-500/20 border-amber-500 text-amber-300' : 'bg-stone-800 border-stone-700 text-stone-300 hover:bg-stone-700'
+            className={`cyber-btn p-2 rounded-xl text-xs cursor-pointer ${
+              isBookmarked ? 'cyber-btn-active text-cyan-300' : 'text-slate-300'
             }`}
             title="Bookmark Page"
           >
-            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-amber-300' : ''}`} />
+            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-cyan-300' : ''}`} />
           </button>
 
           {!pdfResource.fileDataUrl && (
-            <div className="hidden sm:flex items-center bg-stone-800 border border-stone-700 rounded-xl overflow-hidden">
+            <div className="hidden sm:flex items-center bg-[#071022] border border-cyan-900/50 rounded-xl overflow-hidden">
               <button
                 onClick={handleZoomOut}
-                className="p-2 hover:bg-stone-700 text-stone-300 cursor-pointer"
+                className="p-2 hover:bg-cyan-950/50 text-slate-300 hover:text-cyan-300 cursor-pointer transition-colors"
                 title="Zoom Out"
               >
                 <ZoomOut className="w-4 h-4" />
               </button>
-              <span className="px-2 text-xs font-mono text-stone-400">{zoomLevel}%</span>
+              <span className="px-2 text-xs font-mono text-cyan-300">{zoomLevel}%</span>
               <button
                 onClick={handleZoomIn}
-                className="p-2 hover:bg-stone-700 text-stone-300 cursor-pointer"
+                className="p-2 hover:bg-cyan-950/50 text-slate-300 hover:text-cyan-300 cursor-pointer transition-colors"
                 title="Zoom In"
               >
                 <ZoomIn className="w-4 h-4" />
@@ -169,7 +169,7 @@ export const PDFReaderModal: React.FC = () => {
 
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-300 cursor-pointer"
+            className="cyber-btn p-2 rounded-xl text-slate-300 cursor-pointer"
             title="Toggle Fullscreen"
           >
             {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
