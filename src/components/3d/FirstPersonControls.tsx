@@ -19,19 +19,26 @@ const STATIC_EULER = new THREE.Euler(0, 0, 0, 'YXZ');
 function getFloorElevation(x: number, z: number, currentCamY: number): number {
   // Grand Sweeping Curved Staircase: ascending to Level 2 around atrium (0, -14)
   const distToAtrium = Math.hypot(x, z - (-14));
-  if (distToAtrium >= 8.5 && distToAtrium <= 13.5 && currentCamY < 5.8) {
+  if (distToAtrium >= 8.5 && distToAtrium <= 13.5) {
     const angle = Math.atan2(z - (-14), x);
-    // Staircase sector from angle -0.45*PI to 0.40*PI
+    // Staircase sector from angle -1.45 to 1.35
     if (angle >= -1.45 && angle <= 1.35) {
       const t = (angle - (-1.45)) / (1.35 - (-1.45));
-      return Math.min(5.2, Math.max(0, t * 5.2));
+      const stairHeight = t * 5.2;
+      // Only climb if starting from base or already elevated
+      if (currentCamY >= stairHeight - 0.4 || t < 0.25) {
+        return Math.min(5.2, Math.max(0, stairHeight));
+      }
     }
   }
 
   // West & East Pedestrian Ramps at x = +/-15: z in [6, 24]
   if ((Math.abs(x - (-15)) <= 2.5 || Math.abs(x - 15) <= 2.5) && z >= 6 && z <= 24) {
     const t = (24 - z) / 18; // 0 at z=24, 1.0 at z=6
-    return t * 5.2;
+    const rampHeight = t * 5.2;
+    if (currentCamY >= rampHeight - 0.5 || z >= 20) {
+      return rampHeight;
+    }
   }
 
   // Upper Mezzanine & Skybridge Level (y = 5.2m)
@@ -180,24 +187,38 @@ export const FirstPersonControls: React.FC = () => {
     const dom = gl.domElement;
     let mouseDownPos = { x: 0, y: 0 };
 
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault(); // Prevent browser right-click menu so right-drag look is seamless
+    };
+
+    const handlePointerLockChange = () => {
+      const isLocked = document.pointerLockElement === dom;
+      // Sync store preference if needed
+      if (!isLocked && isDragging.current) {
+        isDragging.current = false;
+      }
+    };
+
     const handleMouseDown = (e: MouseEvent) => {
       if (activeModal) return;
-      if (e.button === 0) {
+      // Allow both Left click (0) and Right click (2) for dragging/looking
+      if (e.button === 0 || e.button === 2) {
         isDragging.current = true;
         mouseDownPos = { x: e.clientX, y: e.clientY };
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
 
-        if (preferences.pointerLock && dom.requestPointerLock) {
-          dom.requestPointerLock();
+        // If pointer lock preference is enabled or user middle clicked (button 1)
+        if (preferences.pointerLock && dom.requestPointerLock && document.pointerLockElement !== dom) {
+          dom.requestPointerLock().catch(() => {});
         }
       }
     };
 
     const handleMouseUp = (e: MouseEvent) => {
       isDragging.current = false;
-      // If user performed a stationary click (dragged less than 8px) while pointing at a book
+      // If user performed a stationary left click (dragged less than 6px) while pointing at a book
       const dragDist = Math.hypot(e.clientX - mouseDownPos.x, e.clientY - mouseDownPos.y);
-      if (dragDist < 8 && !activeModal) {
+      if (e.button === 0 && dragDist < 6 && !activeModal) {
         const curHovered = useLibraryStore.getState().hoveredResourceId;
         if (curHovered) {
           selectResource(curHovered);
@@ -218,22 +239,28 @@ export const FirstPersonControls: React.FC = () => {
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
       }
 
-      const sensitivity = 0.0022 * preferences.lookSensitivity;
+      // Much higher, fluid sensitivity (eliminates feeling stiff/hard to move)
+      const baseSens = isLocked ? 0.0032 : 0.0048;
+      const sensitivity = baseSens * preferences.lookSensitivity;
       targetYaw.current -= movementX * sensitivity;
       targetPitch.current -= movementY * sensitivity;
 
       // Clamp vertical look between -80 and +80 degrees
-      targetPitch.current = Math.max(-Math.PI / 2.3, Math.min(Math.PI / 2.3, targetPitch.current));
+      targetPitch.current = Math.max(-Math.PI / 2.25, Math.min(Math.PI / 2.25, targetPitch.current));
     };
 
+    dom.addEventListener('contextmenu', handleContextMenu);
     dom.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
     window.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('pointerlockchange', handlePointerLockChange);
 
     return () => {
+      dom.removeEventListener('contextmenu', handleContextMenu);
       dom.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('pointerlockchange', handlePointerLockChange);
     };
   }, [gl.domElement, preferences.lookSensitivity, preferences.pointerLock, activeModal, selectResource]);
 
@@ -263,9 +290,8 @@ export const FirstPersonControls: React.FC = () => {
     // Clamp delta to prevent sudden spikes if a frame takes long
     const safeDelta = Math.min(delta, 0.05);
 
-    // Ultra-smooth rotational damping tuned for 120 FPS high refresh
-    // Damping at 52 (instead of 22) eliminates trailing mouse drag / lag on sudden turns!
-    const lookDamping = preferences.targetFps120 ? 52 : 36;
+    // Snappy rotational tracking (eliminates heavy lag or feeling stuck)
+    const lookDamping = 75.0;
     yaw.current = THREE.MathUtils.damp(yaw.current, targetYaw.current, lookDamping, safeDelta);
     pitch.current = THREE.MathUtils.damp(pitch.current, targetPitch.current, lookDamping, safeDelta);
 
@@ -274,11 +300,20 @@ export const FirstPersonControls: React.FC = () => {
 
     if (activeModal) return;
 
-    // Movement acceleration & friction physics (snappy athletic response for 120 FPS)
+    // Smooth keyboard camera rotation using Arrow keys or Q (effortless turning without mouse dragging!)
+    const kbTurnSpeed = 2.4; // Radians per second
+    if (keys.current['ArrowLeft'] || (keys.current['KeyQ'] && !keys.current['KeyA'])) {
+      targetYaw.current += kbTurnSpeed * safeDelta;
+    }
+    if (keys.current['ArrowRight']) {
+      targetYaw.current -= kbTurnSpeed * safeDelta;
+    }
+
+    // Movement acceleration & friction physics (snappy athletic response)
     const isSprint = keys.current['ShiftLeft'] || keys.current['ShiftRight'];
-    const maxSpeed = isSprint ? (preferences.targetFps120 ? 11.5 : 10.5) : preferences.moveSpeed;
-    const accelRate = preferences.targetFps120 ? 68.0 : 48.0; // Instant responsive acceleration
-    const friction = preferences.targetFps120 ? 16.0 : 12.0; // Crisp deceleration without slide lag
+    const maxSpeed = isSprint ? 16.5 : (preferences.moveSpeed || 9.5);
+    const accelRate = 85.0; // Instant responsive acceleration
+    const friction = 14.0; // Crisp deceleration without slide lag
 
     STATIC_FORWARD.set(0, 0, -1).applyAxisAngle(STATIC_AXIS_Y, yaw.current);
     STATIC_RIGHT.set(1, 0, 0).applyAxisAngle(STATIC_AXIS_Y, yaw.current);
@@ -286,8 +321,8 @@ export const FirstPersonControls: React.FC = () => {
     STATIC_INPUT_DIR.set(0, 0, 0);
     if (keys.current['KeyW'] || keys.current['ArrowUp']) STATIC_INPUT_DIR.add(STATIC_FORWARD);
     if (keys.current['KeyS'] || keys.current['ArrowDown']) STATIC_INPUT_DIR.sub(STATIC_FORWARD);
-    if (keys.current['KeyD'] || keys.current['ArrowRight']) STATIC_INPUT_DIR.add(STATIC_RIGHT);
-    if (keys.current['KeyA'] || keys.current['ArrowLeft']) STATIC_INPUT_DIR.sub(STATIC_RIGHT);
+    if (keys.current['KeyD']) STATIC_INPUT_DIR.add(STATIC_RIGHT);
+    if (keys.current['KeyA']) STATIC_INPUT_DIR.sub(STATIC_RIGHT);
 
     if (STATIC_INPUT_DIR.lengthSq() > 0) {
       STATIC_INPUT_DIR.normalize();
