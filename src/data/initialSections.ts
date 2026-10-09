@@ -10,7 +10,7 @@ export const INITIAL_SECTIONS: Section[] = [
     icon: '📚',
     color: '#c2410c', // Terracotta Amber
     accentColor: '#fb923c',
-    subSections: ['Python Cheatsheets & Syntax', 'Machine Learning Cheat Sheets', 'Visualization References', 'Quick References & Summaries', 'Java & JVM Handbooks'],
+    subSections: ['Python Cheatsheets & Syntax', 'Machine Learning Cheat Sheets', 'Visualization References', 'Quick References & Summaries', 'Java & JVM Handbooks', 'React & Node.js Full-Stack Notes'],
     wing: 'handbooks',
     anchorPosition: [26, 0, 26],
     rotationY: 0,
