@@ -130,12 +130,13 @@ interface LibraryStoreState {
 }
 
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
-const STORAGE_KEY = 'pk_library_resources_v30_react_nodejs_handwritten';
+const STORAGE_KEY = 'pk_library_resources_v31_carbs_and_first_date';
 
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
+      localStorage.removeItem('pk_library_resources_v30_react_nodejs_handwritten');
       localStorage.removeItem('pk_library_resources_v29_linkedin_github_tricks');
       localStorage.removeItem('pk_library_resources_v28_dsa_patterns_interview_qa');
       localStorage.removeItem('pk_library_resources_v27_remotion_session_hijacking');
