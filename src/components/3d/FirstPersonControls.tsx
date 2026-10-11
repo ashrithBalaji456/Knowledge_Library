@@ -17,51 +17,30 @@ const STATIC_EULER = new THREE.Euler(0, 0, 0, 'YXZ');
 
 // Multi-level architectural height calculation
 function getFloorElevation(x: number, z: number, currentCamY: number): number {
-  // Grand Sweeping Curved Staircase: ascending to Level 2 around atrium (0, -14)
-  const distToAtrium = Math.hypot(x, z - (-14));
-  if (distToAtrium >= 8.5 && distToAtrium <= 13.5) {
-    const angle = Math.atan2(z - (-14), x);
-    // Staircase sector from angle -1.45 to 1.35
-    if (angle >= -1.45 && angle <= 1.35) {
-      const t = (angle - (-1.45)) / (1.35 - (-1.45));
-      const stairHeight = t * 5.2;
-      // Only climb if starting from base or already elevated
-      if (currentCamY >= stairHeight - 0.4 || t < 0.25) {
-        return Math.min(5.2, Math.max(0, stairHeight));
-      }
-    }
-  }
-
-  // West & East Pedestrian Ramps at x = +/-15: z in [6, 24]
-  if ((Math.abs(x - (-15)) <= 2.5 || Math.abs(x - 15) <= 2.5) && z >= 6 && z <= 24) {
-    const t = (24 - z) / 18; // 0 at z=24, 1.0 at z=6
-    const rampHeight = t * 5.2;
-    if (currentCamY >= rampHeight - 0.5 || z >= 20) {
-      return rampHeight;
-    }
-  }
-
-  // Upper Mezzanine & Skybridge Level (y = 5.2m)
-  if (currentCamY > 3.2) {
+  // If player is on or transitioning to Upper Mezzanine / Skybridge Level (y = 5.2m)
+  if (currentCamY > 3.5) {
+    const distToAtrium = Math.hypot(x, z - (-14));
     // Rotunda Mezzanine ring around Atrium (0, -14)
-    if (distToAtrium >= 10.5 && distToAtrium <= 17.5) {
+    if (distToAtrium >= 10.0 && distToAtrium <= 18.0) {
       return 5.2;
     }
-    // South Skybridge: z in [3.8, 8.2], x in [-22, 22]
-    if (z >= 3.8 && z <= 8.2 && Math.abs(x) <= 22) {
+    // South Skybridge: z in [3.5, 8.5], x in [-24, 24]
+    if (z >= 3.5 && z <= 8.5 && Math.abs(x) <= 24) {
       return 5.2;
     }
-    // North Skybridge: z in [-36.2, -31.8], x in [-22, 22]
-    if (z >= -36.2 && z <= -31.8 && Math.abs(x) <= 22) {
+    // North Skybridge: z in [-36.5, -31.5], x in [-24, 24]
+    if (z >= -36.5 && z <= -31.5 && Math.abs(x) <= 24) {
       return 5.2;
     }
     // Longitudinal promenades: x near +/-15, z in [-36, 8]
-    if ((Math.abs(x - (-15)) <= 2.8 || Math.abs(x - 15) <= 2.8) && z >= -36 && z <= 8) {
+    if ((Math.abs(x - (-15)) <= 3.2 || Math.abs(x - 15) <= 3.2) && z >= -36 && z <= 8) {
       return 5.2;
     }
+    return 0; // Walking off mezzanine safely steps down to ground level
   }
 
-  return 0; // Ground Concourse Level
+  // Entire ground concourse is a rock-solid flat 0m floor (no height snapping or stuck loops!)
+  return 0;
 }
 
 export const FirstPersonControls: React.FC = () => {
@@ -70,17 +49,14 @@ export const FirstPersonControls: React.FC = () => {
   // Optimized store selectors (avoids subscribing to playerLocation/playerRotationY which caused component to re-render during movement!)
   const setPlayerTransform = useLibraryStore((s) => s.setPlayerTransform);
   const setHoveredResource = useLibraryStore((s) => s.setHoveredResource);
-  const preferences = useLibraryStore((s) => s.preferences);
-  const cameraTarget = useLibraryStore((s) => s.cameraTarget);
-  const cameraLookAt = useLibraryStore((s) => s.cameraLookAt);
-  const isNavigatingCamera = useLibraryStore((s) => s.isNavigatingCamera);
-  const hoveredResourceId = useLibraryStore((s) => s.hoveredResourceId);
   const selectResource = useLibraryStore((s) => s.selectResource);
-  const activeModal = useLibraryStore((s) => s.activeModal);
   const closeModal = useLibraryStore((s) => s.closeModal);
   const openModal = useLibraryStore((s) => s.openModal);
   const sections = useLibraryStore((s) => s.sections);
   const setActiveChunk = useLibraryStore((s) => s.setActiveChunk);
+  const cameraTarget = useLibraryStore((s) => s.cameraTarget);
+  const cameraLookAt = useLibraryStore((s) => s.cameraLookAt);
+  const isNavigatingCamera = useLibraryStore((s) => s.isNavigatingCamera);
 
   // Keyboard state
   const keys = useRef<{ [key: string]: boolean }>({});
@@ -116,9 +92,10 @@ export const FirstPersonControls: React.FC = () => {
     camera.rotation.order = 'YXZ';
   }, []);
 
-  // Keyboard listeners
+  // Keyboard listeners - static subscription that never tears down on hover / minimap changes
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept if user is typing in an input
       if (
         document.activeElement &&
         (document.activeElement.tagName === 'INPUT' ||
@@ -128,44 +105,49 @@ export const FirstPersonControls: React.FC = () => {
       }
 
       keys.current[e.code] = true;
+      const curModal = useLibraryStore.getState().activeModal;
 
       // 'E' to interact with hovered book
-      if (e.code === 'KeyE' && hoveredResourceId) {
-        e.preventDefault();
-        selectResource(hoveredResourceId);
+      if (e.code === 'KeyE') {
+        const curHovered = useLibraryStore.getState().hoveredResourceId;
+        if (curHovered && !curModal) {
+          e.preventDefault();
+          selectResource(curHovered);
+        }
       }
 
       // 'Escape' to close active modals
-      if (e.code === 'Escape' && activeModal) {
+      if (e.code === 'Escape' && curModal) {
         e.preventDefault();
         closeModal();
       }
 
       // '/' to open search
-      if (e.code === 'Slash' && !activeModal) {
+      if (e.code === 'Slash' && !curModal) {
         e.preventDefault();
         openModal('search');
       }
 
       // 'KeyM' to toggle minimap
-      if (e.code === 'KeyM' && !activeModal) {
+      if (e.code === 'KeyM' && !curModal) {
+        const curPref = useLibraryStore.getState().preferences;
         useLibraryStore.getState().updatePreferences({
-          showMinimap: !preferences.showMinimap,
+          showMinimap: !curPref.showMinimap,
         });
       }
 
       // 'KeyG' for knowledge graph
-      if (e.code === 'KeyG' && !activeModal) {
+      if (e.code === 'KeyG' && !curModal) {
         openModal('graph');
       }
 
       // 'KeyP' for learning paths
-      if (e.code === 'KeyP' && !activeModal) {
+      if (e.code === 'KeyP' && !curModal) {
         openModal('paths');
       }
 
       // 'KeyB' for section browser drawer
-      if (e.code === 'KeyB' && !activeModal) {
+      if (e.code === 'KeyB' && !curModal) {
         openModal('sectionBrowser');
       }
     };
@@ -174,13 +156,23 @@ export const FirstPersonControls: React.FC = () => {
       keys.current[e.code] = false;
     };
 
+    // Prevent keys getting stuck if user switches tabs / windows
+    const handleWindowBlur = () => {
+      keys.current = {};
+      isDragging.current = false;
+      velocity.current.set(0, 0, 0);
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleWindowBlur);
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleWindowBlur);
     };
-  }, [hoveredResourceId, activeModal, preferences.showMinimap]);
+  }, [selectResource, closeModal, openModal]);
 
   // Pointer lock / Drag look listeners
   useEffect(() => {
@@ -193,22 +185,27 @@ export const FirstPersonControls: React.FC = () => {
 
     const handlePointerLockChange = () => {
       const isLocked = document.pointerLockElement === dom;
-      // Sync store preference if needed
       if (!isLocked && isDragging.current) {
         isDragging.current = false;
       }
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      if (activeModal) return;
+      if (useLibraryStore.getState().activeModal) return;
+
+      // Blur any active input so WASD controls work immediately
+      if (document.activeElement instanceof HTMLElement && document.activeElement !== dom) {
+        document.activeElement.blur();
+      }
+
       // Allow both Left click (0) and Right click (2) for dragging/looking
       if (e.button === 0 || e.button === 2) {
         isDragging.current = true;
         mouseDownPos = { x: e.clientX, y: e.clientY };
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
 
-        // If pointer lock preference is enabled or user middle clicked (button 1)
-        if (preferences.pointerLock && dom.requestPointerLock && document.pointerLockElement !== dom) {
+        const pref = useLibraryStore.getState().preferences;
+        if (pref.pointerLock && dom.requestPointerLock && document.pointerLockElement !== dom) {
           dom.requestPointerLock().catch(() => {});
         }
       }
@@ -216,9 +213,10 @@ export const FirstPersonControls: React.FC = () => {
 
     const handleMouseUp = (e: MouseEvent) => {
       isDragging.current = false;
+      const curModal = useLibraryStore.getState().activeModal;
       // If user performed a stationary left click (dragged less than 6px) while pointing at a book
       const dragDist = Math.hypot(e.clientX - mouseDownPos.x, e.clientY - mouseDownPos.y);
-      if (e.button === 0 && dragDist < 6 && !activeModal) {
+      if (e.button === 0 && dragDist < 6 && !curModal) {
         const curHovered = useLibraryStore.getState().hoveredResourceId;
         if (curHovered) {
           selectResource(curHovered);
@@ -227,7 +225,7 @@ export const FirstPersonControls: React.FC = () => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (activeModal) return;
+      if (useLibraryStore.getState().activeModal) return;
 
       const isLocked = document.pointerLockElement === dom;
       if (!isDragging.current && !isLocked) return;
@@ -239,9 +237,9 @@ export const FirstPersonControls: React.FC = () => {
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
       }
 
-      // Much higher, fluid sensitivity (eliminates feeling stiff/hard to move)
-      const baseSens = isLocked ? 0.0032 : 0.0048;
-      const sensitivity = baseSens * preferences.lookSensitivity;
+      const pref = useLibraryStore.getState().preferences;
+      const baseSens = isLocked ? 0.0032 : 0.0050;
+      const sensitivity = baseSens * pref.lookSensitivity;
       targetYaw.current -= movementX * sensitivity;
       targetPitch.current -= movementY * sensitivity;
 
@@ -262,7 +260,7 @@ export const FirstPersonControls: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('pointerlockchange', handlePointerLockChange);
     };
-  }, [gl.domElement, preferences.lookSensitivity, preferences.pointerLock, activeModal, selectResource]);
+  }, [gl.domElement, selectResource]);
 
   // Main per-frame smooth physics & movement update
   useFrame((_, delta) => {
@@ -298,7 +296,8 @@ export const FirstPersonControls: React.FC = () => {
     camera.rotation.x = pitch.current;
     camera.rotation.y = yaw.current;
 
-    if (activeModal) return;
+    const curModal = useLibraryStore.getState().activeModal;
+    if (curModal) return;
 
     // Smooth keyboard camera rotation using Arrow keys or Q (effortless turning without mouse dragging!)
     const kbTurnSpeed = 2.4; // Radians per second
@@ -309,9 +308,11 @@ export const FirstPersonControls: React.FC = () => {
       targetYaw.current -= kbTurnSpeed * safeDelta;
     }
 
+    const curPref = useLibraryStore.getState().preferences;
+
     // Movement acceleration & friction physics (snappy athletic response)
     const isSprint = keys.current['ShiftLeft'] || keys.current['ShiftRight'];
-    const maxSpeed = isSprint ? 16.5 : (preferences.moveSpeed || 9.5);
+    const maxSpeed = isSprint ? 16.5 : (curPref.moveSpeed || 9.5);
     const accelRate = 85.0; // Instant responsive acceleration
     const friction = 14.0; // Crisp deceleration without slide lag
 
@@ -352,7 +353,7 @@ export const FirstPersonControls: React.FC = () => {
       walkDistance.current += speed * safeDelta;
 
       // Footstep audio
-      if (preferences.footstepsEnabled) {
+      if (curPref.footstepsEnabled) {
         stepTimer.current += safeDelta;
         const stepInterval = isSprint ? 0.28 : 0.42;
         if (stepTimer.current > stepInterval) {
@@ -405,7 +406,7 @@ export const FirstPersonControls: React.FC = () => {
     // Micro-optimized to raycast ONLY against registered book colliders,
     // avoiding traversal of thousands of non-book room and architecture meshes!
     raycastTimer.current += safeDelta;
-    if (!activeModal && raycastTimer.current >= 0.033) {
+    if (!curModal && raycastTimer.current >= 0.033) {
       raycastTimer.current = 0;
       centerRaycaster.current.setFromCamera(centerPoint.current, camera);
       centerRaycaster.current.far = 14.0; // 14-meter interaction range
@@ -429,11 +430,12 @@ export const FirstPersonControls: React.FC = () => {
         }
       }
 
+      const curHovered = useLibraryStore.getState().hoveredResourceId;
       if (hitBookId) {
-        if (hitBookId !== hoveredResourceId) {
+        if (hitBookId !== curHovered) {
           setHoveredResource(hitBookId);
         }
-      } else if (hoveredResourceId && !(window as any).__mouseHoveredBookId) {
+      } else if (curHovered && !(window as any).__mouseHoveredBookId) {
         setHoveredResource(null);
       }
     }

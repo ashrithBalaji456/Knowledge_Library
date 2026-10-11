@@ -179,6 +179,7 @@ export const LibraryScene: React.FC = () => {
 
   return (
     <div
+      tabIndex={0}
       style={{
         width: '100vw',
         height: '100vh',
@@ -186,6 +187,7 @@ export const LibraryScene: React.FC = () => {
         top: 0,
         left: 0,
         overflow: 'hidden',
+        outline: 'none',
       }}
     >
       <Canvas

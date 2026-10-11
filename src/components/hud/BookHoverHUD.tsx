@@ -8,52 +8,30 @@ export const BookHoverHUD: React.FC = () => {
   const sections = useLibraryStore((s) => s.sections);
   const activeModal = useLibraryStore((s) => s.activeModal);
 
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
-
-  useEffect(() => {
-    const handlePointerMove = (e: MouseEvent) => {
-      if (document.pointerLockElement) {
-        setMousePos(null);
-      } else {
-        setMousePos({ x: e.clientX, y: e.clientY });
-      }
-    };
-    window.addEventListener('pointermove', handlePointerMove);
-    return () => window.removeEventListener('pointermove', handlePointerMove);
-  }, []);
-
   if (activeModal) return null;
 
-  const hoveredResource = hoveredResourceId
-    ? resources.find((r) => r.id === hoveredResourceId)
-    : null;
+  const hoveredResource = useMemo(
+    () => (hoveredResourceId ? resources.find((r) => r.id === hoveredResourceId) || null : null),
+    [resources, hoveredResourceId]
+  );
 
-  const section = hoveredResource
-    ? sections.find((s) => s.id === hoveredResource.category)
-    : null;
+  const section = useMemo(
+    () => (hoveredResource ? sections.find((s) => s.id === hoveredResource.category) || null : null),
+    [sections, hoveredResource]
+  );
+
   const sectionColor = section?.color || hoveredResource?.location?.colorHex || '#3b82f6';
-
   const bookMatter = hoveredResource
     ? hoveredResource.whatIsThisBookFor || hoveredResource.summary || hoveredResource.description
     : null;
 
-  // Position card near mouse cursor if hovering with pointer, or centered below crosshair
-  const isMouseDriven = Boolean(mousePos && (window as any).__mouseHoveredBookId);
-  const cardStyle: React.CSSProperties = isMouseDriven && mousePos
-    ? {
-        position: 'fixed',
-        left: `${Math.min(window.innerWidth - 380, Math.max(20, mousePos.x + 24))}px`,
-        top: `${Math.min(window.innerHeight - 260, Math.max(20, mousePos.y + 16))}px`,
-        transform: 'none',
-        borderColor: `${sectionColor}aa`,
-      }
-    : {
-        position: 'absolute',
-        top: '55%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        borderColor: `${sectionColor}aa`,
-      };
+  const cardStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '56%',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    borderColor: `${sectionColor}aa`,
+  };
 
   return (
     <div className="fixed inset-0 pointer-events-none z-30 flex items-center justify-center">

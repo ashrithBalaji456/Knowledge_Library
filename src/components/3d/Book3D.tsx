@@ -270,16 +270,6 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
     document.body.style.cursor = 'pointer';
   };
 
-  const handlePointerMove = (e: any) => {
-    if (activeModal) return;
-    if (e.distance && e.distance > 16) return;
-    e.stopPropagation();
-    (window as any).__mouseHoveredBookId = resource.id;
-    if (useLibraryStore.getState().hoveredResourceId !== resource.id) {
-      setHoveredResource(resource.id);
-    }
-  };
-
   const handlePointerOut = (e: any) => {
     e.stopPropagation();
     if ((window as any).__mouseHoveredBookId === resource.id) {
@@ -311,7 +301,6 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
       rotation={[loc.rotation[0], loc.rotation[1], loc.tiltZ || 0]}
       userData={{ bookId: resource.id }}
       onPointerOver={handlePointerOver}
-      onPointerMove={handlePointerMove}
       onPointerOut={handlePointerOut}
       onClick={handleClick}
     >

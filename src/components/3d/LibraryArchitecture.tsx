@@ -119,14 +119,12 @@ export const LibraryArchitecture: React.FC = () => {
 
   const clearBalustradeGlassMaterial = useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
+      new THREE.MeshStandardMaterial({
         color: '#E0F2FE',
-        roughness: 0.04,
-        metalness: 0.1,
+        roughness: 0.08,
+        metalness: 0.15,
         transparent: true,
-        opacity: 0.32,
-        transmission: 0.75,
-        reflectivity: 0.95,
+        opacity: 0.38,
       }),
     []
   );
@@ -149,13 +147,12 @@ export const LibraryArchitecture: React.FC = () => {
 
   const skylightDomeGlassMaterial = useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
+      new THREE.MeshStandardMaterial({
         color: '#BAE6FD',
-        roughness: 0.02,
-        metalness: 0.1,
+        roughness: 0.05,
+        metalness: 0.12,
         transparent: true,
-        opacity: 0.28,
-        transmission: 0.85,
+        opacity: 0.32,
       }),
     []
   );
