@@ -75,7 +75,7 @@ export const DashboardModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
       <div className="relative w-full max-w-4xl overflow-hidden cyber-glass-dense rounded-3xl border border-cyan-500/30 shadow-2xl text-slate-100 flex flex-col max-h-[92vh]">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-cyan-900/40 bg-[#040814]/70">

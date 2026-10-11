@@ -201,7 +201,7 @@ export const LibraryScene: React.FC = () => {
           alpha: false,
           precision: 'highp',
         }}
-        frameloop={activeModal === 'pdf' ? 'demand' : 'always'}
+        frameloop={activeModal ? 'demand' : 'always'}
       >
         {/* Futuristic Cyberpunk Fog & Sky */}
         <color attach="background" args={[lighting.backgroundColor]} />

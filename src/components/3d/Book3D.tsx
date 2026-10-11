@@ -156,7 +156,7 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   const { height, width: depth, thickness } = loc.dimensions;
   const [origX, origY, origZ] = loc.position;
 
-  const isHovered = isHoveredLocal || isHoveredFromStore;
+  const isHovered = isHoveredFromStore;
   const isMustLearn = resource.priority === 'MUST_LEARN';
   const isCurrentFocus = resource.priority === 'CURRENT_FOCUS';
 
@@ -219,27 +219,25 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
   spineMaterial.emissive = isSelected ? COLOR_CYAN : isHovered ? COLOR_BLUE : isMustLearn ? COLOR_CYAN : isCurrentFocus ? COLOR_VIOLET : COLOR_BLACK;
   spineMaterial.emissiveIntensity = isSelected ? 0.45 : isHovered ? 0.28 : isMustLearn || isCurrentFocus ? 0.22 : 0.0;
 
-  // Dynamic pull-out on hover or selection (with high-perf early exit for resting books)
+  // Dynamic pull-out on hover or selection (with instant early exit for resting books)
   useFrame((_, delta) => {
     if (!meshRef.current) return;
 
+    const isInteracting = isSelected || isHovered || isHighlighted;
     const shelfRotY = loc.rotation[1];
     const isLeft = Math.abs(shelfRotY - Math.PI / 2) < 0.1;
+    const restingX = (isLeft ? origX : origX) + (loc.pushOffset || 0);
 
-    // Pull outward towards the center aisle when hovered or selected
-    const pullOutDistance = isSelected ? 0.24 : isHovered ? 0.15 : isHighlighted ? 0.2 : 0;
-    const targetX = (isLeft ? origX + pullOutDistance : origX - pullOutDistance) + (loc.pushOffset || 0);
-
-    const curX = meshRef.current.position.x;
-    const isStationary = Math.abs(curX - targetX) < 0.001;
-
-    // If resting and not interacting, skip per-frame damp math completely!
-    if (isStationary && !isSelected && !isHovered && !isHighlighted) {
+    // If resting and not interacting, skip calculations completely!
+    if (!isInteracting && Math.abs(meshRef.current.position.x - restingX) < 0.001) {
       return;
     }
 
+    const pullOutDistance = isSelected ? 0.24 : isHovered ? 0.15 : isHighlighted ? 0.2 : 0;
+    const targetX = (isLeft ? origX + pullOutDistance : origX - pullOutDistance) + (loc.pushOffset || 0);
+
     meshRef.current.position.x = THREE.MathUtils.damp(
-      curX,
+      meshRef.current.position.x,
       targetX,
       14,
       delta
@@ -260,35 +258,6 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
     }
   });
 
-  const handlePointerOver = (e: any) => {
-    if (activeModal) return;
-    if (e.distance && e.distance > 16) return;
-    e.stopPropagation();
-    (window as any).__mouseHoveredBookId = resource.id;
-    setIsHoveredLocal(true);
-    setHoveredResource(resource.id);
-    document.body.style.cursor = 'pointer';
-  };
-
-  const handlePointerOut = (e: any) => {
-    e.stopPropagation();
-    if ((window as any).__mouseHoveredBookId === resource.id) {
-      (window as any).__mouseHoveredBookId = null;
-    }
-    setIsHoveredLocal(false);
-    if (useLibraryStore.getState().hoveredResourceId === resource.id) {
-      setHoveredResource(null);
-    }
-    document.body.style.cursor = 'auto';
-  };
-
-  const handleClick = (e: any) => {
-    if (activeModal) return;
-    if (e.distance && e.distance > 16) return;
-    e.stopPropagation();
-    selectResource(resource.id);
-  };
-
   const coverThickness = 0.008;
   const pageDepth = depth - 0.016;
   const pageThickness = Math.max(0.022, thickness - coverThickness * 2);
@@ -300,9 +269,6 @@ export const Book3D = React.memo<Book3DProps>(({ resource }) => {
       position={[origX, origY + height / 2, origZ]}
       rotation={[loc.rotation[0], loc.rotation[1], loc.tiltZ || 0]}
       userData={{ bookId: resource.id }}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
     >
       {/* Interaction collider box */}
       <mesh

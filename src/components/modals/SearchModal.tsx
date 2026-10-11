@@ -71,7 +71,7 @@ export const SearchModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
       <div className="relative w-full max-w-3xl rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         {/* Search Input Bar */}
         <div className="p-4 border-b border-cyan-900/40 flex items-center gap-3 bg-[#040814]/70">

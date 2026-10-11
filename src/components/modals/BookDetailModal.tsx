@@ -78,7 +78,7 @@ export const BookDetailModal: React.FC = () => {
   const currentRating = resource.personalRating || 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto overflow-y-auto overscroll-contain">
       <div
         className="relative w-full max-w-2xl my-6 rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden max-h-[92vh]"
         style={{ borderTopColor: sectionColor, borderTopWidth: '4px' }}
@@ -137,7 +137,7 @@ export const BookDetailModal: React.FC = () => {
         </div>
 
         {/* Scrollable Body */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+        <div className="p-6 overflow-y-auto space-y-6 flex-1 overscroll-contain">
           {/* Top Hero: Cover Preview + Title + Author (Rules 13, 28, 63) */}
           <div className="flex items-start gap-5">
             {/* Realistic Book Cover Graphic */}

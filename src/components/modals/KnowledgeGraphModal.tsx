@@ -64,7 +64,7 @@ export const KnowledgeGraphModal: React.FC = () => {
   const activeNode = activeNodeId ? resources.find((r) => r.id === activeNodeId) : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
       <div className="relative w-full max-w-5xl h-[85vh] rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
         <div className="px-6 py-4 border-b border-cyan-900/40 flex items-center justify-between gap-4 bg-[#040814]/70">

@@ -105,6 +105,7 @@ export const FirstPersonControls: React.FC = () => {
       }
 
       keys.current[e.code] = true;
+      if (e.key) keys.current[e.key.toLowerCase()] = true;
       const curModal = useLibraryStore.getState().activeModal;
 
       // 'E' to interact with hovered book
@@ -154,6 +155,7 @@ export const FirstPersonControls: React.FC = () => {
 
     const handleKeyUp = (e: KeyboardEvent) => {
       keys.current[e.code] = false;
+      if (e.key) keys.current[e.key.toLowerCase()] = false;
     };
 
     // Prevent keys getting stuck if user switches tabs / windows
@@ -288,10 +290,9 @@ export const FirstPersonControls: React.FC = () => {
     // Clamp delta to prevent sudden spikes if a frame takes long
     const safeDelta = Math.min(delta, 0.05);
 
-    // Snappy rotational tracking (eliminates heavy lag or feeling stuck)
-    const lookDamping = 75.0;
-    yaw.current = THREE.MathUtils.damp(yaw.current, targetYaw.current, lookDamping, safeDelta);
-    pitch.current = THREE.MathUtils.damp(pitch.current, targetPitch.current, lookDamping, safeDelta);
+    // Zero-latency rotational tracking (eliminates heavy lag or feeling stuck)
+    yaw.current = targetYaw.current;
+    pitch.current = targetPitch.current;
 
     camera.rotation.x = pitch.current;
     camera.rotation.y = yaw.current;
@@ -301,7 +302,7 @@ export const FirstPersonControls: React.FC = () => {
 
     // Smooth keyboard camera rotation using Arrow keys or Q (effortless turning without mouse dragging!)
     const kbTurnSpeed = 2.4; // Radians per second
-    if (keys.current['ArrowLeft'] || (keys.current['KeyQ'] && !keys.current['KeyA'])) {
+    if (keys.current['ArrowLeft'] || (keys.current['KeyQ'] && !keys.current['KeyA'] && !keys.current['a'])) {
       targetYaw.current += kbTurnSpeed * safeDelta;
     }
     if (keys.current['ArrowRight']) {
@@ -310,36 +311,32 @@ export const FirstPersonControls: React.FC = () => {
 
     const curPref = useLibraryStore.getState().preferences;
 
-    // Movement acceleration & friction physics (snappy athletic response)
+    // Movement physics: instant linear velocity (zero startup delay!)
     const isSprint = keys.current['ShiftLeft'] || keys.current['ShiftRight'];
     const maxSpeed = isSprint ? 16.5 : (curPref.moveSpeed || 9.5);
-    const accelRate = 85.0; // Instant responsive acceleration
-    const friction = 14.0; // Crisp deceleration without slide lag
 
     STATIC_FORWARD.set(0, 0, -1).applyAxisAngle(STATIC_AXIS_Y, yaw.current);
     STATIC_RIGHT.set(1, 0, 0).applyAxisAngle(STATIC_AXIS_Y, yaw.current);
 
     STATIC_INPUT_DIR.set(0, 0, 0);
-    if (keys.current['KeyW'] || keys.current['ArrowUp']) STATIC_INPUT_DIR.add(STATIC_FORWARD);
-    if (keys.current['KeyS'] || keys.current['ArrowDown']) STATIC_INPUT_DIR.sub(STATIC_FORWARD);
-    if (keys.current['KeyD']) STATIC_INPUT_DIR.add(STATIC_RIGHT);
-    if (keys.current['KeyA']) STATIC_INPUT_DIR.sub(STATIC_RIGHT);
+    if (keys.current['KeyW'] || keys.current['ArrowUp'] || keys.current['w']) STATIC_INPUT_DIR.add(STATIC_FORWARD);
+    if (keys.current['KeyS'] || keys.current['ArrowDown'] || keys.current['s']) STATIC_INPUT_DIR.sub(STATIC_FORWARD);
+    if (keys.current['KeyD'] || keys.current['d']) STATIC_INPUT_DIR.add(STATIC_RIGHT);
+    if (keys.current['KeyA'] || keys.current['a']) STATIC_INPUT_DIR.sub(STATIC_RIGHT);
 
-    if (STATIC_INPUT_DIR.lengthSq() > 0) {
+    const isMoving = STATIC_INPUT_DIR.lengthSq() > 0;
+    if (isMoving) {
       STATIC_INPUT_DIR.normalize();
-      velocity.current.addScaledVector(STATIC_INPUT_DIR, accelRate * safeDelta);
-      // Cap speed
-      if (velocity.current.length() > maxSpeed) {
-        velocity.current.setLength(maxSpeed);
-      }
+      // Zero startup delay: full velocity on frame 1
+      velocity.current.copy(STATIC_INPUT_DIR).multiplyScalar(maxSpeed);
     } else {
-      // Natural deceleration friction
-      velocity.current.multiplyScalar(Math.max(0, 1 - friction * safeDelta));
+      // Immediate clean stop
+      velocity.current.set(0, 0, 0);
     }
 
     // Apply movement if moving
     const speed = velocity.current.length();
-    if (speed > 0.05) {
+    if (speed > 0) {
       const nextX = camera.position.x + velocity.current.x * safeDelta;
       const nextZ = camera.position.z + velocity.current.z * safeDelta;
 

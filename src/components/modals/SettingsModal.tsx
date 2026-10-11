@@ -23,7 +23,7 @@ export const SettingsModal: React.FC = () => {
   const fpsMetrics = useLibraryStore((s) => s.fpsMetrics);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030712]/80 backdrop-blur-xl pointer-events-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm pointer-events-auto">
       <div className="relative w-full max-w-lg rounded-3xl cyber-glass-dense border border-cyan-500/30 shadow-2xl flex flex-col overflow-hidden max-h-[90vh]">
         {/* Header */}
         <div className="px-6 py-4 border-b border-cyan-900/40 flex items-center justify-between bg-[#040814]/70">
