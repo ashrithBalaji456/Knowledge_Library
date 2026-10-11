@@ -8,8 +8,6 @@ export const BookHoverHUD: React.FC = () => {
   const sections = useLibraryStore((s) => s.sections);
   const activeModal = useLibraryStore((s) => s.activeModal);
 
-  if (activeModal) return null;
-
   const hoveredResource = useMemo(
     () => (hoveredResourceId ? resources.find((r) => r.id === hoveredResourceId) || null : null),
     [resources, hoveredResourceId]
@@ -19,6 +17,8 @@ export const BookHoverHUD: React.FC = () => {
     () => (hoveredResource ? sections.find((s) => s.id === hoveredResource.category) || null : null),
     [sections, hoveredResource]
   );
+
+  if (activeModal) return null;
 
   const sectionColor = section?.color || hoveredResource?.location?.colorHex || '#3b82f6';
   const bookMatter = hoveredResource

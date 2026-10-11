@@ -132,49 +132,89 @@ interface LibraryStoreState {
 // Persistent user storage helper - defaults to the real user collection + devotional scriptures & motivation
 const STORAGE_KEY = 'pk_library_resources_v31_carbs_and_first_date';
 
+interface StoredLibraryData {
+  version: number;
+  overrides: Record<string, Partial<Resource>>;
+  customResources: Resource[];
+  deletedIds?: string[];
+}
+
 function loadStoredResources(): Resource[] {
   try {
     if (typeof window !== 'undefined') {
       // Purge obsolete legacy mock keys from localStorage
-      localStorage.removeItem('pk_library_resources_v30_react_nodejs_handwritten');
-      localStorage.removeItem('pk_library_resources_v29_linkedin_github_tricks');
-      localStorage.removeItem('pk_library_resources_v28_dsa_patterns_interview_qa');
-      localStorage.removeItem('pk_library_resources_v27_remotion_session_hijacking');
-      localStorage.removeItem('pk_library_resources_v21_expanded_hall_no_collision');
-      localStorage.removeItem('pk_library_resources_v20_sql_handwritten_collection');
-      localStorage.removeItem('pk_library_resources_v19_infosys_dsa_prep');
-      localStorage.removeItem('pk_library_resources_v18_placement_prep');
-      localStorage.removeItem('pk_library_resources_v17_cracking_gate');
-      localStorage.removeItem('pk_library_resources_v16_gate_2026');
-      localStorage.removeItem('pk_library_resources_v15_coding_arcade');
-      localStorage.removeItem('pk_library_resources_v14_another_collection');
-      localStorage.removeItem('pk_library_resources_v13_samsara_novel');
-      localStorage.removeItem('pk_library_resources_v12_all_34_devotional');
-      localStorage.removeItem('pk_library_resources_v11_devotional_sacred');
-      localStorage.removeItem('pk_library_resources_v10_omniroute_cline');
-      localStorage.removeItem('pk_library_resources_v9_handbooks');
-      localStorage.removeItem('pk_library_resources_v8_python_java_dsa_micro');
-      localStorage.removeItem('pk_library_resources_v7_python_java_dsa');
-      localStorage.removeItem('pk_library_resources_v6_python_ml_java');
-      localStorage.removeItem('pk_library_resources_v5_python_ml');
-      localStorage.removeItem('pk_library_resources_v3');
-      localStorage.removeItem('pk_library_resources_v2');
-      localStorage.removeItem('pk_library_resources');
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('pk_library_resources_') && key !== STORAGE_KEY) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach((k) => localStorage.removeItem(k));
 
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        // Ensure stored resources are the authentic local books and not stale mock items
-        if (Array.isArray(parsed) && parsed.length > 0 && parsed.some((r) => r.id && r.id.startsWith('res-local-'))) {
-          // Merge in any new canonical resources (e.g. newly added Java books)
-          const existingIds = new Set(parsed.map((r: Resource) => r.id));
-          const missing = PYTHON_TO_ML_RESOURCES.filter((r) => !existingIds.has(r.id));
-          if (missing.length > 0) {
-            const combined = [...parsed, ...missing];
-            saveStoredResources(combined);
-            return combined;
+
+        // Case 1: Legacy full-array format migration
+        if (Array.isArray(parsed)) {
+          const staticMap = new Map(PYTHON_TO_ML_RESOURCES.map((r) => [r.id, r]));
+          const custom: Resource[] = [];
+          const overrides: Record<string, Partial<Resource>> = {};
+
+          for (const item of parsed) {
+            if (staticMap.has(item.id)) {
+              const diff: Partial<Resource> = {};
+              if (item.progress) diff.progress = item.progress;
+              if (item.readingStatus && item.readingStatus !== 'NOT_STARTED') diff.readingStatus = item.readingStatus;
+              if (item.currentPage) diff.currentPage = item.currentPage;
+              if (item.lastOpened) diff.lastOpened = item.lastOpened;
+              if (item.personalRating) diff.personalRating = item.personalRating;
+              if (item.personalReview) diff.personalReview = item.personalReview;
+              if (item.personalNotes) diff.personalNotes = item.personalNotes;
+              if (item.isFavorite) diff.isFavorite = item.isFavorite;
+              if (item.isCurrentFocus) diff.isCurrentFocus = item.isCurrentFocus;
+              if (item.priority && item.priority !== staticMap.get(item.id)?.priority) diff.priority = item.priority;
+              if (item.category && item.category !== staticMap.get(item.id)?.category) diff.category = item.category;
+              if (item.subCategory && item.subCategory !== staticMap.get(item.id)?.subCategory) diff.subCategory = item.subCategory;
+              if (Object.keys(diff).length > 0) {
+                overrides[item.id] = diff;
+              }
+            } else {
+              const { fileDataUrl, ...cleanRes } = item;
+              custom.push(cleanRes as Resource);
+            }
           }
-          return parsed;
+
+          // Immediately save in compact format to clear the 5MB quota
+          try {
+            const compactPayload: StoredLibraryData = {
+              version: 32,
+              overrides,
+              customResources: custom,
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(compactPayload));
+          } catch (e) {
+            console.warn('Could not compress legacy storage:', e);
+          }
+
+          const merged = PYTHON_TO_ML_RESOURCES.map((base) => {
+            return overrides[base.id] ? { ...base, ...overrides[base.id] } : base;
+          });
+          return [...merged, ...custom];
+        }
+
+        // Case 2: New compact StoredLibraryData format
+        if (parsed && typeof parsed === 'object' && parsed.overrides) {
+          const overrides = (parsed.overrides || {}) as Record<string, Partial<Resource>>;
+          const custom = (parsed.customResources || []) as Resource[];
+          const deletedIds = new Set((parsed.deletedIds || []) as string[]);
+
+          const baseResources = PYTHON_TO_ML_RESOURCES.filter((r) => !deletedIds.has(r.id)).map((base) => {
+            return overrides[base.id] ? { ...base, ...overrides[base.id] } : base;
+          });
+
+          return [...baseResources, ...custom];
         }
       }
     }
@@ -187,9 +227,62 @@ function loadStoredResources(): Resource[] {
 function saveStoredResources(resources: Resource[]) {
   try {
     if (typeof window !== 'undefined') {
-      // Don't save large blob URLs to localStorage to avoid quota overflow
-      const sanitized = resources.map(({ fileDataUrl, ...rest }) => rest);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
+      const staticMap = new Map(PYTHON_TO_ML_RESOURCES.map((r) => [r.id, r]));
+      const currentIds = new Set(resources.map((r) => r.id));
+      const deletedIds = PYTHON_TO_ML_RESOURCES.filter((r) => !currentIds.has(r.id)).map((r) => r.id);
+
+      const overrides: Record<string, Partial<Resource>> = {};
+      const customResources: Resource[] = [];
+
+      for (const res of resources) {
+        const base = staticMap.get(res.id);
+        if (base) {
+          const diff: Partial<Resource> = {};
+          if (res.progress !== base.progress) diff.progress = res.progress;
+          if (res.readingStatus !== base.readingStatus) diff.readingStatus = res.readingStatus;
+          if (res.currentPage !== base.currentPage) diff.currentPage = res.currentPage;
+          if (res.lastOpened !== base.lastOpened) diff.lastOpened = res.lastOpened;
+          if (res.personalRating !== base.personalRating) diff.personalRating = res.personalRating;
+          if (res.personalReview !== base.personalReview) diff.personalReview = res.personalReview;
+          if (res.personalNotes !== base.personalNotes) diff.personalNotes = res.personalNotes;
+          if (res.isFavorite !== base.isFavorite) diff.isFavorite = res.isFavorite;
+          if (res.isCurrentFocus !== base.isCurrentFocus) diff.isCurrentFocus = res.isCurrentFocus;
+          if (res.priority !== base.priority) diff.priority = res.priority;
+          if (res.category !== base.category) diff.category = res.category;
+          if (res.subCategory !== base.subCategory) diff.subCategory = res.subCategory;
+
+          if (Object.keys(diff).length > 0) {
+            overrides[res.id] = diff;
+          }
+        } else {
+          const { fileDataUrl, ...rest } = res;
+          customResources.push(rest as Resource);
+        }
+      }
+
+      const payload: StoredLibraryData = {
+        version: 32,
+        overrides,
+        customResources,
+        deletedIds: deletedIds.length > 0 ? deletedIds : undefined,
+      };
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      } catch (quotaError) {
+        console.warn('LocalStorage quota exceeded, purging old keys and retrying...', quotaError);
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+          const k = localStorage.key(i);
+          if (k && k.startsWith('pk_library_')) {
+            localStorage.removeItem(k);
+          }
+        }
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (retryError) {
+          console.warn('Failed to save to localStorage even after purge:', retryError);
+        }
+      }
     }
   } catch (e) {
     console.warn('Could not persist library to localStorage:', e);
@@ -554,12 +647,18 @@ export const useLibraryStore = create<LibraryStoreState>((set, get) => ({
   },
 
   updateResource: (id, updates) => {
+    const needsPlacementRecalc = 'category' in updates || 'subCategory' in updates;
     const updated = get().resources.map((r) =>
       r.id === id ? { ...r, ...updates } : r
     );
-    const newPlacement = computeLibraryPlacements(get().sections, updated);
-    saveStoredResources(newPlacement.placedResources);
-    set({ resources: newPlacement.placedResources });
+    if (needsPlacementRecalc) {
+      const newPlacement = computeLibraryPlacements(get().sections, updated);
+      saveStoredResources(newPlacement.placedResources);
+      set({ resources: newPlacement.placedResources });
+    } else {
+      saveStoredResources(updated);
+      set({ resources: updated });
+    }
   },
 
   deleteResource: (id) => {
