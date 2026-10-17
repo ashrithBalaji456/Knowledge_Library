@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { useLibraryStore } from '../../store/useLibraryStore';
 import { computeLibraryPlacements } from '../../engine/placementEngine';
 import { LibraryArchitecture } from './LibraryArchitecture';
+import { LibraryReaders } from './LibraryReaders';
 import { Section3D } from './Section3D';
 import { FirstPersonControls } from './FirstPersonControls';
 
@@ -234,6 +235,9 @@ export const LibraryScene: React.FC = () => {
 
         {/* Grand Architecture */}
         <LibraryArchitecture />
+
+        {/* Dynamic Scholars & Readers Population */}
+        <LibraryReaders />
 
         {/* Subtle Cyan Atmospheric Data Particle Drift */}
         <AtmosphericDataDrift />
