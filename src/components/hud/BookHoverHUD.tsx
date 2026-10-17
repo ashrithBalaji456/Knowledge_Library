@@ -35,20 +35,6 @@ export const BookHoverHUD: React.FC = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-30 flex items-center justify-center">
-      {/* Center Crosshair (aiming reticle) */}
-      <div className="relative flex items-center justify-center">
-        <div
-          className={`w-2 h-2 rounded-full transition-all duration-200 ${
-            hoveredResource
-              ? 'scale-150 bg-cyan-400 ring-4 ring-cyan-400/40 shadow-[0_0_12px_rgba(6,182,212,0.9)]'
-              : 'bg-cyan-200/50 shadow-sm'
-          }`}
-        />
-        {hoveredResource && (
-          <div className="absolute w-7 h-7 rounded-full border border-cyan-400/50 animate-ping pointer-events-none" />
-        )}
-      </div>
-
       {/* Floating Hover Inspection Card */}
       {hoveredResource && (
         <div

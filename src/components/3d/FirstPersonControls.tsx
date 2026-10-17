@@ -180,6 +180,8 @@ export const FirstPersonControls: React.FC = () => {
   useEffect(() => {
     const dom = gl.domElement;
     let mouseDownPos = { x: 0, y: 0 };
+    let mouseDownTime = 0;
+    let hasDragged = false;
 
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault(); // Prevent browser right-click menu so right-drag look is seamless
@@ -205,6 +207,8 @@ export const FirstPersonControls: React.FC = () => {
         isDragging.current = true;
         mouseDownPos = { x: e.clientX, y: e.clientY };
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
+        mouseDownTime = performance.now();
+        hasDragged = false;
 
         const pref = useLibraryStore.getState().preferences;
         if (pref.pointerLock && dom.requestPointerLock && document.pointerLockElement !== dom) {
@@ -216,9 +220,14 @@ export const FirstPersonControls: React.FC = () => {
     const handleMouseUp = (e: MouseEvent) => {
       isDragging.current = false;
       const curModal = useLibraryStore.getState().activeModal;
-      // If user performed a stationary left click (dragged less than 6px) while pointing at a book
-      const dragDist = Math.hypot(e.clientX - mouseDownPos.x, e.clientY - mouseDownPos.y);
-      if (e.button === 0 && dragDist < 6 && !curModal) {
+      const clickDuration = performance.now() - mouseDownTime;
+
+      // Only select if user performed a genuine quick, intentional, stationary single click:
+      // - Left click (e.button === 0)
+      // - Must not have dragged/moved the camera (!hasDragged)
+      // - Fast release (< 220ms)
+      // - No modal open
+      if (e.button === 0 && !hasDragged && clickDuration < 220 && !curModal) {
         const curHovered = useLibraryStore.getState().hoveredResourceId;
         if (curHovered) {
           selectResource(curHovered);
@@ -234,6 +243,10 @@ export const FirstPersonControls: React.FC = () => {
 
       const movementX = isLocked ? e.movementX : e.clientX - previousMousePosition.current.x;
       const movementY = isLocked ? e.movementY : e.clientY - previousMousePosition.current.y;
+
+      if (Math.abs(movementX) > 1 || Math.abs(movementY) > 1) {
+        hasDragged = true;
+      }
 
       if (!isLocked) {
         previousMousePosition.current = { x: e.clientX, y: e.clientY };
