@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Second Largest &bull; Glassmorphic Card Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, #0c1527 0%, #080d1a 45%, #03050a 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .glass-card-podium {
+      background: rgba(18, 28, 54, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 2px 0 rgba(255, 255, 255, 0.15);
+    }
+    .glass-input {
+      background: rgba(8, 14, 28, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
+      transform: translateY(-1px);
+    }
+    .glass-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+    .play-card {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .play-card.active-candidate {
+      transform: translateY(-10px) scale(1.08);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 14px 28px -4px rgba(56, 189, 248, 0.5), 0 0 18px rgba(56, 189, 248, 0.4);
+    }
+    .play-card.is-largest {
+      border-color: #f59e0b !important;
+      background: rgba(245, 158, 11, 0.18) !important;
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.45);
+    }
+    .play-card.is-second {
+      border-color: #a855f7 !important;
+      background: rgba(168, 85, 247, 0.18) !important;
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
+    }
+    .play-card.is-passed {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+    .code-line {
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+    .code-active {
+      background-color: rgba(56, 189, 248, 0.2) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.09); }
+    }
+    .glow-blob {
+      animation: ambientGlow 9s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(8, 14, 28, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between relative min-h-screen">
+
+  <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-cyan-600/15 blur-[125px] pointer-events-none -z-10 glow-blob"></div>
+  <div class="fixed bottom-[-15%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-amber-600/12 blur-[145px] pointer-events-none -z-10 glow-blob" style="animation-delay: -4s;"></div>
+  <div class="fixed top-[45%] right-[20%] w-[35vw] h-[35vw] rounded-full bg-purple-600/12 blur-[130px] pointer-events-none -z-10 glow-blob" style="animation-delay: -2s;"></div>
+
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-amber-400 via-sky-500 to-purple-600 flex items-center justify-center shadow-lg shadow-amber-500/20 text-white text-xl font-bold">
+          <i class="fa-solid fa-ranking-star"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-amber-300 via-sky-200 to-purple-300 bg-clip-text text-transparent">
+            Second Largest Element &bull; Card Visualizer
+          </h1>
+          <p class="text-xs text-slate-400 font-mono">
+            Track distinct <span class="text-amber-400 font-semibold">largest</span> and <span class="text-purple-400 font-semibold">second</span> in a single <span class="text-sky-300 font-semibold">O(N)</span> pass
+          </p>
+        </div>
+      </div>
+
+      <!-- Test Array Input & Preset Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 glass-input px-3 py-1.5 rounded-xl text-xs">
+          <span class="text-sky-400 font-semibold font-mono">arr:</span>
+          <input id="inputArray" type="text" value="5, 5, 4" class="bg-transparent px-1.5 py-0.5 rounded text-amber-300 font-mono w-32 sm:w-44 text-center border-none focus:outline-none">
+        </div>
+        <button id="btnApply" class="px-3.5 py-1.5 bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md shadow-sky-500/25 flex items-center gap-1.5">
+          <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Load
+        </button>
+        <button id="btnPreset" class="glass-btn px-3 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Cycle sample datasets">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="glass-btn px-2.5 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sky-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-white/10 shadow-2xl flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Main Step Action Buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset Button -->
+          <button id="btnReset" class="glass-btn w-10 h-10 rounded-xl text-slate-300 flex items-center justify-center hover:text-white" title="Reset to start">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Previous Button -->
+          <button id="btnPrev" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) Button -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-amber-500 via-sky-600 to-purple-600 hover:from-amber-400 hover:to-purple-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-sky-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next Button -->
+          <button id="btnNext" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-sky-950/70 text-sky-300 border border-sky-500/30 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs glass-input text-slate-300 px-3 py-1.5 rounded-full font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center glass-input rounded-xl p-1 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1600">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-sky-600 text-white font-bold" data-speed="850">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="220">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-white/5">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800/80 rounded-lg appearance-none cursor-pointer accent-sky-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Playing Cards Rack & Podium Arena (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Primary Glass Canvas Arena -->
+      <div id="mainCanvas" class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[540px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Arena header bar -->
+        <div class="flex flex-wrap items-center justify-between z-10 gap-2 mb-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 glass-input px-3 py-1.5 rounded-full">
+            <span class="text-amber-400 font-bold"><i class="fa-solid fa-crown mr-1"></i>Podium Tracker</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-sky-300 font-semibold" id="arenaArrSummary">arr.length = 3</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 glass-input px-3 py-1.5 rounded-full text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Visual Area: Cards Rack, Candidate Inspector, and Podiums -->
+        <div class="my-auto py-2 flex flex-col gap-5">
+          
+          <!-- Banner for current operation & condition evaluation breakdown -->
+          <div id="comparisonBanner" class="min-h-[42px] flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">
+              Press Start or Next to step through the Java code
+            </span>
+          </div>
+
+          <!-- Array Cards Rack: int[] arr -->
+          <div class="glass-input p-3.5 rounded-2xl border border-white/5">
+            <div class="flex items-center justify-between px-1 mb-2 text-xs font-mono">
+              <span class="text-sky-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-sky-400"></i> Cards Deck: <code class="text-amber-300">int[] arr</code>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="candidateIndexBadge">Current: -</span>
+            </div>
+            
+            <!-- Cards Rack -->
+            <div id="arrCardsRack" class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 min-h-[110px] p-2">
+              <!-- Rendered playing cards -->
+            </div>
+          </div>
+
+          <!-- Dual Podium Thrones: Largest & Second Largest -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- 1st Place Podium: Largest -->
+            <div class="glass-card-podium p-4 rounded-2xl border border-amber-500/30 relative overflow-hidden flex flex-col items-center justify-between shadow-lg">
+              <div class="absolute -top-6 -right-6 w-24 h-24 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+              
+              <div class="w-full flex items-center justify-between mb-2">
+                <div class="flex items-center gap-1.5 text-xs font-mono text-amber-300 font-bold">
+                  <i class="fa-solid fa-crown text-amber-400 text-sm"></i>
+                  <span>LARGEST</span>
+                </div>
+                <span id="hasLargestBadge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+                  hasLargest = false
+                </span>
+              </div>
+
+              <!-- Card display inside podium -->
+              <div id="podiumLargestCard" class="w-16 h-24 sm:w-20 sm:h-28 rounded-xl bg-gradient-to-b from-amber-950/40 to-black/60 border border-amber-500/40 flex flex-col items-center justify-between p-2 shadow-inner my-1 transition-all duration-300">
+                <div class="w-full flex items-center justify-between text-[10px] font-mono text-amber-300">
+                  <span id="largestCornerVal">0</span>
+                  <span id="largestCornerSuit">♠</span>
+                </div>
+                <div class="font-mono text-2xl sm:text-3xl font-extrabold text-amber-300" id="largestCenterVal">
+                  -
+                </div>
+                <div class="text-[9px] font-mono text-amber-400 uppercase tracking-wider">
+                  1st Rank
+                </div>
+              </div>
+
+              <div class="w-full text-center mt-2 text-xs font-mono text-slate-400">
+                <span>int largest = </span><span id="podiumLargestNum" class="text-amber-300 font-bold">0</span>
+              </div>
+            </div>
+
+            <!-- 2nd Place Podium: Second Largest -->
+            <div class="glass-card-podium p-4 rounded-2xl border border-purple-500/30 relative overflow-hidden flex flex-col items-center justify-between shadow-lg">
+              <div class="absolute -top-6 -right-6 w-24 h-24 bg-purple-500/10 rounded-full blur-xl pointer-events-none"></div>
+
+              <div class="w-full flex items-center justify-between mb-2">
+                <div class="flex items-center gap-1.5 text-xs font-mono text-purple-300 font-bold">
+                  <i class="fa-solid fa-medal text-purple-400 text-sm"></i>
+                  <span>SECOND</span>
+                </div>
+                <span id="hasSecondBadge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+                  hasSecond = false
+                </span>
+              </div>
+
+              <!-- Card display inside podium -->
+              <div id="podiumSecondCard" class="w-16 h-24 sm:w-20 sm:h-28 rounded-xl bg-gradient-to-b from-purple-950/40 to-black/60 border border-purple-500/40 flex flex-col items-center justify-between p-2 shadow-inner my-1 transition-all duration-300">
+                <div class="w-full flex items-center justify-between text-[10px] font-mono text-purple-300">
+                  <span id="secondCornerVal">0</span>
+                  <span id="secondCornerSuit">♦</span>
+                </div>
+                <div class="font-mono text-2xl sm:text-3xl font-extrabold text-purple-300" id="secondCenterVal">
+                  -
+                </div>
+                <div class="text-[9px] font-mono text-purple-400 uppercase tracking-wider">
+                  2nd Rank
+                </div>
+              </div>
+
+              <div class="w-full text-center mt-2 text-xs font-mono text-slate-400">
+                <span>int second = </span><span id="podiumSecondNum" class="text-purple-300 font-bold">0</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Decision Logic Flow Callout -->
+          <div class="glass-input p-3 rounded-2xl border border-white/5 flex flex-col gap-1.5 font-mono text-xs">
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span class="flex items-center gap-1.5 text-sky-400 font-semibold"><i class="fa-solid fa-code-branch"></i> Decision Logic:</span>
+              <span id="evalRuleBadge" class="px-2 py-0.5 rounded bg-black/40 text-slate-300">Idle</span>
+            </div>
+            <div id="evalDetailMsg" class="bg-black/40 px-3 py-1.5 rounded-xl border border-white/5 text-slate-300 text-xs">
+              Waiting to execute algorithm...
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Description callout at bottom of arena -->
+        <div class="z-10 glass-input p-3 rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            return ?
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-sky-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: secondLargest()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int num</span>
+            <span id="varNum" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int largest</span>
+            <span id="varLargest" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int second</span>
+            <span id="varSecond" class="font-mono text-base font-bold text-purple-400">-</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">boolean hasLargest</span>
+            <span id="varHasLargest" class="font-mono text-xs font-bold text-slate-300">false</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">boolean hasSecond</span>
+            <span id="varHasSecond" class="font-mono text-xs font-bold text-slate-300">false</span>
+          </div>
+        </div>
+
+        <!-- Expression Monitor -->
+        <div class="glass-input p-2.5 rounded-xl text-xs flex flex-col gap-1 font-mono">
+          <div class="flex items-center justify-between text-slate-400 text-[11px]">
+            <span>Active Expression:</span>
+            <span id="evalConditionName" class="text-sky-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+            <span id="evalStatement" class="text-slate-300 truncate">int[] arr = {5, 5, 4}</span>
+            <span id="evalResult" class="font-bold text-cyan-400 shrink-0 ml-2">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code matching user's exact program -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-400 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[300px] rounded-xl glass-input p-2 border border-white/5 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span>&nbsp;&nbsp;<span class="text-purple-400">static int</span>&nbsp;<span class="text-blue-400">secondLargest</span>(<span class="text-purple-400">int</span>[] arr) {</div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">boolean</span> hasLargest = <span class="text-orange-400">false</span>;</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">boolean</span> hasSecond = <span class="text-orange-400">false</span>;</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> largest = <span class="text-orange-400">0</span>;</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> second = <span class="text-orange-400">0</span>;</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> num : arr) {</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (!hasLargest || num &gt; largest) {</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (hasLargest) {</div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;second = largest;</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hasSecond = <span class="text-orange-400">true</span>;</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;largest = num;</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hasLargest = <span class="text-orange-400">true</span>;</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="text-purple-400">else if</span> (num &lt; largest &amp;&amp;</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(!hasSecond || num &gt; second)) {</div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;second = num;</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hasSecond = <span class="text-orange-400">true</span>;</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> hasSecond ? second : -<span class="text-orange-400">1</span>;</div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>}</div>
+        </div>
+      </div>
+
+      <!-- Program Output Console (System.out.println) -->
+      <div class="glass-card rounded-2xl p-3.5 shadow-xl flex flex-col gap-1.5">
+        <div class="flex items-center justify-between text-xs font-mono pb-1 border-b border-white/5">
+          <span class="text-slate-400 flex items-center gap-1.5"><i class="fa-solid fa-terminal text-emerald-400"></i> Standard Output (Console)</span>
+          <span class="text-[10px] text-slate-500">System.out</span>
+        </div>
+        <div id="consoleLog" class="bg-black/60 rounded-xl p-2.5 font-mono text-xs text-emerald-400 min-h-[58px] max-h-[85px] overflow-y-auto space-y-1">
+          <span class="text-slate-600 italic">No output yet</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1 font-mono">
+    <p>Second Largest Element &bull; Time: O(N) &bull; Space: O(1) &bull; Glassmorphic Playing Card Visualization</p>
+  </footer>
+
+  <script>
+    /* Audio synthesizer using browser Web Audio API */
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(360, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(160, this.ctx.currentTime + 0.035);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.035);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.035);
+      }
+
+      playPromotion() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(640, this.ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.12);
+      }
+
+      playSecondRank() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(554.37, this.ctx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playFinish() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const chord = [523.25, 659.25, 783.99, 1046.50];
+        chord.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.09, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.22);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.23);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    // Suits for rendering visual playing cards
+    const SUITS = [
+      { symbol: '♠', color: 'text-slate-200' },
+      { symbol: '♥', color: 'text-rose-400' },
+      { symbol: '♦', color: 'text-amber-400' },
+      { symbol: '♣', color: 'text-emerald-400' }
+    ];
+
+    function generateSteps(rawArr) {
+      const steps = [];
+      const n = rawArr.length;
+      const logs = [];
+
+      let hasLargest = false;
+      let hasSecond = false;
+      let largest = 0;
+      let second = 0;
+
+      // Card states tracking: 'unvisited', 'active', 'passed', 'is-largest', 'is-second'
+      const cardStates = new Array(n).fill('unvisited');
+
+      // Helper snapshot function
+      function pushStep(meta) {
+        steps.push({
+          line: meta.line,
+          phase: meta.phase,
+          hasLargest: hasLargest,
+          hasSecond: hasSecond,
+          largest: largest,
+          second: second,
+          candidateIdx: meta.candidateIdx ?? null,
+          candidateNum: meta.candidateNum ?? null,
+          cardStates: [...cardStates],
+          evalName: meta.evalName,
+          evalStmt: meta.evalStmt,
+          evalResult: meta.evalResult,
+          ruleBadge: meta.ruleBadge,
+          detailMsg: meta.detailMsg,
+          statusType: meta.statusType || 'neutral',
+          desc: meta.desc,
+          logs: [...logs],
+          returnVal: meta.returnVal ?? null
+        });
+      }
+
+      // Step: Line 3 - boolean hasLargest = false
+      pushStep({
+        line: 3,
+        phase: 'Initialize Flags',
+        evalName: 'hasLargest = false',
+        evalStmt: 'boolean hasLargest = false',
+        evalResult: 'false',
+        ruleBadge: 'Initialization',
+        detailMsg: 'Flag hasLargest initialized to false (no maximum discovered yet).',
+        statusType: 'neutral',
+        desc: 'Initialized boolean hasLargest = false.'
+      });
+
+      // Step: Line 4 - boolean hasSecond = false
+      pushStep({
+        line: 4,
+        phase: 'Initialize Flags',
+        evalName: 'hasSecond = false',
+        evalStmt: 'boolean hasSecond = false',
+        evalResult: 'false',
+        ruleBadge: 'Initialization',
+        detailMsg: 'Flag hasSecond initialized to false (no distinct second largest discovered yet).',
+        statusType: 'neutral',
+        desc: 'Initialized boolean hasSecond = false.'
+      });
+
+      // Step: Line 5 - int largest = 0
+      pushStep({
+        line: 5,
+        phase: 'Initialize Values',
+        evalName: 'largest = 0',
+        evalStmt: 'int largest = 0',
+        evalResult: '0',
+        ruleBadge: 'Initialization',
+        detailMsg: 'Variable largest initialized to 0.',
+        statusType: 'neutral',
+        desc: 'Initialized int largest = 0.'
+      });
+
+      // Step: Line 6 - int second = 0
+      pushStep({
+        line: 6,
+        phase: 'Initialize Values',
+        evalName: 'second = 0',
+        evalStmt: 'int second = 0',
+        evalResult: '0',
+        ruleBadge: 'Initialization',
+        detailMsg: 'Variable second initialized to 0.',
+        statusType: 'neutral',
+        desc: 'Initialized int second = 0.'
+      });
+
+      // For Loop: for (int num : arr)
+      for (let idx = 0; idx < n; idx++) {
+        const num = rawArr[idx];
+        cardStates[idx] = 'active';
+
+        // Line 7: Iteration start
+        pushStep({
+          line: 7,
+          phase: `Examine Card [${idx}] = ${num}`,
+          candidateIdx: idx,
+          candidateNum: num,
+          evalName: `for (int num : arr)`,
+          evalStmt: `Fetching element arr[${idx}]`,
+          evalResult: `num = ${num}`,
+          ruleBadge: `Iterating`,
+          detailMsg: `Pulled card #${idx} with value ${num} for inspection.`,
+          statusType: 'candidate',
+          desc: `Loop iteration: reading card num = ${num} at index ${idx}.`
+        });
+
+        // Line 8: if (!hasLargest || num > largest)
+        const cond1 = (!hasLargest || num > largest);
+        const cond1Str = `!hasLargest (${!hasLargest}) || num > largest (${num} > ${hasLargest ? largest : 'none'})`;
+
+        pushStep({
+          line: 8,
+          phase: `Check 1st Branch: num > largest?`,
+          candidateIdx: idx,
+          candidateNum: num,
+          evalName: `if (!hasLargest || num > largest)`,
+          evalStmt: cond1Str,
+          evalResult: `${cond1}`,
+          ruleBadge: cond1 ? 'Branch 1 TRUE' : 'Branch 1 FALSE',
+          detailMsg: cond1 
+            ? `Condition met: ${!hasLargest ? 'First number seen (!hasLargest)' : `${num} is strictly greater than largest (${largest})`}.`
+            : `Condition not met: num (${num}) is NOT greater than current largest (${largest}).`,
+          statusType: 'neutral',
+          desc: `Evaluating if (!hasLargest || num > largest) -> ${cond1}.`
+        });
+
+        if (cond1) {
+          // Line 9: if (hasLargest)
+          pushStep({
+            line: 9,
+            phase: `Check Demotion: hasLargest?`,
+            candidateIdx: idx,
+            candidateNum: num,
+            evalName: `if (hasLargest)`,
+            evalStmt: `hasLargest == ${hasLargest}`,
+            evalResult: `${hasLargest}`,
+            ruleBadge: hasLargest ? 'Demote Old Largest' : 'No Prior Largest',
+            detailMsg: hasLargest 
+              ? `There was already a largest (${largest}). It will now be demoted to become second largest!`
+              : `No prior largest existed. Nothing to demote to second.`,
+            statusType: 'neutral',
+            desc: `Checking if prior largest exists to demote to second place: hasLargest = ${hasLargest}.`
+          });
+
+          if (hasLargest) {
+            // Line 10: second = largest
+            const oldLargest = largest;
+            second = largest;
+
+            pushStep({
+              line: 10,
+              phase: `Demote: second = largest (${second})`,
+              candidateIdx: idx,
+              candidateNum: num,
+              evalName: `second = largest`,
+              evalStmt: `second = ${oldLargest}`,
+              evalResult: `second = ${second}`,
+              ruleBadge: `Demotion`,
+              detailMsg: `Demoted previous largest (${oldLargest}) into second largest!`,
+              statusType: 'demote',
+              desc: `Executed second = largest (${oldLargest}).`
+            });
+
+            // Line 11: hasSecond = true
+            hasSecond = true;
+            pushStep({
+              line: 11,
+              phase: `Set hasSecond = true`,
+              candidateIdx: idx,
+              candidateNum: num,
+              evalName: `hasSecond = true`,
+              evalStmt: `hasSecond = true`,
+              evalResult: `true`,
+              ruleBadge: `Confirmed 2nd`,
+              detailMsg: `Second largest confirmed! hasSecond is now true.`,
+              statusType: 'secondUpdated',
+              desc: `Updated flag hasSecond = true.`
+            });
+          }
+
+          // Line 13: largest = num
+          largest = num;
+          pushStep({
+            line: 13,
+            phase: `Crown New Largest = ${largest}`,
+            candidateIdx: idx,
+            candidateNum: num,
+            evalName: `largest = num`,
+            evalStmt: `largest = ${num}`,
+            evalResult: `largest = ${largest}`,
+            ruleBadge: `New Largest!`,
+            detailMsg: `Crowned card ${num} as the new LARGEST on the podium!`,
+            statusType: 'largestUpdated',
+            desc: `Executed largest = num (${num}).`
+          });
+
+          // Line 14: hasLargest = true
+          hasLargest = true;
+          pushStep({
+            line: 14,
+            phase: `Set hasLargest = true`,
+            candidateIdx: idx,
+            candidateNum: num,
+            evalName: `hasLargest = true`,
+            evalStmt: `hasLargest = true`,
+            evalResult: `true`,
+            ruleBadge: `Confirmed 1st`,
+            detailMsg: `First place confirmed! hasLargest is now true.`,
+            statusType: 'neutral',
+            desc: `Updated flag hasLargest = true.`
+          });
+
+        } else {
+          // Lines 15 & 16: else if (num < largest && (!hasSecond || num > second))
+          const isLessThanLargest = (num < largest);
+          const isGreaterThanSecond = (!hasSecond || num > second);
+          const cond2 = isLessThanLargest && isGreaterThanSecond;
+          const cond2Str = `${num} < ${largest} && (!hasSecond || ${num} > ${hasSecond ? second : 'none'})`;
+
+          pushStep({
+            line: 15,
+            phase: `Check 2nd Branch: Valid 2nd Candidate?`,
+            candidateIdx: idx,
+            candidateNum: num,
+            evalName: `else if (num < largest && (!hasSecond || num > second))`,
+            evalStmt: cond2Str,
+            evalResult: `${cond2}`,
+            ruleBadge: cond2 ? 'Branch 2 TRUE' : 'Branch 2 FALSE',
+            detailMsg: cond2 
+              ? `num (${num}) is strictly smaller than largest (${largest}) AND ${!hasSecond ? 'no second has been set yet' : `greater than current second (${second})`}.`
+              : `Condition failed: ${num === largest ? `num (${num}) is a duplicate of largest (${largest}) - ignored!` : `num (${num}) is not greater than second (${second}).`}`,
+            statusType: 'neutral',
+            desc: `Evaluating else if (num < largest && (!hasSecond || num > second)) -> ${cond2}.`
+          });
+
+          if (cond2) {
+            // Line 17: second = num
+            second = num;
+            pushStep({
+              line: 17,
+              phase: `Crown New Second = ${second}`,
+              candidateIdx: idx,
+              candidateNum: num,
+              evalName: `second = num`,
+              evalStmt: `second = ${num}`,
+              evalResult: `second = ${second}`,
+              ruleBadge: `New Second!`,
+              detailMsg: `Card ${num} takes 2nd place on the podium!`,
+              statusType: 'secondUpdated',
+              desc: `Executed second = num (${num}).`
+            });
+
+            // Line 18: hasSecond = true
+            hasSecond = true;
+            pushStep({
+              line: 18,
+              phase: `Set hasSecond = true`,
+              candidateIdx: idx,
+              candidateNum: num,
+              evalName: `hasSecond = true`,
+              evalStmt: `hasSecond = true`,
+              evalResult: `true`,
+              ruleBadge: `Confirmed 2nd`,
+              detailMsg: `Second largest confirmed! hasSecond is now true.`,
+              statusType: 'secondUpdated',
+              desc: `Updated flag hasSecond = true.`
+            });
+          } else {
+            // Duplicate or too small, ignored
+            pushStep({
+              line: 19,
+              phase: `Ignored Card ${num}`,
+              candidateIdx: idx,
+              candidateNum: num,
+              evalName: `Ignored`,
+              evalStmt: num === largest ? `${num} == largest (Duplicate)` : `${num} <= second (${second})`,
+              evalResult: `Skip`,
+              ruleBadge: `Skipped`,
+              detailMsg: num === largest 
+                ? `Card ${num} equals largest (${largest}). Strictly distinct second largest required, skipping duplicate.`
+                : `Card ${num} is less than or equal to current second (${second}), skipping.`,
+              statusType: 'neutral',
+              desc: `Ignored element ${num} (duplicate or too small).`
+            });
+          }
+        }
+
+        // Mark this card as passed
+        cardStates[idx] = 'passed';
+      }
+
+      // Step: Line 21 - return hasSecond ? second : -1
+      const finalAns = hasSecond ? second : -1;
+      logs.push(`secondLargest([${rawArr.join(', ')}]) = ${finalAns}`);
+
+      pushStep({
+        line: 21,
+        phase: `Return Result: ${finalAns}`,
+        candidateIdx: null,
+        candidateNum: null,
+        evalName: `return hasSecond ? second : -1`,
+        evalStmt: `${hasSecond} ? ${second} : -1`,
+        evalResult: `${finalAns}`,
+        ruleBadge: finalAns !== -1 ? `Found: ${finalAns}` : `No 2nd (-1)`,
+        detailMsg: hasSecond 
+          ? `Algorithm completed! Distinct second largest element is ${finalAns}.`
+          : `Algorithm completed! No distinct second largest exists in the array. Returned -1.`,
+        statusType: 'finish',
+        desc: `Execution complete. Returned ${finalAns}.`,
+        returnVal: finalAns
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 850;
+
+    // Top control elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    // Arena elements
+    const arrCardsRack = document.getElementById('arrCardsRack');
+    const arenaArrSummary = document.getElementById('arenaArrSummary');
+    const candidateIndexBadge = document.getElementById('candidateIndexBadge');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+
+    // Podium elements
+    const podiumLargestCard = document.getElementById('podiumLargestCard');
+    const largestCornerVal = document.getElementById('largestCornerVal');
+    const largestCornerSuit = document.getElementById('largestCornerSuit');
+    const largestCenterVal = document.getElementById('largestCenterVal');
+    const podiumLargestNum = document.getElementById('podiumLargestNum');
+    const hasLargestBadge = document.getElementById('hasLargestBadge');
+
+    const podiumSecondCard = document.getElementById('podiumSecondCard');
+    const secondCornerVal = document.getElementById('secondCornerVal');
+    const secondCornerSuit = document.getElementById('secondCornerSuit');
+    const secondCenterVal = document.getElementById('secondCenterVal');
+    const podiumSecondNum = document.getElementById('podiumSecondNum');
+    const hasSecondBadge = document.getElementById('hasSecondBadge');
+
+    // Decision detail elements
+    const evalRuleBadge = document.getElementById('evalRuleBadge');
+    const evalDetailMsg = document.getElementById('evalDetailMsg');
+
+    // Variable watcher elements
+    const varNum = document.getElementById('varNum');
+    const varLargest = document.getElementById('varLargest');
+    const varSecond = document.getElementById('varSecond');
+    const varHasLargest = document.getElementById('varHasLargest');
+    const varHasSecond = document.getElementById('varHasSecond');
+    const evalConditionName = document.getElementById('evalConditionName');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    // Console output
+    const consoleLog = document.getElementById('consoleLog');
+
+    // Input elements
+    const inputArray = document.getElementById('inputArray');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    // Cached current parsed array
+    let activeArray = [5, 5, 4];
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update top header badges
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      // Update timeline scrubber
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Update Live Variable Watchers
+      varNum.textContent = step.candidateNum !== null ? step.candidateNum : '-';
+      varLargest.textContent = step.hasLargest ? step.largest : '0';
+      varSecond.textContent = step.hasSecond ? step.second : '0';
+
+      varHasLargest.textContent = String(step.hasLargest);
+      varHasLargest.className = step.hasLargest 
+        ? "font-mono text-xs font-bold text-amber-400" 
+        : "font-mono text-xs font-bold text-slate-400";
+
+      varHasSecond.textContent = String(step.hasSecond);
+      varHasSecond.className = step.hasSecond 
+        ? "font-mono text-xs font-bold text-purple-400" 
+        : "font-mono text-xs font-bold text-slate-400";
+
+      evalConditionName.textContent = step.evalName;
+      evalStatement.textContent = step.evalStmt;
+      evalResult.textContent = step.evalResult;
+
+      // Update Decision Box
+      evalRuleBadge.textContent = step.ruleBadge;
+      evalDetailMsg.textContent = step.detailMsg;
+
+      // Update Podiums
+      if (step.hasLargest) {
+        hasLargestBadge.textContent = 'hasLargest = true';
+        hasLargestBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/40 shadow-sm';
+        largestCenterVal.textContent = step.largest;
+        largestCornerVal.textContent = step.largest;
+        podiumLargestNum.textContent = step.largest;
+        podiumLargestCard.classList.add('scale-105', 'border-amber-400');
+      } else {
+        hasLargestBadge.textContent = 'hasLargest = false';
+        hasLargestBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+        largestCenterVal.textContent = '-';
+        largestCornerVal.textContent = '0';
+        podiumLargestNum.textContent = '0';
+        podiumLargestCard.classList.remove('scale-105', 'border-amber-400');
+      }
+
+      if (step.hasSecond) {
+        hasSecondBadge.textContent = 'hasSecond = true';
+        hasSecondBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-950/80 text-purple-300 border border-purple-500/40 shadow-sm';
+        secondCenterVal.textContent = step.second;
+        secondCornerVal.textContent = step.second;
+        podiumSecondNum.textContent = step.second;
+        podiumSecondCard.classList.add('scale-105', 'border-purple-400');
+      } else {
+        hasSecondBadge.textContent = 'hasSecond = false';
+        hasSecondBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+        secondCenterVal.textContent = '-';
+        secondCornerVal.textContent = '0';
+        podiumSecondNum.textContent = '0';
+        podiumSecondCard.classList.remove('scale-105', 'border-purple-400');
+      }
+
+      // Update status badges and banners
+      if (step.statusType === 'largestUpdated') {
+        comparisonBanner.innerHTML = `<span class="bg-amber-950/80 text-amber-300 border border-amber-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-amber-500/20 animate-pulse"><i class="fa-solid fa-crown mr-1.5 text-amber-400"></i>Crowned New Largest: ${step.largest}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+        arenaStatusText.textContent = `New Largest (${step.largest})`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-amber-950/80 text-amber-300 border border-amber-500/30";
+        returnPill.textContent = `largest = ${step.largest}`;
+        sound.playPromotion();
+      } else if (step.statusType === 'secondUpdated') {
+        comparisonBanner.innerHTML = `<span class="bg-purple-950/80 text-purple-300 border border-purple-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-purple-500/20 animate-pulse"><i class="fa-solid fa-medal mr-1.5 text-purple-400"></i>Crowned New Second: ${step.second}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-purple-400";
+        arenaStatusText.textContent = `New Second (${step.second})`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-purple-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-purple-950/80 text-purple-300 border border-purple-500/30";
+        returnPill.textContent = `second = ${step.second}`;
+        sound.playSecondRank();
+      } else if (step.statusType === 'demote') {
+        comparisonBanner.innerHTML = `<span class="bg-indigo-950/80 text-indigo-300 border border-indigo-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-arrow-down-long mr-1.5 text-indigo-400"></i>Demoted old largest (${step.second}) to second place!</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
+        arenaStatusText.textContent = `Demoted to 2nd`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0";
+        sound.playTick();
+      } else if (step.statusType === 'finish') {
+        comparisonBanner.innerHTML = `<span class="bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-emerald-500/20"><i class="fa-solid fa-award mr-1.5 text-emerald-400"></i>Finished! Result = ${step.returnVal}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = `Result: ${step.returnVal}`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0 animate-bounce";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/30";
+        returnPill.textContent = `return ${step.returnVal}`;
+        sound.playFinish();
+      } else {
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 glass-input px-3 py-1 rounded-full">${step.phase}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = `Inspecting`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = step.hasSecond ? `second = ${step.second}` : 'hasSecond: false';
+        sound.playTick();
+      }
+
+      // Synchronize code lines
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Render the Playing Cards Rack
+      renderPlayingCards(step);
+
+      // Render Console Output
+      renderConsoleLogs(step.logs);
+    }
+
+    function renderPlayingCards(step) {
+      arrCardsRack.innerHTML = '';
+      if (!activeArray || activeArray.length === 0) {
+        arrCardsRack.innerHTML = `<span class="text-xs text-slate-500 italic font-mono">Array is empty</span>`;
+        return;
+      }
+
+      candidateIndexBadge.textContent = step.candidateIdx !== null 
+        ? `num: arr[${step.candidateIdx}] = ${step.candidateNum}` 
+        : `All cards inspected`;
+
+      activeArray.forEach((val, idx) => {
+        const isCandidate = (idx === step.candidateIdx);
+        const cardSuit = SUITS[idx % SUITS.length];
+        const isCurrentLargest = (step.hasLargest && val === step.largest && !isCandidate);
+        const isCurrentSecond = (step.hasSecond && val === step.second && !isCandidate);
+        const hasPassed = (idx < step.candidateIdx || step.candidateIdx === null);
+
+        const card = document.createElement('div');
+        let cardClass = "play-card relative w-14 h-20 sm:w-16 sm:h-24 rounded-xl border flex flex-col items-center justify-between p-1.5 shadow-md ";
+
+        if (isCandidate) {
+          cardClass += " active-candidate bg-cyan-950/80 border-cyan-400 text-white z-10";
+        } else if (isCurrentLargest) {
+          cardClass += " is-largest border-amber-400 text-amber-200";
+        } else if (isCurrentSecond) {
+          cardClass += " is-second border-purple-400 text-purple-200";
+        } else if (hasPassed) {
+          cardClass += " glass-card border-white/5 opacity-40 text-slate-400";
+        } else {
+          cardClass += " glass-card border-white/10 text-slate-200";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[10px] font-mono leading-none">
+            <span class="${isCandidate ? 'text-cyan-300 font-bold' : isCurrentLargest ? 'text-amber-300 font-bold' : isCurrentSecond ? 'text-purple-300 font-bold' : 'text-slate-400'}">[${idx}]</span>
+            <span class="${cardSuit.color}">${cardSuit.symbol}</span>
+          </div>
+          <span class="font-mono text-xl sm:text-2xl font-black leading-none ${isCandidate ? 'text-cyan-300' : isCurrentLargest ? 'text-amber-300' : isCurrentSecond ? 'text-purple-300' : 'text-slate-100'}">
+            ${val}
+          </span>
+          <div class="w-full flex items-center justify-center text-[9px] font-mono leading-none">
+            ${isCandidate ? '<span class="text-cyan-400 font-bold">num</span>' : isCurrentLargest ? '<span class="text-amber-400 font-bold">1st</span>' : isCurrentSecond ? '<span class="text-purple-400 font-bold">2nd</span>' : '<span class="text-slate-500">elem</span>'}
+          </div>
+        `;
+        arrCardsRack.appendChild(card);
+      });
+    }
+
+    function renderConsoleLogs(logs) {
+      if (!logs || logs.length === 0) {
+        consoleLog.innerHTML = `<span class="text-slate-600 italic">No output yet</span>`;
+        return;
+      }
+      consoleLog.innerHTML = logs.map(line => `<div>&gt; <span class="text-emerald-300 font-semibold">${line}</span></div>`).join('');
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-amber-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-purple-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-amber-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-purple-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    // Sample datasets for quick switching
+    const sampleDatasets = [
+      [5, 5, 4],
+      [12, 35, 1, 10, 34, 1],
+      [10, 10, 10],
+      [7, 2, 9, 4, 9, 8],
+      [100, 50, 75, 100, 25],
+      [3]
+    ];
+    let presetIdx = 0;
+
+    function parseInputArray() {
+      const raw = inputArray.value.trim();
+      if (!raw) return [5, 5, 4];
+      const parsed = raw.split(/[\s,]+/).map(v => parseInt(v, 10)).filter(v => !isNaN(v));
+      return parsed.length > 0 ? parsed : [5, 5, 4];
+    }
+
+    function initializeSimulation() {
+      stopAutoPlay();
+      activeArray = parseInputArray();
+      inputArray.value = activeArray.join(', ');
+      arenaArrSummary.textContent = `arr.length = ${activeArray.length}`;
+
+      currentSteps = generateSteps(activeArray);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    // Event listeners
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+    btnApply.addEventListener('click', initializeSimulation);
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % sampleDatasets.length;
+      inputArray.value = sampleDatasets[presetIdx].join(', ');
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed options
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-sky-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-sky-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard controls: Space (Play/Pause), Left/Right Arrows (Steps)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

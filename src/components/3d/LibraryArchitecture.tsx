@@ -157,6 +157,52 @@ export const LibraryArchitecture: React.FC = () => {
     []
   );
 
+  const cardGoldMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#F59E0B',
+        roughness: 0.35,
+        metalness: 0.25,
+        emissive: new THREE.Color('#D97706'),
+        emissiveIntensity: 0.28,
+      }),
+    []
+  );
+
+  const cardPurpleMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#A855F7',
+        roughness: 0.35,
+        metalness: 0.25,
+        emissive: new THREE.Color('#7C3AED'),
+        emissiveIntensity: 0.28,
+      }),
+    []
+  );
+
+  const cardCyanMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#38BDF8',
+        roughness: 0.35,
+        metalness: 0.25,
+        emissive: new THREE.Color('#0284C7'),
+        emissiveIntensity: 0.28,
+      }),
+    []
+  );
+
+  const cardObsidianMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#0B132B',
+        roughness: 0.3,
+        metalness: 0.6,
+      }),
+    []
+  );
+
   // Exterior background vista (blue sky, trees, clouds)
   const exteriorTreeColor = atmosphere === 'day' ? '#15803D' : atmosphere === 'evening' ? '#374151' : '#1E293B';
 
@@ -224,6 +270,32 @@ export const LibraryArchitecture: React.FC = () => {
             <cylinderGeometry args={[0.6, 0.8, 0.4, 16]} />
             <primitive object={champagneTitaniumMaterial} attach="material" />
           </mesh>
+
+          {/* Interactive Algorithm Play Cards Deck on the Table */}
+          <group position={[1.15, 0.46, 0.25]} rotation={[0, -0.4, 0]}>
+            {/* Card 1: Purple Second Largest (value 4) */}
+            <mesh position={[-0.14, 0.005, 0]} rotation={[0, -0.32, 0]}>
+              <boxGeometry args={[0.18, 0.004, 0.26]} />
+              <primitive object={cardPurpleMaterial} attach="material" />
+            </mesh>
+            {/* Card 2: Amber Largest (value 5) */}
+            <mesh position={[0, 0.010, 0]} rotation={[0, -0.05, 0]}>
+              <boxGeometry args={[0.18, 0.004, 0.26]} />
+              <primitive object={cardGoldMaterial} attach="material" />
+            </mesh>
+            {/* Card 3: Cyan Candidate (value 2) */}
+            <mesh position={[0.14, 0.015, 0]} rotation={[0, 0.28, 0]}>
+              <boxGeometry args={[0.18, 0.004, 0.26]} />
+              <primitive object={cardCyanMaterial} attach="material" />
+            </mesh>
+            {/* Stacked Draw Deck */}
+            <mesh position={[0.32, 0.02, 0.04]} rotation={[0, 0.15, 0]}>
+              <boxGeometry args={[0.18, 0.038, 0.26]} />
+              <primitive object={cardObsidianMaterial} attach="material" />
+            </mesh>
+            {/* Subtle Neon Card Halo Glow */}
+            <pointLight position={[0, 0.2, 0]} color="#38BDF8" intensity={0.3} distance={1.8} decay={2} />
+          </group>
 
           {/* Central Holographic Information Core (matching Image 3) */}
           <group ref={fountainCoreRef} position={[0, 0.9, 0]}>

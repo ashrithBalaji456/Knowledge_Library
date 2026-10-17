@@ -325,6 +325,7 @@ export const INITIAL_SECTIONS: Section[] = [
     color: '#06b6d4', // Electric Cyan
     accentColor: '#ec4899', // Cyber Magenta
     subSections: [
+      'Play Cards & Interactive Algorithm Visualizers',
       'Cloud, DevOps, Linux & Git Games',
       'Programming Battles, Python RPG & Language Arenas',
       'Web Layout, Cybersecurity & Foundational Visual Logic'

@@ -11,11 +11,18 @@ export function getPdfUrl(resource: Resource | null | undefined): string {
     return resource.fileDataUrl;
   }
 
-  // 2. Local filesystem path (e.g. C:\Users\... or /path/...)
-  const targetPath = resource.sourceUrl || resource.fileName;
+  // 2. Direct web / public path (e.g. /interactive/... or http://...)
+  const targetUrl = resource.url || resource.sourceUrl;
+  if (targetUrl) {
+    if (targetUrl.startsWith('http://') || targetUrl.startsWith('https://') || targetUrl.startsWith('/')) {
+      return targetUrl;
+    }
+  }
+
+  // 3. Local filesystem path (e.g. C:\Users\... or /path/...)
+  const targetPath = resource.fileName || resource.sourceUrl;
   if (targetPath) {
-    // If it's already an HTTP / HTTPS link
-    if (targetPath.startsWith('http://') || targetPath.startsWith('https://')) {
+    if (targetPath.startsWith('http://') || targetPath.startsWith('https://') || targetPath.startsWith('/')) {
       return targetPath;
     }
     // Stream local PDF via our Vite local server endpoint

@@ -10596,6 +10596,107 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-10-01"
   },
   {
+    "id": "res-game-play-cards-second-largest",
+    "title": "Second Largest Element: Interactive Glassmorphic Play Cards Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "second-largest-cards.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/second-largest-cards.html",
+    "sourceUrl": "/interactive/second-largest-cards.html",
+    "whatIsThisBookFor": "Interactive playing cards visualizer tracking the largest and second largest array elements in an optimal single O(N) pass with step-by-step code animation.",
+    "summary": "An interactive card-deck visualizer that steps through finding the second largest element in an array in a single O(N) pass. Features playing cards that animate to the Podium Tracker, step-by-step Java code line execution, sound effects, scrubber timeline, and custom array inputs.",
+    "keyTakeaways": [
+      "Optimal single-pass O(N) time and O(1) auxiliary space algorithm",
+      "Dynamic play-card lifting animations comparing candidates against largest and second largest",
+      "Crown podium tracking for distinct values with duplicate rejection handling",
+      "Interactive code walkthrough highlighting line-by-line execution"
+    ],
+    "prerequisites": [
+      "Basic array manipulation and conditional statements"
+    ],
+    "recommendedNext": [
+      "res-game-remove-duplicates-visualizer",
+      "res-game-k8sgames"
+    ],
+    "topics": [
+      "DSA",
+      "Arrays",
+      "PlayCards",
+      "InteractiveVisualizer",
+      "SecondLargest",
+      "Algorithms",
+      "Gaming"
+    ],
+    "tags": [
+      "DSA",
+      "PlayCards",
+      "Interactive",
+      "Visualizer",
+      "Arrays",
+      "Gaming"
+    ],
+    "dateAdded": "2026-10-18",
+    "lastOpened": "2026-10-18"
+  },
+  {
+    "id": "res-game-remove-duplicates-visualizer",
+    "title": "Remove Duplicates from Sorted List: Glassmorphic Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "remove-duplicates-visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "IMPORTANT",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/remove-duplicates-visualizer.html",
+    "sourceUrl": "/interactive/remove-duplicates-visualizer.html",
+    "whatIsThisBookFor": "Step-by-step glassmorphic visualizer illustrating linked list deduplication in O(N) time.",
+    "summary": "Interactive visualizer demonstrating how to delete duplicate nodes from a sorted singly linked list using pointer rewiring. Includes live memory node inspection and code execution tracking.",
+    "keyTakeaways": [
+      "Pointer manipulation: current.next = current.next.next for duplicates",
+      "Preserving the sorted invariant in single traversal",
+      "Edge cases: all duplicates, empty list, and trailing duplicates"
+    ],
+    "prerequisites": [
+      "Basic linked list structure and node references"
+    ],
+    "recommendedNext": [
+      "res-game-play-cards-second-largest"
+    ],
+    "topics": [
+      "DSA",
+      "LinkedList",
+      "InteractiveVisualizer",
+      "Algorithms"
+    ],
+    "tags": [
+      "DSA",
+      "LinkedList",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-18",
+    "lastOpened": "2026-10-18"
+  },
+  {
     "id": "res-gate-cs1",
     "title": "GATE 2026: Computer Science & IT (Paper 1)",
     "author": "GATE Organizing Committee (IISc Bangalore & IITs)",

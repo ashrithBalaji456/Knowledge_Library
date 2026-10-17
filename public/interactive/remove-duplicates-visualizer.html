@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remove Duplicates from Sorted List &bull; Glassmorphic Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 10% 15%, #091a38 0%, #060e22 45%, #02050f 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .glass-input {
+      background: rgba(8, 14, 30, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    .glass-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .code-line {
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+    .code-active {
+      background-color: rgba(56, 189, 248, 0.22) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .node-card {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .node-bypassed {
+      opacity: 0.28;
+      filter: grayscale(85%);
+      transform: scale(0.88) translateY(12px);
+      border-style: dashed !important;
+      border-color: #ef4444 !important;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+      50% { box-shadow: 0 0 28px rgba(56, 189, 248, 0.85); transform: translateY(-4px); }
+    }
+    .node-curr-glow {
+      animation: pulseGlow 1.8s infinite ease-in-out;
+      border-color: #38bdf8 !important;
+    }
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.08); }
+    }
+    .glow-blob {
+      animation: ambientGlow 9s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(8, 14, 30, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between relative min-h-screen">
+
+  <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-cyan-600/15 blur-[130px] pointer-events-none -z-10 glow-blob"></div>
+  <div class="fixed bottom-[-15%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/15 blur-[140px] pointer-events-none -z-10 glow-blob" style="animation-delay: -3.5s;"></div>
+  <div class="fixed top-[40%] right-[25%] w-[35vw] h-[35vw] rounded-full bg-teal-600/10 blur-[130px] pointer-events-none -z-10 glow-blob" style="animation-delay: -1.5s;"></div>
+
+  <!-- Header Card -->
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-teal-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 text-white text-xl font-bold">
+          <i class="fa-solid fa-link"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-300 via-teal-200 to-indigo-300 bg-clip-text text-transparent">
+            ListNode &bull; Remove Duplicates from Sorted List
+          </h1>
+          <p class="text-xs text-slate-400 font-mono">
+            In-place pointer rewiring <code class="text-amber-300">current.next = current.next.next</code> in <span class="text-emerald-300 font-semibold">O(N)</span> Time &amp; <span class="text-cyan-300 font-semibold">O(1)</span> Space
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Interactive Input Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 glass-input px-3 py-1.5 rounded-xl text-xs">
+          <span class="text-cyan-400 font-semibold font-mono">List:</span>
+          <input id="inputListVals" type="text" value="1, 1, 2, 3, 3" class="bg-transparent px-1.5 py-0.5 rounded text-cyan-200 font-mono w-32 sm:w-40 border-none focus:outline-none" placeholder="e.g. 1, 1, 2, 3, 3">
+        </div>
+
+        <button id="btnLoadCustom" class="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md shadow-cyan-500/25 flex items-center gap-1.5">
+          <i class="fa-solid fa-play text-[11px]"></i> Load
+        </button>
+
+        <button id="btnSampleNext" class="glass-btn px-3 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Cycle through sorted test cases">
+          <i class="fa-solid fa-shuffle text-cyan-400 mr-1"></i> Sample
+        </button>
+
+        <button id="btnSoundToggle" class="glass-btn px-2.5 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Playback Controls Bar -->
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-white/10 shadow-2xl flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Top action buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset -->
+          <button id="btnReset" class="glass-btn w-10 h-10 rounded-xl text-slate-300 flex items-center justify-center hover:text-white" title="Reset to beginning">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Prev -->
+          <button id="btnPrev" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-cyan-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next -->
+          <button id="btnNext" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-cyan-950/70 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs glass-input text-slate-300 px-3 py-1.5 rounded-full font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center glass-input rounded-xl p-1 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1600">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold" data-speed="850">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-white/5">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800/80 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Grid Arena -->
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Linked List Memory Visualization Arena (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Primary Glass Canvas Arena -->
+      <div id="mainCanvas" class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[580px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Arena header bar -->
+        <div class="flex flex-wrap items-center justify-between z-10 gap-2 mb-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 glass-input px-3 py-1.5 rounded-full">
+            <span class="text-cyan-300 font-semibold" id="arenaActiveNodesCount">Active Nodes = 5</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-amber-300 font-semibold" id="arenaDuplicatesCount">Duplicates Skipped = 0</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 glass-input px-3 py-1.5 rounded-full text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Action Callout Banner -->
+        <div id="comparisonBanner" class="min-h-[46px] flex items-center justify-center my-1">
+          <span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">
+            Click Start or Next to execute deleteDuplicates(head)
+          </span>
+        </div>
+
+        <!-- Linked List Interactive Visual Track -->
+        <div class="my-auto py-4 flex flex-col gap-6">
+          
+          <!-- Pointer Indicators & Head Pin -->
+          <div class="flex items-center justify-between px-2 text-xs font-mono">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-flag text-emerald-400"></i> head &bull; immutable root
+              </span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="flex items-center gap-1 text-cyan-300">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> current
+              </span>
+              <span class="flex items-center gap-1 text-amber-300">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span> current.next
+              </span>
+              <span class="flex items-center gap-1 text-purple-300">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"></span> current.next.next
+              </span>
+            </div>
+          </div>
+
+          <!-- Nodes Chain Track (Scrollable) -->
+          <div class="glass-input p-4 rounded-2xl border border-white/10 min-h-[190px] flex items-center overflow-x-auto relative">
+            <div id="linkedListContainer" class="flex items-center gap-3 py-4 min-w-full justify-start sm:justify-center">
+              <!-- Dynamically populated nodes -->
+            </div>
+          </div>
+
+          <!-- Pointer Rewire Diagnostic Box -->
+          <div class="glass-input p-3.5 rounded-2xl border border-white/5 flex flex-col gap-2 font-mono text-xs">
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span class="flex items-center gap-1.5 text-cyan-400 font-semibold">
+                <i class="fa-solid fa-code-branch"></i> In-Memory Pointer Surgery Diagnostic:
+              </span>
+              <span id="pointerActionBadge" class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-white/10">Idle</span>
+            </div>
+            <div id="pointerDetailMsg" class="bg-black/40 px-3 py-2 rounded-xl border border-white/5 text-slate-300 text-xs leading-relaxed">
+              Pointer state updates will visually display link re-wiring and garbage collection transitions here.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Status Summary -->
+        <div class="z-10 glass-input p-3 rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            return head
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Variable Watcher, Code Synchronizer & Result Log (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-cyan-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: deleteDuplicates</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">current</span>
+            <span id="varCurrent" class="font-mono text-xs font-bold text-cyan-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">current.val</span>
+            <span id="varCurrentVal" class="font-mono text-base font-bold text-cyan-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">current.next</span>
+            <span id="varNext" class="font-mono text-xs font-bold text-amber-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">next.val</span>
+            <span id="varNextVal" class="font-mono text-base font-bold text-amber-300">-</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">current.next.next</span>
+            <span id="varNextNextVal" class="font-mono text-xs font-bold text-purple-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Equal Values?</span>
+            <span id="varEqualEval" class="font-mono text-xs font-bold text-rose-400">-</span>
+          </div>
+        </div>
+
+        <!-- Loop Condition Evaluator -->
+        <div class="glass-input p-2.5 rounded-xl text-xs flex flex-col gap-1 font-mono">
+          <div class="flex items-center justify-between text-slate-400 text-[11px]">
+            <span>Loop Guard Condition:</span>
+            <span id="evalConditionName" class="text-cyan-300">current != null &amp;&amp; current.next != null</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+            <span id="evalStatement" class="text-slate-300 truncate">current != null &amp;&amp; current.next != null</span>
+            <span id="evalResult" class="font-bold text-cyan-400 shrink-0 ml-2">true</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code matching user's exact program -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-400 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Solution.java &bull; deleteDuplicates</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[300px] rounded-xl glass-input p-2 border border-white/5 select-none" id="codeContainer">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">class</span>&nbsp;<span class="text-yellow-300">Solution</span>&nbsp;{</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span>&nbsp;&nbsp;<span class="text-purple-400">public</span>&nbsp;ListNode&nbsp;<span class="text-blue-400">deleteDuplicates</span>(ListNode head)&nbsp;{</div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span>&nbsp;&nbsp;&nbsp;&nbsp;ListNode current = head;</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span></div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">while</span>&nbsp;(current != <span class="text-rose-400">null</span>&nbsp;&amp;&amp;&nbsp;current.next != <span class="text-rose-400">null</span>)&nbsp;{</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span>&nbsp;(current.val == current.next.val)&nbsp;{</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-slate-500">// Skip the duplicate node</span></div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current.next = current.next.next;</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="text-purple-400">else</span>&nbsp;{</div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-slate-500">// Move to the next distinct value</span></div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current = current.next;</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span></div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span>&nbsp;head;</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>}</div>
+        </div>
+      </div>
+
+      <!-- Result Linked List Overview -->
+      <div class="glass-card rounded-2xl p-3.5 shadow-xl flex flex-col gap-2">
+        <div class="flex items-center justify-between text-xs font-mono pb-1 border-b border-white/5">
+          <span class="text-slate-400 flex items-center gap-1.5"><i class="fa-solid fa-list-check text-emerald-400"></i> Active Linked List Chain</span>
+          <span id="resultChainLength" class="text-[10px] text-emerald-400 font-mono">Length: 5</span>
+        </div>
+        <div id="resultChainPreview" class="bg-black/60 rounded-xl p-2.5 font-mono text-xs text-emerald-300 min-h-[46px] flex items-center gap-2 overflow-x-auto">
+          1 &rarr; 1 &rarr; 2 &rarr; 3 &rarr; 3 &rarr; null
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1 font-mono">
+    <p>LeetCode 83 &bull; Remove Duplicates from Sorted List &bull; Glassmorphic Transparent UI</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playStep() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(240, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playMatchDuplicate() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(220, this.ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.07, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.12);
+      }
+
+      playBypass() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(260, this.ctx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playAdvance() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(660, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playComplete() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [440, 554.37, 659.25, 880];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.08, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.22);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.23);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateExecutionSteps(initialValues) {
+      const steps = [];
+
+      // Node structure in memory simulation: each node has a unique ID, value, and next pointer ID
+      const nodesMap = {};
+      const allNodeIds = [];
+
+      initialValues.forEach((val, index) => {
+        const id = `node_${index}`;
+        allNodeIds.push(id);
+        nodesMap[id] = {
+          id: id,
+          initialIndex: index,
+          val: val,
+          nextId: null
+        };
+      });
+
+      for (let i = 0; i < allNodeIds.length - 1; i++) {
+        nodesMap[allNodeIds[i]].nextId = allNodeIds[i + 1];
+      }
+
+      const headId = allNodeIds.length > 0 ? allNodeIds[0] : null;
+
+      function snapshotList() {
+        // deep clone current pointers
+        const clone = {};
+        for (const id of allNodeIds) {
+          clone[id] = { ...nodesMap[id] };
+        }
+        return clone;
+      }
+
+      function getActiveChain() {
+        const chain = [];
+        let curr = headId;
+        const visited = new Set();
+        while (curr && !visited.has(curr)) {
+          visited.add(curr);
+          chain.push(nodesMap[curr]);
+          curr = nodesMap[curr].nextId;
+        }
+        return chain;
+      }
+
+      let currentId = null;
+      let duplicatesSkipped = 0;
+
+      function record(meta) {
+        const activeChain = getActiveChain();
+        const activeIds = new Set(activeChain.map(n => n.id));
+
+        steps.push({
+          line: meta.line,
+          phase: meta.phase,
+          currentId: currentId,
+          nextId: currentId && nodesMap[currentId] ? nodesMap[currentId].nextId : null,
+          nextNextId: currentId && nodesMap[currentId] && nodesMap[currentId].nextId && nodesMap[nodesMap[currentId].nextId]
+            ? nodesMap[nodesMap[currentId].nextId].nextId 
+            : null,
+          nodesSnapshot: snapshotList(),
+          allNodeIds: [...allNodeIds],
+          activeIds: activeIds,
+          activeChainVals: activeChain.map(n => n.val),
+          duplicatesSkipped: duplicatesSkipped,
+          skippedTargetId: meta.skippedTargetId || null,
+          varCurrent: meta.varCurrent !== undefined ? meta.varCurrent : (currentId ? `Node(${nodesMap[currentId].val})` : 'null'),
+          varCurrentVal: meta.varCurrentVal !== undefined ? meta.varCurrentVal : (currentId ? nodesMap[currentId].val : 'null'),
+          varNext: meta.varNext !== undefined ? meta.varNext : (currentId && nodesMap[currentId].nextId ? `Node(${nodesMap[nodesMap[currentId].nextId].val})` : 'null'),
+          varNextVal: meta.varNextVal !== undefined ? meta.varNextVal : (currentId && nodesMap[currentId].nextId ? nodesMap[nodesMap[currentId].nextId].val : 'null'),
+          varNextNextVal: meta.varNextNextVal !== undefined ? meta.varNextNextVal : (
+            currentId && nodesMap[currentId].nextId && nodesMap[nodesMap[currentId].nextId].nextId 
+              ? nodesMap[nodesMap[nodesMap[currentId].nextId].nextId].val 
+              : 'null'
+          ),
+          equalEval: meta.equalEval || '-',
+          evalCond: meta.evalCond || 'current != null && current.next != null',
+          evalStmt: meta.evalStmt || '-',
+          evalResult: meta.evalResult || '-',
+          actionBadge: meta.actionBadge || 'Idle',
+          detailMsg: meta.detailMsg || '',
+          statusType: meta.statusType || 'neutral',
+          desc: meta.desc || ''
+        });
+      }
+
+      // Step 1: Entry into method
+      record({
+        line: 2,
+        phase: 'Invoke deleteDuplicates(head)',
+        varCurrent: 'undefined',
+        varCurrentVal: '-',
+        varNext: '-',
+        varNextVal: '-',
+        varNextNextVal: '-',
+        equalEval: '-',
+        evalStmt: `head = ${headId ? `Node(${nodesMap[headId].val})` : 'null'}`,
+        evalResult: 'Method Start',
+        actionBadge: 'Entry',
+        detailMsg: `Method deleteDuplicates called with ${allNodeIds.length} node(s).`,
+        statusType: 'neutral',
+        desc: `Called deleteDuplicates with initial list: [${initialValues.join(' -> ')}].`
+      });
+
+      // Step 2: ListNode current = head;
+      currentId = headId;
+      record({
+        line: 3,
+        phase: 'ListNode current = head',
+        actionBadge: 'Initialize Pointer',
+        evalStmt: `current = head (Node ${currentId ? nodesMap[currentId].val : 'null'})`,
+        evalResult: 'current initialized',
+        detailMsg: 'Pointer `current` is initialized to reference the head node of the list.',
+        statusType: 'neutral',
+        desc: `Initialized pointer current to head node ${currentId ? `(val = ${nodesMap[currentId].val})` : 'null'}.`
+      });
+
+      // Step 3: while loop
+      while (currentId !== null && nodesMap[currentId].nextId !== null) {
+        const nextId = nodesMap[currentId].nextId;
+        const currentVal = nodesMap[currentId].val;
+        const nextVal = nodesMap[nextId].val;
+
+        // Loop condition check
+        record({
+          line: 5,
+          phase: 'Check while condition',
+          equalEval: '-',
+          evalStmt: `current != null (${currentId !== null}) && current.next != null (${nextId !== null})`,
+          evalResult: 'true',
+          actionBadge: 'Loop Guard',
+          detailMsg: `Both current (${currentVal}) and current.next (${nextVal}) exist. Proceeding inside loop.`,
+          statusType: 'neutral',
+          desc: `While condition holds true: current (${currentVal}) and current.next (${nextVal}) are valid.`
+        });
+
+        // if (current.val == current.next.val)
+        const isDuplicate = (currentVal === nextVal);
+        record({
+          line: 6,
+          phase: `Compare current.val == current.next.val (${currentVal} == ${nextVal})`,
+          equalEval: `${isDuplicate}`,
+          evalStmt: `${currentVal} == ${nextVal}`,
+          evalResult: isDuplicate ? 'true (Duplicate found!)' : 'false (Distinct values)',
+          actionBadge: isDuplicate ? 'Duplicate Match' : 'Distinct Pair',
+          detailMsg: isDuplicate 
+            ? `Duplicate detected! Value ${currentVal} matches next node value ${nextVal}.`
+            : `Values differ (${currentVal} != ${nextVal}). No duplicate deletion needed here.`,
+          statusType: isDuplicate ? 'duplicate' : 'inspect',
+          desc: isDuplicate 
+            ? `current.val (${currentVal}) equals current.next.val (${nextVal}). Will skip next node.`
+            : `current.val (${currentVal}) != current.next.val (${nextVal}). Moving ahead.`
+        });
+
+        if (isDuplicate) {
+          // current.next = current.next.next;
+          const nextNextId = nodesMap[nextId].nextId;
+          const skippedId = nextId;
+
+          // Rewire pointer in memory
+          nodesMap[currentId].nextId = nextNextId;
+          duplicatesSkipped++;
+
+          record({
+            line: 8,
+            phase: 'current.next = current.next.next',
+            skippedTargetId: skippedId,
+            equalEval: 'true',
+            evalStmt: `current.next re-wired to ${nextNextId ? `Node(${nodesMap[nextNextId].val})` : 'null'}`,
+            evalResult: 'Link Rewired',
+            actionBadge: 'Skipped Duplicate',
+            detailMsg: `Rewired pointer: Node(${currentVal}).next now points directly to ${nextNextId ? `Node(${nodesMap[nextNextId].val})` : 'null'}, bypassing duplicate Node(${nextVal}).`,
+            statusType: 'rewire',
+            desc: `Skipped duplicate node with value ${nextVal}. current stays at Node(${currentVal}) for next comparison.`
+          });
+
+        } else {
+          // current = current.next;
+          const oldCurrentVal = currentVal;
+          currentId = nextId;
+
+          record({
+            line: 11,
+            phase: `current = current.next (advance to ${nodesMap[currentId].val})`,
+            equalEval: 'false',
+            evalStmt: `current = Node(${nodesMap[currentId].val})`,
+            evalResult: 'Pointer advanced',
+            actionBadge: 'Advance current',
+            detailMsg: `Advanced current from Node(${oldCurrentVal}) to distinct Node(${nodesMap[currentId].val}).`,
+            statusType: 'advance',
+            desc: `Advanced pointer current to next distinct value ${nodesMap[currentId].val}.`
+          });
+        }
+      }
+
+      // Loop termination step
+      const finalNext = currentId ? nodesMap[currentId].nextId : null;
+      record({
+        line: 5,
+        phase: 'While loop terminates',
+        equalEval: '-',
+        evalStmt: `current != null (${currentId !== null}) && current.next != null (${finalNext !== null})`,
+        evalResult: 'false',
+        actionBadge: 'Loop Terminated',
+        detailMsg: currentId === null 
+          ? 'current is null. Loop terminates.' 
+          : 'current.next is null (reached end of list). Loop terminates.',
+        statusType: 'neutral',
+        desc: 'Loop terminated because end of linked list reached.'
+      });
+
+      // return head;
+      record({
+        line: 15,
+        phase: 'return head',
+        actionBadge: 'Finished',
+        evalStmt: `return head (${headId ? `Node(${nodesMap[headId].val})` : 'null'})`,
+        evalResult: 'List deduplicated',
+        detailMsg: `Returned head of deduplicated list: [${getActiveChain().map(n => n.val).join(' -> ')}].`,
+        statusType: 'finished',
+        desc: `Algorithm complete. Clean sorted list returned without any consecutive duplicates.`
+      });
+
+      return steps;
+    }
+
+    const samplePresets = [
+      [1, 1, 2, 3, 3],
+      [1, 1, 1],
+      [1, 2, 3, 4],
+      [2, 2, 2, 4, 4, 5, 5, 5, 9]
+    ];
+    let sampleIndex = 0;
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 850;
+
+    // UI elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    const linkedListContainer = document.getElementById('linkedListContainer');
+    const arenaActiveNodesCount = document.getElementById('arenaActiveNodesCount');
+    const arenaDuplicatesCount = document.getElementById('arenaDuplicatesCount');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const pointerActionBadge = document.getElementById('pointerActionBadge');
+    const pointerDetailMsg = document.getElementById('pointerDetailMsg');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+
+    const varCurrent = document.getElementById('varCurrent');
+    const varCurrentVal = document.getElementById('varCurrentVal');
+    const varNext = document.getElementById('varNext');
+    const varNextVal = document.getElementById('varNextVal');
+    const varNextNextVal = document.getElementById('varNextNextVal');
+    const varEqualEval = document.getElementById('varEqualEval');
+    const evalConditionName = document.getElementById('evalConditionName');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    const resultChainLength = document.getElementById('resultChainLength');
+    const resultChainPreview = document.getElementById('resultChainPreview');
+
+    const inputListVals = document.getElementById('inputListVals');
+    const btnLoadCustom = document.getElementById('btnLoadCustom');
+    const btnSampleNext = document.getElementById('btnSampleNext');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Variables Watcher
+      varCurrent.textContent = step.varCurrent;
+      varCurrentVal.textContent = step.varCurrentVal;
+      varNext.textContent = step.varNext;
+      varNextVal.textContent = step.varNextVal;
+      varNextNextVal.textContent = step.varNextNextVal;
+      varEqualEval.textContent = step.equalEval;
+
+      evalConditionName.textContent = step.evalCond;
+      evalStatement.textContent = step.evalStmt;
+      evalResult.textContent = step.evalResult;
+
+      pointerActionBadge.textContent = step.actionBadge;
+      pointerDetailMsg.textContent = step.detailMsg;
+
+      arenaActiveNodesCount.textContent = `Active Nodes = ${step.activeChainVals.length}`;
+      arenaDuplicatesCount.textContent = `Duplicates Skipped = ${step.duplicatesSkipped}`;
+
+      resultChainLength.textContent = `Length: ${step.activeChainVals.length}`;
+      resultChainPreview.innerHTML = step.activeChainVals.length > 0 
+        ? step.activeChainVals.map(v => `<span class="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 font-bold">${v}</span>`).join(' <span class="text-slate-500">&rarr;</span> ') + ' <span class="text-slate-500">&rarr;</span> <span class="text-rose-400 font-bold">null</span>'
+        : '<span class="text-rose-400 font-bold">null (empty list)</span>';
+
+      // Visual feedback and sounds based on status
+      if (step.statusType === 'duplicate') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-amber-950/80 text-amber-300 border border-amber-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-amber-500/25 animate-pulse">
+            <i class="fa-solid fa-clone text-amber-400"></i>
+            <span>current.val == current.next.val (${step.varCurrentVal} == ${step.varNextVal}) &bull; Duplicate detected!</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping";
+        arenaStatusText.textContent = `Duplicate Found`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-amber-950/80 text-amber-300 border border-amber-500/40";
+        returnPill.textContent = `Duplicate: ${step.varCurrentVal}`;
+        sound.playMatchDuplicate();
+
+      } else if (step.statusType === 'rewire') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-rose-950/80 text-rose-300 border border-rose-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-rose-500/25 animate-bounce">
+            <i class="fa-solid fa-scissors text-rose-400"></i>
+            <span>current.next = current.next.next &bull; Skipped duplicate Node(${step.varNextVal})</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-400";
+        arenaStatusText.textContent = `Pointer Rewired`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-rose-950/80 text-rose-300 border border-rose-500/40";
+        returnPill.textContent = `Skipped Node`;
+        sound.playBypass();
+
+      } else if (step.statusType === 'advance') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-cyan-500/25">
+            <i class="fa-solid fa-arrow-right text-cyan-400"></i>
+            <span>current = current.next &bull; Advanced to distinct Node(${step.varCurrentVal})</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = `Advancing`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-500/40";
+        returnPill.textContent = `current &rarr; ${step.varCurrentVal}`;
+        sound.playAdvance();
+
+      } else if (step.statusType === 'finished') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold">
+            <i class="fa-solid fa-check-double text-emerald-400"></i>
+            <span>Deduplication Complete! Returned head &bull; [${step.activeChainVals.join(', ')}]</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = `Completed`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/40";
+        returnPill.textContent = `Returned Head`;
+        sound.playComplete();
+
+      } else {
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">${step.phase}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = `Inspecting`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = `return head`;
+        sound.playStep();
+      }
+
+      // Synchronize Code Highlighting
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Render Linked List Chain
+      renderLinkedList(step);
+    }
+
+    function renderLinkedList(step) {
+      linkedListContainer.innerHTML = '';
+
+      if (step.allNodeIds.length === 0) {
+        linkedListContainer.innerHTML = `<span class="text-slate-500 text-sm italic font-mono m-auto">head is null (empty list)</span>`;
+        return;
+      }
+
+      step.allNodeIds.forEach((nodeId, idx) => {
+        const node = step.nodesSnapshot[nodeId];
+        const isActive = step.activeIds.has(nodeId);
+        const isCurrent = (step.currentId === nodeId);
+        const isNext = (step.nextId === nodeId);
+        const isNextNext = (step.nextNextId === nodeId);
+        const isSkippedThisStep = (step.skippedTargetId === nodeId);
+
+        // Container wrapper for Node Card + Arrow
+        const nodeWrapper = document.createElement('div');
+        nodeWrapper.className = "flex items-center shrink-0";
+
+        // Card element
+        const card = document.createElement('div');
+        let cardClasses = "node-card relative w-24 h-28 rounded-2xl glass-input p-2 flex flex-col justify-between items-center text-center shadow-lg select-none border ";
+
+        if (!isActive) {
+          cardClasses += " node-bypassed";
+        } else if (isCurrent) {
+          cardClasses += " node-curr-glow bg-cyan-950/80 border-cyan-400 text-cyan-200";
+        } else if (isNext) {
+          cardClasses += " bg-amber-950/70 border-amber-400 text-amber-200 shadow-amber-500/20";
+        } else if (isNextNext) {
+          cardClasses += " bg-purple-950/60 border-purple-400 text-purple-200";
+        } else {
+          cardClasses += " border-white/15 bg-slate-900/60 text-slate-300";
+        }
+
+        card.className = cardClasses;
+
+        // Top badges for pointers
+        let pointerBadges = '';
+        if (idx === 0) {
+          pointerBadges += `<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">head</span>`;
+        }
+        if (isCurrent) {
+          pointerBadges += `<span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/30 text-cyan-300 font-bold border border-cyan-400/50 animate-pulse">current</span>`;
+        }
+        if (isNext) {
+          pointerBadges += `<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-300 font-bold border border-amber-400/50">current.next</span>`;
+        }
+        if (isNextNext) {
+          pointerBadges += `<span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/30 text-purple-300 font-bold border border-purple-400/50">.next.next</span>`;
+        }
+        if (!isActive) {
+          pointerBadges += `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/30 text-rose-300 font-bold border border-rose-400/40 line-through">duplicate</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="flex flex-col items-center gap-0.5 w-full min-h-[22px]">
+            ${pointerBadges}
+          </div>
+          
+          <div class="my-auto flex flex-col items-center">
+            <span class="text-[10px] text-slate-400 font-mono">val</span>
+            <span class="text-2xl font-black ${isCurrent ? 'text-cyan-300' : (isNext ? 'text-amber-300' : 'text-white')}">${node.val}</span>
+          </div>
+
+          <div class="w-full pt-1 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-slate-400">
+            <span>#${idx}</span>
+            <span class="truncate max-w-[42px]">${node.nextId ? '&rarr; Node' : '&rarr; null'}</span>
+          </div>
+        `;
+
+        nodeWrapper.appendChild(card);
+
+        // Arrow link to next node
+        const arrowWrapper = document.createElement('div');
+        arrowWrapper.className = "flex flex-col items-center justify-center px-1.5";
+
+        let arrowIcon = "fa-solid fa-arrow-right text-slate-600";
+        let arrowText = "";
+
+        if (isCurrent && isNext) {
+          arrowIcon = "fa-solid fa-arrow-right text-amber-400 text-base animate-pulse";
+          arrowText = ".next";
+        } else if (isCurrent && step.statusType === 'rewire') {
+          arrowIcon = "fa-solid fa-arrow-turn-up text-rose-400 text-sm";
+          arrowText = "bypassed";
+        } else if (isActive && node.nextId) {
+          arrowIcon = "fa-solid fa-arrow-right text-cyan-400/70";
+        }
+
+        arrowWrapper.innerHTML = `
+          <span class="text-[8px] font-mono text-slate-400 h-3">${arrowText}</span>
+          <i class="${arrowIcon}"></i>
+        `;
+
+        nodeWrapper.appendChild(arrowWrapper);
+        linkedListContainer.appendChild(nodeWrapper);
+      });
+
+      // Terminal null pointer representation
+      const nullNode = document.createElement('div');
+      nullNode.className = "w-16 h-28 rounded-2xl glass-input p-2 flex flex-col justify-center items-center text-center shadow-lg border border-rose-500/30 text-rose-300 font-mono text-xs font-bold";
+      nullNode.innerHTML = `
+        <i class="fa-solid fa-ban text-rose-400 text-lg mb-1"></i>
+        <span>null</span>
+        <span class="text-[9px] text-slate-500 font-normal">Terminal</span>
+      `;
+      linkedListContainer.appendChild(nullNode);
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-cyan-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-indigo-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-cyan-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-indigo-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function initializeSimulation(values) {
+      stopAutoPlay();
+      currentSteps = generateExecutionSteps(values);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+
+    btnSampleNext.addEventListener('click', () => {
+      sampleIndex = (sampleIndex + 1) % samplePresets.length;
+      const sample = samplePresets[sampleIndex];
+      inputListVals.value = sample.join(', ');
+      initializeSimulation(sample);
+    });
+
+    btnLoadCustom.addEventListener('click', () => {
+      const raw = inputListVals.value;
+      const parsed = raw.split(',')
+        .map(s => parseInt(s.trim(), 10))
+        .filter(n => !isNaN(n));
+
+      if (parsed.length === 0) {
+        initializeSimulation([1, 1, 2]);
+        return;
+      }
+
+      // Sort values to respect the problem precondition: sorted linked list
+      parsed.sort((a, b) => a - b);
+      inputListVals.value = parsed.join(', ');
+      initializeSimulation(parsed);
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed options
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-cyan-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation([1, 1, 2, 3, 3]);
+    };
+  </script>
+</body>
+</html>
