@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longest Distinct Subarray &bull; Glassmorphic Sliding Window Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, #091e3a 0%, #060e22 45%, #02050e 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .glass-input {
+      background: rgba(8, 14, 30, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    .glass-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .code-line {
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+    .code-active {
+      background-color: rgba(56, 189, 248, 0.22) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .card-item, .map-entry {
+      transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes pulseCyan {
+      0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.45); transform: scale(1.03); }
+      50% { box-shadow: 0 0 28px rgba(56, 189, 248, 0.85); transform: scale(1.06); }
+    }
+    @keyframes pulseEmerald {
+      0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.45); transform: scale(1.03); }
+      50% { box-shadow: 0 0 28px rgba(16, 185, 129, 0.85); transform: scale(1.06); }
+    }
+    @keyframes pulseAmber {
+      0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.45); transform: scale(1.03); }
+      50% { box-shadow: 0 0 28px rgba(245, 158, 11, 0.85); transform: scale(1.06); }
+    }
+    @keyframes pulseRose {
+      0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.5); transform: scale(1.03); }
+      50% { box-shadow: 0 0 32px rgba(244, 63, 94, 0.9); transform: scale(1.06); }
+    }
+    .card-active-cyan {
+      animation: pulseCyan 1.6s infinite ease-in-out;
+      border-color: #38bdf8 !important;
+    }
+    .card-active-emerald {
+      animation: pulseEmerald 1.6s infinite ease-in-out;
+      border-color: #10b981 !important;
+    }
+    .card-active-amber {
+      animation: pulseAmber 1.6s infinite ease-in-out;
+      border-color: #f59e0b !important;
+    }
+    .card-active-rose {
+      animation: pulseRose 1.4s infinite ease-in-out;
+      border-color: #f43f5e !important;
+    }
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.08); }
+    }
+    .glow-blob {
+      animation: ambientGlow 9s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(8, 14, 30, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between relative min-h-screen">
+
+  <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-cyan-600/15 blur-[130px] pointer-events-none -z-10 glow-blob"></div>
+  <div class="fixed bottom-[-15%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-emerald-600/15 blur-[140px] pointer-events-none -z-10 glow-blob" style="animation-delay: -3.5s;"></div>
+  <div class="fixed top-[40%] right-[25%] w-[35vw] h-[35vw] rounded-full bg-amber-600/10 blur-[130px] pointer-events-none -z-10 glow-blob" style="animation-delay: -1.5s;"></div>
+
+  <!-- TOP GLASSY CONTROL DECK -->
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl flex flex-col gap-3 shadow-2xl">
+      
+      <!-- Title & Preset Controls -->
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-teal-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 text-white text-xl font-bold">
+            <i class="fa-solid fa-window-maximize"></i>
+          </div>
+          <div>
+            <h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-300 via-teal-200 to-emerald-300 bg-clip-text text-transparent">
+              Longest Distinct Subarray &bull; Sliding Window Visualizer
+            </h1>
+            <p class="text-xs text-slate-400 font-mono">
+              HashMap <span class="text-cyan-300 font-semibold">lastSeen</span> &bull; Time <span class="text-amber-300 font-semibold">O(N)</span> &bull; Space <span class="text-emerald-300 font-semibold">O(K)</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Custom Array Input & Sample Selector -->
+        <div class="flex flex-wrap items-center justify-center gap-2">
+          <div class="flex items-center gap-1.5 glass-input px-2.5 py-1 rounded-xl text-xs">
+            <span class="text-cyan-400 font-semibold font-mono">arr:</span>
+            <input id="inputCustomArr" type="text" value="3, 1, 4, 1, 5, 3, 2" class="bg-transparent px-1 py-0.5 rounded text-cyan-200 font-mono w-32 sm:w-40 border-none focus:outline-none text-center" placeholder="e.g. 1, 2, 3, 1, 4">
+            <button id="btnLoadCustom" class="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold rounded-lg text-xs transition">
+              Load
+            </button>
+          </div>
+
+          <button id="btnSampleNext" class="glass-btn px-3 py-1.5 text-slate-200 rounded-xl text-xs transition" title="Cycle preset test cases">
+            <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Preset
+          </button>
+
+          <button id="btnSoundToggle" class="glass-btn px-2.5 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Toggle Sound">
+            <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-400"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Playback Controls & Timeline Scrubber Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10">
+        <!-- Play / Pause / Prev / Next / Reset -->
+        <div class="flex items-center gap-2">
+          <button id="btnReset" class="glass-btn w-10 h-10 rounded-xl text-slate-300 flex items-center justify-center hover:text-white" title="Reset to beginning">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <button id="btnPrev" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-600 to-emerald-600 hover:from-cyan-400 hover:to-emerald-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-cyan-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <button id="btnNext" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Phase Badge & Step Counter -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-cyan-950/70 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs glass-input text-slate-300 px-3 py-1.5 rounded-full font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center glass-input rounded-xl p-1 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1400">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold" data-speed="750">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="380">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="180">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-white/5">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800/80 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Sliding Window Arena & Array Display (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <div class="glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between min-h-[580px] relative overflow-hidden shadow-2xl gap-3.5">
+        
+        <!-- Arena Header Status Bar -->
+        <div class="flex flex-wrap items-center justify-between z-10 gap-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 glass-input px-3 py-1.5 rounded-full">
+            <span class="text-cyan-300 font-semibold" id="arenaLeftBadge">left = 0</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-amber-300 font-semibold" id="arenaRightBadge">right = 0</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-emerald-300 font-semibold" id="arenaMaxLenBadge">maxLength = 0</span>
+          </div>
+
+          <div class="flex items-center gap-2 glass-input px-3 py-1.5 rounded-full text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Action Banner -->
+        <div id="comparisonBanner" class="min-h-[44px] flex items-center justify-center">
+          <span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">
+            Click Start or Next to trace Longest Distinct Subarray
+          </span>
+        </div>
+
+        <!-- Array Playing Cards Container (Sliding Window Track) -->
+        <div class="glass-input p-4 rounded-2xl border border-white/10 flex flex-col gap-3">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="text-slate-300 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-layer-group text-cyan-400"></i> Array Sliding Window <code>[left &hellip; right]</code>
+            </span>
+            <span id="windowSizeInfo" class="text-cyan-300 font-semibold">Window Length: 0</span>
+          </div>
+
+          <div id="arrayCardsContainer" class="flex flex-wrap items-center justify-center gap-2.5 py-2">
+            <!-- Dynamically rendered playing cards -->
+          </div>
+        </div>
+
+        <!-- HashMap LastSeen Cabinet & Best Subarray Window Preview -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          
+          <!-- Map Cabinet -->
+          <div class="glass-input p-3.5 rounded-2xl border border-emerald-500/25 flex flex-col justify-between">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+              <span class="text-xs font-bold font-mono text-emerald-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-map text-emerald-400"></i> Map&lt;Integer, Integer&gt; lastSeen
+              </span>
+              <span id="mapSizeBadge" class="text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">
+                size: 0
+              </span>
+            </div>
+
+            <div id="hashMapContainer" class="flex flex-wrap items-center gap-1.5 min-h-[50px] py-1">
+              <span class="text-xs font-mono text-slate-500 italic">Empty map { }</span>
+            </div>
+          </div>
+
+          <!-- Current Subarray & Max Length Card -->
+          <div class="glass-input p-3.5 rounded-2xl border border-cyan-500/25 flex flex-col justify-between">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2">
+              <span class="text-xs font-bold font-mono text-cyan-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-trophy text-amber-400"></i> Result Metric
+              </span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded-md bg-cyan-950/80 text-cyan-300 border border-cyan-500/30">
+                Distinct Subarray
+              </span>
+            </div>
+
+            <div class="flex flex-col gap-1.5 font-mono text-xs">
+              <div class="flex items-center justify-between bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                <span class="text-slate-400">Current Window:</span>
+                <span id="currentWindowValues" class="text-cyan-300 font-bold">[ ]</span>
+              </div>
+              <div class="flex items-center justify-between bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                <span class="text-slate-400">Best maxLength:</span>
+                <span id="bestMaxLengthDisplay" class="text-emerald-300 font-bold text-sm">0</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Explanation Callout Box -->
+        <div id="operationDetailBox" class="bg-black/40 px-3.5 py-2 rounded-xl border border-white/5 text-slate-300 text-xs font-mono leading-relaxed text-center">
+          As <code class="text-amber-300">right</code> expands, if <code class="text-emerald-300">lastSeen</code> contains the current value, <code class="text-cyan-300">left</code> jumps to <code class="text-slate-200">Math.max(left, lastSeen.get(value) + 1)</code>.
+        </div>
+
+        <!-- Bottom Status Summary Bar -->
+        <div class="z-10 glass-input p-3 rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-sm">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            pending
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-cyan-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: Solution</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl border border-cyan-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">left</span>
+            <span id="varLeft" class="font-mono text-base font-bold text-cyan-400">0</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl border border-amber-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">right</span>
+            <span id="varRight" class="font-mono text-base font-bold text-amber-300">0</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl border border-purple-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">value</span>
+            <span id="varValue" class="font-mono text-base font-bold text-purple-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl border border-emerald-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">maxLength</span>
+            <span id="varMaxLength" class="font-mono text-base font-bold text-emerald-300">0</span>
+          </div>
+        </div>
+
+        <!-- Expression Evaluator -->
+        <div class="glass-input p-2.5 rounded-xl text-xs flex flex-col gap-1 font-mono">
+          <div class="flex items-center justify-between text-slate-400 text-[11px]">
+            <span id="evalConditionName">Map Lookup / Window Shift:</span>
+            <span class="text-cyan-300">Expression Result</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+            <span id="evalStatement" class="text-slate-300 truncate">lastSeen.containsKey(value)</span>
+            <span id="evalResult" class="font-bold text-cyan-400 shrink-0 ml-2">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code Viewer -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col flex-grow overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-400 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Solution.java &bull; Synchronized Execution</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded font-mono">O(N) Sliding Window</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-[11px] sm:text-xs text-slate-300 overflow-y-auto rounded-xl glass-input p-2.5 border border-white/5 select-none flex-grow max-h-[380px]" id="codeContainer">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">1</span><span class="text-purple-400">import</span>&nbsp;java.util.*;</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">2</span></div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">3</span><span class="text-purple-400">class</span>&nbsp;<span class="text-yellow-300">Solution</span>&nbsp;{</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">4</span>&nbsp;&nbsp;<span class="text-purple-400">public int</span>&nbsp;<span class="text-blue-400">longestDistinctSubarray</span>(<span class="text-cyan-400">int</span>[] arr) {</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;Integer, Integer&gt; lastSeen = <span class="text-purple-400">new</span>&nbsp;HashMap&lt;&gt;();</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">6</span></div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-cyan-400">int</span> left = <span class="text-amber-300">0</span>;</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-cyan-400">int</span> maxLength = <span class="text-amber-300">0</span>;</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">9</span></div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-cyan-400">int</span> right = <span class="text-amber-300">0</span>; right &lt; arr.length; right++) {</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-cyan-400">int</span> value = arr[right];</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">12</span></div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (lastSeen.containsKey(value)) {</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left = Math.max(left, lastSeen.get(value) + <span class="text-amber-300">1</span>);</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">16</span></div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastSeen.put(value, right);</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">18</span></div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxLength = Math.max(maxLength, right - left + <span class="text-amber-300">1</span>);</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">21</span></div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">22</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> maxLength;</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">23</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-7 select-none">24</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1 font-mono">
+    <p>Longest Distinct Subarray Visualizer &bull; Sliding Window &amp; HashMap lastSeen &bull; Glassmorphic Transparent UI</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playStep() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(330, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(270, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playExpand() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(587.33, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playDuplicate() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(180, this.ctx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.07, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playRecord() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [523.25, 659.25, 783.99];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.07, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.18);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.19);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateExecutionSteps(arr) {
+      const steps = [];
+      const lastSeen = new Map(); // key -> index
+      let left = 0;
+      let maxLength = 0;
+
+      function record(meta) {
+        steps.push({
+          line: meta.line,
+          phase: meta.phase,
+          left: left,
+          right: meta.right ?? 0,
+          value: meta.value ?? '-',
+          maxLength: maxLength,
+          lastSeenMap: new Map(lastSeen),
+          statusType: meta.statusType ?? 'neutral',
+          evalStmt: meta.evalStmt ?? '-',
+          evalResult: meta.evalResult ?? '-',
+          detail: meta.detail ?? '',
+          returnPillText: meta.returnPillText ?? 'running...',
+          desc: meta.desc ?? ''
+        });
+      }
+
+      // Initialization steps
+      record({
+        line: 5,
+        phase: 'Initialize HashMap lastSeen',
+        right: 0,
+        evalStmt: 'Map<Integer, Integer> lastSeen = new HashMap<>();',
+        evalResult: 'Empty map',
+        detail: 'Created an empty HashMap to record the most recent index where each element was encountered.',
+        statusType: 'neutral',
+        returnPillText: 'initialized',
+        desc: 'Initialized empty lastSeen map.'
+      });
+
+      record({
+        line: 7,
+        phase: 'Initialize left = 0',
+        right: 0,
+        evalStmt: 'int left = 0;',
+        evalResult: 'left = 0',
+        detail: 'Initialized sliding window start pointer left at index 0.',
+        statusType: 'neutral',
+        returnPillText: 'left = 0',
+        desc: 'Initialized left pointer at index 0.'
+      });
+
+      record({
+        line: 8,
+        phase: 'Initialize maxLength = 0',
+        right: 0,
+        evalStmt: 'int maxLength = 0;',
+        evalResult: 'maxLength = 0',
+        detail: 'Initialized maxLength tracking variable to 0.',
+        statusType: 'neutral',
+        returnPillText: 'maxLength = 0',
+        desc: 'Initialized maxLength to 0.'
+      });
+
+      for (let right = 0; right < arr.length; right++) {
+        const value = arr[right];
+
+        record({
+          line: 10,
+          phase: `For right = ${right}`,
+          right: right,
+          value: `${value}`,
+          evalStmt: `right < arr.length (${right} < ${arr.length})`,
+          evalResult: 'true (Entering loop)',
+          detail: `Loop iteration at right = ${right}. Current value is ${value}.`,
+          statusType: 'neutral',
+          returnPillText: `right = ${right}`,
+          desc: `Entering loop iteration at right = ${right} (value = ${value}).`
+        });
+
+        record({
+          line: 11,
+          phase: `int value = arr[${right}] (${value})`,
+          right: right,
+          value: `${value}`,
+          evalStmt: `value = arr[${right}]`,
+          evalResult: `value = ${value}`,
+          detail: `Fetched element arr[${right}] = ${value}.`,
+          statusType: 'expand',
+          returnPillText: `value = ${value}`,
+          desc: `Fetched arr[${right}] = ${value}.`
+        });
+
+        const hasKey = lastSeen.has(value);
+        const prevSeenIndex = hasKey ? lastSeen.get(value) : -1;
+
+        record({
+          line: 13,
+          phase: `Check if lastSeen contains ${value}`,
+          right: right,
+          value: `${value}`,
+          evalStmt: `lastSeen.containsKey(${value})`,
+          evalResult: hasKey ? `true (Seen at index ${prevSeenIndex})` : 'false (First time seen)',
+          detail: hasKey
+            ? `Element ${value} was previously seen at index ${prevSeenIndex}. Window conflict detected!`
+            : `Element ${value} is not in lastSeen map. No conflict.`,
+          statusType: hasKey ? 'duplicate' : 'neutral',
+          returnPillText: hasKey ? 'duplicate found' : 'distinct',
+          desc: `Checked lastSeen.containsKey(${value}) -> ${hasKey}.`
+        });
+
+        if (hasKey) {
+          const oldLeft = left;
+          left = Math.max(left, prevSeenIndex + 1);
+          const jumpOccurred = left > oldLeft;
+
+          record({
+            line: 14,
+            phase: `Shift left pointer`,
+            right: right,
+            value: `${value}`,
+            evalStmt: `left = Math.max(${oldLeft}, ${prevSeenIndex} + 1)`,
+            evalResult: `left = ${left}`,
+            detail: jumpOccurred
+              ? `Duplicate found at index ${prevSeenIndex}. Shifted left pointer from ${oldLeft} to ${left} to exclude the duplicate.`
+              : `lastSeen index (${prevSeenIndex}) + 1 <= current left (${oldLeft}), so left remains at ${left}.`,
+            statusType: 'duplicate',
+            returnPillText: `left = ${left}`,
+            desc: `Shifted left boundary to ${left}.`
+          });
+        }
+
+        lastSeen.set(value, right);
+
+        record({
+          line: 17,
+          phase: `lastSeen.put(${value}, ${right})`,
+          right: right,
+          value: `${value}`,
+          evalStmt: `lastSeen.put(${value}, ${right})`,
+          evalResult: `Updated map`,
+          detail: `Recorded current index ${right} for value ${value} in lastSeen map.`,
+          statusType: 'neutral',
+          returnPillText: `map updated`,
+          desc: `Updated lastSeen map: ${value} -> index ${right}.`
+        });
+
+        const oldMax = maxLength;
+        const currentWindowLen = right - left + 1;
+        maxLength = Math.max(maxLength, currentWindowLen);
+        const updatedMax = maxLength > oldMax;
+
+        record({
+          line: 19,
+          phase: `Update maxLength`,
+          right: right,
+          value: `${value}`,
+          evalStmt: `Math.max(${oldMax}, ${right} - ${left} + 1 = ${currentWindowLen})`,
+          evalResult: `maxLength = ${maxLength}`,
+          detail: updatedMax
+            ? `New distinct window length (${currentWindowLen}) is greater than previous maxLength! Updated maxLength to ${maxLength}.`
+            : `Current window length (${currentWindowLen}) <= maxLength (${oldMax}). maxLength remains ${maxLength}.`,
+          statusType: updatedMax ? 'record' : 'neutral',
+          returnPillText: `maxLength = ${maxLength}`,
+          desc: `Evaluated maxLength = ${maxLength} for window [${left} .. ${right}].`
+        });
+      }
+
+      record({
+        line: 22,
+        phase: `Return maxLength (${maxLength})`,
+        right: arr.length - 1,
+        evalStmt: `return maxLength;`,
+        evalResult: `Result = ${maxLength}`,
+        detail: `Finished scanning array. The length of the longest distinct subarray is ${maxLength}.`,
+        statusType: 'record',
+        returnPillText: `return ${maxLength}`,
+        desc: `Execution complete. Longest distinct subarray length is ${maxLength}.`
+      });
+
+      return steps;
+    }
+
+    const presetArrays = [
+      [3, 1, 4, 1, 5, 3, 2],
+      [1, 2, 3, 1, 4, 2, 3, 5],
+      [2, 2, 2, 2, 2],
+      [1, 2, 3, 4, 5]
+    ];
+
+    let presetIndex = 0;
+    let activeArr = [...presetArrays[0]];
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 750;
+
+    // DOM Elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    const arenaLeftBadge = document.getElementById('arenaLeftBadge');
+    const arenaRightBadge = document.getElementById('arenaRightBadge');
+    const arenaMaxLenBadge = document.getElementById('arenaMaxLenBadge');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+
+    const arrayCardsContainer = document.getElementById('arrayCardsContainer');
+    const windowSizeInfo = document.getElementById('windowSizeInfo');
+    const hashMapContainer = document.getElementById('hashMapContainer');
+    const mapSizeBadge = document.getElementById('mapSizeBadge');
+    const currentWindowValues = document.getElementById('currentWindowValues');
+    const bestMaxLengthDisplay = document.getElementById('bestMaxLengthDisplay');
+    const operationDetailBox = document.getElementById('operationDetailBox');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+
+    const varLeft = document.getElementById('varLeft');
+    const varRight = document.getElementById('varRight');
+    const varValue = document.getElementById('varValue');
+    const varMaxLength = document.getElementById('varMaxLength');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    const inputCustomArr = document.getElementById('inputCustomArr');
+    const btnLoadCustom = document.getElementById('btnLoadCustom');
+    const btnSampleNext = document.getElementById('btnSampleNext');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      arenaLeftBadge.textContent = `left = ${step.left}`;
+      arenaRightBadge.textContent = `right = ${step.right}`;
+      arenaMaxLenBadge.textContent = `maxLength = ${step.maxLength}`;
+
+      varLeft.textContent = step.left;
+      varRight.textContent = step.right;
+      varValue.textContent = step.value;
+      varMaxLength.textContent = step.maxLength;
+
+      evalStatement.textContent = step.evalStmt;
+      evalResult.textContent = step.evalResult;
+      operationDetailBox.textContent = step.detail;
+      returnPill.textContent = step.returnPillText;
+      bestMaxLengthDisplay.textContent = step.maxLength;
+
+      const winLen = step.right >= step.left ? step.right - step.left + 1 : 0;
+      windowSizeInfo.textContent = `Window Length: ${winLen}`;
+
+      // Build subarray list
+      if (step.right >= step.left) {
+        const subArr = activeArr.slice(step.left, step.right + 1);
+        currentWindowValues.textContent = `[${subArr.join(', ')}] (len: ${winLen})`;
+      } else {
+        currentWindowValues.textContent = '[ ]';
+      }
+
+      // Status banners and sounds
+      if (step.statusType === 'expand') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-cyan-500/20">
+            <i class="fa-solid fa-arrow-right text-cyan-400"></i>
+            <span>right = ${step.right} &bull; value = ${step.value}</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping";
+        arenaStatusText.textContent = "Expanding Right";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-500/40";
+        sound.playExpand();
+
+      } else if (step.statusType === 'duplicate') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-amber-950/80 text-amber-300 border border-amber-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-amber-500/20">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400"></i>
+            <span>Duplicate Found! Shifting left to ${step.left}</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping";
+        arenaStatusText.textContent = "Duplicate Conflict";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-amber-950/80 text-amber-300 border border-amber-500/40";
+        sound.playDuplicate();
+
+      } else if (step.statusType === 'record') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-emerald-500/25">
+            <i class="fa-solid fa-trophy text-amber-400"></i>
+            <span>New maxLength = ${step.maxLength}</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = "Metric Updated";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-950/90 text-emerald-300 border border-emerald-400";
+        sound.playRecord();
+
+      } else {
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-300 glass-input px-4 py-1.5 rounded-full">${step.phase}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = "Stepping";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-300 border border-slate-700";
+        sound.playStep();
+      }
+
+      // Synchronize Java Code Line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      renderArrayCards(step);
+      renderHashMap(step);
+    }
+
+    function renderArrayCards(step) {
+      arrayCardsContainer.innerHTML = '';
+
+      activeArr.forEach((val, idx) => {
+        const isLeft = idx === step.left;
+        const isRight = idx === step.right;
+        const isInWindow = idx >= step.left && idx <= step.right;
+
+        const card = document.createElement('div');
+        let classes = "card-item w-14 sm:w-16 h-20 sm:h-22 rounded-xl glass-input flex flex-col items-center justify-between p-2 font-mono relative select-none border ";
+
+        if (isLeft && isRight) {
+          classes += "card-active-amber bg-amber-950/70 border-amber-400 text-white font-bold scale-105 z-10";
+        } else if (isRight) {
+          classes += "card-active-cyan bg-cyan-950/80 border-cyan-400 text-white font-bold scale-105 z-10";
+        } else if (isLeft) {
+          classes += "card-active-rose bg-rose-950/60 border-rose-400 text-white font-bold";
+        } else if (isInWindow) {
+          classes += "bg-cyan-950/30 border-cyan-500/30 text-cyan-200";
+        } else {
+          classes += "bg-slate-900/60 border-white/10 text-slate-400 opacity-70";
+        }
+
+        card.className = classes;
+
+        // Badge tags on top of card
+        let topBadge = `<span class="text-[9px] text-slate-400">#${idx}</span>`;
+        if (isLeft && isRight) {
+          topBadge = `<span class="text-[9px] px-1 rounded bg-amber-500 text-black font-extrabold">L &amp; R</span>`;
+        } else if (isLeft) {
+          topBadge = `<span class="text-[9px] px-1 rounded bg-rose-500 text-white font-bold">left</span>`;
+        } else if (isRight) {
+          topBadge = `<span class="text-[9px] px-1 rounded bg-cyan-500 text-black font-bold">right</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between w-full">
+            ${topBadge}
+            <span class="text-[9px] text-slate-500">♠</span>
+          </div>
+          <div class="text-base sm:text-lg font-extrabold">${val}</div>
+          <div class="text-[9px] text-slate-400">${isInWindow ? 'in win' : ''}</div>
+        `;
+
+        arrayCardsContainer.appendChild(card);
+      });
+    }
+
+    function renderHashMap(step) {
+      hashMapContainer.innerHTML = '';
+      const map = step.lastSeenMap;
+      mapSizeBadge.textContent = `size: ${map.size}`;
+
+      if (map.size === 0) {
+        hashMapContainer.innerHTML = `<span class="text-xs font-mono text-slate-500 italic">Empty map { }</span>`;
+        return;
+      }
+
+      map.forEach((idxVal, keyVal) => {
+        const isLatest = `${keyVal}` === `${step.value}`;
+        const entry = document.createElement('div');
+        entry.className = `map-entry px-3 py-1.5 rounded-xl font-mono text-xs border flex items-center gap-2 ${
+          isLatest
+            ? 'bg-emerald-950/90 border-emerald-400 text-emerald-200 font-bold shadow-lg shadow-emerald-500/20'
+            : 'bg-slate-900/80 border-white/10 text-slate-300'
+        }`;
+        entry.innerHTML = `
+          <span class="text-cyan-300">${keyVal}</span>
+          <span class="text-slate-500">→</span>
+          <span class="text-amber-300">idx ${idxVal}</span>
+        `;
+        hashMapContainer.appendChild(entry);
+      });
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-cyan-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-emerald-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-cyan-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-emerald-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function rebuildSimulation(jumpToEnd = false) {
+      stopAutoPlay();
+      currentSteps = generateExecutionSteps(activeArr);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+      currentStepIndex = jumpToEnd ? currentSteps.length - 1 : 0;
+      goToStep(currentStepIndex);
+    }
+
+    // Event Listeners
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+
+    btnLoadCustom.addEventListener('click', () => {
+      const parts = inputCustomArr.value.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+      if (parts.length > 0) {
+        activeArr = parts;
+        rebuildSimulation(false);
+      }
+    });
+
+    btnSampleNext.addEventListener('click', () => {
+      presetIndex = (presetIndex + 1) % presetArrays.length;
+      activeArr = [...presetArrays[presetIndex]];
+      inputCustomArr.value = activeArr.join(', ');
+      rebuildSimulation(false);
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      soundIcon.className = sound.enabled
+        ? "fa-solid fa-volume-high text-cyan-400"
+        : "fa-solid fa-volume-xmark text-slate-500";
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      inputCustomArr.value = activeArr.join(', ');
+      rebuildSimulation(false);
+    };
+  </script>
+</body>
+</html>

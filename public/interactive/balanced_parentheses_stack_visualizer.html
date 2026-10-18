@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balanced Parentheses Stack Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f172a 55%, #020617 100%);
+      min-height: 100vh;
+      color: #f8fafc;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-font {
+      font-family: 'Cinzel', serif;
+    }
+    .felt-table {
+      background: radial-gradient(ellipse at center, #1e1b4b 0%, #0f172a 75%, #020617 100%);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.85), 0 20px 40px rgba(0, 0, 0, 0.6);
+      border: 3px solid #334155;
+    }
+    .felt-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .letter-card {
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .letter-card.active-bracket {
+      transform: translateY(-8px) scale(1.1);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 12px 25px -4px rgba(56, 189, 248, 0.65), 0 0 16px rgba(56, 189, 248, 0.45);
+    }
+    .letter-card.processed {
+      opacity: 0.65;
+      border-color: #475569;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    }
+    .stack-chamber {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.9) 100%);
+      border: 2px dashed #475569;
+      box-shadow: inset 0 10px 25px rgba(0, 0, 0, 0.8);
+    }
+    .stack-card {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: dropIntoStack 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes dropIntoStack {
+      0% { transform: translateY(-30px) scale(0.85); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .popping-card {
+      animation: popOutStack 0.3s ease-out forwards;
+    }
+    @keyframes popOutStack {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-35px) scale(1.15); opacity: 0; }
+    }
+    .code-line {
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .code-active {
+      background-color: rgba(59, 130, 246, 0.3) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .shake-anim {
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between">
+
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3 bg-slate-900/90 p-3.5 sm:p-4 rounded-2xl border border-slate-800 backdrop-blur-md shadow-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 text-white text-xl font-bold">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-fuchsia-300 bg-clip-text text-transparent">
+            Balanced Parentheses &bull; Deque Stack
+          </h1>
+          <p class="text-xs text-slate-400">Step-by-step visualization of <code class="text-indigo-300 font-mono">Deque&lt;Character&gt; stack = new ArrayDeque&lt;&gt;()</code></p>
+        </div>
+      </div>
+
+      <!-- Test String Inputs and Presets -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-slate-800/90 px-2.5 py-1.5 rounded-xl border border-slate-700 text-xs">
+          <span class="text-sky-400 font-semibold font-mono">String s:</span>
+          <input id="inputString" type="text" value="{[()]}" class="bg-slate-950 px-2.5 py-1 rounded text-amber-300 font-mono w-28 sm:w-36 text-center border border-slate-700 focus:outline-none focus:border-sky-400">
+        </div>
+        <button id="btnApply" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md flex items-center gap-1.5">
+          <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Load
+        </button>
+        <button id="btnPreset" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Cycle Example Cases">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sky-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="bg-slate-900/95 p-3.5 sm:p-4 rounded-2xl border-2 border-indigo-500/30 shadow-2xl backdrop-blur-md flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Main Step Action Buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset Button -->
+          <button id="btnReset" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center transition border border-slate-700 shadow" title="Reset to start">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Previous Button -->
+          <button id="btnPrev" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold transition border border-slate-700 shadow" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) Button -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-indigo-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next Button -->
+          <button id="btnNext" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold transition border border-slate-700 shadow" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/90 text-indigo-300 border border-indigo-500/40">
+            <span class="w-2 h-2 rounded-full bg-sky-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs bg-black/50 text-slate-300 px-3 py-1 rounded-full border border-slate-700/70 font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1800">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold" data-speed="900">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-slate-800/80">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Playing Cards Arena & Stack Chamber (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Felt Table Arena -->
+      <div id="feltArena" class="felt-table felt-pattern rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[500px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Table Header & Operation Indicator -->
+        <div class="flex items-center justify-between z-10 gap-2 mb-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 bg-black/50 px-3 py-1.5 rounded-full border border-slate-700/60">
+            <span class="text-sky-400 font-bold"><i class="fa-solid fa-arrow-down mr-1"></i>stack.push(c)</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-amber-400 font-bold"><i class="fa-solid fa-arrow-up mr-1"></i>stack.pop()</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-emerald-400 font-bold"><i class="fa-solid fa-check mr-1"></i>match</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60 text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Visual Area: Input Card Rack, Comparison Slot & Stack Chamber -->
+        <div class="my-auto py-2 flex flex-col gap-4">
+          
+          <!-- Banner for current action -->
+          <div id="comparisonBanner" class="h-8 flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">
+              Press Start or Next to step through algorithm
+            </span>
+          </div>
+
+          <!-- String Characters Card Rack -->
+          <div>
+            <div class="flex items-center justify-between px-2 mb-1.5 text-xs font-mono">
+              <span class="text-sky-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-barcode text-sky-400"></i> String s: <span id="sDisplayVal" class="text-white bg-sky-950/70 px-2 py-0.5 rounded border border-sky-800">""</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="stringProgressNotice">Length: 0</span>
+            </div>
+            <div id="cardsRack" class="flex flex-wrap items-center justify-center gap-2 min-h-[72px] bg-black/40 p-2.5 rounded-2xl border border-slate-800/80">
+              <!-- Rendered string cards -->
+            </div>
+          </div>
+
+          <!-- Interactive Center: Popped Pair Match Test & The Stack Chamber -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-stretch">
+            
+            <!-- Comparison Stage (5 cols) -->
+            <div class="sm:col-span-5 bg-black/50 p-3.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col justify-between">
+              <div>
+                <span class="text-[11px] font-mono font-bold text-slate-300 flex items-center gap-1.5 mb-2">
+                  <i class="fa-solid fa-scale-balanced text-amber-400"></i> Pair Match Inspection
+                </span>
+                <p class="text-[11px] text-slate-400 mb-3">When closing bracket arrives, compare incoming <code class="text-rose-300">c</code> with popped <code class="text-emerald-300">top</code>.</p>
+              </div>
+
+              <div class="flex items-center justify-center gap-3 py-2 bg-slate-950/70 rounded-xl border border-slate-800/80">
+                <div class="flex flex-col items-center">
+                  <span class="text-[10px] font-mono text-slate-500 uppercase">top (popped)</span>
+                  <div id="poppedCardSlot" class="w-12 h-16 rounded-xl border border-slate-700 bg-slate-900/80 flex items-center justify-center text-xl font-bold font-mono text-slate-500 shadow-inner mt-1">
+                    -
+                  </div>
+                </div>
+
+                <div id="matchOperatorIcon" class="text-slate-600 text-lg">
+                  <i class="fa-solid fa-arrows-left-right"></i>
+                </div>
+
+                <div class="flex flex-col items-center">
+                  <span class="text-[10px] font-mono text-slate-500 uppercase">char c</span>
+                  <div id="incomingCardSlot" class="w-12 h-16 rounded-xl border border-slate-700 bg-slate-900/80 flex items-center justify-center text-xl font-bold font-mono text-slate-500 shadow-inner mt-1">
+                    -
+                  </div>
+                </div>
+              </div>
+
+              <div id="matchStatusNotice" class="text-center text-[11px] font-mono text-slate-400 mt-2">
+                Waiting for evaluation...
+              </div>
+            </div>
+
+            <!-- Deque<Character> Stack Container (7 cols) -->
+            <div class="sm:col-span-7 stack-chamber rounded-2xl p-3.5 flex flex-col justify-between min-h-[170px] backdrop-blur-md">
+              <div class="flex items-center justify-between pb-1.5 border-b border-slate-800/80">
+                <span class="text-xs font-mono font-bold text-indigo-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-cubes text-indigo-400"></i> Deque&lt;Character&gt; stack
+                </span>
+                <div class="text-[11px] font-mono text-slate-400">
+                  Size: <span id="stackSizeBadge" class="text-sky-300 font-bold">0</span> &bull; 
+                  <span id="stackEmptyBadge" class="text-emerald-400 font-semibold">isEmpty: true</span>
+                </div>
+              </div>
+
+              <!-- Stack Shelf: bottom-to-top layout representing LIFO -->
+              <div class="flex items-center justify-center flex-grow py-2">
+                <div id="stackElementsContainer" class="flex items-center justify-center gap-2 flex-wrap min-h-[64px] w-full px-2">
+                  <span class="text-xs text-slate-500 italic">Stack is empty (no open brackets).</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-800/60">
+                <span><i class="fa-solid fa-arrow-down text-sky-400 mr-1"></i>push() appends to top</span>
+                <span>pop() removes from top <i class="fa-solid fa-arrow-up text-amber-400 ml-1"></i></span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Description callout at bottom of arena -->
+        <div class="z-10 bg-black/80 backdrop-blur-md p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            Return: ?
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-sky-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: isBalanced()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int i</span>
+            <span id="varI" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">char c</span>
+            <span id="varC" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">char top</span>
+            <span id="varTop" class="font-mono text-base font-bold text-emerald-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">stack.size()</span>
+            <span id="varStackSize" class="font-mono text-base font-bold text-purple-400">0</span>
+          </div>
+        </div>
+
+        <!-- Live Evaluation Expression Status -->
+        <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 text-xs flex flex-col gap-1.5 font-mono">
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Evaluating Expression:</span>
+            <span id="evalCondition" class="text-sky-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+            <span id="evalStatement" class="text-slate-300">stack.isEmpty()</span>
+            <span id="evalResult" class="font-bold text-slate-400">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code Block matching user's exact code -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex-grow flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-500 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[360px] rounded-xl bg-slate-950 p-2 border border-slate-800/80 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">import</span>&nbsp;java.util.*;</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span></div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;<span class="text-purple-400">static boolean</span>&nbsp;<span class="text-blue-400">isBalanced</span>(String s) {</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;Deque&lt;Character&gt; stack = <span class="text-purple-400">new</span> ArrayDeque&lt;&gt;();</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span></div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; s.<span class="text-blue-300">length</span>(); i++) {</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">char</span> c = s.<span class="text-blue-300">charAt</span>(i);</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span></div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (c == <span class="text-emerald-300">'('</span> || c == <span class="text-emerald-300">'['</span> || c == <span class="text-emerald-300">'{'</span>) {</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.<span class="text-blue-300">push</span>(c);</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="text-purple-400">else</span> {</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (stack.<span class="text-blue-300">isEmpty</span>()) {</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span></div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">char</span> top = stack.<span class="text-blue-300">pop</span>();</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span></div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (c == <span class="text-emerald-300">')'</span> &amp;&amp; top != <span class="text-emerald-300">'('</span>) <span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (c == <span class="text-emerald-300">']'</span> &amp;&amp; top != <span class="text-emerald-300">'['</span>) <span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (c == <span class="text-emerald-300">'}'</span> &amp;&amp; top != <span class="text-emerald-300">'{'</span>) <span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span></div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> stack.<span class="text-blue-300">isEmpty</span>();</div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span></div>
+          <div id="code-line-28" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">28</span>&nbsp;&nbsp;<span class="text-purple-400">public static void</span>&nbsp;<span class="text-blue-400">main</span>(String[] args) {</div>
+          <div id="code-line-29" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">29</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isBalanced(<span class="text-emerald-300">"{[()]}"</span>));</div>
+          <div id="code-line-30" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">30</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isBalanced(<span class="text-emerald-300">"([)]"</span>));</div>
+          <div id="code-line-31" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">31</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isBalanced(<span class="text-emerald-300">"((("</span>));</div>
+          <div id="code-line-32" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">32</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isBalanced(<span class="text-emerald-300">"())"</span>));</div>
+          <div id="code-line-33" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">33</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-34" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">34</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1">
+    <p>Balanced Parentheses Visualizer &bull; Time Complexity: O(N) &bull; Space Complexity: O(N)</p>
+  </footer>
+
+  <script>
+    /* Audio synthesizer using browser Web Audio API */
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playPush() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(520, this.ctx.currentTime + 0.09);
+
+        gain.gain.setValueAtTime(0.10, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.09);
+      }
+
+      playPop() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(580, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(340, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playMatch() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const freqs = [523.25, 659.25];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.11, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.16);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.17);
+        });
+      }
+
+      playSuccess() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const chord = [523.25, 659.25, 783.99, 1046.50];
+        chord.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.25);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.26);
+        });
+      }
+
+      playFail() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(110, this.ctx.currentTime + 0.28);
+
+        gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.28);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.28);
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateBalancedSteps(s) {
+      // Ensure s is treated as a string primitive
+      s = String(s ?? '');
+      const steps = [];
+
+      // Initial invocation step (Line 29)
+      steps.push({
+        line: 29,
+        phase: 'Invocation',
+        s: s,
+        i: null,
+        c: null,
+        top: null,
+        stack: [],
+        activeIdx: null,
+        processedUpto: -1,
+        matchCheck: null, // { top, c, matched: boolean }
+        evalText: `isBalanced("${s}")`,
+        resultText: `Invoked with length ${s.length}`,
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `main() calls isBalanced("${s}").`
+      });
+
+      // Line 5: Deque<Character> stack = new ArrayDeque<>();
+      const currentStack = [];
+      steps.push({
+        line: 5,
+        phase: 'Initialize Stack',
+        s: s,
+        i: null,
+        c: null,
+        top: null,
+        stack: [...currentStack],
+        activeIdx: null,
+        processedUpto: -1,
+        matchCheck: null,
+        evalText: `new ArrayDeque<>()`,
+        resultText: `stack initialized (size 0)`,
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Created empty Deque<Character> stack = new ArrayDeque<>() to track opening brackets.`
+      });
+
+      // Loop: for (int i = 0; i < s.length(); i++)
+      for (let i = 0; i < s.length; i++) {
+        // Line 7: loop condition
+        steps.push({
+          line: 7,
+          phase: `Loop condition: i = ${i}`,
+          s: s,
+          i: i,
+          c: null,
+          top: null,
+          stack: [...currentStack],
+          activeIdx: i,
+          processedUpto: i - 1,
+          matchCheck: null,
+          evalText: `i < s.length() (${i} < ${s.length})`,
+          resultText: `true`,
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `Loop check: index ${i} is within bounds (< ${s.length}).`
+        });
+
+        const c = s[i];
+
+        // Line 8: char c = s.charAt(i);
+        steps.push({
+          line: 8,
+          phase: `Read char c = '${c}'`,
+          s: s,
+          i: i,
+          c: c,
+          top: null,
+          stack: [...currentStack],
+          activeIdx: i,
+          processedUpto: i - 1,
+          matchCheck: null,
+          evalText: `char c = s.charAt(${i})`,
+          resultText: `'${c}'`,
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `Extracted character '${c}' at index ${i} of string s.`
+        });
+
+        // Line 10: if (c == '(' || c == '[' || c == '{')
+        const isOpening = (c === '(' || c === '[' || c === '{');
+        steps.push({
+          line: 10,
+          phase: isOpening ? `Is Opening Bracket?` : `Is Closing Bracket?`,
+          s: s,
+          i: i,
+          c: c,
+          top: null,
+          stack: [...currentStack],
+          activeIdx: i,
+          processedUpto: i - 1,
+          matchCheck: null,
+          evalText: `c == '(' || c == '[' || c == '{'`,
+          resultText: isOpening ? `true (Opening)` : `false (Closing)`,
+          statusType: isOpening ? 'push' : 'neutral',
+          returnValue: null,
+          desc: isOpening 
+            ? `'${c}' is an opening bracket. Preparing to push to stack.`
+            : `'${c}' is a closing bracket. Preparing to validate and pop stack.`
+        });
+
+        if (isOpening) {
+          // Line 11: stack.push(c);
+          currentStack.push(c);
+          steps.push({
+            line: 11,
+            phase: `stack.push('${c}')`,
+            s: s,
+            i: i,
+            c: c,
+            top: null,
+            stack: [...currentStack],
+            activeIdx: i,
+            processedUpto: i,
+            matchCheck: null,
+            evalText: `stack.push('${c}')`,
+            resultText: `stack size = ${currentStack.length}`,
+            statusType: 'push',
+            returnValue: null,
+            desc: `Pushed opening bracket '${c}' onto the stack. Stack now contains [${currentStack.join(', ')}].`
+          });
+        } else {
+          // Closing bracket branch (Line 13)
+          const isEmpty = (currentStack.length === 0);
+          steps.push({
+            line: 13,
+            phase: `Check stack.isEmpty()`,
+            s: s,
+            i: i,
+            c: c,
+            top: null,
+            stack: [...currentStack],
+            activeIdx: i,
+            processedUpto: i - 1,
+            matchCheck: null,
+            evalText: `stack.isEmpty()`,
+            resultText: isEmpty ? `true (UNBALANCED)` : `false (Available)`,
+            statusType: isEmpty ? 'fail' : 'neutral',
+            returnValue: null,
+            desc: isEmpty
+              ? `Closing bracket '${c}' encountered but stack is empty! No matching opening bracket.`
+              : `Stack is not empty. Proceeding to pop top character.`
+          });
+
+          if (isEmpty) {
+            // Line 14: return false
+            steps.push({
+              line: 14,
+              phase: `Return False`,
+              s: s,
+              i: i,
+              c: c,
+              top: null,
+              stack: [...currentStack],
+              activeIdx: i,
+              processedUpto: i,
+              matchCheck: { top: 'Ø', c: c, matched: false },
+              evalText: `return false`,
+              resultText: `false`,
+              statusType: 'fail',
+              returnValue: false,
+              desc: `Cannot balance closing '${c}' with an empty stack. Returning false.`
+            });
+            return steps;
+          }
+
+          // Line 17: char top = stack.pop();
+          const top = currentStack.pop();
+          steps.push({
+            line: 17,
+            phase: `stack.pop() -> '${top}'`,
+            s: s,
+            i: i,
+            c: c,
+            top: top,
+            stack: [...currentStack],
+            activeIdx: i,
+            processedUpto: i - 1,
+            matchCheck: { top: top, c: c, matched: null },
+            evalText: `char top = stack.pop()`,
+            resultText: `top = '${top}'`,
+            statusType: 'pop',
+            returnValue: null,
+            desc: `Popped top element '${top}' from the stack to match against '${c}'.`
+          });
+
+          // Check matching conditions (Lines 19, 20, 21)
+          let mismatchLine = null;
+          let matched = false;
+
+          if (c === ')') {
+            mismatchLine = 19;
+            matched = (top === '(');
+          } else if (c === ']') {
+            mismatchLine = 20;
+            matched = (top === '[');
+          } else if (c === '}') {
+            mismatchLine = 21;
+            matched = (top === '{');
+          }
+
+          steps.push({
+            line: mismatchLine,
+            phase: matched ? `Pair Matched: '${top}' & '${c}'` : `Mismatch: '${top}' vs '${c}'`,
+            s: s,
+            i: i,
+            c: c,
+            top: top,
+            stack: [...currentStack],
+            activeIdx: i,
+            processedUpto: i,
+            matchCheck: { top: top, c: c, matched: matched },
+            evalText: `c == '${c}' && top != '${top === '(' ? '(' : top === '[' ? '[' : '{'}'`,
+            resultText: matched ? `false (No mismatch -> Valid pair)` : `true (MISMATCH -> return false)`,
+            statusType: matched ? 'match' : 'fail',
+            returnValue: null,
+            desc: matched
+              ? `Success: '${top}' and '${c}' form a valid matching pair!`
+              : `Mismatch detected! Top was '${top}' but expected matching opener for '${c}'.`
+          });
+
+          if (!matched) {
+            steps.push({
+              line: mismatchLine,
+              phase: `Return False`,
+              s: s,
+              i: i,
+              c: c,
+              top: top,
+              stack: [...currentStack],
+              activeIdx: i,
+              processedUpto: i,
+              matchCheck: { top: top, c: c, matched: false },
+              evalText: `return false`,
+              resultText: `false`,
+              statusType: 'fail',
+              returnValue: false,
+              desc: `Mismatched brackets: '${top}' does not match '${c}'. Returning false.`
+            });
+            return steps;
+          }
+        }
+      }
+
+      // After loop: Line 25: return stack.isEmpty();
+      const finalEmpty = (currentStack.length === 0);
+      steps.push({
+        line: 25,
+        phase: `Check Final Stack Status`,
+        s: s,
+        i: s.length,
+        c: null,
+        top: null,
+        stack: [...currentStack],
+        activeIdx: null,
+        processedUpto: s.length - 1,
+        matchCheck: null,
+        evalText: `return stack.isEmpty()`,
+        resultText: finalEmpty ? `true (All brackets closed)` : `false (Leftover unclosed brackets)`,
+        statusType: finalEmpty ? 'success' : 'fail',
+        returnValue: finalEmpty,
+        desc: finalEmpty
+          ? `All brackets processed and stack is completely empty. String is balanced! Returning true.`
+          : `Processed all characters but ${currentStack.length} open bracket(s) remained unclosed: [${currentStack.join(', ')}]. Returning false.`
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 900;
+
+    // Top control elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    // Arena elements
+    const sDisplayVal = document.getElementById('sDisplayVal');
+    const stringProgressNotice = document.getElementById('stringProgressNotice');
+    const cardsRack = document.getElementById('cardsRack');
+    const poppedCardSlot = document.getElementById('poppedCardSlot');
+    const incomingCardSlot = document.getElementById('incomingCardSlot');
+    const matchOperatorIcon = document.getElementById('matchOperatorIcon');
+    const matchStatusNotice = document.getElementById('matchStatusNotice');
+    const stackElementsContainer = document.getElementById('stackElementsContainer');
+    const stackSizeBadge = document.getElementById('stackSizeBadge');
+    const stackEmptyBadge = document.getElementById('stackEmptyBadge');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const feltArena = document.getElementById('feltArena');
+
+    // Watcher elements
+    const varI = document.getElementById('varI');
+    const varC = document.getElementById('varC');
+    const varTop = document.getElementById('varTop');
+    const varStackSize = document.getElementById('varStackSize');
+    const evalCondition = document.getElementById('evalCondition');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    // Input elements
+    const inputString = document.getElementById('inputString');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update top badges and progress
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      sDisplayVal.textContent = `"${step.s}"`;
+      stringProgressNotice.textContent = `Length: ${step.s.length}`;
+
+      // Update Live Variable Watcher
+      varI.textContent = (step.i !== null) ? step.i : '-';
+      varC.textContent = (step.c !== null) ? `'${step.c}'` : '-';
+      varTop.textContent = (step.top !== null) ? `'${step.top}'` : '-';
+      varStackSize.textContent = step.stack.length;
+
+      evalCondition.textContent = step.phase;
+      evalStatement.textContent = step.evalText;
+      evalResult.textContent = step.resultText;
+
+      // Return pill & status indicator
+      if (step.returnValue === true) {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 animate-pulse";
+        returnPill.textContent = "Return: true";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = "Balanced (Valid)";
+      } else if (step.returnValue === false) {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-rose-600 text-white shadow-lg shadow-rose-500/30 animate-pulse";
+        returnPill.textContent = "Return: false";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+        arenaStatusText.textContent = "Unbalanced (Invalid)";
+      } else {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = "Return: ?";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
+        arenaStatusText.textContent = "Processing";
+      }
+
+      // Comparison Banner Styling
+      if (step.statusType === 'push') {
+        evalResult.className = "font-bold text-sky-400";
+        comparisonBanner.innerHTML = `<span class="bg-sky-500/20 text-sky-300 border border-sky-500/50 px-3.5 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-arrow-down text-sky-400 mr-1.5"></i>stack.push('${step.c}') &bull; Stack size: ${step.stack.length}</span>`;
+      } else if (step.statusType === 'pop') {
+        evalResult.className = "font-bold text-amber-400";
+        comparisonBanner.innerHTML = `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/50 px-3.5 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-arrow-up text-amber-400 mr-1.5"></i>stack.pop() -> top = '${step.top}'</span>`;
+      } else if (step.statusType === 'match') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-600/30 text-emerald-200 border border-emerald-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-check-circle text-emerald-400 mr-1.5"></i>Matched Pair: '${step.top}' &amp; '${step.c}'</span>`;
+      } else if (step.statusType === 'success') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-600/30 text-emerald-200 border border-emerald-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i>String is completely balanced! Returns true.</span>`;
+      } else if (step.statusType === 'fail') {
+        evalResult.className = "font-bold text-rose-400";
+        comparisonBanner.innerHTML = `<span class="bg-rose-600/30 text-rose-200 border border-rose-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i>Parentheses mismatch or underflow! Returns false.</span>`;
+      } else {
+        evalResult.className = "font-bold text-slate-300";
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">${step.phase}</span>`;
+      }
+
+      // Synchronize Java active line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Sync slider
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Render string character cards
+      renderStringCards(step.s, step.activeIdx, step.processedUpto);
+
+      // Render Inspection Pair box
+      renderInspectionStage(step);
+
+      // Render Deque Stack Chamber
+      renderStackChamber(step.stack, step.statusType);
+
+      // Trigger Sounds & Status dot styling
+      if (step.statusType === 'push') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-sky-400 shrink-0 animate-ping";
+        sound.playPush();
+      } else if (step.statusType === 'pop') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        sound.playPop();
+      } else if (step.statusType === 'match') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        sound.playMatch();
+      } else if (step.statusType === 'success') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 animate-bounce shrink-0";
+        sound.playSuccess();
+      } else if (step.statusType === 'fail') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        feltArena.classList.remove('shake-anim');
+        void feltArena.offsetWidth;
+        feltArena.classList.add('shake-anim');
+        sound.playFail();
+      } else {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0";
+        sound.playTick();
+      }
+    }
+
+    function renderStringCards(s, activeIdx, processedUpto) {
+      cardsRack.innerHTML = '';
+      if (!s || s.length === 0) {
+        cardsRack.innerHTML = `<span class="text-xs text-slate-500 italic">Empty string</span>`;
+        return;
+      }
+
+      for (let idx = 0; idx < s.length; idx++) {
+        const char = s[idx];
+        const isActive = (idx === activeIdx);
+        const isProcessed = (idx <= processedUpto && !isActive);
+
+        const card = document.createElement('div');
+        let cardClass = "letter-card relative w-9 h-12 sm:w-10 sm:h-14 rounded-xl border flex flex-col items-center justify-between p-1 shadow-md ";
+
+        if (isActive) {
+          cardClass += " active-bracket !bg-sky-950 !border-sky-400 !text-white";
+        } else if (isProcessed) {
+          cardClass += " processed text-slate-400";
+        } else {
+          cardClass += " bg-gradient-to-b from-slate-800 to-slate-900 border-slate-700 text-slate-200";
+        }
+
+        const isOpener = ['(', '[', '{'].includes(char);
+        const bracketColor = isOpener ? 'text-sky-300' : 'text-rose-300';
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <span class="text-[9px] font-mono text-slate-400 leading-none">${idx}</span>
+          <span class="font-mono text-base sm:text-lg font-bold leading-none ${isActive ? 'text-amber-300' : bracketColor}">${char}</span>
+          <span class="text-[8px] font-mono text-slate-500 leading-none">${isOpener ? 'open' : 'close'}</span>
+        `;
+        cardsRack.appendChild(card);
+      }
+    }
+
+    function renderInspectionStage(step) {
+      if (step.matchCheck) {
+        poppedCardSlot.textContent = step.matchCheck.top;
+        incomingCardSlot.textContent = step.matchCheck.c;
+
+        if (step.matchCheck.matched === true) {
+          poppedCardSlot.className = "w-12 h-16 rounded-xl border-2 border-emerald-500 bg-emerald-950/80 flex items-center justify-center text-xl font-bold font-mono text-emerald-300 shadow-lg shadow-emerald-500/25";
+          incomingCardSlot.className = "w-12 h-16 rounded-xl border-2 border-emerald-500 bg-emerald-950/80 flex items-center justify-center text-xl font-bold font-mono text-emerald-300 shadow-lg shadow-emerald-500/25";
+          matchOperatorIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl animate-pulse"></i>`;
+          matchStatusNotice.innerHTML = `<span class="text-emerald-400 font-bold">Valid Match: '${step.matchCheck.top}' &amp; '${step.matchCheck.c}'</span>`;
+        } else if (step.matchCheck.matched === false) {
+          poppedCardSlot.className = "w-12 h-16 rounded-xl border-2 border-rose-500 bg-rose-950/80 flex items-center justify-center text-xl font-bold font-mono text-rose-300 shadow-lg shadow-rose-500/25";
+          incomingCardSlot.className = "w-12 h-16 rounded-xl border-2 border-rose-500 bg-rose-950/80 flex items-center justify-center text-xl font-bold font-mono text-rose-300 shadow-lg shadow-rose-500/25";
+          matchOperatorIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 text-xl animate-pulse"></i>`;
+          matchStatusNotice.innerHTML = `<span class="text-rose-400 font-bold">Mismatch: '${step.matchCheck.top}' != '${step.matchCheck.c}'</span>`;
+        } else {
+          poppedCardSlot.className = "w-12 h-16 rounded-xl border border-amber-500 bg-amber-950/70 flex items-center justify-center text-xl font-bold font-mono text-amber-300 shadow";
+          incomingCardSlot.className = "w-12 h-16 rounded-xl border border-sky-500 bg-sky-950/70 flex items-center justify-center text-xl font-bold font-mono text-sky-300 shadow";
+          matchOperatorIcon.innerHTML = `<i class="fa-solid fa-arrows-left-right text-amber-400 text-lg"></i>`;
+          matchStatusNotice.innerHTML = `<span class="text-amber-300">Comparing top and incoming c...</span>`;
+        }
+      } else {
+        poppedCardSlot.textContent = "-";
+        incomingCardSlot.textContent = (step.c !== null) ? step.c : "-";
+        poppedCardSlot.className = "w-12 h-16 rounded-xl border border-slate-700 bg-slate-900/80 flex items-center justify-center text-xl font-bold font-mono text-slate-500 shadow-inner mt-1";
+        incomingCardSlot.className = "w-12 h-16 rounded-xl border border-slate-700 bg-slate-900/80 flex items-center justify-center text-xl font-bold font-mono text-slate-500 shadow-inner mt-1";
+        matchOperatorIcon.innerHTML = `<i class="fa-solid fa-arrows-left-right text-slate-600 text-lg"></i>`;
+        matchStatusNotice.textContent = "Waiting for evaluation...";
+      }
+    }
+
+    function renderStackChamber(stack, statusType) {
+      stackElementsContainer.innerHTML = '';
+      stackSizeBadge.textContent = stack.length;
+
+      if (stack.length === 0) {
+        stackEmptyBadge.textContent = "isEmpty: true";
+        stackEmptyBadge.className = "text-emerald-400 font-semibold";
+        stackElementsContainer.innerHTML = `<span class="text-xs text-slate-500 italic">Stack is empty (no open brackets).</span>`;
+        return;
+      }
+
+      stackEmptyBadge.textContent = "isEmpty: false";
+      stackEmptyBadge.className = "text-amber-400 font-semibold";
+
+      // Stack contains items: render cards from bottom to top
+      stack.forEach((item, idx) => {
+        const isTop = (idx === stack.length - 1);
+        const card = document.createElement('div');
+        
+        let cardClass = "stack-card relative w-10 h-14 sm:w-11 sm:h-16 rounded-xl border flex flex-col items-center justify-between p-1 shadow-lg ";
+        if (isTop) {
+          cardClass += " bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-950 border-indigo-400 shadow-indigo-500/30";
+        } else {
+          cardClass += " bg-gradient-to-b from-slate-800 to-slate-950 border-slate-700 text-slate-300";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <span class="text-[8px] font-mono ${isTop ? 'text-indigo-300 font-bold' : 'text-slate-500'} leading-none">${isTop ? 'TOP' : '#' + idx}</span>
+          <span class="font-mono text-lg sm:text-xl font-black ${isTop ? 'text-yellow-300' : 'text-sky-300'} leading-none">${item}</span>
+          <span class="text-[8px] font-mono text-slate-500 leading-none">char</span>
+        `;
+        stackElementsContainer.appendChild(card);
+      });
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-sky-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-indigo-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-sky-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-indigo-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    // Presets cycling list matching the user query's main method
+    const samplePresets = [
+      "{[()]}",
+      "([)]",
+      "(((",
+      "())",
+      "{[()()]}",
+      "{([])}",
+      "(([]){})"
+    ];
+    let presetIdx = 0;
+
+    function initializeSimulation() {
+      stopAutoPlay();
+
+      let sVal = inputString.value.trim();
+      if (!sVal) {
+        sVal = "{[()]}";
+        inputString.value = sVal;
+      }
+
+      currentSteps = generateBalancedSteps(sVal);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+    btnApply.addEventListener('click', initializeSimulation);
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % samplePresets.length;
+      inputString.value = samplePresets[presetIdx];
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed option buttons
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-sky-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard shortcuts: Space (Play/Pause), Left/Right Arrows (Steps)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

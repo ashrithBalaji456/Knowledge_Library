@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longest Equal Run - Playing Card Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 60%, #020617 100%);
+      min-height: 100vh;
+      color: #f8fafc;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-font {
+      font-family: 'Cinzel', serif;
+    }
+    .play-card {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      user-select: none;
+    }
+    .play-card.comparing-prev {
+      transform: translateY(-14px) scale(1.05);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 14px 28px -6px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.4);
+    }
+    .play-card.comparing-curr {
+      transform: translateY(-14px) scale(1.05);
+      border-color: #f59e0b !important;
+      box-shadow: 0 14px 28px -6px rgba(245, 158, 11, 0.5), 0 0 16px rgba(245, 158, 11, 0.4);
+    }
+    .play-card.in-current-run {
+      background: linear-gradient(180deg, #fef9c3 0%, #fde68a 100%) !important;
+      box-shadow: 0 0 15px rgba(234, 179, 8, 0.45);
+    }
+    .play-card.in-best-run {
+      border-color: #10b981 !important;
+    }
+    .felt-table {
+      background: radial-gradient(ellipse at center, #064e3b 0%, #022c22 80%, #011612 100%);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.8), 0 20px 40px rgba(0, 0, 0, 0.6);
+      border: 8px solid #78350f;
+    }
+    .felt-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .code-line {
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .code-active {
+      background-color: rgba(59, 130, 246, 0.28) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 text-slate-100 flex flex-col justify-between">
+
+  <header class="max-w-7xl mx-auto w-full mb-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-md shadow-lg">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/20 text-slate-950 text-2xl font-bold">
+          <i class="fa-solid fa-clone"></i>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 bg-clip-text text-transparent">
+            Longest Equal Run Visualizer
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400">Step-by-step consecutive card matching algorithm with live Java execution</p>
+        </div>
+      </div>
+
+      <!-- Array Input and Controls -->
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-1.5 bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-700 text-xs sm:text-sm">
+          <span class="text-slate-400 font-medium">Array:</span>
+          <input id="inputArray" type="text" value="2, 2, 1, 1, 1, 3" class="bg-slate-950 px-2.5 py-1 rounded text-amber-300 font-mono w-36 text-center border border-slate-700 focus:outline-none focus:border-amber-400">
+        </div>
+        <button id="btnApply" class="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-xl text-xs sm:text-sm transition-all duration-200 flex items-center gap-1.5 shadow-md active:scale-95">
+          <i class="fa-solid fa-arrows-rotate text-xs"></i> Set
+        </button>
+        <button id="btnPreset" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs sm:text-sm border border-slate-700 transition" title="Load Preset Samples">
+          <i class="fa-solid fa-dice text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs sm:text-sm border border-slate-700 transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-amber-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Casino Felt Table & Playing Cards (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Casino Felt Table Arena -->
+      <div class="felt-table felt-pattern rounded-3xl p-6 sm:p-8 flex flex-col justify-between min-h-[440px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Table Banner / Status Indicator -->
+        <div class="flex items-center justify-between z-10">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+              <span id="phaseBadge">Phase: Ready</span>
+            </span>
+            <span id="stepCounterBadge" class="text-xs bg-black/40 text-slate-300 px-3 py-1 rounded-full border border-slate-700/60 font-mono">
+              Step 0 / 0
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs font-serif text-amber-200/90 bg-black/40 px-3 py-1 rounded-full border border-amber-600/30">
+            <i class="fa-solid fa-award text-amber-400"></i>
+            <span>Consecutive Equal Streak</span>
+          </div>
+        </div>
+
+        <!-- Center: Cards Display Arena -->
+        <div class="my-auto py-6">
+          <!-- Comparison Status Tag -->
+          <div id="comparisonBanner" class="h-8 flex items-center justify-center mb-3">
+            <span class="text-xs font-mono text-slate-400 bg-black/40 px-3 py-1 rounded-full border border-slate-700/50">
+              Awaiting loop start...
+            </span>
+          </div>
+
+          <!-- Cards Rack -->
+          <div id="cardsRack" class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 transition-all">
+            <!-- Rendered playing cards -->
+          </div>
+
+          <!-- Pointer Labels Bottom (Indices & i / i-1 tags) -->
+          <div id="indexIndicators" class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-3">
+            <!-- Array indices and pointers rendered here -->
+          </div>
+        </div>
+
+        <!-- Action / Comparison Status Callout -->
+        <div class="z-10 bg-black/70 backdrop-blur-md p-3.5 rounded-2xl border border-slate-700/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full sm:w-auto">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div class="shrink-0 flex items-center gap-2">
+            <div class="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-xl border border-amber-500/30 text-xs font-mono text-amber-300">
+              <span class="text-slate-400">curr:</span>
+              <span id="badgeCurrentRun" class="font-bold text-amber-400 text-sm">1</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-xl border border-emerald-500/30 text-xs font-mono text-emerald-300">
+              <span class="text-slate-400">best:</span>
+              <span id="badgeBestRun" class="font-bold text-emerald-400 text-sm">1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-xl flex flex-col gap-3">
+        <!-- Control buttons row -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          
+          <div class="flex items-center gap-2">
+            <!-- Reset Button -->
+            <button id="btnReset" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center transition border border-slate-700" title="Reset to start">
+              <i class="fa-solid fa-backward-step"></i>
+            </button>
+            
+            <!-- Previous Button -->
+            <button id="btnPrev" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-sm font-semibold transition border border-slate-700" title="Previous step">
+              <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+            </button>
+
+            <!-- Play / Pause (Start / Stop) Button -->
+            <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 flex items-center gap-2 text-sm font-bold shadow-lg shadow-amber-500/25 transition">
+              <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+              <span id="playText">Start</span>
+            </button>
+
+            <!-- Next Button -->
+            <button id="btnNext" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-sm font-semibold transition border border-slate-700" title="Next step">
+              Next <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- Speed Options -->
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400 font-medium">Speed:</span>
+            <div class="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700 text-xs">
+              <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1800">0.5x</button>
+              <button class="speed-btn px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold" data-speed="950">1x</button>
+              <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="500">2x</button>
+              <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="220">4x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step Slider -->
+        <div class="flex items-center gap-3 pt-1">
+          <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+          <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+          <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Variable Watcher Box -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-amber-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: longestEqualRun()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">i</span>
+            <span id="varI" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">i - 1</span>
+            <span id="varIPrev" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">currentRun</span>
+            <span id="varCurrentRun" class="font-mono text-base font-bold text-yellow-300">1</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">bestRun</span>
+            <span id="varBestRun" class="font-mono text-base font-bold text-emerald-400">1</span>
+          </div>
+        </div>
+
+        <!-- Comparison Live Result Card -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 text-xs flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400 font-semibold">Current Evaluation</span>
+            <span id="evalBadge" class="font-mono px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-300 border border-slate-700">None</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-slate-900/80 px-3 py-2 rounded-lg font-mono">
+            <span id="compStatement" class="text-slate-300">arr[i] == arr[i - 1]</span>
+            <span id="compResult" class="font-bold text-slate-400">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex-grow flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-amber-500 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded font-mono">Line Sync Active</span>
+        </div>
+
+        <!-- Java Code Block -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[380px] rounded-xl bg-slate-950 p-2 border border-slate-800/80">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span>&nbsp;&nbsp;<span class="text-purple-400">static int</span>&nbsp;<span class="text-blue-400">longestEqualRun</span>(<span class="text-purple-400">int</span>[] arr) {</div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (arr.length == <span class="text-orange-400">0</span>) {</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span>&nbsp;<span class="text-orange-400">0</span>;</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span></div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> currentRun = <span class="text-orange-400">1</span>;</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> bestRun = <span class="text-orange-400">1</span>;</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span></div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">1</span>; i &lt; arr.length; i++) {</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (arr[i] == arr[i - <span class="text-orange-400">1</span>]) {</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentRun++;</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="text-purple-400">else</span> {</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentRun = <span class="text-orange-400">1</span>;</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span></div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestRun = Math.<span class="text-blue-400">max</span>(bestRun, currentRun);</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span></div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> bestRun;</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span></div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;<span class="text-purple-400">public static void</span>&nbsp;<span class="text-blue-400">main</span>(String[] args) {</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span>[] arr = {<span class="text-orange-400">2</span>, <span class="text-orange-400">2</span>, <span class="text-orange-400">1</span>, <span class="text-orange-400">1</span>, <span class="text-orange-400">1</span>, <span class="text-orange-400">3</span>};</div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-400">println</span>(longestEqualRun(arr));</div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-2 border-t border-slate-900">
+    <p>Playing Card Algorithm Visualizer &bull; Longest Consecutive Equal Run in O(n) Time and O(1) Space</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playCardTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, this.ctx.currentTime + 0.05);
+
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      }
+
+      playMatchSound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [587.33, 880.00]; // D5, A5
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.14);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.15);
+        });
+      }
+
+      playMismatchSound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(130, this.ctx.currentTime + 0.09);
+
+        gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.09);
+      }
+
+      playFanfare() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [440, 554.37, 659.25, 880]; // A major arpeggio
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.15, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.22);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.23);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    const SUITS = [
+      { name: 'spades', symbol: '♠', color: 'text-slate-900', bg: 'bg-white' },
+      { name: 'hearts', symbol: '♥', color: 'text-rose-600', bg: 'bg-white' },
+      { name: 'diamonds', symbol: '♦', color: 'text-rose-600', bg: 'bg-white' },
+      { name: 'clubs', symbol: '♣', color: 'text-slate-900', bg: 'bg-white' }
+    ];
+
+    function getCardSuit(val) {
+      const idx = Math.abs(val) % SUITS.length;
+      return SUITS[idx];
+    }
+
+    function formatCardRank(val) {
+      if (val === 1) return 'A';
+      if (val === 11) return 'J';
+      if (val === 12) return 'Q';
+      if (val === 13) return 'K';
+      return String(val);
+    }
+
+    function generateSteps(arr) {
+      const steps = [];
+      const n = arr.length;
+
+      // Initial state in main()
+      steps.push({
+        line: 24,
+        phase: 'Setup',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: 0,
+        bestRun: 0,
+        runStart: null,
+        bestRunRange: null,
+        evalState: 'init',
+        desc: `Main initialized: arr = [${arr.join(', ')}] with size ${n}.`
+      });
+
+      // Call longestEqualRun
+      steps.push({
+        line: 25,
+        phase: 'Call',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: 0,
+        bestRun: 0,
+        runStart: null,
+        bestRunRange: null,
+        evalState: 'init',
+        desc: `Calling longestEqualRun(arr).`
+      });
+
+      // Check if (arr.length == 0)
+      steps.push({
+        line: 3,
+        phase: 'Edge Case Check',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: 0,
+        bestRun: 0,
+        runStart: null,
+        bestRunRange: null,
+        evalState: 'check-length',
+        desc: `Check if (arr.length == 0): length is ${n}. Condition is ${n === 0 ? 'TRUE' : 'FALSE'}.`
+      });
+
+      if (n === 0) {
+        steps.push({
+          line: 4,
+          phase: 'Early Return',
+          arr: [...arr],
+          i: null,
+          iPrev: null,
+          currentRun: 0,
+          bestRun: 0,
+          runStart: null,
+          bestRunRange: null,
+          evalState: 'return-zero',
+          desc: `Array is empty. Returning 0.`
+        });
+        steps.push({
+          line: 25,
+          phase: 'Finished',
+          arr: [...arr],
+          i: null,
+          iPrev: null,
+          currentRun: 0,
+          bestRun: 0,
+          runStart: null,
+          bestRunRange: null,
+          evalState: 'done',
+          desc: `System.out.println output: 0.`
+        });
+        return steps;
+      }
+
+      // int currentRun = 1;
+      let currentRun = 1;
+      let runStart = 0;
+      steps.push({
+        line: 7,
+        phase: 'Initialization',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: currentRun,
+        bestRun: 0,
+        runStart: 0,
+        bestRunRange: [0, 0],
+        evalState: 'init-vars',
+        desc: `Initialize currentRun = 1 (single card at index 0 starts current run).`
+      });
+
+      // int bestRun = 1;
+      let bestRun = 1;
+      let bestRunRange = [0, 0];
+      steps.push({
+        line: 8,
+        phase: 'Initialization',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: currentRun,
+        bestRun: bestRun,
+        runStart: runStart,
+        bestRunRange: [...bestRunRange],
+        evalState: 'init-vars',
+        desc: `Initialize bestRun = 1. Best observed equal streak so far is 1.`
+      });
+
+      // Loop for (int i = 1; i < arr.length; i++)
+      for (let i = 1; i < n; i++) {
+        const iPrev = i - 1;
+
+        // Loop condition check
+        steps.push({
+          line: 10,
+          phase: `Loop i = ${i}`,
+          arr: [...arr],
+          i: i,
+          iPrev: iPrev,
+          currentRun: currentRun,
+          bestRun: bestRun,
+          runStart: runStart,
+          bestRunRange: [...bestRunRange],
+          evalState: 'loop-check',
+          desc: `for (int i = ${i}; i < ${n}; i++): Condition is TRUE. Inspecting index ${i}.`
+        });
+
+        // if (arr[i] == arr[i - 1])
+        const isMatch = arr[i] === arr[iPrev];
+        steps.push({
+          line: 11,
+          phase: `Compare [${iPrev}] & [${i}]`,
+          arr: [...arr],
+          i: i,
+          iPrev: iPrev,
+          currentRun: currentRun,
+          bestRun: bestRun,
+          runStart: runStart,
+          bestRunRange: [...bestRunRange],
+          evalState: isMatch ? 'match' : 'mismatch',
+          desc: `Comparing arr[${i}] (${arr[i]}) == arr[${iPrev}] (${arr[iPrev]}): ${isMatch ? 'EQUAL (Match)' : 'DIFFERENT (No Match)'}.`
+        });
+
+        if (isMatch) {
+          currentRun++;
+          steps.push({
+            line: 12,
+            phase: 'Streak Extended',
+            arr: [...arr],
+            i: i,
+            iPrev: iPrev,
+            currentRun: currentRun,
+            bestRun: bestRun,
+            runStart: runStart,
+            bestRunRange: [...bestRunRange],
+            evalState: 'match',
+            desc: `Equal values found! currentRun incremented to ${currentRun}.`
+          });
+        } else {
+          currentRun = 1;
+          runStart = i;
+          steps.push({
+            line: 14,
+            phase: 'Streak Reset',
+            arr: [...arr],
+            i: i,
+            iPrev: iPrev,
+            currentRun: currentRun,
+            bestRun: bestRun,
+            runStart: runStart,
+            bestRunRange: [...bestRunRange],
+            evalState: 'mismatch',
+            desc: `Values differ! Resetting currentRun = 1 starting at index ${i}.`
+          });
+        }
+
+        // bestRun = Math.max(bestRun, currentRun)
+        const oldBest = bestRun;
+        if (currentRun > bestRun) {
+          bestRun = currentRun;
+          bestRunRange = [runStart, i];
+        }
+
+        steps.push({
+          line: 17,
+          phase: 'Update Best',
+          arr: [...arr],
+          i: i,
+          iPrev: iPrev,
+          currentRun: currentRun,
+          bestRun: bestRun,
+          runStart: runStart,
+          bestRunRange: [...bestRunRange],
+          evalState: currentRun > oldBest ? 'new-best' : 'same-best',
+          desc: `bestRun = Math.max(${oldBest}, ${currentRun}) => bestRun is now ${bestRun}.`
+        });
+      }
+
+      // Loop termination step
+      steps.push({
+        line: 10,
+        phase: 'Loop Terminated',
+        arr: [...arr],
+        i: n,
+        iPrev: n - 1,
+        currentRun: currentRun,
+        bestRun: bestRun,
+        runStart: runStart,
+        bestRunRange: [...bestRunRange],
+        evalState: 'loop-end',
+        desc: `i = ${n} < arr.length (${n}) is FALSE. Exiting for loop.`
+      });
+
+      // return bestRun
+      steps.push({
+        line: 20,
+        phase: 'Return Value',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: currentRun,
+        bestRun: bestRun,
+        runStart: runStart,
+        bestRunRange: [...bestRunRange],
+        evalState: 'return',
+        desc: `Returning bestRun = ${bestRun} to caller.`
+      });
+
+      // Final step in main
+      steps.push({
+        line: 25,
+        phase: 'Completed',
+        arr: [...arr],
+        i: null,
+        iPrev: null,
+        currentRun: currentRun,
+        bestRun: bestRun,
+        runStart: runStart,
+        bestRunRange: [...bestRunRange],
+        evalState: 'done',
+        desc: `Output: System.out.println printed ${bestRun}. Longest equal run is ${bestRun}.`
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 950;
+
+    // DOM Elements
+    const cardsRack = document.getElementById('cardsRack');
+    const indexIndicators = document.getElementById('indexIndicators');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const phaseBadge = document.getElementById('phaseBadge');
+    const stepCounterBadge = document.getElementById('stepCounterBadge');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const badgeCurrentRun = document.getElementById('badgeCurrentRun');
+    const badgeBestRun = document.getElementById('badgeBestRun');
+
+    // Watchers
+    const varI = document.getElementById('varI');
+    const varIPrev = document.getElementById('varIPrev');
+    const varCurrentRun = document.getElementById('varCurrentRun');
+    const varBestRun = document.getElementById('varBestRun');
+    const compStatement = document.getElementById('compStatement');
+    const compResult = document.getElementById('compResult');
+    const evalBadge = document.getElementById('evalBadge');
+
+    // Controls
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+    const inputArray = document.getElementById('inputArray');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update badges
+      phaseBadge.textContent = `Phase: ${step.phase}`;
+      stepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      badgeCurrentRun.textContent = step.currentRun;
+      badgeBestRun.textContent = step.bestRun;
+
+      varI.textContent = step.i !== null ? step.i : '-';
+      varIPrev.textContent = step.iPrev !== null ? step.iPrev : '-';
+      varCurrentRun.textContent = step.currentRun;
+      varBestRun.textContent = step.bestRun;
+
+      // Evaluation Status Box
+      if (step.evalState === 'match') {
+        evalBadge.className = "font-mono px-2 py-0.5 rounded text-[11px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/40";
+        evalBadge.textContent = "MATCH (+1)";
+        compStatement.textContent = `arr[${step.i}] (${step.arr[step.i]}) == arr[${step.iPrev}] (${step.arr[step.iPrev]})`;
+        compResult.textContent = "TRUE";
+        compResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-check mr-1.5"></i>arr[${step.i}] == arr[${step.iPrev}] (${step.arr[step.i]} == ${step.arr[step.iPrev]}) &bull; Streak Extended!</span>`;
+      } else if (step.evalState === 'mismatch') {
+        evalBadge.className = "font-mono px-2 py-0.5 rounded text-[11px] bg-rose-900/60 text-rose-300 border border-rose-500/40";
+        evalBadge.textContent = "MISMATCH (Reset)";
+        compStatement.textContent = `arr[${step.i}] (${step.arr[step.i]}) == arr[${step.iPrev}] (${step.arr[step.iPrev]})`;
+        compResult.textContent = "FALSE";
+        compResult.className = "font-bold text-rose-400";
+        comparisonBanner.innerHTML = `<span class="bg-rose-500/20 text-rose-300 border border-rose-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-xmark mr-1.5"></i>arr[${step.i}] != arr[${step.iPrev}] (${step.arr[step.i]} != ${step.arr[step.iPrev]}) &bull; Streak Reset to 1</span>`;
+      } else if (step.evalState === 'new-best') {
+        evalBadge.className = "font-mono px-2 py-0.5 rounded text-[11px] bg-amber-900/60 text-amber-300 border border-amber-500/40";
+        evalBadge.textContent = "NEW RECORD!";
+        compStatement.textContent = `Math.max(old, ${step.currentRun})`;
+        compResult.textContent = `bestRun = ${step.bestRun}`;
+        compResult.className = "font-bold text-amber-400";
+        comparisonBanner.innerHTML = `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-trophy mr-1.5"></i>New Record Streak: ${step.bestRun} Cards!</span>`;
+      } else if (step.evalState === 'done') {
+        evalBadge.className = "font-mono px-2 py-0.5 rounded text-[11px] bg-emerald-900/80 text-emerald-200 border border-emerald-400/50";
+        evalBadge.textContent = "FINISHED";
+        compStatement.textContent = `Final Result`;
+        compResult.textContent = `Longest Run = ${step.bestRun}`;
+        compResult.className = "font-bold text-emerald-300";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-600/30 text-emerald-200 border border-emerald-500 px-3 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-crown mr-1.5 text-amber-400"></i>Completed! Longest Equal Run = ${step.bestRun}</span>`;
+      } else {
+        evalBadge.className = "font-mono px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-300 border border-slate-700";
+        evalBadge.textContent = "Idle";
+        compStatement.textContent = "arr[i] == arr[i - 1]";
+        compResult.textContent = "--";
+        compResult.className = "font-bold text-slate-400";
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 bg-black/40 px-3 py-1 rounded-full border border-slate-700/50">${step.phase}</span>`;
+      }
+
+      // Sync active code line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Slider sync
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Render Cards Rack
+      cardsRack.innerHTML = '';
+      indexIndicators.innerHTML = '';
+
+      const arr = step.arr;
+      const iCurrent = step.i;
+      const iPrev = step.iPrev;
+      const runStart = step.runStart !== null ? step.runStart : -1;
+      const bestRange = step.bestRunRange;
+
+      arr.forEach((val, idx) => {
+        const isPrevComp = (idx === iPrev);
+        const isCurrComp = (idx === iCurrent);
+        
+        // Is card in the currently progressing run streak?
+        const inCurrentStreak = (runStart !== -1 && idx >= runStart && (iCurrent !== null ? idx <= iCurrent : idx === 0));
+        
+        // Is card part of the all-time best streak?
+        const inBestStreak = (bestRange && idx >= bestRange[0] && idx <= bestRange[1]);
+
+        const suitInfo = getCardSuit(val);
+        const rankStr = formatCardRank(val);
+
+        const card = document.createElement('div');
+        let cardClasses = `play-card relative w-16 h-24 sm:w-20 sm:h-28 rounded-xl shadow-xl border-2 flex flex-col justify-between p-2 select-none cursor-default bg-gradient-to-b from-slate-50 to-slate-200 border-slate-300`;
+
+        if (isCurrComp) {
+          cardClasses += ' comparing-curr';
+        } else if (isPrevComp) {
+          cardClasses += ' comparing-prev';
+        } else if (inCurrentStreak && step.currentRun > 1) {
+          cardClasses += ' in-current-run';
+        }
+
+        if (inBestStreak && (step.evalState === 'done' || step.evalState === 'return')) {
+          cardClasses += ' ring-2 ring-emerald-400 ring-offset-2 ring-offset-emerald-950';
+        }
+
+        card.className = cardClasses;
+
+        // Card corner and center badges
+        card.innerHTML = `
+          <!-- Top Rank & Suit -->
+          <div class="flex items-center justify-between leading-none">
+            <span class="card-font text-xs sm:text-sm font-bold ${suitInfo.color}">${rankStr}</span>
+            <span class="text-xs ${suitInfo.color}">${suitInfo.symbol}</span>
+          </div>
+
+          <!-- Center Suit Icon & Numerical Value -->
+          <div class="flex flex-col items-center justify-center my-auto">
+            <span class="text-lg sm:text-2xl ${suitInfo.color}">${suitInfo.symbol}</span>
+            <span class="card-font text-base sm:text-lg font-bold text-slate-900 leading-none">${rankStr}</span>
+          </div>
+
+          <!-- Inverted Bottom Rank & Suit -->
+          <div class="flex items-center justify-between leading-none transform rotate-180">
+            <span class="card-font text-xs sm:text-sm font-bold ${suitInfo.color}">${rankStr}</span>
+            <span class="text-xs ${suitInfo.color}">${suitInfo.symbol}</span>
+          </div>
+        `;
+
+        cardsRack.appendChild(card);
+
+        // Indices & Pointers beneath cards
+        const idxTag = document.createElement('div');
+        idxTag.className = 'w-16 sm:w-20 flex flex-col items-center justify-center text-xs';
+
+        let pointerHtml = '';
+        if (isCurrComp && isPrevComp) {
+          pointerHtml = `<span class="bg-purple-600 text-white font-mono px-2 py-0.5 rounded-full text-[10px] font-bold shadow animate-bounce">i & i-1</span>`;
+        } else if (isCurrComp) {
+          pointerHtml = `<span class="bg-amber-500 text-slate-950 font-mono px-2 py-0.5 rounded-full text-[10px] font-bold shadow animate-bounce">i (${idx})</span>`;
+        } else if (isPrevComp) {
+          pointerHtml = `<span class="bg-sky-500 text-slate-950 font-mono px-2 py-0.5 rounded-full text-[10px] font-bold shadow animate-bounce">i-1 (${idx})</span>`;
+        } else if (inBestStreak && (step.evalState === 'done' || step.evalState === 'return')) {
+          pointerHtml = `<span class="bg-emerald-600 text-white font-mono px-1.5 py-0.5 rounded-full text-[9px] font-bold shadow"><i class="fa-solid fa-crown text-[8px]"></i> Best</span>`;
+        } else {
+          pointerHtml = `<span class="h-4"></span>`;
+        }
+
+        idxTag.innerHTML = `
+          <div class="h-5 flex items-center justify-center mb-1">${pointerHtml}</div>
+          <span class="font-mono text-slate-400 bg-black/40 px-2 py-0.5 rounded text-[11px] border border-slate-700/50">idx ${idx}</span>
+        `;
+        indexIndicators.appendChild(idxTag);
+      });
+
+      // Sound and status dots
+      if (step.evalState === 'match') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping shrink-0";
+        sound.playMatchSound();
+      } else if (step.evalState === 'mismatch') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        sound.playMismatchSound();
+      } else if (step.evalState === 'done') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        sound.playFanfare();
+      } else {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        sound.playCardTick();
+      }
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Pause";
+      btnPlayPause.classList.replace('from-amber-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-amber-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-amber-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-amber-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function initializeSimulation() {
+      stopAutoPlay();
+
+      // Parse array input
+      const rawArrText = inputArray.value.trim();
+      let parsedArr = rawArrText.split(',')
+        .map(item => parseInt(item.trim(), 10))
+        .filter(num => !isNaN(num));
+
+      if (parsedArr.length === 0) {
+        parsedArr = [2, 2, 1, 1, 1, 3];
+        inputArray.value = '2, 2, 1, 1, 1, 3';
+      }
+
+      currentSteps = generateSteps(parsedArr);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    const samplePresets = [
+      [2, 2, 1, 1, 1, 3],
+      [4, 4, 4, 4],
+      [1, 2, 3, 4, 5],
+      [7, 7, 8, 8, 8, 8, 9],
+      [5, 5, 5, 2, 2, 3, 3, 3, 3, 1]
+    ];
+    let presetIdx = 0;
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % samplePresets.length;
+      inputArray.value = samplePresets[presetIdx].join(', ');
+      initializeSimulation();
+    });
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    btnApply.addEventListener('click', initializeSimulation);
+
+    // Speed options
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-amber-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard shortcuts: Space for Play/Pause, Left/Right arrows for steps
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

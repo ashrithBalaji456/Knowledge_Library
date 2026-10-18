@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>First Repeated Element &bull; HashMap Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f172a 55%, #020617 100%);
+      min-height: 100vh;
+      color: #f8fafc;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-font {
+      font-family: 'Cinzel', serif;
+    }
+    .felt-table {
+      background: radial-gradient(ellipse at center, #1e1b4b 0%, #0f172a 75%, #020617 100%);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.85), 0 20px 40px rgba(0, 0, 0, 0.6);
+      border: 3px solid #334155;
+    }
+    .felt-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .play-card {
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .play-card.active-i {
+      transform: translateY(-10px) scale(1.08);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 14px 28px -4px rgba(56, 189, 248, 0.7), 0 0 18px rgba(56, 189, 248, 0.5);
+    }
+    .play-card.first-seen-highlight {
+      border-color: #a855f7 !important;
+      box-shadow: 0 8px 20px -2px rgba(168, 85, 247, 0.5);
+    }
+    .play-card.winning-match {
+      transform: translateY(-12px) scale(1.12);
+      border-color: #10b981 !important;
+      box-shadow: 0 16px 32px -4px rgba(16, 185, 129, 0.8), 0 0 20px rgba(16, 185, 129, 0.6);
+      animation: pulseGlow 1.4s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 10px 20px rgba(16, 185, 129, 0.5); }
+      100% { box-shadow: 0 18px 36px rgba(16, 185, 129, 0.95); }
+    }
+    .map-entry-box {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: popInMap 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes popInMap {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .code-line {
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .code-active {
+      background-color: rgba(59, 130, 246, 0.3) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .shake-anim {
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between">
+
+  <!-- Header Section -->
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3 bg-slate-900/90 p-3.5 sm:p-4 rounded-2xl border border-slate-800 backdrop-blur-md shadow-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 text-white text-xl font-bold">
+          <i class="fa-solid fa-repeat"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-fuchsia-300 bg-clip-text text-transparent">
+            First Repeated Element &bull; HashMap Visualizer
+          </h1>
+          <p class="text-xs text-slate-400">Tracing <code class="text-indigo-300 font-mono">Map&lt;Integer, Integer&gt; firstIndex = new HashMap&lt;&gt;()</code></p>
+        </div>
+      </div>
+
+      <!-- Test Array Input & Presets -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-slate-800/90 px-2.5 py-1.5 rounded-xl border border-slate-700 text-xs">
+          <span class="text-sky-400 font-semibold font-mono">arr[]:</span>
+          <input id="inputArray" type="text" value="2, 1, 3, 5, 3, 2" class="bg-slate-950 px-2.5 py-1 rounded text-amber-300 font-mono w-36 sm:w-48 text-center border border-slate-700 focus:outline-none focus:border-sky-400">
+        </div>
+        <button id="btnApply" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md flex items-center gap-1.5">
+          <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Load
+        </button>
+        <button id="btnPreset" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Cycle sample arrays">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sky-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Playback Controls Deck (Buttons on Top) -->
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="bg-slate-900/95 p-3.5 sm:p-4 rounded-2xl border-2 border-indigo-500/30 shadow-2xl backdrop-blur-md flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Main Step Action Buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset Button -->
+          <button id="btnReset" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center transition border border-slate-700 shadow" title="Reset to start">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Previous Button -->
+          <button id="btnPrev" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold transition border border-slate-700 shadow" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) Button -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-indigo-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next Button -->
+          <button id="btnNext" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold transition border border-slate-700 shadow" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/90 text-indigo-300 border border-indigo-500/40">
+            <span class="w-2 h-2 rounded-full bg-sky-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs bg-black/50 text-slate-300 px-3 py-1 rounded-full border border-slate-700/70 font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1800">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold" data-speed="900">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-slate-800/80">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Playing Cards Arena & HashMap Cabinet (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Felt Table Arena -->
+      <div id="feltArena" class="felt-table felt-pattern rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[500px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Table Header & Operation Indicator -->
+        <div class="flex items-center justify-between z-10 gap-2 mb-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 bg-black/50 px-3 py-1.5 rounded-full border border-slate-700/60">
+            <span class="text-sky-400 font-bold"><i class="fa-solid fa-magnifying-glass mr-1"></i>containsKey(num)</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-purple-400 font-bold"><i class="fa-solid fa-plus mr-1"></i>put(num, i)</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-emerald-400 font-bold"><i class="fa-solid fa-award mr-1"></i>update bestIndex</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60 text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Visual Area: Array Playing Cards & HashMap Visualizer -->
+        <div class="my-auto py-2 flex flex-col gap-4">
+          
+          <!-- Banner for current action -->
+          <div id="comparisonBanner" class="h-8 flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">
+              Press Start or Next to trace the algorithm
+            </span>
+          </div>
+
+          <!-- Playing Cards Rack (int[] arr) -->
+          <div>
+            <div class="flex items-center justify-between px-2 mb-2 text-xs font-mono">
+              <span class="text-sky-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-sky-400"></i> int[] arr: <span id="arrDisplayVal" class="text-white bg-sky-950/70 px-2 py-0.5 rounded border border-sky-800">[2, 1, 3, 5, 3, 2]</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="arrLengthNotice">Length: 6</span>
+            </div>
+            <div id="cardsRack" class="flex flex-wrap items-center justify-center gap-2.5 min-h-[96px] bg-black/40 p-3 rounded-2xl border border-slate-800/80">
+              <!-- Rendered playing cards -->
+            </div>
+          </div>
+
+          <!-- Interactive Center: Inspection & HashMap Cabinet -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-stretch">
+            
+            <!-- Inspection Card Slot (5 cols) -->
+            <div class="sm:col-span-5 bg-black/50 p-3.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col justify-between">
+              <div>
+                <span class="text-[11px] font-mono font-bold text-slate-300 flex items-center gap-1.5 mb-1.5">
+                  <i class="fa-solid fa-microscope text-amber-400"></i> Current Inspection
+                </span>
+                <p class="text-[11px] text-slate-400 mb-2">Inspect <code class="text-sky-300 font-mono">num = arr[i]</code> against the HashMap.</p>
+              </div>
+
+              <!-- Inspection Display Card -->
+              <div class="flex items-center justify-center gap-3 py-2 bg-slate-950/70 rounded-xl border border-slate-800/80">
+                <div class="flex flex-col items-center">
+                  <span class="text-[10px] font-mono text-slate-500 uppercase">arr[i] value</span>
+                  <div id="inspectCardSlot" class="w-14 h-20 rounded-xl border border-slate-700 bg-slate-900/90 flex flex-col items-center justify-between p-1 shadow-inner mt-1">
+                    <span id="inspectIndex" class="text-[9px] font-mono text-slate-500">i=-</span>
+                    <span id="inspectValue" class="font-bold font-mono text-xl text-slate-400">-</span>
+                    <span id="inspectSuit" class="text-[10px] text-slate-600">&diams;</span>
+                  </div>
+                </div>
+
+                <div class="flex flex-col items-start gap-1 text-[11px] font-mono">
+                  <div class="text-slate-400">Contains? <span id="inspectContainsBadge" class="font-bold text-slate-500">--</span></div>
+                  <div class="text-slate-400">First at: <span id="inspectFirstAtBadge" class="font-bold text-purple-400">--</span></div>
+                  <div class="text-slate-400">i &lt; bestIndex? <span id="inspectCompareBadge" class="font-bold text-slate-500">--</span></div>
+                </div>
+              </div>
+
+              <div id="matchStatusNotice" class="text-center text-[11px] font-mono text-slate-400 mt-2">
+                Waiting for evaluation...
+              </div>
+            </div>
+
+            <!-- HashMap Cabinet (7 cols) -->
+            <div class="sm:col-span-7 bg-slate-900/70 rounded-2xl p-3.5 border border-slate-800 backdrop-blur-md flex flex-col justify-between min-h-[170px]">
+              <div class="flex items-center justify-between pb-1.5 border-b border-slate-800/80">
+                <span class="text-xs font-mono font-bold text-purple-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-table-cells text-purple-400"></i> Map&lt;Integer, Integer&gt; firstIndex
+                </span>
+                <div class="text-[11px] font-mono text-slate-400">
+                  Size: <span id="mapSizeBadge" class="text-sky-300 font-bold">0</span> entries
+                </div>
+              </div>
+
+              <!-- Entries Container -->
+              <div class="flex items-center justify-center flex-grow py-2">
+                <div id="mapEntriesContainer" class="flex items-center justify-center gap-2 flex-wrap min-h-[64px] w-full px-1">
+                  <span class="text-xs text-slate-500 italic">HashMap is currently empty { }</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-800/60">
+                <span>Key: <strong class="text-amber-300">num</strong> (Element)</span>
+                <span>Value: <strong class="text-purple-300">i</strong> (First Seen Index)</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Description callout at bottom of arena -->
+        <div class="z-10 bg-black/80 backdrop-blur-md p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            answer: -1
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Live Variable Watcher & Synchronized Java Code (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-sky-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: firstRepeated()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int i</span>
+            <span id="varI" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int num</span>
+            <span id="varNum" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">bestIndex</span>
+            <span id="varBestIndex" class="font-mono text-base font-bold text-fuchsia-400">MAX</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int answer</span>
+            <span id="varAnswer" class="font-mono text-base font-bold text-emerald-400">-1</span>
+          </div>
+        </div>
+
+        <!-- Live Evaluation Expression Status -->
+        <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 text-xs flex flex-col gap-1.5 font-mono">
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Evaluating Expression:</span>
+            <span id="evalCondition" class="text-sky-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+            <span id="evalStatement" class="text-slate-300">firstIndex.containsKey(num)</span>
+            <span id="evalResult" class="font-bold text-slate-400">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code Block matching user's exact code -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex-grow flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-500 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[360px] rounded-xl bg-slate-950 p-2 border border-slate-800/80 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">import</span>&nbsp;java.util.*;</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span></div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;<span class="text-purple-400">static int</span>&nbsp;<span class="text-blue-400">firstRepeated</span>(<span class="text-purple-400">int</span>[] arr) {</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;Integer, Integer&gt; firstIndex = <span class="text-purple-400">new</span> HashMap&lt;&gt;();</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> bestIndex = Integer.MAX_VALUE;</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> answer = -<span class="text-orange-400">1</span>;</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span></div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; arr.length; i++) {</div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> num = arr[i];</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span></div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (firstIndex.containsKey(num)) {</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (i &lt; bestIndex) {</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestIndex = i;</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;answer = num;</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="text-purple-400">else</span> {</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;firstIndex.put(num, i);</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span></div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> answer;</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span></div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span>&nbsp;&nbsp;<span class="text-purple-400">public static void</span>&nbsp;<span class="text-blue-400">main</span>(String[] args) {</div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span>[] arr = {<span class="text-orange-400">2</span>, <span class="text-orange-400">1</span>, <span class="text-orange-400">3</span>, <span class="text-orange-400">5</span>, <span class="text-orange-400">3</span>, <span class="text-orange-400">2</span>};</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(firstRepeated(arr));</div>
+          <div id="code-line-28" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">28</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-29" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">29</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1">
+    <p>First Repeated Element &bull; Time Complexity: O(N) &bull; Auxiliary Space: O(N)</p>
+  </footer>
+
+  <script>
+    /* Audio synthesizer using browser Web Audio API */
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(360, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(160, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playPut() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(280, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(560, this.ctx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playRepeatFound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const freqs = [440, 554.37, 659.25];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.18);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.19);
+        });
+      }
+
+      playSuccess() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const chord = [523.25, 659.25, 783.99, 1046.50];
+        chord.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.25);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.26);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateSteps(arr) {
+      const steps = [];
+      const MAX_VAL = 2147483647; // Integer.MAX_VALUE in Java
+
+      // Helper to clone HashMap state
+      function cloneMap(m) {
+        return new Map(m);
+      }
+
+      // Step: Line 27 - Invocations from main
+      steps.push({
+        line: 27,
+        phase: 'Invocation',
+        arr: [...arr],
+        i: null,
+        num: null,
+        firstIndex: new Map(),
+        bestIndex: MAX_VAL,
+        answer: -1,
+        activeIdx: null,
+        repeatedIdx: null,
+        evalText: `firstRepeated(arr)`,
+        resultText: `Invoked with arr.length = ${arr.length}`,
+        statusType: 'neutral',
+        desc: `main() calls firstRepeated(arr) on [${arr.join(', ')}].`
+      });
+
+      // Step: Line 5 - Initialize HashMap
+      const firstIndex = new Map();
+      steps.push({
+        line: 5,
+        phase: 'Initialize HashMap',
+        arr: [...arr],
+        i: null,
+        num: null,
+        firstIndex: cloneMap(firstIndex),
+        bestIndex: MAX_VAL,
+        answer: -1,
+        activeIdx: null,
+        repeatedIdx: null,
+        evalText: `new HashMap<>()`,
+        resultText: `Empty map {} created`,
+        statusType: 'neutral',
+        desc: `Instantiated Map<Integer, Integer> firstIndex = new HashMap<>() to store element to first-seen index.`
+      });
+
+      // Step: Line 6 - bestIndex = Integer.MAX_VALUE
+      let bestIndex = MAX_VAL;
+      steps.push({
+        line: 6,
+        phase: 'Initialize bestIndex',
+        arr: [...arr],
+        i: null,
+        num: null,
+        firstIndex: cloneMap(firstIndex),
+        bestIndex: bestIndex,
+        answer: -1,
+        activeIdx: null,
+        repeatedIdx: null,
+        evalText: `int bestIndex = Integer.MAX_VALUE`,
+        resultText: `bestIndex = ${MAX_VAL}`,
+        statusType: 'neutral',
+        desc: `Initialized bestIndex = Integer.MAX_VALUE (${MAX_VAL}) to track the earliest repeat position.`
+      });
+
+      // Step: Line 7 - int answer = -1
+      let answer = -1;
+      steps.push({
+        line: 7,
+        phase: 'Initialize answer',
+        arr: [...arr],
+        i: null,
+        num: null,
+        firstIndex: cloneMap(firstIndex),
+        bestIndex: bestIndex,
+        answer: answer,
+        activeIdx: null,
+        repeatedIdx: null,
+        evalText: `int answer = -1`,
+        resultText: `answer = -1`,
+        statusType: 'neutral',
+        desc: `Initialized answer = -1 (default if no repeated elements are found).`
+      });
+
+      // Loop: for (int i = 0; i < arr.length; i++)
+      for (let i = 0; i < arr.length; i++) {
+        // Line 9: Loop condition
+        steps.push({
+          line: 9,
+          phase: `Loop condition: i = ${i}`,
+          arr: [...arr],
+          i: i,
+          num: null,
+          firstIndex: cloneMap(firstIndex),
+          bestIndex: bestIndex,
+          answer: answer,
+          activeIdx: i,
+          repeatedIdx: null,
+          evalText: `i < arr.length (${i} < ${arr.length})`,
+          resultText: `true`,
+          statusType: 'neutral',
+          desc: `Loop check: index ${i} is within bounds (< ${arr.length}).`
+        });
+
+        // Line 10: int num = arr[i]
+        const num = arr[i];
+        steps.push({
+          line: 10,
+          phase: `Read num = arr[${i}]`,
+          arr: [...arr],
+          i: i,
+          num: num,
+          firstIndex: cloneMap(firstIndex),
+          bestIndex: bestIndex,
+          answer: answer,
+          activeIdx: i,
+          repeatedIdx: null,
+          evalText: `int num = arr[${i}]`,
+          resultText: `num = ${num}`,
+          statusType: 'inspect',
+          desc: `Read element arr[${i}] = ${num}.`
+        });
+
+        // Line 12: if (firstIndex.containsKey(num))
+        const hasNum = firstIndex.has(num);
+        const originalFirstIdx = hasNum ? firstIndex.get(num) : null;
+
+        steps.push({
+          line: 12,
+          phase: hasNum ? `Duplicate Found for ${num}` : `First time seeing ${num}`,
+          arr: [...arr],
+          i: i,
+          num: num,
+          firstIndex: cloneMap(firstIndex),
+          bestIndex: bestIndex,
+          answer: answer,
+          activeIdx: i,
+          repeatedIdx: originalFirstIdx,
+          evalText: `firstIndex.containsKey(${num})`,
+          resultText: hasNum ? `true (already seen at idx ${originalFirstIdx})` : `false (first occurrence)`,
+          statusType: hasNum ? 'duplicate' : 'newKey',
+          desc: hasNum 
+            ? `firstIndex contains ${num}! It was previously stored at index ${originalFirstIdx}.` 
+            : `firstIndex does not contain ${num}. This is its first occurrence in the array.`
+        });
+
+        if (hasNum) {
+          // Line 13: if (i < bestIndex)
+          const isBetter = (i < bestIndex);
+          steps.push({
+            line: 13,
+            phase: `Check i < bestIndex`,
+            arr: [...arr],
+            i: i,
+            num: num,
+            firstIndex: cloneMap(firstIndex),
+            bestIndex: bestIndex,
+            answer: answer,
+            activeIdx: i,
+            repeatedIdx: originalFirstIdx,
+            evalText: `i < bestIndex (${i} < ${bestIndex === MAX_VAL ? 'MAX_VALUE' : bestIndex})`,
+            resultText: isBetter ? `true (earlier duplicate!)` : `false (bestIndex is already earlier)`,
+            statusType: isBetter ? 'repeatBest' : 'neutral',
+            desc: isBetter 
+              ? `Current index ${i} is less than bestIndex (${bestIndex === MAX_VAL ? 'MAX_VALUE' : bestIndex}). Updating best!` 
+              : `Current index ${i} is NOT less than bestIndex (${bestIndex}). Keeping previous best.`
+          });
+
+          if (isBetter) {
+            bestIndex = i;
+            // Line 14: bestIndex = i
+            steps.push({
+              line: 14,
+              phase: `bestIndex = ${i}`,
+              arr: [...arr],
+              i: i,
+              num: num,
+              firstIndex: cloneMap(firstIndex),
+              bestIndex: bestIndex,
+              answer: answer,
+              activeIdx: i,
+              repeatedIdx: originalFirstIdx,
+              evalText: `bestIndex = ${i}`,
+              resultText: `bestIndex = ${bestIndex}`,
+              statusType: 'repeatBest',
+              desc: `Updated bestIndex = ${bestIndex}.`
+            });
+
+            // Line 15: answer = num
+            answer = num;
+            steps.push({
+              line: 15,
+              phase: `answer = ${num}`,
+              arr: [...arr],
+              i: i,
+              num: num,
+              firstIndex: cloneMap(firstIndex),
+              bestIndex: bestIndex,
+              answer: answer,
+              activeIdx: i,
+              repeatedIdx: originalFirstIdx,
+              evalText: `answer = ${num}`,
+              resultText: `answer = ${answer}`,
+              statusType: 'repeatBest',
+              desc: `Updated answer = ${answer}. Element ${num} is currently the earliest detected repetition.`
+            });
+          }
+        } else {
+          // Line 18: firstIndex.put(num, i)
+          firstIndex.set(num, i);
+          steps.push({
+            line: 18,
+            phase: `firstIndex.put(${num}, ${i})`,
+            arr: [...arr],
+            i: i,
+            num: num,
+            firstIndex: cloneMap(firstIndex),
+            bestIndex: bestIndex,
+            answer: answer,
+            activeIdx: i,
+            repeatedIdx: null,
+            evalText: `firstIndex.put(${num}, ${i})`,
+            resultText: `Stored entry: ${num} -> ${i}`,
+            statusType: 'put',
+            desc: `Put key ${num} with value ${i} into firstIndex map. HashMap now has ${firstIndex.size} entries.`
+          });
+        }
+      }
+
+      // Step: Line 22 - return answer
+      steps.push({
+        line: 22,
+        phase: `Return Answer: ${answer}`,
+        arr: [...arr],
+        i: arr.length,
+        num: null,
+        firstIndex: cloneMap(firstIndex),
+        bestIndex: bestIndex,
+        answer: answer,
+        activeIdx: null,
+        repeatedIdx: null,
+        evalText: `return answer`,
+        resultText: `${answer}`,
+        statusType: 'finish',
+        desc: `Traversal complete. Method returns answer = ${answer}.`
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 900;
+
+    // Top control elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    // Arena elements
+    const arrDisplayVal = document.getElementById('arrDisplayVal');
+    const arrLengthNotice = document.getElementById('arrLengthNotice');
+    const cardsRack = document.getElementById('cardsRack');
+    const inspectIndex = document.getElementById('inspectIndex');
+    const inspectValue = document.getElementById('inspectValue');
+    const inspectSuit = document.getElementById('inspectSuit');
+    const inspectContainsBadge = document.getElementById('inspectContainsBadge');
+    const inspectFirstAtBadge = document.getElementById('inspectFirstAtBadge');
+    const inspectCompareBadge = document.getElementById('inspectCompareBadge');
+    const matchStatusNotice = document.getElementById('matchStatusNotice');
+    const mapEntriesContainer = document.getElementById('mapEntriesContainer');
+    const mapSizeBadge = document.getElementById('mapSizeBadge');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const feltArena = document.getElementById('feltArena');
+
+    // Watcher elements
+    const varI = document.getElementById('varI');
+    const varNum = document.getElementById('varNum');
+    const varBestIndex = document.getElementById('varBestIndex');
+    const varAnswer = document.getElementById('varAnswer');
+    const evalCondition = document.getElementById('evalCondition');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    // Input elements
+    const inputArray = document.getElementById('inputArray');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    // Playing card suits for visual elegance
+    const cardSuits = [
+      { symbol: '♠', color: 'text-slate-200' },
+      { symbol: '♥', color: 'text-rose-400' },
+      { symbol: '♦', color: 'text-rose-400' },
+      { symbol: '♣', color: 'text-sky-300' }
+    ];
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update top badges and progress
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      arrDisplayVal.textContent = `[${step.arr.join(', ')}]`;
+      arrLengthNotice.textContent = `Length: ${step.arr.length}`;
+
+      // Update Live Variable Watcher
+      varI.textContent = (step.i !== null && step.i < step.arr.length) ? step.i : (step.i >= step.arr.length ? `${step.i} (end)` : '-');
+      varNum.textContent = (step.num !== null) ? step.num : '-';
+      varBestIndex.textContent = (step.bestIndex === 2147483647) ? 'MAX_VALUE' : step.bestIndex;
+      varAnswer.textContent = step.answer;
+
+      evalCondition.textContent = step.phase;
+      evalStatement.textContent = step.evalText;
+      evalResult.textContent = step.resultText;
+
+      // Update Return Pill & Arena Status Dot
+      returnPill.textContent = `answer: ${step.answer}`;
+      if (step.statusType === 'finish') {
+        returnPill.className = "shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 animate-pulse";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = `Returned ${step.answer}`;
+      } else if (step.statusType === 'repeatBest' || step.statusType === 'duplicate') {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-indigo-600 text-white shadow-md shadow-indigo-500/30";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+        arenaStatusText.textContent = `Duplicate: ${step.num}`;
+      } else {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
+        arenaStatusText.textContent = "Scanning";
+      }
+
+      // Comparison Banner
+      if (step.statusType === 'put') {
+        evalResult.className = "font-bold text-purple-400";
+        comparisonBanner.innerHTML = `<span class="bg-purple-950/80 text-purple-200 border border-purple-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-plus mr-1.5 text-purple-400"></i>firstIndex.put(${step.num}, ${step.i})</span>`;
+      } else if (step.statusType === 'duplicate') {
+        evalResult.className = "font-bold text-amber-400";
+        comparisonBanner.innerHTML = `<span class="bg-amber-950/80 text-amber-200 border border-amber-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-clone mr-1.5 text-amber-400"></i>Duplicate: ${step.num} (First seen at index ${step.repeatedIdx})</span>`;
+      } else if (step.statusType === 'repeatBest') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-950/80 text-emerald-200 border border-emerald-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-award mr-1.5 text-emerald-400"></i>Earliest Repetition Updated: answer = ${step.answer}, bestIndex = ${step.bestIndex}</span>`;
+      } else if (step.statusType === 'finish') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-600/30 text-emerald-200 border border-emerald-500 px-3.5 py-1 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i>Completed! Returns ${step.answer}</span>`;
+      } else {
+        evalResult.className = "font-bold text-slate-300";
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">${step.phase}</span>`;
+      }
+
+      // Synchronize Java active code line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Sync scrubber slider
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Render playing cards array rack
+      renderCardsRack(step);
+
+      // Render inspection station
+      renderInspectionStation(step);
+
+      // Render HashMap entries
+      renderHashMapEntries(step);
+
+      // Audio & Status dot styling
+      if (step.statusType === 'put') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-purple-400 shrink-0";
+        sound.playPut();
+      } else if (step.statusType === 'duplicate') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        sound.playRepeatFound();
+      } else if (step.statusType === 'repeatBest' || step.statusType === 'finish') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0 animate-bounce";
+        sound.playSuccess();
+      } else {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0";
+        sound.playTick();
+      }
+    }
+
+    function renderCardsRack(step) {
+      cardsRack.innerHTML = '';
+      if (!step.arr || step.arr.length === 0) {
+        cardsRack.innerHTML = `<span class="text-xs text-slate-500 italic">Array is empty</span>`;
+        return;
+      }
+
+      step.arr.forEach((val, idx) => {
+        const isActive = (idx === step.activeIdx);
+        const isOriginalFirst = (idx === step.repeatedIdx);
+        const isAnswer = (val === step.answer && (step.statusType === 'repeatBest' || step.statusType === 'finish'));
+
+        const suit = cardSuits[Math.abs(val) % cardSuits.length];
+
+        const card = document.createElement('div');
+        let cardClass = "play-card relative w-12 h-18 sm:w-14 sm:h-20 rounded-xl border flex flex-col items-center justify-between p-1.5 shadow-md ";
+
+        if (isAnswer && (isActive || isOriginalFirst)) {
+          cardClass += " winning-match !bg-gradient-to-b !from-emerald-950 !to-slate-950 !border-emerald-400 text-white";
+        } else if (isActive) {
+          cardClass += " active-i !bg-slate-950 !border-sky-400 text-white";
+        } else if (isOriginalFirst) {
+          cardClass += " first-seen-highlight !bg-purple-950/90 !border-purple-400 text-purple-200";
+        } else {
+          cardClass += " bg-gradient-to-b from-slate-800 to-slate-950 border-slate-700 text-slate-200";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[9px] font-mono leading-none">
+            <span class="${isActive ? 'text-sky-300 font-bold' : 'text-slate-400'}">#${idx}</span>
+            <span class="${suit.color}">${suit.symbol}</span>
+          </div>
+          <span class="font-mono text-lg sm:text-xl font-bold leading-none ${isActive ? 'text-amber-300' : 'text-white'}">${val}</span>
+          <div class="w-full flex items-center justify-center text-[8px] font-mono leading-none">
+            ${isActive ? '<span class="text-sky-400 font-bold">i</span>' : isOriginalFirst ? '<span class="text-purple-300">first</span>' : '<span class="text-slate-500">card</span>'}
+          </div>
+        `;
+        cardsRack.appendChild(card);
+      });
+    }
+
+    function renderInspectionStation(step) {
+      if (step.num !== null && step.i !== null && step.i < step.arr.length) {
+        const suit = cardSuits[Math.abs(step.num) % cardSuits.length];
+        inspectIndex.textContent = `i = ${step.i}`;
+        inspectValue.textContent = step.num;
+        inspectSuit.textContent = suit.symbol;
+        inspectSuit.className = `text-xs ${suit.color}`;
+
+        const hasNum = step.firstIndex.has(step.num);
+        inspectContainsBadge.textContent = hasNum ? 'true' : 'false';
+        inspectContainsBadge.className = hasNum ? 'font-bold text-amber-400' : 'font-bold text-slate-400';
+
+        if (hasNum) {
+          const originalIdx = step.firstIndex.get(step.num);
+          inspectFirstAtBadge.textContent = `index ${originalIdx}`;
+          const isLess = (step.i < step.bestIndex);
+          inspectCompareBadge.textContent = isLess ? 'true (earlier)' : 'false';
+          inspectCompareBadge.className = isLess ? 'font-bold text-emerald-400' : 'font-bold text-rose-400';
+          matchStatusNotice.innerHTML = `<span class="text-amber-300 font-semibold">Duplicate found! First stored at index ${originalIdx}.</span>`;
+        } else {
+          inspectFirstAtBadge.textContent = 'None (New)';
+          inspectCompareBadge.textContent = '--';
+          matchStatusNotice.innerHTML = `<span class="text-purple-300">New element: Will save to HashMap { ${step.num} -> ${step.i} }</span>`;
+        }
+      } else {
+        inspectIndex.textContent = 'i = -';
+        inspectValue.textContent = '-';
+        inspectSuit.textContent = '♦';
+        inspectSuit.className = 'text-xs text-slate-600';
+        inspectContainsBadge.textContent = '--';
+        inspectFirstAtBadge.textContent = '--';
+        inspectCompareBadge.textContent = '--';
+        matchStatusNotice.textContent = 'Waiting for evaluation...';
+      }
+    }
+
+    function renderHashMapEntries(step) {
+      mapEntriesContainer.innerHTML = '';
+      mapSizeBadge.textContent = step.firstIndex.size;
+
+      if (step.firstIndex.size === 0) {
+        mapEntriesContainer.innerHTML = `<span class="text-xs text-slate-500 italic">HashMap is currently empty { }</span>`;
+        return;
+      }
+
+      step.firstIndex.forEach((storedIdx, key) => {
+        const isCurrentKey = (key === step.num);
+        const entryBox = document.createElement('div');
+        
+        let boxClass = "map-entry-box flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono shadow ";
+        if (isCurrentKey && step.statusType === 'put') {
+          boxClass += " bg-purple-950 border-purple-400 text-white shadow-purple-500/30 scale-105";
+        } else if (isCurrentKey && step.statusType === 'duplicate') {
+          boxClass += " bg-amber-950 border-amber-400 text-amber-200 shadow-amber-500/30 scale-105";
+        } else {
+          boxClass += " bg-slate-950/80 border-slate-700/80 text-slate-300";
+        }
+
+        entryBox.className = boxClass;
+        entryBox.innerHTML = `
+          <span class="text-amber-400 font-bold">${key}</span>
+          <span class="text-slate-500">&rarr;</span>
+          <span class="text-purple-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 font-bold">idx ${storedIdx}</span>
+        `;
+        mapEntriesContainer.appendChild(entryBox);
+      });
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-sky-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-indigo-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-sky-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-indigo-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    const samplePresets = [
+      [2, 1, 3, 5, 3, 2],
+      [10, 5, 3, 4, 3, 5, 6],
+      [6, 10, 5, 4, 9, 120, 4, 6, 10],
+      [1, 2, 3, 4],
+      [7, 7, 7, 7],
+      [1, 2, 1, 3, 2, 4]
+    ];
+    let presetIdx = 0;
+
+    function parseInputArray() {
+      const raw = inputArray.value.trim();
+      if (!raw) return [2, 1, 3, 5, 3, 2];
+      const parsed = raw.split(/[\s,]+/).map(v => parseInt(v, 10)).filter(v => !isNaN(v));
+      return parsed.length > 0 ? parsed : [2, 1, 3, 5, 3, 2];
+    }
+
+    function initializeSimulation() {
+      stopAutoPlay();
+      const arr = parseInputArray();
+      inputArray.value = arr.join(', ');
+
+      currentSteps = generateSteps(arr);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+    btnApply.addEventListener('click', initializeSimulation);
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % samplePresets.length;
+      inputArray.value = samplePresets[presetIdx].join(', ');
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed option buttons
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-sky-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard shortcuts: Space (Play/Pause), Left/Right Arrows (Steps)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

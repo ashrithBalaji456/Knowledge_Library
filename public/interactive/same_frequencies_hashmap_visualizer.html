@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sameFrequencies &bull; Glassmorphic Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, #091e3a 0%, #060e22 45%, #02050e 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .glass-input {
+      background: rgba(8, 14, 30, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    .glass-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .code-line {
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+    .code-active {
+      background-color: rgba(56, 189, 248, 0.22) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .char-card, .bucket-card {
+      transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes pulseCyan {
+      0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.45); transform: translateY(-4px) scale(1.04); }
+      50% { box-shadow: 0 0 28px rgba(56, 189, 248, 0.85); transform: translateY(-6px) scale(1.07); }
+    }
+    @keyframes pulseAmber {
+      0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.45); transform: translateY(-4px) scale(1.04); }
+      50% { box-shadow: 0 0 28px rgba(245, 158, 11, 0.85); transform: translateY(-6px) scale(1.07); }
+    }
+    @keyframes pulseRose {
+      0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.5); transform: translateY(-4px) scale(1.04); }
+      50% { box-shadow: 0 0 32px rgba(244, 63, 94, 0.9); transform: translateY(-6px) scale(1.07); }
+    }
+    .card-active-s1 {
+      animation: pulseCyan 1.6s infinite ease-in-out;
+      border-color: #38bdf8 !important;
+    }
+    .card-active-s2 {
+      animation: pulseAmber 1.6s infinite ease-in-out;
+      border-color: #f59e0b !important;
+    }
+    .card-fail {
+      animation: pulseRose 1.4s infinite ease-in-out;
+      border-color: #f43f5e !important;
+    }
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.08); }
+    }
+    .glow-blob {
+      animation: ambientGlow 9s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(8, 14, 30, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between relative min-h-screen">
+
+  <!-- Ambient Glass Background Blobs -->
+  <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-cyan-600/15 blur-[130px] pointer-events-none -z-10 glow-blob"></div>
+  <div class="fixed bottom-[-15%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-amber-600/15 blur-[140px] pointer-events-none -z-10 glow-blob" style="animation-delay: -3.5s;"></div>
+  <div class="fixed top-[40%] right-[25%] w-[35vw] h-[35vw] rounded-full bg-emerald-600/10 blur-[130px] pointer-events-none -z-10 glow-blob" style="animation-delay: -1.5s;"></div>
+
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-teal-500 to-amber-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 text-white text-xl font-bold">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-300 via-teal-200 to-amber-300 bg-clip-text text-transparent">
+            Solution &bull; sameFrequencies(s1, s2)
+          </h1>
+          <p class="text-xs text-slate-400 font-mono">
+            HashMap Character Frequency Verification in <span class="text-emerald-300 font-semibold">O(N)</span> Time &amp; <span class="text-cyan-300 font-semibold">O(K)</span> Space
+          </p>
+        </div>
+      </div>
+
+      <!-- Interactive Input Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 glass-input px-3 py-1.5 rounded-xl text-xs">
+          <span class="text-cyan-400 font-semibold font-mono">s1:</span>
+          <input id="inputS1" type="text" value="listen" maxlength="12" class="bg-transparent px-1 py-0.5 rounded text-cyan-200 font-mono w-20 sm:w-24 border-none focus:outline-none" placeholder="s1">
+        </div>
+
+        <div class="flex items-center gap-1.5 glass-input px-3 py-1.5 rounded-xl text-xs">
+          <span class="text-amber-400 font-semibold font-mono">s2:</span>
+          <input id="inputS2" type="text" value="silent" maxlength="12" class="bg-transparent px-1 py-0.5 rounded text-amber-200 font-mono w-20 sm:w-24 border-none focus:outline-none" placeholder="s2">
+        </div>
+
+        <button id="btnLoadCustom" class="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md shadow-cyan-500/25 flex items-center gap-1.5">
+          <i class="fa-solid fa-play text-[11px]"></i> Load
+        </button>
+
+        <button id="btnSampleNext" class="glass-btn px-3 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Cycle preset test cases">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+
+        <button id="btnSoundToggle" class="glass-btn px-2.5 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-white/10 shadow-2xl flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Top action buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <button id="btnReset" class="glass-btn w-10 h-10 rounded-xl text-slate-300 flex items-center justify-center hover:text-white" title="Reset to beginning">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <button id="btnPrev" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-cyan-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <button id="btnNext" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-cyan-950/70 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs glass-input text-slate-300 px-3 py-1.5 rounded-full font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center glass-input rounded-xl p-1 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1500">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold" data-speed="800">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="420">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="180">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-white/5">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800/80 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Visual Character Cards & HashMap Arena (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <div class="glass-card rounded-3xl p-4 sm:p-5 flex flex-col justify-between min-h-[580px] relative overflow-hidden shadow-2xl gap-3">
+        
+        <!-- Arena Header Metadata -->
+        <div class="flex flex-wrap items-center justify-between z-10 gap-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 glass-input px-3 py-1.5 rounded-full">
+            <span class="text-cyan-300 font-semibold" id="arenaS1Info">s1.length() = 6</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-amber-300 font-semibold" id="arenaS2Info">s2.length() = 6</span>
+          </div>
+
+          <div class="flex items-center gap-2 glass-input px-3 py-1.5 rounded-full text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Action Callout Banner -->
+        <div id="comparisonBanner" class="min-h-[42px] flex items-center justify-center">
+          <span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">
+            Click Start or Next to trace sameFrequencies(s1, s2)
+          </span>
+        </div>
+
+        <!-- String s1 & s2 Card Racks -->
+        <div class="flex flex-col gap-3">
+          <!-- String s1 Rack -->
+          <div class="glass-input p-3 rounded-2xl border border-cyan-500/20 flex flex-col gap-2">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-cyan-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-plus text-cyan-400"></i> String s1 (Loop 1: Increment Frequency +1)
+              </span>
+              <span id="s1ProgressText" class="text-[11px] text-slate-400">s1.toCharArray()</span>
+            </div>
+            <div id="s1CardsContainer" class="flex flex-wrap items-center justify-center gap-2 py-1 min-h-[76px]">
+              <!-- Dynamically populated s1 character cards -->
+            </div>
+          </div>
+
+          <!-- String s2 Rack -->
+          <div class="glass-input p-3 rounded-2xl border border-amber-500/20 flex flex-col gap-2">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-amber-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-minus text-amber-400"></i> String s2 (Loop 2: Verify count != 0 &amp; Decrement -1)
+              </span>
+              <span id="s2ProgressText" class="text-[11px] text-slate-400">s2.toCharArray()</span>
+            </div>
+            <div id="s2CardsContainer" class="flex flex-wrap items-center justify-center gap-2 py-1 min-h-[76px]">
+              <!-- Dynamically populated s2 character cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- HashMap<Character, Integer> Live Bucket Visualizer -->
+        <div class="glass-input p-3.5 rounded-2xl border border-white/10 flex flex-col gap-2.5 flex-grow justify-between">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="text-emerald-300 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-layer-group text-emerald-400"></i> Map&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;()
+            </span>
+            <span id="mapSizeBadge" class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-white/10 text-[11px]">
+              size: 0
+            </span>
+          </div>
+
+          <div id="hashMapContainer" class="flex flex-wrap items-center justify-center gap-2.5 py-2 min-h-[115px]">
+            <!-- Dynamically populated HashMap key-value cards -->
+          </div>
+
+          <div id="mapOperationDetail" class="bg-black/40 px-3 py-2 rounded-xl border border-white/5 text-slate-300 text-xs font-mono leading-relaxed text-center">
+            Each unique character in <code class="text-cyan-300">s1</code> increments its counter in <code class="text-emerald-300">freq</code>, and each character in <code class="text-amber-300">s2</code> decrements it.
+          </div>
+        </div>
+
+        <!-- Bottom Status Summary -->
+        <div class="z-10 glass-input p-3 rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-sm">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            pending
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-cyan-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: sameFrequencies</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl border border-cyan-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Active Loop</span>
+            <span id="varActiveLoop" class="font-mono text-xs font-bold text-cyan-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl border border-amber-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">char ch</span>
+            <span id="varCharCh" class="font-mono text-base font-bold text-amber-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl border border-purple-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int count</span>
+            <span id="varCount" class="font-mono text-base font-bold text-purple-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl border border-emerald-500/20">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">freq.get(ch)</span>
+            <span id="varFreqVal" class="font-mono text-base font-bold text-emerald-300">-</span>
+          </div>
+        </div>
+
+        <!-- Condition / Operation Evaluator -->
+        <div class="glass-input p-2.5 rounded-xl text-xs flex flex-col gap-1 font-mono">
+          <div class="flex items-center justify-between text-slate-400 text-[11px]">
+            <span>Expression Evaluator:</span>
+            <span id="evalConditionName" class="text-cyan-300">Condition / Map Update</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+            <span id="evalStatement" class="text-slate-300 truncate">s1.length() != s2.length()</span>
+            <span id="evalResult" class="font-bold text-cyan-400 shrink-0 ml-2">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code matching user's exact program -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col flex-grow overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-400 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Solution.java &bull; sameFrequencies</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto rounded-xl glass-input p-2.5 border border-white/5 select-none flex-grow" id="codeContainer">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">import</span>&nbsp;java.util.*;</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span></div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span><span class="text-purple-400">class</span>&nbsp;<span class="text-yellow-300">Solution</span>&nbsp;{</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;<span class="text-purple-400">public boolean</span>&nbsp;<span class="text-blue-400">sameFrequencies</span>(String s1, String s2) {</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span>&nbsp;(s1.length() != s2.length()) {</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span></div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span>&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;Character, Integer&gt; freq = <span class="text-purple-400">new</span>&nbsp;HashMap&lt;&gt;();</div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span></div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span>&nbsp;(<span class="text-cyan-400">char</span>&nbsp;ch : s1.toCharArray()) {</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq.put(ch, freq.getOrDefault(ch, <span class="text-amber-300">0</span>) + <span class="text-amber-300">1</span>);</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span></div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span>&nbsp;(<span class="text-cyan-400">char</span>&nbsp;ch : s2.toCharArray()) {</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-cyan-400">int</span>&nbsp;count = freq.getOrDefault(ch, <span class="text-amber-300">0</span>);</div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span></div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span>&nbsp;(count == <span class="text-amber-300">0</span>) {</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span></div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq.put(ch, count - <span class="text-amber-300">1</span>);</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span></div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return true</span>;</div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1 font-mono">
+    <p>Character Frequency Verification &bull; HashMap Two-Pass Visualizer &bull; Glassmorphic Transparent UI</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playStep() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(260, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playIncrement() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(580, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playDecrement() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(390, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playSuccess() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [440, 554.37, 659.25, 880];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.08, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.22);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.23);
+        });
+      }
+
+      playError() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [300, 210];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.1);
+          gain.gain.setValueAtTime(0.06, this.ctx.currentTime + idx * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.1 + 0.18);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.1);
+          osc.stop(this.ctx.currentTime + idx * 0.1 + 0.19);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateExecutionSteps(rawS1, rawS2) {
+      const s1 = String(rawS1 ?? '');
+      const s2 = String(rawS2 ?? '');
+      const steps = [];
+
+      const mapState = new Map();
+      let activeS1Idx = -1;
+      let activeS2Idx = -1;
+      let processedS1UpTo = -1;
+      let processedS2UpTo = -1;
+
+      function cloneMapEntries() {
+        const arr = [];
+        for (const [k, v] of mapState.entries()) {
+          arr.push({ key: k, val: v });
+        }
+        return arr;
+      }
+
+      function record(meta) {
+        steps.push({
+          line: meta.line,
+          phase: meta.phase,
+          s1: s1,
+          s2: s2,
+          activeS1Idx: activeS1Idx,
+          activeS2Idx: activeS2Idx,
+          processedS1UpTo: processedS1UpTo,
+          processedS2UpTo: processedS2UpTo,
+          mapEntries: cloneMapEntries(),
+          highlightKey: meta.highlightKey ?? null,
+          highlightMode: meta.highlightMode ?? 'neutral', // 'inc', 'dec', 'lookup', 'fail'
+          varLoop: meta.varLoop ?? '-',
+          varCh: meta.varCh ?? '-',
+          varCount: meta.varCount ?? '-',
+          varFreqVal: meta.varFreqVal ?? '-',
+          evalStmt: meta.evalStmt ?? '-',
+          evalResult: meta.evalResult ?? '-',
+          mapDetail: meta.mapDetail ?? '',
+          statusType: meta.statusType ?? 'neutral',
+          returnVal: meta.returnVal ?? null,
+          desc: meta.desc ?? ''
+        });
+      }
+
+      // Step 0: Method Entry
+      record({
+        line: 4,
+        phase: 'Method Entry',
+        evalStmt: `sameFrequencies("${s1}", "${s2}")`,
+        evalResult: `len: ${s1.length} vs ${s2.length}`,
+        mapDetail: `Invoked sameFrequencies("${s1}", "${s2}"). First checking if both strings have identical length.`,
+        statusType: 'neutral',
+        desc: `Entered sameFrequencies(s1="${s1}", s2="${s2}").`
+      });
+
+      // Step 1: Length comparison
+      const lenDiff = s1.length !== s2.length;
+      record({
+        line: 5,
+        phase: 'Check s1.length() != s2.length()',
+        evalStmt: `${s1.length} != ${s2.length}`,
+        evalResult: lenDiff ? 'true (Mismatch!)' : 'false (Equal)',
+        mapDetail: lenDiff
+          ? `Lengths differ (${s1.length} != ${s2.length}). Strings of different lengths cannot have identical character frequencies!`
+          : `Both strings have length ${s1.length}. Proceeding to initialize the frequency HashMap.`,
+        statusType: lenDiff ? 'error' : 'neutral',
+        desc: `Checked s1.length() (${s1.length}) != s2.length() (${s2.length}) -> ${lenDiff}.`
+      });
+
+      if (lenDiff) {
+        record({
+          line: 6,
+          phase: 'Return false (Length Mismatch)',
+          evalStmt: 'return false;',
+          evalResult: 'false',
+          mapDetail: `Returned false immediately in O(1) time because s1.length() != s2.length().`,
+          statusType: 'finished_false',
+          returnVal: false,
+          desc: `Returned false because string lengths do not match.`
+        });
+        return steps;
+      }
+
+      // Step 2: Initialize HashMap
+      record({
+        line: 9,
+        phase: 'Initialize Map<Character, Integer> freq',
+        evalStmt: 'freq = new HashMap<>()',
+        evalResult: '{} (Empty Map)',
+        mapDetail: `Created an empty HashMap 'freq' to count occurrences of each character in s1.`,
+        statusType: 'neutral',
+        desc: `Initialized empty HashMap<Character, Integer> freq.`
+      });
+
+      // Loop 1: for (char ch : s1.toCharArray())
+      for (let i = 0; i < s1.length; i++) {
+        const ch = s1[i];
+        activeS1Idx = i;
+        const prevCount = mapState.has(ch) ? mapState.get(ch) : 0;
+
+        record({
+          line: 11,
+          phase: `s1 Loop [idx ${i}]: char ch = '${ch}'`,
+          highlightKey: ch,
+          highlightMode: 'lookup',
+          varLoop: `s1 [#${i}]`,
+          varCh: `'${ch}'`,
+          varCount: '-',
+          varFreqVal: `${prevCount}`,
+          evalStmt: `ch = '${ch}', freq.getOrDefault('${ch}', 0)`,
+          evalResult: `${prevCount}`,
+          mapDetail: `Reading character '${ch}' at index ${i} of s1. Current frequency in map is ${prevCount}.`,
+          statusType: 'neutral',
+          desc: `s1 Loop: inspecting character '${ch}' at index ${i}.`
+        });
+
+        const newCount = prevCount + 1;
+        mapState.set(ch, newCount);
+        processedS1UpTo = i;
+
+        record({
+          line: 12,
+          phase: `Increment freq.put('${ch}', ${newCount})`,
+          highlightKey: ch,
+          highlightMode: 'inc',
+          varLoop: `s1 [#${i}]`,
+          varCh: `'${ch}'`,
+          varCount: '-',
+          varFreqVal: `${newCount}`,
+          evalStmt: `freq.put('${ch}', ${prevCount} + 1)`,
+          evalResult: `'${ch}' -> ${newCount}`,
+          mapDetail: `Updated HashMap: '${ch}' count incremented from ${prevCount} to ${newCount}.`,
+          statusType: 'increment',
+          desc: `Incremented frequency of '${ch}' in HashMap to ${newCount}.`
+        });
+      }
+
+      activeS1Idx = -1;
+
+      // Loop 2: for (char ch : s2.toCharArray())
+      for (let i = 0; i < s2.length; i++) {
+        const ch = s2[i];
+        activeS2Idx = i;
+        const currentFreq = mapState.has(ch) ? mapState.get(ch) : 0;
+
+        record({
+          line: 15,
+          phase: `s2 Loop [idx ${i}]: char ch = '${ch}'`,
+          highlightKey: ch,
+          highlightMode: 'lookup',
+          varLoop: `s2 [#${i}]`,
+          varCh: `'${ch}'`,
+          varCount: '-',
+          varFreqVal: `${currentFreq}`,
+          evalStmt: `ch = '${ch}' from s2[${i}]`,
+          evalResult: `'${ch}'`,
+          mapDetail: `Reading character '${ch}' at index ${i} of s2 to verify available count in freq.`,
+          statusType: 'neutral',
+          desc: `s2 Loop: inspecting character '${ch}' at index ${i}.`
+        });
+
+        // Line 16: int count = freq.getOrDefault(ch, 0);
+        record({
+          line: 16,
+          phase: `Lookup count for '${ch}'`,
+          highlightKey: ch,
+          highlightMode: 'lookup',
+          varLoop: `s2 [#${i}]`,
+          varCh: `'${ch}'`,
+          varCount: `${currentFreq}`,
+          varFreqVal: `${currentFreq}`,
+          evalStmt: `count = freq.getOrDefault('${ch}', 0)`,
+          evalResult: `count = ${currentFreq}`,
+          mapDetail: `Retrieved count = ${currentFreq} for character '${ch}' from the HashMap.`,
+          statusType: 'neutral',
+          desc: `Fetched count = ${currentFreq} for '${ch}' using freq.getOrDefault('${ch}', 0).`
+        });
+
+        // Line 18: if (count == 0)
+        const isZero = currentFreq === 0;
+        record({
+          line: 18,
+          phase: `Check if (count == 0) for '${ch}'`,
+          highlightKey: ch,
+          highlightMode: isZero ? 'fail' : 'lookup',
+          varLoop: `s2 [#${i}]`,
+          varCh: `'${ch}'`,
+          varCount: `${currentFreq}`,
+          varFreqVal: `${currentFreq}`,
+          evalStmt: `count == 0 (${currentFreq} == 0)`,
+          evalResult: isZero ? 'true (Depleted/Missing!)' : 'false (Available)',
+          mapDetail: isZero
+            ? `Count for '${ch}' is 0! Either '${ch}' never existed in s1 or s2 has more '${ch}' characters than s1.`
+            : `Count is ${currentFreq} (> 0), so '${ch}' is available to be matched.`,
+          statusType: isZero ? 'error' : 'neutral',
+          desc: isZero
+            ? `Condition count == 0 is true! Character '${ch}' has no remaining occurrences.`
+            : `Condition count == 0 is false (count is ${currentFreq}).`
+        });
+
+        if (isZero) {
+          record({
+            line: 19,
+            phase: `Return false (Mismatch at '${ch}')`,
+            highlightKey: ch,
+            highlightMode: 'fail',
+            varLoop: `s2 [#${i}]`,
+            varCh: `'${ch}'`,
+            varCount: `0`,
+            varFreqVal: `0`,
+            evalStmt: `return false;`,
+            evalResult: `false`,
+            mapDetail: `Algorithm terminates early and returns false because '${ch}' in s2 has count == 0 in freq.`,
+            statusType: 'finished_false',
+            returnVal: false,
+            desc: `Returned false: character '${ch}' at s2[${i}] exceeded available frequency.`
+          });
+          return steps;
+        }
+
+        // Line 22: freq.put(ch, count - 1);
+        const nextCount = currentFreq - 1;
+        mapState.set(ch, nextCount);
+        processedS2UpTo = i;
+
+        record({
+          line: 22,
+          phase: `Decrement freq.put('${ch}', ${nextCount})`,
+          highlightKey: ch,
+          highlightMode: 'dec',
+          varLoop: `s2 [#${i}]`,
+          varCh: `'${ch}'`,
+          varCount: `${currentFreq}`,
+          varFreqVal: `${nextCount}`,
+          evalStmt: `freq.put('${ch}', ${currentFreq} - 1)`,
+          evalResult: `'${ch}' -> ${nextCount}`,
+          mapDetail: `Decremented '${ch}' count in HashMap from ${currentFreq} down to ${nextCount}.`,
+          statusType: 'decrement',
+          desc: `Decremented frequency of '${ch}' in HashMap to ${nextCount}.`
+        });
+      }
+
+      activeS2Idx = -1;
+
+      // Line 25: return true
+      record({
+        line: 25,
+        phase: `Return true (All Frequencies Match!)`,
+        varLoop: 'Done',
+        varCh: '-',
+        varCount: '0',
+        varFreqVal: '0',
+        evalStmt: `return true;`,
+        evalResult: `true`,
+        mapDetail: `Every character in s2 matched and decremented all counts in freq to 0. Both strings have identical frequencies!`,
+        statusType: 'finished_true',
+        returnVal: true,
+        desc: `All characters verified! Returned true.`
+      });
+
+      return steps;
+    }
+
+    const samplePresets = [
+      { s1: "listen", s2: "silent" },
+      { s1: "apple", s2: "papel" },
+      { s1: "rat", s2: "car" },
+      { s1: "aabbcc", s2: "abcabc" },
+      { s1: "hello", s2: "helloo" }
+    ];
+    let sampleIndex = 0;
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 800;
+
+    // DOM Elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    const arenaS1Info = document.getElementById('arenaS1Info');
+    const arenaS2Info = document.getElementById('arenaS2Info');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const s1CardsContainer = document.getElementById('s1CardsContainer');
+    const s2CardsContainer = document.getElementById('s2CardsContainer');
+    const s1ProgressText = document.getElementById('s1ProgressText');
+    const s2ProgressText = document.getElementById('s2ProgressText');
+    const hashMapContainer = document.getElementById('hashMapContainer');
+    const mapSizeBadge = document.getElementById('mapSizeBadge');
+    const mapOperationDetail = document.getElementById('mapOperationDetail');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+
+    const varActiveLoop = document.getElementById('varActiveLoop');
+    const varCharCh = document.getElementById('varCharCh');
+    const varCount = document.getElementById('varCount');
+    const varFreqVal = document.getElementById('varFreqVal');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    const inputS1 = document.getElementById('inputS1');
+    const inputS2 = document.getElementById('inputS2');
+    const btnLoadCustom = document.getElementById('btnLoadCustom');
+    const btnSampleNext = document.getElementById('btnSampleNext');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      arenaS1Info.textContent = `s1 = "${step.s1}" (len ${step.s1.length})`;
+      arenaS2Info.textContent = `s2 = "${step.s2}" (len ${step.s2.length})`;
+
+      varActiveLoop.textContent = step.varLoop;
+      varCharCh.textContent = step.varCh;
+      varCount.textContent = step.varCount;
+      varFreqVal.textContent = step.varFreqVal;
+
+      evalStatement.textContent = step.evalStmt;
+      evalResult.textContent = step.evalResult;
+      mapOperationDetail.textContent = step.mapDetail;
+      mapSizeBadge.textContent = `unique keys: ${step.mapEntries.length}`;
+
+      s1ProgressText.textContent = step.processedS1UpTo >= 0
+        ? `Processed ${step.processedS1UpTo + 1} / ${step.s1.length}`
+        : `0 / ${step.s1.length} processed`;
+
+      s2ProgressText.textContent = step.processedS2UpTo >= 0
+        ? `Verified ${step.processedS2UpTo + 1} / ${step.s2.length}`
+        : `0 / ${step.s2.length} verified`;
+
+      // Banner & Sound Cues
+      if (step.statusType === 'increment') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-cyan-500/20">
+            <i class="fa-solid fa-arrow-up text-cyan-400"></i>
+            <span>freq.put(${step.varCh}, ${step.varFreqVal}) &bull; Count incremented (+1)</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping";
+        arenaStatusText.textContent = "Incrementing";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-500/40";
+        returnPill.textContent = `${step.varCh} : ${step.varFreqVal}`;
+        sound.playIncrement();
+
+      } else if (step.statusType === 'decrement') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-amber-950/80 text-amber-300 border border-amber-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-amber-500/20">
+            <i class="fa-solid fa-arrow-down text-amber-400"></i>
+            <span>freq.put(${step.varCh}, ${step.varFreqVal}) &bull; Count decremented (-1)</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping";
+        arenaStatusText.textContent = "Decrementing";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-amber-950/80 text-amber-300 border border-amber-500/40";
+        returnPill.textContent = `${step.varCh} : ${step.varFreqVal}`;
+        sound.playDecrement();
+
+      } else if (step.statusType === 'finished_true') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-emerald-500/25">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Same Frequencies Confirmed! return true</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = "Matched (true)";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-950/90 text-emerald-300 border border-emerald-400";
+        returnPill.textContent = "return true";
+        sound.playSuccess();
+
+      } else if (step.statusType === 'finished_false' || step.statusType === 'error') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-rose-950/90 text-rose-300 border border-rose-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-rose-500/25">
+            <i class="fa-solid fa-circle-xmark text-rose-400"></i>
+            <span>${step.phase} &bull; Frequency Mismatch!</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+        arenaStatusText.textContent = "Mismatch (false)";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-rose-950/90 text-rose-300 border border-rose-400";
+        returnPill.textContent = "return false";
+        sound.playError();
+
+      } else {
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-300 glass-input px-4 py-1.5 rounded-full">${step.phase}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = "Inspecting";
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = "running...";
+        sound.playStep();
+      }
+
+      // Highlight Active Java Code Line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      renderStringCards(step);
+      renderHashMapBuckets(step);
+    }
+
+    function renderStringCards(step) {
+      s1CardsContainer.innerHTML = '';
+      s2CardsContainer.innerHTML = '';
+
+      // Render s1 character cards
+      Array.from(step.s1).forEach((ch, idx) => {
+        const isCurrent = idx === step.activeS1Idx;
+        const isProcessed = idx <= step.processedS1UpTo;
+
+        const card = document.createElement('div');
+        let classes = "char-card w-12 sm:w-14 h-16 rounded-xl glass-input p-1.5 flex flex-col justify-between items-center border select-none font-mono ";
+        if (isCurrent) {
+          classes += "card-active-s1 bg-cyan-950/80 border-cyan-400 text-cyan-200";
+        } else if (isProcessed) {
+          classes += "bg-cyan-950/30 border-cyan-500/30 text-cyan-300/80";
+        } else {
+          classes += "bg-slate-900/60 border-white/10 text-slate-300";
+        }
+        card.className = classes;
+
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[9px] text-slate-400">
+            <span>#${idx}</span>
+            ${isCurrent ? '<span class="text-cyan-300 font-bold">ch</span>' : (isProcessed ? '<i class="fa-solid fa-check text-cyan-400 text-[8px]"></i>' : '')}
+          </div>
+          <div class="text-lg font-black ${isCurrent ? 'text-white' : ''}">${ch}</div>
+          <div class="text-[8px] text-slate-500">${isProcessed ? '+1' : 's1'}</div>
+        `;
+        s1CardsContainer.appendChild(card);
+      });
+
+      // Render s2 character cards
+      Array.from(step.s2).forEach((ch, idx) => {
+        const isCurrent = idx === step.activeS2Idx;
+        const isProcessed = idx <= step.processedS2UpTo;
+        const isFailedCard = isCurrent && (step.statusType === 'error' || step.statusType === 'finished_false');
+
+        const card = document.createElement('div');
+        let classes = "char-card w-12 sm:w-14 h-16 rounded-xl glass-input p-1.5 flex flex-col justify-between items-center border select-none font-mono ";
+        if (isFailedCard) {
+          classes += "card-fail bg-rose-950/90 border-rose-400 text-rose-200";
+        } else if (isCurrent) {
+          classes += "card-active-s2 bg-amber-950/80 border-amber-400 text-amber-200";
+        } else if (isProcessed) {
+          classes += "bg-emerald-950/30 border-emerald-500/30 text-emerald-300/80";
+        } else {
+          classes += "bg-slate-900/60 border-white/10 text-slate-300";
+        }
+        card.className = classes;
+
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[9px] text-slate-400">
+            <span>#${idx}</span>
+            ${isCurrent ? '<span class="text-amber-300 font-bold">ch</span>' : (isProcessed ? '<i class="fa-solid fa-check text-emerald-400 text-[8px]"></i>' : '')}
+          </div>
+          <div class="text-lg font-black ${isCurrent ? 'text-white' : ''}">${ch}</div>
+          <div class="text-[8px] ${isFailedCard ? 'text-rose-300 font-bold' : 'text-slate-500'}">${isFailedCard ? '0!' : (isProcessed ? '-1' : 's2')}</div>
+        `;
+        s2CardsContainer.appendChild(card);
+      });
+    }
+
+    function renderHashMapBuckets(step) {
+      hashMapContainer.innerHTML = '';
+
+      if (step.mapEntries.length === 0 && step.highlightMode !== 'fail') {
+        hashMapContainer.innerHTML = `
+          <div class="text-xs font-mono text-slate-500 italic py-6">
+            HashMap is currently empty { }
+          </div>`;
+        return;
+      }
+
+      step.mapEntries.forEach(entry => {
+        const isHighlighted = step.highlightKey === entry.key;
+        const bucket = document.createElement('div');
+
+        let classes = "bucket-card w-20 sm:w-24 h-24 rounded-2xl glass-input p-2 flex flex-col justify-between items-center border font-mono select-none ";
+        let badgeHtml = `<span class="text-[9px] text-slate-400">key</span>`;
+
+        if (isHighlighted && step.highlightMode === 'inc') {
+          classes += "card-active-s1 bg-cyan-950/80 border-cyan-400 text-cyan-200";
+          badgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/30 text-cyan-200 font-bold">+1</span>`;
+        } else if (isHighlighted && step.highlightMode === 'dec') {
+          classes += "card-active-s2 bg-amber-950/80 border-amber-400 text-amber-200";
+          badgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 font-bold">-1</span>`;
+        } else if (isHighlighted && step.highlightMode === 'fail') {
+          classes += "card-fail bg-rose-950/90 border-rose-400 text-rose-200";
+          badgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-rose-500/30 text-rose-200 font-bold">== 0!</span>`;
+        } else if (isHighlighted && step.highlightMode === 'lookup') {
+          classes += "bg-indigo-950/80 border-indigo-400 text-indigo-200 scale-105";
+          badgeHtml = `<span class="text-[9px] px-1.5 py-0.2 rounded bg-indigo-500/30 text-indigo-200 font-bold">get</span>`;
+        } else if (entry.val === 0) {
+          classes += "bg-emerald-950/30 border-emerald-500/30 text-emerald-300";
+          badgeHtml = `<span class="text-[9px] text-emerald-400">balanced</span>`;
+        } else {
+          classes += "bg-slate-900/70 border-white/15 text-slate-200";
+        }
+
+        bucket.className = classes;
+        bucket.innerHTML = `
+          <div class="w-full flex items-center justify-between border-b border-white/10 pb-1">
+            <span class="text-xs font-bold text-white">'${entry.key}'</span>
+            ${badgeHtml}
+          </div>
+          <div class="my-auto flex flex-col items-center">
+            <span class="text-[9px] text-slate-400">count</span>
+            <span class="text-xl font-black ${entry.val === 0 ? 'text-emerald-300' : 'text-white'}">${entry.val}</span>
+          </div>
+        `;
+        hashMapContainer.appendChild(bucket);
+      });
+
+      // If lookup failed on a character not in map at all
+      if (step.highlightKey && !step.mapEntries.some(e => e.key === step.highlightKey)) {
+        const missingBucket = document.createElement('div');
+        const isFail = step.highlightMode === 'fail';
+        missingBucket.className = `bucket-card w-24 h-24 rounded-2xl glass-input p-2 flex flex-col justify-between items-center border font-mono select-none ${
+          isFail ? 'card-fail bg-rose-950/90 border-rose-400 text-rose-200' : 'bg-indigo-950/70 border-indigo-400/60 text-indigo-200'
+        }`;
+        missingBucket.innerHTML = `
+          <div class="w-full flex items-center justify-between border-b border-white/10 pb-1">
+            <span class="text-xs font-bold">'${step.highlightKey}'</span>
+            <span class="text-[8px] px-1 rounded bg-rose-500/30 text-rose-200">default</span>
+          </div>
+          <div class="my-auto flex flex-col items-center">
+            <span class="text-[9px] text-rose-300">not in map</span>
+            <span class="text-xl font-black text-rose-300">0</span>
+          </div>
+        `;
+        hashMapContainer.appendChild(missingBucket);
+      }
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-cyan-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-indigo-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-cyan-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-indigo-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function initializeSimulation(s1, s2) {
+      stopAutoPlay();
+      currentSteps = generateExecutionSteps(s1, s2);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+
+    btnSampleNext.addEventListener('click', () => {
+      sampleIndex = (sampleIndex + 1) % samplePresets.length;
+      const preset = samplePresets[sampleIndex];
+      inputS1.value = preset.s1;
+      inputS2.value = preset.s2;
+      initializeSimulation(preset.s1, preset.s2);
+    });
+
+    btnLoadCustom.addEventListener('click', () => {
+      const s1Val = inputS1.value.trim() || "listen";
+      const s2Val = inputS2.value.trim() || "silent";
+      inputS1.value = s1Val;
+      inputS2.value = s2Val;
+      initializeSimulation(s1Val, s2Val);
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      soundIcon.className = sound.enabled
+        ? "fa-solid fa-volume-high text-cyan-400"
+        : "fa-solid fa-volume-xmark text-slate-500";
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation("listen", "silent");
+    };
+  </script>
+</body>
+</html>

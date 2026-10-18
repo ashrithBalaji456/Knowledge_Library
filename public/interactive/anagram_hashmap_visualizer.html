@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anagram HashMap Algorithm Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 60%, #020617 100%);
+      min-height: 100vh;
+      color: #f8fafc;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-font {
+      font-family: 'Cinzel', serif;
+    }
+    .letter-card {
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .letter-card.active-s1 {
+      transform: translateY(-8px) scale(1.1);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 12px 25px -4px rgba(56, 189, 248, 0.65), 0 0 16px rgba(56, 189, 248, 0.45);
+    }
+    .letter-card.active-s2 {
+      transform: translateY(-8px) scale(1.1);
+      border-color: #f43f5e !important;
+      box-shadow: 0 12px 25px -4px rgba(244, 63, 94, 0.65), 0 0 16px rgba(244, 63, 94, 0.45);
+    }
+    .letter-card.processed-s1 {
+      opacity: 0.85;
+      border-color: #0284c7;
+      background: linear-gradient(180deg, #0f172a 0%, #082f49 100%);
+    }
+    .letter-card.processed-s2 {
+      opacity: 0.85;
+      border-color: #e11d48;
+      background: linear-gradient(180deg, #0f172a 0%, #4c0519 100%);
+    }
+    .felt-table {
+      background: radial-gradient(ellipse at center, #1e1b4b 0%, #0f172a 75%, #020617 100%);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.85), 0 20px 40px rgba(0, 0, 0, 0.6);
+      border: 4px solid #334155;
+    }
+    .felt-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .code-line {
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .code-active {
+      background-color: rgba(59, 130, 246, 0.28) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .map-entry {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .map-entry.highlight-inc {
+      transform: scale(1.12);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.55);
+    }
+    .map-entry.highlight-dec {
+      transform: scale(1.12);
+      border-color: #f43f5e !important;
+      box-shadow: 0 0 16px rgba(244, 63, 94, 0.55);
+    }
+    .map-entry.zero-alert {
+      transform: scale(1.15);
+      border-color: #ef4444 !important;
+      background-color: rgba(239, 68, 68, 0.3) !important;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: scale(1.15) translateX(0); }
+      20%, 60% { transform: scale(1.15) translateX(-4px); }
+      40%, 80% { transform: scale(1.15) translateX(4px); }
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between">
+
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3 bg-slate-900/90 p-3.5 sm:p-4 rounded-2xl border border-slate-800 backdrop-blur-md shadow-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-500 via-indigo-600 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-white text-xl font-bold">
+          <i class="fa-solid fa-map-location-dot"></i>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-rose-300 bg-clip-text text-transparent">
+            Anagram Visualizer &bull; Java HashMap
+          </h1>
+          <p class="text-xs text-slate-400">Track characters with Map&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;()</p>
+        </div>
+      </div>
+
+      <!-- Test String Inputs and Presets -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-slate-800/90 px-2.5 py-1.5 rounded-xl border border-slate-700 text-xs">
+          <span class="text-sky-400 font-semibold">s1:</span>
+          <input id="inputS1" type="text" value="Dormitory" class="bg-slate-950 px-2 py-0.5 rounded text-sky-300 font-mono w-24 sm:w-28 text-center border border-slate-700 focus:outline-none focus:border-sky-400">
+          <span class="text-rose-400 font-semibold ml-1">s2:</span>
+          <input id="inputS2" type="text" value="dirty room" class="bg-slate-950 px-2 py-0.5 rounded text-rose-300 font-mono w-24 sm:w-28 text-center border border-slate-700 focus:outline-none focus:border-rose-400">
+        </div>
+        <button id="btnApply" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md flex items-center gap-1">
+          <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Load
+        </button>
+        <button id="btnPreset" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Cycle Example Cases">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sky-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOP PLAYBACK CONTROLS PANEL (Prominently placed on top) -->
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="bg-slate-900/95 p-3.5 sm:p-4 rounded-2xl border-2 border-indigo-500/30 shadow-2xl backdrop-blur-md flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Main Step Action Buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset Button -->
+          <button id="btnReset" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center transition border border-slate-700 shadow" title="Reset to start">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Previous Button -->
+          <button id="btnPrev" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold transition border border-slate-700 shadow" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) Button -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-indigo-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next Button -->
+          <button id="btnNext" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold transition border border-slate-700 shadow" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/90 text-indigo-300 border border-indigo-500/40">
+            <span class="w-2 h-2 rounded-full bg-sky-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs bg-black/50 text-slate-300 px-3 py-1 rounded-full border border-slate-700/70 font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1800">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold" data-speed="900">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-slate-800/80">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Playing Cards Arena & HashMap Visualizer (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Felt Table Arena -->
+      <div class="felt-table felt-pattern rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[480px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Table Header & Operation Indicator -->
+        <div class="flex items-center justify-between z-10 gap-2 mb-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">
+            <span class="text-sky-400 font-bold"><i class="fa-solid fa-plus mr-1"></i>put(c, +1)</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-rose-400 font-bold"><i class="fa-solid fa-minus mr-1"></i>put(c, -1)</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60 text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Middle Arena: S1 Cards Rack, S2 Cards Rack, and HashMap Table -->
+        <div class="my-auto py-2 flex flex-col gap-3.5">
+          
+          <!-- Banner for current action -->
+          <div id="comparisonBanner" class="h-8 flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">
+              Press Start or Next to run algorithm
+            </span>
+          </div>
+
+          <!-- String 1 Cards Rack (Populates the Map) -->
+          <div>
+            <div class="flex items-center justify-between px-2 mb-1 text-xs font-mono">
+              <span class="text-sky-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-right-to-bracket text-sky-400"></i> String s1: <span id="s1DisplayVal" class="text-white bg-sky-950/70 px-2 py-0.5 rounded border border-sky-800">""</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="s1Notice">Raw</span>
+            </div>
+            <div id="cardsRackS1" class="flex flex-wrap items-center justify-center gap-2 min-h-[68px] bg-black/35 p-2 rounded-2xl border border-slate-800/80">
+              <!-- Rendered S1 cards -->
+            </div>
+          </div>
+
+          <!-- String 2 Cards Rack (Validates & Decrements the Map) -->
+          <div>
+            <div class="flex items-center justify-between px-2 mb-1 text-xs font-mono">
+              <span class="text-rose-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-right-from-bracket text-rose-400"></i> String s2: <span id="s2DisplayVal" class="text-white bg-rose-950/70 px-2 py-0.5 rounded border border-rose-800">""</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="s2Notice">Raw</span>
+            </div>
+            <div id="cardsRackS2" class="flex flex-wrap items-center justify-center gap-2 min-h-[68px] bg-black/35 p-2 rounded-2xl border border-slate-800/80">
+              <!-- Rendered S2 cards -->
+            </div>
+          </div>
+
+          <!-- Dynamic HashMap<Character, Integer> freq Visualizer Container -->
+          <div class="bg-black/55 p-3.5 rounded-2xl border border-slate-800 backdrop-blur-md flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <div class="text-xs font-bold text-slate-300 flex items-center gap-2 font-mono">
+                <i class="fa-solid fa-cubes-stacked text-indigo-400"></i> Map&lt;Character, Integer&gt; freq = new HashMap&lt;&gt;()
+              </div>
+              <div class="text-[11px] font-mono text-slate-400">
+                Size: <span id="mapSizeBadge" class="text-indigo-300 font-bold">0 keys</span>
+              </div>
+            </div>
+
+            <!-- Hash Table Buckets / Key-Value Card Slots -->
+            <div id="hashMapContainer" class="flex flex-wrap items-center justify-center gap-2 min-h-[72px] p-2 bg-slate-950/60 rounded-xl border border-slate-800/90">
+              <span class="text-xs text-slate-500 italic">Map is empty. Run loop 1 to populate entries.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Description callout at bottom of arena -->
+        <div class="z-10 bg-black/80 backdrop-blur-md p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            Return: ?
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Live Variable Watcher & Java Source Code (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Variable Watcher Box -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-sky-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: isAnagram()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">char c</span>
+            <span id="varCharC" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">count</span>
+            <span id="varCount" class="font-mono text-base font-bold text-rose-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">s1.length()</span>
+            <span id="varLen1" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">s2.length()</span>
+            <span id="varLen2" class="font-mono text-base font-bold text-indigo-400">-</span>
+          </div>
+        </div>
+
+        <!-- Live Evaluation Expression Status -->
+        <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 text-xs flex flex-col gap-1.5 font-mono">
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Evaluating:</span>
+            <span id="evalCondition" class="text-sky-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+            <span id="evalStatement" class="text-slate-300">s1.length() != s2.length()</span>
+            <span id="evalResult" class="font-bold text-slate-400">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code Block matching user's exact code -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex-grow flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-500 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[360px] rounded-xl bg-slate-950 p-2 border border-slate-800/80 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">import</span>&nbsp;java.util.*;</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span></div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;<span class="text-purple-400">static boolean</span>&nbsp;<span class="text-blue-400">isAnagram</span>(String s1, String s2) {</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;s1 = s1.<span class="text-blue-300">replaceAll</span>(<span class="text-emerald-300">"\\s+"</span>, <span class="text-emerald-300">""</span>).<span class="text-blue-300">toLowerCase</span>();</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;s2 = s2.<span class="text-blue-300">replaceAll</span>(<span class="text-emerald-300">"\\s+"</span>, <span class="text-emerald-300">""</span>).<span class="text-blue-300">toLowerCase</span>();</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span></div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (s1.<span class="text-blue-300">length</span>() != s2.<span class="text-blue-300">length</span>()) {</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span></div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;Character, Integer&gt; freq = <span class="text-purple-400">new</span> HashMap&lt;&gt;();</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span></div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">char</span> c : s1.<span class="text-blue-300">toCharArray</span>()) {</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq.<span class="text-blue-300">put</span>(c, freq.<span class="text-blue-300">getOrDefault</span>(c, <span class="text-orange-400">0</span>) + <span class="text-orange-400">1</span>);</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span></div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">char</span> c : s2.<span class="text-blue-300">toCharArray</span>()) {</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> count = freq.<span class="text-blue-300">getOrDefault</span>(c, <span class="text-orange-400">0</span>);</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span></div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (count == <span class="text-orange-400">0</span>) {</div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span></div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq.<span class="text-blue-300">put</span>(c, count - <span class="text-orange-400">1</span>);</div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span></div>
+          <div id="code-line-28" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">28</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return true</span>;</div>
+          <div id="code-line-29" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">29</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-30" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">30</span></div>
+          <div id="code-line-31" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">31</span>&nbsp;&nbsp;<span class="text-purple-400">public static void</span>&nbsp;<span class="text-blue-400">main</span>(String[] args) {</div>
+          <div id="code-line-32" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">32</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isAnagram(<span class="text-emerald-300">"Dormitory"</span>, <span class="text-emerald-300">"dirty room"</span>));</div>
+          <div id="code-line-33" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">33</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-34" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">34</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1">
+    <p>Java HashMap Anagram Visualizer &bull; O(N) Time Complexity &bull; O(K) Unique Characters Space Complexity</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playInc() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(420, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(640, this.ctx.currentTime + 0.07);
+
+        gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.07);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.07);
+      }
+
+      playDec() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(380, this.ctx.currentTime + 0.07);
+
+        gain.gain.setValueAtTime(0.09, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.07);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.07);
+      }
+
+      playSuccess() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const freqs = [523.25, 659.25, 783.99, 1046.50];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.22);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.23);
+        });
+      }
+
+      playFail() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(240, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.22);
+
+        gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.22);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.22);
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateAnagramMapSteps(rawS1, rawS2) {
+      const steps = [];
+
+      // Step: Call start in main (Line 32)
+      steps.push({
+        line: 32,
+        phase: 'Main Invocation',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: rawS1,
+        s2: rawS2,
+        s1Cleaned: false,
+        s2Cleaned: false,
+        map: {},
+        charC: null,
+        countVar: null,
+        activeS1Idx: null,
+        activeS2Idx: null,
+        processedS1Upto: -1,
+        processedS2Upto: -1,
+        highlightKey: null,
+        highlightOp: null,
+        evalText: `isAnagram("${rawS1}", "${rawS2}")`,
+        resultText: "Invoked",
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `main() calls isAnagram("${rawS1}", "${rawS2}").`
+      });
+
+      // Line 5: Clean s1
+      const cleanedS1 = rawS1.replace(/\s+/g, '').toLowerCase();
+      steps.push({
+        line: 5,
+        phase: 'Clean s1',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: rawS2,
+        s1Cleaned: true,
+        s2Cleaned: false,
+        map: {},
+        charC: null,
+        countVar: null,
+        activeS1Idx: null,
+        activeS2Idx: null,
+        processedS1Upto: -1,
+        processedS2Upto: -1,
+        highlightKey: null,
+        highlightOp: null,
+        evalText: `s1.replaceAll("\\\\s+", "").toLowerCase()`,
+        resultText: `"${cleanedS1}" (len: ${cleanedS1.length})`,
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Stripped whitespace & converted s1 to lowercase -> "${cleanedS1}".`
+      });
+
+      // Line 6: Clean s2
+      const cleanedS2 = rawS2.replace(/\s+/g, '').toLowerCase();
+      steps.push({
+        line: 6,
+        phase: 'Clean s2',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        map: {},
+        charC: null,
+        countVar: null,
+        activeS1Idx: null,
+        activeS2Idx: null,
+        processedS1Upto: -1,
+        processedS2Upto: -1,
+        highlightKey: null,
+        highlightOp: null,
+        evalText: `s2.replaceAll("\\\\s+", "").toLowerCase()`,
+        resultText: `"${cleanedS2}" (len: ${cleanedS2.length})`,
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Stripped whitespace & converted s2 to lowercase -> "${cleanedS2}".`
+      });
+
+      // Line 8: if (s1.length() != s2.length())
+      const len1 = cleanedS1.length;
+      const len2 = cleanedS2.length;
+      const lenDiff = (len1 !== len2);
+
+      steps.push({
+        line: 8,
+        phase: 'Length Check',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        map: {},
+        charC: null,
+        countVar: null,
+        activeS1Idx: null,
+        activeS2Idx: null,
+        processedS1Upto: -1,
+        processedS2Upto: -1,
+        highlightKey: null,
+        highlightOp: null,
+        evalText: `s1.length() (${len1}) != s2.length() (${len2})`,
+        resultText: lenDiff ? "TRUE" : "FALSE",
+        statusType: lenDiff ? 'fail' : 'neutral',
+        returnValue: null,
+        desc: `Checking if lengths differ: ${len1} != ${len2} evaluates to ${lenDiff ? 'TRUE (Lengths differ!)' : 'FALSE (Lengths match)'}.`
+      });
+
+      if (lenDiff) {
+        // Line 9: return false
+        steps.push({
+          line: 9,
+          phase: 'Early Return',
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: {},
+          charC: null,
+          countVar: null,
+          activeS1Idx: null,
+          activeS2Idx: null,
+          processedS1Upto: -1,
+          processedS2Upto: -1,
+          highlightKey: null,
+          highlightOp: null,
+          evalText: `return false`,
+          resultText: "false",
+          statusType: 'fail',
+          returnValue: false,
+          desc: `Lengths do not match (${len1} vs ${len2}). Strings cannot be anagrams. Returning false.`
+        });
+        return steps;
+      }
+
+      // Line 12: Map<Character, Integer> freq = new HashMap<>();
+      const currentMap = {};
+      steps.push({
+        line: 12,
+        phase: 'Initialize HashMap',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        map: { ...currentMap },
+        charC: null,
+        countVar: null,
+        activeS1Idx: null,
+        activeS2Idx: null,
+        processedS1Upto: -1,
+        processedS2Upto: -1,
+        highlightKey: null,
+        highlightOp: null,
+        evalText: `new HashMap<>()`,
+        resultText: "empty map initialized",
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Instantiated an empty HashMap freq to store character count entries.`
+      });
+
+      // Loop 1: for (char c : s1.toCharArray())
+      for (let i = 0; i < cleanedS1.length; i++) {
+        const char = cleanedS1[i];
+        
+        // Line 14: Loop header inspecting char c
+        steps.push({
+          line: 14,
+          phase: `Loop 1 (s1): char '${char}'`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: { ...currentMap },
+          charC: char,
+          countVar: null,
+          activeS1Idx: i,
+          activeS2Idx: null,
+          processedS1Upto: i - 1,
+          processedS2Upto: -1,
+          highlightKey: null,
+          highlightOp: null,
+          evalText: `c = s1[${i}] = '${char}'`,
+          resultText: `Inspecting '${char}'`,
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `Loop 1: Taking letter '${char}' at index ${i} of s1.`
+        });
+
+        // Line 15: freq.put(c, freq.getOrDefault(c, 0) + 1);
+        const prevVal = currentMap[char] || 0;
+        const newVal = prevVal + 1;
+        currentMap[char] = newVal;
+
+        steps.push({
+          line: 15,
+          phase: `freq.put('${char}', ${newVal})`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: { ...currentMap },
+          charC: char,
+          countVar: null,
+          activeS1Idx: i,
+          activeS2Idx: null,
+          processedS1Upto: i,
+          processedS2Upto: -1,
+          highlightKey: char,
+          highlightOp: 'inc',
+          evalText: `freq.put('${char}', getOrDefault('${char}', 0) + 1) -> ${newVal}`,
+          resultText: `Map['${char}'] = ${newVal}`,
+          statusType: 'inc',
+          returnValue: null,
+          desc: `Incremented count for '${char}': previous ${prevVal} -> now ${newVal}.`
+        });
+      }
+
+      // Loop 2: for (char c : s2.toCharArray())
+      for (let j = 0; j < cleanedS2.length; j++) {
+        const char = cleanedS2[j];
+
+        // Line 18: Loop header
+        steps.push({
+          line: 18,
+          phase: `Loop 2 (s2): char '${char}'`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: { ...currentMap },
+          charC: char,
+          countVar: null,
+          activeS1Idx: null,
+          activeS2Idx: j,
+          processedS1Upto: cleanedS1.length - 1,
+          processedS2Upto: j - 1,
+          highlightKey: null,
+          highlightOp: null,
+          evalText: `c = s2[${j}] = '${char}'`,
+          resultText: `Inspecting '${char}'`,
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `Loop 2: Inspecting character '${char}' from s2 at index ${j}.`
+        });
+
+        // Line 19: int count = freq.getOrDefault(c, 0);
+        const count = currentMap[char] || 0;
+        steps.push({
+          line: 19,
+          phase: `getOrDefault('${char}', 0)`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: { ...currentMap },
+          charC: char,
+          countVar: count,
+          activeS1Idx: null,
+          activeS2Idx: j,
+          processedS1Upto: cleanedS1.length - 1,
+          processedS2Upto: j - 1,
+          highlightKey: char,
+          highlightOp: 'get',
+          evalText: `int count = freq.getOrDefault('${char}', 0)`,
+          resultText: `count = ${count}`,
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `Retrieved count for '${char}' from map: count = ${count}.`
+        });
+
+        // Line 21: if (count == 0)
+        const isZero = (count === 0);
+        steps.push({
+          line: 21,
+          phase: `Check if count == 0`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: { ...currentMap },
+          charC: char,
+          countVar: count,
+          activeS1Idx: null,
+          activeS2Idx: j,
+          processedS1Upto: cleanedS1.length - 1,
+          processedS2Upto: j - 1,
+          highlightKey: char,
+          highlightOp: isZero ? 'zero' : 'get',
+          evalText: `if (${count} == 0)`,
+          resultText: isZero ? "TRUE (Missing/Depleted!)" : "FALSE (Available)",
+          statusType: isZero ? 'fail' : 'neutral',
+          returnValue: null,
+          desc: `Evaluating (count == 0): ${count} == 0 is ${isZero ? 'TRUE (Character unavailable or exhausted!)' : 'FALSE (Character count available)'}.`
+        });
+
+        if (isZero) {
+          // Line 22: return false
+          steps.push({
+            line: 22,
+            phase: 'Return False',
+            s1Raw: rawS1,
+            s2Raw: rawS2,
+            s1: cleanedS1,
+            s2: cleanedS2,
+            s1Cleaned: true,
+            s2Cleaned: true,
+            map: { ...currentMap },
+            charC: char,
+            countVar: count,
+            activeS1Idx: null,
+            activeS2Idx: j,
+            processedS1Upto: cleanedS1.length - 1,
+            processedS2Upto: j - 1,
+            highlightKey: char,
+            highlightOp: 'zero',
+            evalText: `return false`,
+            resultText: "false",
+            statusType: 'fail',
+            returnValue: false,
+            desc: `Character '${char}' was either never in s1 or was already consumed! Not an anagram. Returning false.`
+          });
+          return steps;
+        }
+
+        // Line 25: freq.put(c, count - 1);
+        currentMap[char] = count - 1;
+        steps.push({
+          line: 25,
+          phase: `freq.put('${char}', ${count - 1})`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          map: { ...currentMap },
+          charC: char,
+          countVar: count,
+          activeS1Idx: null,
+          activeS2Idx: j,
+          processedS1Upto: cleanedS1.length - 1,
+          processedS2Upto: j,
+          highlightKey: char,
+          highlightOp: 'dec',
+          evalText: `freq.put('${char}', ${count} - 1) -> ${count - 1}`,
+          resultText: `Map['${char}'] = ${count - 1}`,
+          statusType: 'dec',
+          returnValue: null,
+          desc: `Decremented frequency for '${char}': now remaining = ${count - 1}.`
+        });
+      }
+
+      // Line 28: return true;
+      steps.push({
+        line: 28,
+        phase: 'Anagram Verified!',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        map: { ...currentMap },
+        charC: null,
+        countVar: 0,
+        activeS1Idx: null,
+        activeS2Idx: null,
+        processedS1Upto: cleanedS1.length - 1,
+        processedS2Upto: cleanedS2.length - 1,
+        highlightKey: null,
+        highlightOp: null,
+        evalText: `return true`,
+        resultText: "true",
+        statusType: 'success',
+        returnValue: true,
+        desc: `Every character matched and consumed perfectly without depletion. Valid Anagram! Returning true.`
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 900;
+
+    // DOM Elements - Top Bar
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    // DOM Elements - Arena & Cards
+    const cardsRackS1 = document.getElementById('cardsRackS1');
+    const cardsRackS2 = document.getElementById('cardsRackS2');
+    const s1DisplayVal = document.getElementById('s1DisplayVal');
+    const s2DisplayVal = document.getElementById('s2DisplayVal');
+    const s1Notice = document.getElementById('s1Notice');
+    const s2Notice = document.getElementById('s2Notice');
+    const hashMapContainer = document.getElementById('hashMapContainer');
+    const mapSizeBadge = document.getElementById('mapSizeBadge');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+
+    // Watcher DOM elements
+    const varCharC = document.getElementById('varCharC');
+    const varCount = document.getElementById('varCount');
+    const varLen1 = document.getElementById('varLen1');
+    const varLen2 = document.getElementById('varLen2');
+    const evalCondition = document.getElementById('evalCondition');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    // Controls and Inputs
+    const inputS1 = document.getElementById('inputS1');
+    const inputS2 = document.getElementById('inputS2');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update Top Status Badges
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      // Update String Display Badges
+      s1DisplayVal.textContent = `"${step.s1}"`;
+      s2DisplayVal.textContent = `"${step.s2}"`;
+      s1Notice.textContent = step.s1Cleaned ? "Cleaned & lowercase" : "Raw string";
+      s2Notice.textContent = step.s2Cleaned ? "Cleaned & lowercase" : "Raw string";
+
+      // Live Watcher
+      varCharC.textContent = (step.charC !== null) ? `'${step.charC}'` : '-';
+      varCount.textContent = (step.countVar !== null) ? step.countVar : '-';
+      varLen1.textContent = step.s1 ? step.s1.length : 0;
+      varLen2.textContent = step.s2 ? step.s2.length : 0;
+
+      evalCondition.textContent = step.phase;
+      evalStatement.textContent = step.evalText;
+      evalResult.textContent = step.resultText;
+
+      // Return pill & arena status
+      if (step.returnValue === true) {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 animate-pulse";
+        returnPill.textContent = "Return: true";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = "Verified Anagram";
+      } else if (step.returnValue === false) {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-rose-600 text-white shadow-lg shadow-rose-500/30 animate-pulse";
+        returnPill.textContent = "Return: false";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+        arenaStatusText.textContent = "Mismatch / Exhausted";
+      } else {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = "Return: ?";
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
+        arenaStatusText.textContent = "Executing";
+      }
+
+      // Comparison Banner Styling
+      if (step.statusType === 'inc') {
+        evalResult.className = "font-bold text-sky-400";
+        comparisonBanner.innerHTML = `<span class="bg-sky-500/20 text-sky-300 border border-sky-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-arrow-up text-sky-400 mr-1.5"></i>s1 '${step.charC}' &bull; freq.put('${step.charC}', ${step.map[step.charC]})</span>`;
+      } else if (step.statusType === 'dec') {
+        evalResult.className = "font-bold text-rose-400";
+        comparisonBanner.innerHTML = `<span class="bg-rose-500/20 text-rose-300 border border-rose-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-arrow-down text-rose-400 mr-1.5"></i>s2 '${step.charC}' &bull; freq.put('${step.charC}', ${step.map[step.charC]})</span>`;
+      } else if (step.statusType === 'success') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-600/30 text-emerald-200 border border-emerald-500 px-3 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i>Strings are valid Anagrams! Returns true.</span>`;
+      } else if (step.statusType === 'fail') {
+        evalResult.className = "font-bold text-rose-400";
+        comparisonBanner.innerHTML = `<span class="bg-rose-600/30 text-rose-200 border border-rose-500 px-3 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i>Mismatch or depleted count! Returns false.</span>`;
+      } else {
+        evalResult.className = "font-bold text-slate-300";
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 bg-black/50 px-3 py-1 rounded-full border border-slate-700/60">${step.phase}</span>`;
+      }
+
+      // Sync active code line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Sync top timeline slider
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Render letter card racks
+      renderLetterCards(cardsRackS1, step.s1, step.activeS1Idx, step.processedS1Upto, 's1');
+      renderLetterCards(cardsRackS2, step.s2, step.activeS2Idx, step.processedS2Upto, 's2');
+
+      // Render HashMap Bucket entries
+      renderHashMap(step.map, step.highlightKey, step.highlightOp);
+
+      // Sound and status dot
+      if (step.statusType === 'inc') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-sky-400 shrink-0 animate-ping";
+        sound.playInc();
+      } else if (step.statusType === 'dec') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        sound.playDec();
+      } else if (step.statusType === 'success') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 animate-bounce shrink-0";
+        sound.playSuccess();
+      } else if (step.statusType === 'fail') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        sound.playFail();
+      } else {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0";
+        sound.playTick();
+      }
+    }
+
+    function renderLetterCards(container, str, activeIdx, processedUpto, type) {
+      container.innerHTML = '';
+      if (!str || str.length === 0) {
+        container.innerHTML = `<span class="text-xs text-slate-500 italic">Empty string</span>`;
+        return;
+      }
+
+      for (let idx = 0; idx < str.length; idx++) {
+        const char = str[idx];
+        const isActive = (idx === activeIdx);
+        const isProcessed = (idx <= processedUpto && !isActive);
+
+        const card = document.createElement('div');
+        let cardClass = "letter-card relative w-9 h-12 sm:w-10 sm:h-14 rounded-xl border flex flex-col items-center justify-between p-1 shadow-md ";
+
+        if (isActive) {
+          cardClass += (type === 's1')
+            ? " active-s1 !bg-sky-950 !border-sky-400 !text-white"
+            : " active-s2 !bg-rose-950 !border-rose-400 !text-white";
+        } else if (isProcessed) {
+          cardClass += (type === 's1') ? " processed-s1 text-slate-300" : " processed-s2 text-slate-300";
+        } else {
+          cardClass += " bg-gradient-to-b from-slate-800 to-slate-900 border-slate-700 text-slate-200";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <span class="text-[9px] font-mono text-slate-400 leading-none">${idx}</span>
+          <span class="card-font text-base sm:text-lg font-bold uppercase leading-none ${isActive ? (type === 's1' ? 'text-sky-300' : 'text-rose-300') : 'text-slate-100'}">${char}</span>
+          <span class="text-[8px] font-mono text-slate-500 leading-none">${char.charCodeAt(0) - 97 >= 0 ? char.charCodeAt(0) - 97 : '-'}</span>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function renderHashMap(map, highlightKey, highlightOp) {
+      hashMapContainer.innerHTML = '';
+      const keys = Object.keys(map).sort();
+      mapSizeBadge.textContent = `${keys.length} ${keys.length === 1 ? 'key' : 'keys'}`;
+
+      if (keys.length === 0) {
+        hashMapContainer.innerHTML = `<span class="text-xs text-slate-500 italic py-2">Map is currently empty.</span>`;
+        return;
+      }
+
+      keys.forEach(k => {
+        const val = map[k];
+        const isKeyActive = (k === highlightKey);
+
+        const card = document.createElement('div');
+        let cardClass = "map-entry relative min-w-[56px] h-14 sm:h-16 px-2.5 rounded-xl border flex flex-col items-center justify-center font-mono shadow-md ";
+
+        if (isKeyActive && highlightOp === 'zero') {
+          cardClass += " zero-alert";
+        } else if (isKeyActive && highlightOp === 'inc') {
+          cardClass += " highlight-inc !bg-sky-950/70";
+        } else if (isKeyActive && highlightOp === 'dec') {
+          cardClass += " highlight-dec !bg-rose-950/70";
+        } else if (val === 0) {
+          cardClass += " bg-slate-900/60 border-slate-800 text-slate-400 opacity-60";
+        } else if (val > 0) {
+          cardClass += " bg-indigo-950/50 border-indigo-700 text-indigo-200";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="flex items-center gap-1 leading-none mb-1">
+            <span class="text-[10px] text-slate-400 font-sans">key:</span>
+            <span class="card-font text-sm sm:text-base font-bold text-yellow-300 uppercase">'${k}'</span>
+          </div>
+          <div class="flex items-center gap-1 leading-none">
+            <span class="text-[10px] text-slate-400 font-sans">val:</span>
+            <span class="text-xs sm:text-sm font-extrabold ${val > 0 ? 'text-emerald-400' : 'text-slate-500'}">${val}</span>
+          </div>
+        `;
+        hashMapContainer.appendChild(card);
+      });
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-sky-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-indigo-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-sky-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-indigo-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    const samplePresets = [
+      { s1: "Dormitory", s2: "dirty room" },
+      { s1: "Listen", s2: "Silent" },
+      { s1: "Hello", s2: "World" },
+      { s1: "A gentleman", s2: "Elegant man" },
+      { s1: "Debit card", s2: "Bad credit" }
+    ];
+    let presetIdx = 0;
+
+    function initializeSimulation() {
+      stopAutoPlay();
+
+      let s1Val = inputS1.value.trim();
+      let s2Val = inputS2.value.trim();
+
+      if (!s1Val && !s2Val) {
+        s1Val = "Dormitory";
+        s2Val = "dirty room";
+        inputS1.value = s1Val;
+        inputS2.value = s2Val;
+      }
+
+      currentSteps = generateAnagramMapSteps(s1Val, s2Val);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+    btnApply.addEventListener('click', initializeSimulation);
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % samplePresets.length;
+      inputS1.value = samplePresets[presetIdx].s1;
+      inputS2.value = samplePresets[presetIdx].s2;
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed option buttons
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-sky-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard shortcuts: Space (Play/Pause), Left/Right Arrows (Steps)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

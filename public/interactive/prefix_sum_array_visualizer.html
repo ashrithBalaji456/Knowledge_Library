@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prefix Sum &bull; Range Query Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 20% 15%, #0d122b 0%, #080c1d 40%, #03050c 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(18, 24, 48, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .glass-input {
+      background: rgba(8, 12, 28, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+    .glass-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+    .play-card {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .play-card.active-i {
+      transform: translateY(-8px) scale(1.08);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 12px 25px -4px rgba(56, 189, 248, 0.55), 0 0 16px rgba(56, 189, 248, 0.4);
+    }
+    .play-card.query-range {
+      border-color: #a855f7 !important;
+      background: rgba(168, 85, 247, 0.18) !important;
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.45);
+      transform: translateY(-4px);
+    }
+    .play-card.prefix-minuend {
+      border-color: #10b981 !important;
+      background: rgba(16, 185, 129, 0.22) !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+      transform: translateY(-8px) scale(1.08);
+    }
+    .play-card.prefix-subtrahend {
+      border-color: #f43f5e !important;
+      background: rgba(244, 63, 94, 0.2) !important;
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);
+      transform: translateY(-8px) scale(1.08);
+    }
+    .code-line {
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .code-active {
+      background-color: rgba(56, 189, 248, 0.18) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(1.08); }
+    }
+    .glow-blob {
+      animation: ambientGlow 8s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(8, 12, 28, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between relative min-h-screen">
+
+  <!-- Ambient background glow orbs for glassmorphism -->
+  <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-cyan-600/15 blur-[120px] pointer-events-none -z-10 glow-blob"></div>
+  <div class="fixed bottom-[-15%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/15 blur-[140px] pointer-events-none -z-10 glow-blob" style="animation-delay: -4s;"></div>
+  <div class="fixed top-[40%] right-[20%] w-[35vw] h-[35vw] rounded-full bg-fuchsia-600/10 blur-[130px] pointer-events-none -z-10 glow-blob" style="animation-delay: -2s;"></div>
+
+  <!-- Header Section -->
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white text-xl font-bold">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-fuchsia-300 bg-clip-text text-transparent">
+            Prefix Sum &bull; O(1) Range Query Visualizer
+          </h1>
+          <p class="text-xs text-slate-400 font-mono">
+            <span class="text-sky-300">prefix[i+1] = prefix[i] + arr[i]</span> &bull; <span class="text-emerald-300">sum(l..r) = prefix[r+1] - prefix[l]</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Test Array, Queries & Preset Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 glass-input px-2.5 py-1.5 rounded-xl text-xs">
+          <span class="text-sky-400 font-semibold font-mono">arr:</span>
+          <input id="inputArray" type="text" value="2, 4, 1, 3, 5" class="bg-transparent px-1.5 py-0.5 rounded text-amber-300 font-mono w-28 sm:w-36 text-center border-none focus:outline-none">
+        </div>
+        <div class="flex items-center gap-1.5 glass-input px-2.5 py-1.5 rounded-xl text-xs">
+          <span class="text-fuchsia-400 font-semibold font-mono">queries:</span>
+          <input id="inputQueries" type="text" value="0-2, 1-3, 0-4, 2-2" title="Format: l-r, l-r" class="bg-transparent px-1.5 py-0.5 rounded text-fuchsia-300 font-mono w-28 sm:w-36 text-center border-none focus:outline-none">
+        </div>
+        <button id="btnApply" class="px-3.5 py-1.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md shadow-indigo-500/25 flex items-center gap-1.5">
+          <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Load
+        </button>
+        <button id="btnPreset" class="glass-btn px-3 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Cycle sample datasets">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="glass-btn px-2.5 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sky-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOP PLAYBACK CONTROLS DECK (Buttons on top as requested) -->
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-white/10 shadow-2xl flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Main Step Action Buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset Button -->
+          <button id="btnReset" class="glass-btn w-10 h-10 rounded-xl text-slate-300 flex items-center justify-center" title="Reset to start (Line 7)">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Previous Button -->
+          <button id="btnPrev" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) Button -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-600 to-fuchsia-600 hover:from-sky-400 hover:to-fuchsia-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-indigo-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next Button -->
+          <button id="btnNext" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-950/70 text-indigo-300 border border-indigo-500/30 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs glass-input text-slate-300 px-3 py-1.5 rounded-full font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center glass-input rounded-xl p-1 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1600">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold" data-speed="850">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="420">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-white/5">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800/80 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Arrays Table & Query Arithmetic Inspector (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Primary Glass Canvas Arena -->
+      <div id="mainCanvas" class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[520px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Header status and formula reminder -->
+        <div class="flex flex-wrap items-center justify-between z-10 gap-2 mb-3">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 glass-input px-3 py-1.5 rounded-full">
+            <span class="text-sky-400 font-bold"><i class="fa-solid fa-plus-minus mr-1"></i>O(1) Range Queries</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-emerald-400 font-bold">Sum[l..r]</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 glass-input px-3 py-1.5 rounded-full text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Visual Area: Original Array & Prefix Sum Array -->
+        <div class="my-auto py-2 flex flex-col gap-5">
+          
+          <!-- Banner for current operation & formula breakdown -->
+          <div id="comparisonBanner" class="min-h-[38px] flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">
+              Press Start or Next to execute Java code
+            </span>
+          </div>
+
+          <!-- 1. Original Array: int[] arr -->
+          <div class="glass-input p-3 rounded-2xl border border-white/5">
+            <div class="flex items-center justify-between px-1 mb-2 text-xs font-mono">
+              <span class="text-sky-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-list-ol text-sky-400"></i> int[] arr: <span id="arrDisplayVal" class="text-amber-300">[2, 4, 1, 3, 5]</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="arrLengthNotice">n = 5</span>
+            </div>
+            <!-- Cards Rack -->
+            <div id="arrCardsRack" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 min-h-[90px] p-2">
+              <!-- Rendered original array cards -->
+            </div>
+          </div>
+
+          <!-- 2. Prefix Sum Array: long[] prefix (size n + 1) -->
+          <div class="glass-input p-3 rounded-2xl border border-white/5">
+            <div class="flex items-center justify-between px-1 mb-2 text-xs font-mono">
+              <span class="text-emerald-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-calculator text-emerald-400"></i> long[] prefix: <span id="prefixDisplayVal" class="text-emerald-400">size n + 1 (6 elements)</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="prefixFormulaNotice">prefix[0] = 0</span>
+            </div>
+            <!-- Cards Rack for Prefix -->
+            <div id="prefixCardsRack" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 min-h-[90px] p-2">
+              <!-- Rendered prefix cards -->
+            </div>
+          </div>
+
+          <!-- 3. Range Query Arithmetic Inspector Station -->
+          <div class="glass-input p-3.5 rounded-2xl border border-white/5 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold text-fuchsia-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt text-fuchsia-400"></i> Range Query Evaluation: <code class="text-white">prefix[r + 1] - prefix[l]</code>
+              </span>
+              <span id="queryCounterBadge" class="text-[11px] font-mono text-slate-400">q = 4 queries</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center mt-1">
+              <!-- Minuend card (prefix[r + 1]) -->
+              <div class="bg-emerald-950/40 p-2.5 rounded-xl border border-emerald-500/30">
+                <span class="text-[10px] uppercase tracking-wider text-emerald-300 font-semibold block">prefix[r + 1]</span>
+                <span id="valPrefixR1" class="font-mono text-base font-bold text-emerald-400">-</span>
+                <span id="labelPrefixR1" class="text-[10px] text-slate-400 font-mono block">prefix[-]</span>
+              </div>
+
+              <!-- Minus sign & subtraction formula -->
+              <div class="bg-rose-950/40 p-2.5 rounded-xl border border-rose-500/30">
+                <span class="text-[10px] uppercase tracking-wider text-rose-300 font-semibold block">prefix[l]</span>
+                <span id="valPrefixL" class="font-mono text-base font-bold text-rose-400">-</span>
+                <span id="labelPrefixL" class="text-[10px] text-slate-400 font-mono block">prefix[-]</span>
+              </div>
+
+              <!-- Computed Range Sum Result -->
+              <div class="bg-sky-950/40 p-2.5 rounded-xl border border-sky-500/30">
+                <span class="text-[10px] uppercase tracking-wider text-sky-300 font-semibold block">Subarray Sum</span>
+                <span id="valRangeResult" class="font-mono text-base font-bold text-sky-300">-</span>
+                <span id="labelRangeFormula" class="text-[10px] text-slate-400 font-mono block">arr[l] + ... + arr[r]</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Description callout at bottom of arena -->
+        <div class="z-10 glass-input p-3 rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            q remaining: 0
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Live Variable Watcher, Java Source Code & Console (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-sky-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: main()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int n</span>
+            <span id="varN" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int i</span>
+            <span id="varI" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int l, r</span>
+            <span id="varLR" class="font-mono text-base font-bold text-fuchsia-400">- , -</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int q</span>
+            <span id="varQ" class="font-mono text-base font-bold text-emerald-400">-</span>
+          </div>
+        </div>
+
+        <!-- Expression Monitor -->
+        <div class="glass-input p-2.5 rounded-xl text-xs flex flex-col gap-1 font-mono">
+          <div class="flex items-center justify-between text-slate-400 text-[11px]">
+            <span>Evaluating Statement:</span>
+            <span id="evalCondition" class="text-sky-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+            <span id="evalStatement" class="text-slate-300 truncate">Scanner sc = new Scanner(...)</span>
+            <span id="evalResult" class="font-bold text-cyan-400 shrink-0 ml-2">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code matching user's exact program -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-400 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[290px] rounded-xl glass-input p-2 border border-white/5 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">import</span>&nbsp;java.util.*;</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span></div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;<span class="text-purple-400">public static void</span>&nbsp;<span class="text-blue-400">main</span>(String[] args) {</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="text-purple-400">new</span> Scanner(System.in);</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span></div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> n = sc.nextInt();</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span>[] arr = <span class="text-purple-400">new int</span>[n];</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span></div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; n; i++) {</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = sc.nextInt();</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span></div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">long</span>[] prefix = <span class="text-purple-400">new long</span>[n + <span class="text-orange-400">1</span>];</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span></div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; n; i++) {</div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prefix[i + <span class="text-orange-400">1</span>] = prefix[i] + arr[i];</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span></div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> q = sc.nextInt();</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span></div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">while</span> (q-- &gt; <span class="text-orange-400">0</span>) {</div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> l = sc.nextInt();</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> r = sc.nextInt();</div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span></div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(prefix[r + <span class="text-orange-400">1</span>] - prefix[l]);</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-28" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">28</span></div>
+          <div id="code-line-29" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">29</span>&nbsp;&nbsp;&nbsp;&nbsp;sc.close();</div>
+          <div id="code-line-30" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">30</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-31" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">31</span>}</div>
+        </div>
+      </div>
+
+      <!-- Program Output Console (System.out.println) -->
+      <div class="glass-card rounded-2xl p-3.5 shadow-xl flex flex-col gap-1.5">
+        <div class="flex items-center justify-between text-xs font-mono pb-1 border-b border-white/5">
+          <span class="text-slate-400 flex items-center gap-1.5"><i class="fa-solid fa-terminal text-emerald-400"></i> Standard Output (Console)</span>
+          <span class="text-[10px] text-slate-500">System.out</span>
+        </div>
+        <div id="consoleLog" class="bg-black/60 rounded-xl p-2.5 font-mono text-xs text-emerald-400 min-h-[64px] max-h-[96px] overflow-y-auto space-y-1">
+          <span class="text-slate-600 italic">No output yet</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1 font-mono">
+    <p>Prefix Sum Range Queries &bull; Preprocessing Time: O(N) &bull; Range Query Time: O(1) &bull; Space: O(N)</p>
+  </footer>
+
+  <script>
+    /* Audio synthesizer using browser Web Audio API */
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, this.ctx.currentTime + 0.035);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.035);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.035);
+      }
+
+      playAdd() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(520, this.ctx.currentTime + 0.09);
+
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.09);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.09);
+      }
+
+      playQuery() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const freqs = [440, 659.25, 880];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.05);
+          gain.gain.setValueAtTime(0.1, this.ctx.currentTime + idx * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.05 + 0.16);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.05);
+          osc.stop(this.ctx.currentTime + idx * 0.05 + 0.17);
+        });
+      }
+
+      playFinish() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const chord = [523.25, 659.25, 783.99, 1046.50];
+        chord.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.1, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.22);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.23);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateSteps(rawArr, queries) {
+      const steps = [];
+      const n = rawArr.length;
+      const logs = [];
+
+      // Step: Line 5 - Scanner sc = new Scanner(System.in)
+      steps.push({
+        line: 5,
+        phase: 'Initialize Scanner',
+        n: null,
+        arr: [],
+        prefix: [],
+        i: null,
+        q: queries.length,
+        l: null,
+        r: null,
+        activeArrIdx: null,
+        activePrefixIdx: null,
+        queryL: null,
+        queryR: null,
+        queryAns: null,
+        logs: [...logs],
+        evalText: `new Scanner(System.in)`,
+        resultText: `Scanner initialized`,
+        statusType: 'neutral',
+        desc: `Scanner instantiated to parse n, array elements, and queries.`
+      });
+
+      // Step: Line 7 - int n = sc.nextInt()
+      steps.push({
+        line: 7,
+        phase: `Read n = ${n}`,
+        n: n,
+        arr: [],
+        prefix: [],
+        i: null,
+        q: queries.length,
+        l: null,
+        r: null,
+        activeArrIdx: null,
+        activePrefixIdx: null,
+        queryL: null,
+        queryR: null,
+        queryAns: null,
+        logs: [...logs],
+        evalText: `int n = sc.nextInt()`,
+        resultText: `n = ${n}`,
+        statusType: 'neutral',
+        desc: `Read array length n = ${n}.`
+      });
+
+      // Step: Line 8 - int[] arr = new int[n]
+      const currentArr = new Array(n).fill(null);
+      steps.push({
+        line: 8,
+        phase: `Allocate arr = new int[${n}]`,
+        n: n,
+        arr: [...currentArr],
+        prefix: [],
+        i: null,
+        q: queries.length,
+        l: null,
+        r: null,
+        activeArrIdx: null,
+        activePrefixIdx: null,
+        queryL: null,
+        queryR: null,
+        queryAns: null,
+        logs: [...logs],
+        evalText: `new int[${n}]`,
+        resultText: `Allocated size ${n}`,
+        statusType: 'neutral',
+        desc: `Allocated original array arr of size ${n}.`
+      });
+
+      // Loop: Reading arr[i] (Lines 10-12)
+      for (let i = 0; i < n; i++) {
+        // Line 10: loop check
+        steps.push({
+          line: 10,
+          phase: `Loop Read: i = ${i}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [],
+          i: i,
+          q: queries.length,
+          l: null,
+          r: null,
+          activeArrIdx: i,
+          activePrefixIdx: null,
+          queryL: null,
+          queryR: null,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `i < n (${i} < ${n})`,
+          resultText: `true`,
+          statusType: 'neutral',
+          desc: `Loop check for input array reading at index ${i}.`
+        });
+
+        // Line 11: arr[i] = sc.nextInt()
+        currentArr[i] = rawArr[i];
+        steps.push({
+          line: 11,
+          phase: `Read arr[${i}] = ${rawArr[i]}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [],
+          i: i,
+          q: queries.length,
+          l: null,
+          r: null,
+          activeArrIdx: i,
+          activePrefixIdx: null,
+          queryL: null,
+          queryR: null,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `arr[${i}] = ${rawArr[i]}`,
+          resultText: `arr[${i}] = ${rawArr[i]}`,
+          statusType: 'input',
+          desc: `Stored element arr[${i}] = ${rawArr[i]}.`
+        });
+      }
+
+      // Step: Line 14 - long[] prefix = new long[n + 1]
+      const currentPrefix = new Array(n + 1).fill(null);
+      currentPrefix[0] = 0; // In Java, long arrays default to 0
+      steps.push({
+        line: 14,
+        phase: `Allocate prefix = new long[${n + 1}]`,
+        n: n,
+        arr: [...currentArr],
+        prefix: [...currentPrefix],
+        i: null,
+        q: queries.length,
+        l: null,
+        r: null,
+        activeArrIdx: null,
+        activePrefixIdx: 0,
+        queryL: null,
+        queryR: null,
+        queryAns: null,
+        logs: [...logs],
+        evalText: `new long[${n} + 1]`,
+        resultText: `prefix[0] = 0 initialized`,
+        statusType: 'allocate',
+        desc: `Allocated prefix sum array of size ${n + 1}. Base prefix[0] is initialized to 0.`
+      });
+
+      // Loop: Building prefix array (Lines 16-18)
+      for (let i = 0; i < n; i++) {
+        // Line 16: loop check
+        steps.push({
+          line: 16,
+          phase: `Prefix Loop: i = ${i}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [...currentPrefix],
+          i: i,
+          q: queries.length,
+          l: null,
+          r: null,
+          activeArrIdx: i,
+          activePrefixIdx: i + 1,
+          queryL: null,
+          queryR: null,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `i < n (${i} < ${n})`,
+          resultText: `true`,
+          statusType: 'neutral',
+          desc: `Building prefix at position ${i + 1} from prefix[${i}] + arr[${i}].`
+        });
+
+        // Line 17: prefix[i + 1] = prefix[i] + arr[i]
+        const sumVal = currentPrefix[i] + currentArr[i];
+        currentPrefix[i + 1] = sumVal;
+
+        steps.push({
+          line: 17,
+          phase: `prefix[${i + 1}] = ${currentPrefix[i]} + ${currentArr[i]}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [...currentPrefix],
+          i: i,
+          q: queries.length,
+          l: null,
+          r: null,
+          activeArrIdx: i,
+          activePrefixIdx: i + 1,
+          queryL: null,
+          queryR: null,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `prefix[${i + 1}] = prefix[${i}] + arr[${i}]`,
+          resultText: `${currentPrefix[i]} + ${currentArr[i]} = ${sumVal}`,
+          statusType: 'add',
+          desc: `Calculated prefix[${i + 1}] = ${currentPrefix[i]} (cumulative) + ${currentArr[i]} (arr[${i}]) = ${sumVal}.`
+        });
+      }
+
+      // Step: Line 20 - int q = sc.nextInt()
+      let qCount = queries.length;
+      steps.push({
+        line: 20,
+        phase: `Read q = ${qCount}`,
+        n: n,
+        arr: [...currentArr],
+        prefix: [...currentPrefix],
+        i: null,
+        q: qCount,
+        l: null,
+        r: null,
+        activeArrIdx: null,
+        activePrefixIdx: null,
+        queryL: null,
+        queryR: null,
+        queryAns: null,
+        logs: [...logs],
+        evalText: `int q = sc.nextInt()`,
+        resultText: `q = ${qCount} queries`,
+        statusType: 'neutral',
+        desc: `Read number of range queries q = ${qCount}.`
+      });
+
+      // Queries loop (Lines 22-27)
+      for (let qi = 0; qi < queries.length; qi++) {
+        const { l, r } = queries[qi];
+        const remainingQ = queries.length - qi;
+
+        // Line 22: while (q-- > 0)
+        steps.push({
+          line: 22,
+          phase: `Query ${qi + 1} of ${queries.length}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [...currentPrefix],
+          i: null,
+          q: remainingQ,
+          l: null,
+          r: null,
+          activeArrIdx: null,
+          activePrefixIdx: null,
+          queryL: l,
+          queryR: r,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `q-- > 0 (${remainingQ} > 0)`,
+          resultText: `true`,
+          statusType: 'neutral',
+          desc: `Starting query #${qi + 1}. Decrementing q count.`
+        });
+
+        // Line 23: int l = sc.nextInt()
+        steps.push({
+          line: 23,
+          phase: `Read l = ${l}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [...currentPrefix],
+          i: null,
+          q: remainingQ - 1,
+          l: l,
+          r: null,
+          activeArrIdx: l,
+          activePrefixIdx: l,
+          queryL: l,
+          queryR: null,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `int l = sc.nextInt()`,
+          resultText: `l = ${l}`,
+          statusType: 'neutral',
+          desc: `Read left bound l = ${l}.`
+        });
+
+        // Line 24: int r = sc.nextInt()
+        steps.push({
+          line: 24,
+          phase: `Read r = ${r}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [...currentPrefix],
+          i: null,
+          q: remainingQ - 1,
+          l: l,
+          r: r,
+          activeArrIdx: r,
+          activePrefixIdx: r + 1,
+          queryL: l,
+          queryR: r,
+          queryAns: null,
+          logs: [...logs],
+          evalText: `int r = sc.nextInt()`,
+          resultText: `r = ${r}`,
+          statusType: 'neutral',
+          desc: `Read right bound r = ${r}. Target range is [${l} .. ${r}].`
+        });
+
+        // Line 26: System.out.println(prefix[r + 1] - prefix[l])
+        const valR1 = currentPrefix[r + 1];
+        const valL = currentPrefix[l];
+        const ans = valR1 - valL;
+        logs.push(`Query [${l} .. ${r}] -> sum = ${ans}`);
+
+        steps.push({
+          line: 26,
+          phase: `Answer Query [${l}..${r}]: ${ans}`,
+          n: n,
+          arr: [...currentArr],
+          prefix: [...currentPrefix],
+          i: null,
+          q: remainingQ - 1,
+          l: l,
+          r: r,
+          activeArrIdx: null,
+          activePrefixIdx: null,
+          queryL: l,
+          queryR: r,
+          valPrefixR1: valR1,
+          valPrefixL: valL,
+          queryAns: ans,
+          logs: [...logs],
+          evalText: `prefix[${r + 1}] - prefix[${l}]`,
+          resultText: `${valR1} - ${valL} = ${ans}`,
+          statusType: 'queryAnswer',
+          desc: `O(1) calculation: prefix[${r + 1}] (${valR1}) - prefix[${l}] (${valL}) = ${ans}. Printed to stdout.`
+        });
+      }
+
+      // Step: Line 29 - sc.close()
+      steps.push({
+        line: 29,
+        phase: `Execution Complete`,
+        n: n,
+        arr: [...currentArr],
+        prefix: [...currentPrefix],
+        i: null,
+        q: 0,
+        l: null,
+        r: null,
+        activeArrIdx: null,
+        activePrefixIdx: null,
+        queryL: null,
+        queryR: null,
+        queryAns: null,
+        logs: [...logs],
+        evalText: `sc.close()`,
+        resultText: `Finished`,
+        statusType: 'finish',
+        desc: `Scanner closed. All ${queries.length} queries successfully answered in O(1) time each.`
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 850;
+
+    // Top control elements
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    // Arena elements
+    const arrDisplayVal = document.getElementById('arrDisplayVal');
+    const arrLengthNotice = document.getElementById('arrLengthNotice');
+    const arrCardsRack = document.getElementById('arrCardsRack');
+    const prefixDisplayVal = document.getElementById('prefixDisplayVal');
+    const prefixCardsRack = document.getElementById('prefixCardsRack');
+    const prefixFormulaNotice = document.getElementById('prefixFormulaNotice');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const consoleLog = document.getElementById('consoleLog');
+
+    // Query card elements
+    const valPrefixR1 = document.getElementById('valPrefixR1');
+    const labelPrefixR1 = document.getElementById('labelPrefixR1');
+    const valPrefixL = document.getElementById('valPrefixL');
+    const labelPrefixL = document.getElementById('labelPrefixL');
+    const valRangeResult = document.getElementById('valRangeResult');
+    const labelRangeFormula = document.getElementById('labelRangeFormula');
+    const queryCounterBadge = document.getElementById('queryCounterBadge');
+
+    // Watcher elements
+    const varN = document.getElementById('varN');
+    const varI = document.getElementById('varI');
+    const varLR = document.getElementById('varLR');
+    const varQ = document.getElementById('varQ');
+    const evalCondition = document.getElementById('evalCondition');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    // Input elements
+    const inputArray = document.getElementById('inputArray');
+    const inputQueries = document.getElementById('inputQueries');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update top badges and progress
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      // Update Watchers
+      varN.textContent = step.n !== null ? step.n : '-';
+      varI.textContent = step.i !== null ? step.i : '-';
+      varLR.textContent = (step.l !== null ? step.l : '-') + ' , ' + (step.r !== null ? step.r : '-');
+      varQ.textContent = step.q !== null ? step.q : '-';
+
+      evalCondition.textContent = step.phase;
+      evalStatement.textContent = step.evalText;
+      evalResult.textContent = step.resultText;
+
+      returnPill.textContent = `q remaining: ${step.q !== null ? step.q : 0}`;
+
+      // Comparison banner & status styling
+      if (step.statusType === 'queryAnswer') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-emerald-500/20 animate-pulse"><i class="fa-solid fa-check-circle mr-1.5 text-emerald-400"></i>prefix[${step.queryR + 1}] - prefix[${step.queryL}] = ${step.valPrefixR1} - ${step.valPrefixL} = ${step.queryAns}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = `Result: ${step.queryAns}`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        sound.playQuery();
+      } else if (step.statusType === 'add') {
+        evalResult.className = "font-bold text-sky-400";
+        comparisonBanner.innerHTML = `<span class="bg-sky-950/80 text-sky-300 border border-sky-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-plus mr-1.5 text-sky-400"></i>prefix[${step.i + 1}] = prefix[${step.i}] + arr[${step.i}] = ${step.prefix[step.i + 1]}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-sky-400";
+        arenaStatusText.textContent = `Prefix Computed`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-sky-400 shrink-0";
+        sound.playAdd();
+      } else if (step.statusType === 'finish') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-indigo-950/80 text-indigo-300 border border-indigo-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold"><i class="fa-solid fa-award mr-1.5 text-indigo-400"></i>All Queries Answered Successfully!</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400";
+        arenaStatusText.textContent = `Completed`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0 animate-bounce";
+        sound.playFinish();
+      } else {
+        evalResult.className = "font-bold text-slate-300";
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 glass-input px-3 py-1 rounded-full">${step.phase}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = `Processing`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        sound.playTick();
+      }
+
+      // Synchronize Java active code line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Sync scrubber slider
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Update Range Query Arithmetic Station
+      if (step.queryL !== null && step.queryR !== null) {
+        valPrefixR1.textContent = step.valPrefixR1 !== undefined ? step.valPrefixR1 : (step.prefix[step.queryR + 1] ?? '-');
+        labelPrefixR1.textContent = `prefix[${step.queryR + 1}]`;
+
+        valPrefixL.textContent = step.valPrefixL !== undefined ? step.valPrefixL : (step.prefix[step.queryL] ?? '-');
+        labelPrefixL.textContent = `prefix[${step.queryL}]`;
+
+        valRangeResult.textContent = step.queryAns !== null && step.queryAns !== undefined ? step.queryAns : '?';
+        labelRangeFormula.textContent = `arr[${step.queryL}] .. arr[${step.queryR}]`;
+      } else {
+        valPrefixR1.textContent = '-';
+        labelPrefixR1.textContent = 'prefix[-]';
+        valPrefixL.textContent = '-';
+        labelPrefixL.textContent = 'prefix[-]';
+        valRangeResult.textContent = '-';
+        labelRangeFormula.textContent = 'arr[l] + ... + arr[r]';
+      }
+
+      // Render Array Cards
+      renderArrayCards(step);
+
+      // Render Prefix Cards
+      renderPrefixCards(step);
+
+      // Render Console Output Log
+      renderConsoleLogs(step.logs);
+    }
+
+    function renderArrayCards(step) {
+      arrCardsRack.innerHTML = '';
+      if (!step.arr || step.arr.length === 0) {
+        arrCardsRack.innerHTML = `<span class="text-xs text-slate-500 italic font-mono">arr[] not yet allocated</span>`;
+        return;
+      }
+
+      step.arr.forEach((val, idx) => {
+        const isActive = (idx === step.activeArrIdx);
+        const inQueryRange = (step.queryL !== null && step.queryR !== null && idx >= step.queryL && idx <= step.queryR);
+
+        const card = document.createElement('div');
+        let cardClass = "play-card relative w-12 h-16 sm:w-14 sm:h-20 rounded-xl border flex flex-col items-center justify-between p-1.5 shadow-md ";
+
+        if (inQueryRange) {
+          cardClass += " query-range border-fuchsia-400 text-white";
+        } else if (isActive) {
+          cardClass += " active-i bg-cyan-950/80 border-cyan-400 text-white";
+        } else if (val !== null) {
+          cardClass += " glass-card border-white/10 text-slate-200";
+        } else {
+          cardClass += " bg-black/40 border-dashed border-white/10 text-slate-600";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[9px] font-mono leading-none">
+            <span class="${isActive ? 'text-cyan-300 font-bold' : inQueryRange ? 'text-fuchsia-300 font-bold' : 'text-slate-400'}">[${idx}]</span>
+            <span class="text-[9px] text-slate-500">${inQueryRange ? '★' : '•'}</span>
+          </div>
+          <span class="font-mono text-lg sm:text-xl font-bold leading-none ${val === null ? 'text-slate-600' : inQueryRange ? 'text-fuchsia-200' : isActive ? 'text-cyan-300' : 'text-amber-300'}">
+            ${val !== null ? val : '0'}
+          </span>
+          <div class="w-full flex items-center justify-center text-[8px] font-mono leading-none">
+            ${isActive ? '<span class="text-cyan-400 font-bold">i</span>' : inQueryRange ? '<span class="text-fuchsia-300">sum</span>' : '<span class="text-slate-500">elem</span>'}
+          </div>
+        `;
+        arrCardsRack.appendChild(card);
+      });
+    }
+
+    function renderPrefixCards(step) {
+      prefixCardsRack.innerHTML = '';
+      if (!step.prefix || step.prefix.length === 0) {
+        prefixCardsRack.innerHTML = `<span class="text-xs text-slate-500 italic font-mono">prefix[] not yet allocated</span>`;
+        return;
+      }
+
+      step.prefix.forEach((val, idx) => {
+        const isActive = (idx === step.activePrefixIdx);
+        const isMinuend = (step.queryR !== null && idx === step.queryR + 1);
+        const isSubtrahend = (step.queryL !== null && idx === step.queryL);
+
+        const card = document.createElement('div');
+        let cardClass = "play-card relative w-12 h-16 sm:w-14 sm:h-20 rounded-xl border flex flex-col items-center justify-between p-1.5 shadow-md ";
+
+        if (isMinuend) {
+          cardClass += " prefix-minuend border-emerald-400 text-emerald-200";
+        } else if (isSubtrahend) {
+          cardClass += " prefix-subtrahend border-rose-400 text-rose-200";
+        } else if (isActive) {
+          cardClass += " active-i bg-emerald-950/80 border-emerald-400 text-white";
+        } else if (val !== null) {
+          cardClass += " glass-card border-white/10 text-emerald-300";
+        } else {
+          cardClass += " bg-black/40 border-dashed border-white/10 text-slate-600";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[9px] font-mono leading-none">
+            <span class="${isMinuend ? 'text-emerald-300 font-bold' : isSubtrahend ? 'text-rose-300 font-bold' : isActive ? 'text-cyan-300 font-bold' : 'text-slate-400'}">[${idx}]</span>
+            <span class="text-[8px] ${isMinuend ? 'text-emerald-400 font-bold' : isSubtrahend ? 'text-rose-400 font-bold' : 'text-slate-500'}">
+              ${isMinuend ? '+r1' : isSubtrahend ? '-l' : '∑'}
+            </span>
+          </div>
+          <span class="font-mono text-lg sm:text-xl font-bold leading-none ${val === null ? 'text-slate-600' : isMinuend ? 'text-emerald-200' : isSubtrahend ? 'text-rose-200' : 'text-emerald-300'}">
+            ${val !== null ? val : '-'}
+          </span>
+          <div class="w-full flex items-center justify-center text-[8px] font-mono leading-none">
+            ${isMinuend ? '<span class="text-emerald-300 font-bold">r+1</span>' : isSubtrahend ? '<span class="text-rose-300 font-bold">l</span>' : isActive ? '<span class="text-cyan-300">sum</span>' : '<span class="text-slate-500">pref</span>'}
+          </div>
+        `;
+        prefixCardsRack.appendChild(card);
+      });
+    }
+
+    function renderConsoleLogs(logs) {
+      if (!logs || logs.length === 0) {
+        consoleLog.innerHTML = `<span class="text-slate-600 italic">No output yet</span>`;
+        return;
+      }
+      consoleLog.innerHTML = logs.map(line => `<div>&gt; <span class="text-emerald-300 font-semibold">${line}</span></div>`).join('');
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-sky-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-fuchsia-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-sky-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-fuchsia-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    // Sample datasets for quick testing
+    const sampleDatasets = [
+      { arr: [2, 4, 1, 3, 5], queries: [{ l: 0, r: 2 }, { l: 1, r: 3 }, { l: 0, r: 4 }, { l: 2, r: 2 }] },
+      { arr: [1, 2, 3, 4, 5, 6], queries: [{ l: 0, r: 5 }, { l: 2, r: 4 }, { l: 1, r: 1 }] },
+      { arr: [10, 20, 30, 40, 50], queries: [{ l: 1, r: 3 }, { l: 0, r: 0 }, { l: 2, r: 4 }] },
+      { arr: [5, -2, 7, 3, -4, 6], queries: [{ l: 0, r: 3 }, { l: 2, r: 5 }, { l: 1, r: 4 }] }
+    ];
+    let presetIdx = 0;
+
+    function parseArrayInput() {
+      const raw = inputArray.value.trim();
+      if (!raw) return [2, 4, 1, 3, 5];
+      const parsed = raw.split(/[\s,]+/).map(v => parseInt(v, 10)).filter(v => !isNaN(v));
+      return parsed.length > 0 ? parsed : [2, 4, 1, 3, 5];
+    }
+
+    function parseQueriesInput(maxLen) {
+      const raw = inputQueries.value.trim();
+      if (!raw) return [{ l: 0, r: Math.min(2, maxLen - 1) }];
+
+      const parts = raw.split(/[,;\s]+/);
+      const res = [];
+      parts.forEach(p => {
+        const bounds = p.split(/[-:]/).map(v => parseInt(v, 10));
+        if (bounds.length === 2 && !isNaN(bounds[0]) && !isNaN(bounds[1])) {
+          let l = Math.max(0, Math.min(bounds[0], maxLen - 1));
+          let r = Math.max(0, Math.min(bounds[1], maxLen - 1));
+          if (l > r) { const tmp = l; l = r; r = tmp; }
+          res.push({ l, r });
+        }
+      });
+      return res.length > 0 ? res : [{ l: 0, r: Math.min(2, maxLen - 1) }];
+    }
+
+    function initializeSimulation() {
+      stopAutoPlay();
+      const arr = parseArrayInput();
+      const queries = parseQueriesInput(arr.length);
+
+      inputArray.value = arr.join(', ');
+      inputQueries.value = queries.map(q => `${q.l}-${q.r}`).join(', ');
+
+      arrDisplayVal.textContent = `[${arr.join(', ')}]`;
+      arrLengthNotice.textContent = `n = ${arr.length}`;
+      queryCounterBadge.textContent = `q = ${queries.length} queries`;
+
+      currentSteps = generateSteps(arr, queries);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+    btnApply.addEventListener('click', initializeSimulation);
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % sampleDatasets.length;
+      const data = sampleDatasets[presetIdx];
+      inputArray.value = data.arr.join(', ');
+      inputQueries.value = data.queries.map(q => `${q.l}-${q.r}`).join(', ');
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed options
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-sky-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard controls: Space (Play/Pause), Left/Right Arrows (Steps)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

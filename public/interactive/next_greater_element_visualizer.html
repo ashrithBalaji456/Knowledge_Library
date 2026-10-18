@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next Greater Element &bull; Glassmorphic Monotonic Stack Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, #0e172f 0%, #080c1d 45%, #03060d 100%);
+      min-height: 100vh;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-input {
+      background: rgba(9, 14, 30, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .glass-btn {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    .glass-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+    .elem-card {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .elem-card.current-i {
+      transform: translateY(-8px) scale(1.07);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 12px 28px -4px rgba(56, 189, 248, 0.45), 0 0 18px rgba(56, 189, 248, 0.35);
+      background: rgba(14, 116, 144, 0.3) !important;
+    }
+    .elem-card.top-peek {
+      border-color: #f59e0b !important;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.45);
+      background: rgba(180, 83, 9, 0.25) !important;
+    }
+    .elem-card.matched-pop {
+      transform: translateY(-10px) scale(1.1);
+      border-color: #10b981 !important;
+      box-shadow: 0 0 26px rgba(16, 185, 129, 0.6);
+      background: rgba(16, 185, 129, 0.28) !important;
+    }
+    .stack-chip {
+      transition: all 0.25s ease-out;
+    }
+    .stack-chip.newly-pushed {
+      animation: pushSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes pushSlide {
+      0% { opacity: 0; transform: translateY(-16px) scale(0.8); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .code-line {
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+    .code-active {
+      background-color: rgba(56, 189, 248, 0.22) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    @keyframes ambientGlow {
+      0%, 100% { opacity: 0.32; transform: scale(1); }
+      50% { opacity: 0.58; transform: scale(1.08); }
+    }
+    .glow-blob {
+      animation: ambientGlow 9s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(8, 14, 30, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between relative min-h-screen">
+
+  <div class="fixed top-[-10%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-cyan-600/15 blur-[130px] pointer-events-none -z-10 glow-blob"></div>
+  <div class="fixed bottom-[-15%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none -z-10 glow-blob" style="animation-delay: -3.5s;"></div>
+  <div class="fixed top-[40%] right-[25%] w-[35vw] h-[35vw] rounded-full bg-emerald-600/10 blur-[130px] pointer-events-none -z-10 glow-blob" style="animation-delay: -1.5s;"></div>
+
+  <header class="max-w-7xl mx-auto w-full mb-3">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-cyan-500/25 text-white text-xl font-bold">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-300 via-indigo-200 to-purple-300 bg-clip-text text-transparent">
+            Next Greater Element &bull; Monotonic Stack Visualizer
+          </h1>
+          <p class="text-xs text-slate-400 font-mono">
+            Finding next greater element to the right in <span class="text-emerald-300 font-semibold">O(N)</span> using a decreasing stack of indices
+          </p>
+        </div>
+      </div>
+
+      <!-- Input dataset configurations -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1.5 glass-input px-3 py-1.5 rounded-xl text-xs">
+          <span class="text-cyan-400 font-semibold font-mono">arr:</span>
+          <input id="inputArray" type="text" value="2, 1, 2, 4, 3" class="bg-transparent px-1.5 py-0.5 rounded text-cyan-200 font-mono w-32 sm:w-44 text-center border-none focus:outline-none">
+        </div>
+
+        <button id="btnApply" class="px-3.5 py-1.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 active:scale-95 text-white font-semibold rounded-xl text-xs transition shadow-md shadow-cyan-500/25 flex items-center gap-1.5">
+          <i class="fa-solid fa-arrows-rotate text-[11px]"></i> Load
+        </button>
+
+        <button id="btnPreset" class="glass-btn px-3 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Cycle sample datasets">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+
+        <button id="btnSoundToggle" class="glass-btn px-2.5 py-1.5 text-slate-300 rounded-xl text-xs transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-cyan-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto w-full mb-4">
+    <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-white/10 shadow-2xl flex flex-col gap-3">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Top action buttons: Reset, Prev, Start/Stop, Next -->
+        <div class="flex items-center gap-2">
+          <!-- Reset -->
+          <button id="btnReset" class="glass-btn w-10 h-10 rounded-xl text-slate-300 flex items-center justify-center hover:text-white" title="Reset to start">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+          
+          <!-- Prev -->
+          <button id="btnPrev" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Previous step">
+            <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+          </button>
+
+          <!-- Start / Stop (Play / Pause) -->
+          <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 active:scale-95 text-white flex items-center gap-2 text-xs sm:text-sm font-bold shadow-lg shadow-cyan-500/30 transition">
+            <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+            <span id="playText">Start</span>
+          </button>
+
+          <!-- Next -->
+          <button id="btnNext" class="glass-btn px-3.5 h-10 rounded-xl text-slate-200 flex items-center gap-2 text-xs sm:text-sm font-semibold hover:text-white" title="Next step">
+            Next <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Step Phase Badge & Status Info -->
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-cyan-950/70 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+            <span id="topPhaseBadge">Phase: Ready</span>
+          </span>
+          <span id="topStepCounterBadge" class="text-xs glass-input text-slate-300 px-3 py-1.5 rounded-full font-mono">
+            Step 0 / 0
+          </span>
+        </div>
+
+        <!-- Speed Selector Options -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">Speed:</span>
+          <div class="flex items-center glass-input rounded-xl p-1 text-xs">
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1600">0.5x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold" data-speed="850">1x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+            <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrubber Timeline Slider -->
+      <div class="flex items-center gap-3 pt-1 border-t border-white/5">
+        <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+        <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800/80 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+        <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+      </div>
+
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Arrays Arena & Monotonic Stack Chamber (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Primary Glass Canvas Arena -->
+      <div id="mainCanvas" class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col justify-between min-h-[580px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Arena header bar -->
+        <div class="flex flex-wrap items-center justify-between z-10 gap-2 mb-2">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 glass-input px-3 py-1.5 rounded-full">
+            <span class="text-cyan-300 font-semibold" id="arenaArrSummary">n = 5</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-purple-300 font-semibold">Monotonic Decreasing Stack</span>
+          </div>
+
+          <div id="statusDotIndicator" class="flex items-center gap-2 glass-input px-3 py-1.5 rounded-full text-xs">
+            <span id="arenaStatusDot" class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span id="arenaStatusText" class="text-slate-300 font-mono text-[11px]">Ready</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Visual Area: Array Cards, Comparison Callout, Result Cards, and Stack -->
+        <div class="my-auto py-2 flex flex-col gap-4">
+          
+          <!-- Comparison Evaluation Banner -->
+          <div id="comparisonBanner" class="min-h-[46px] flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">
+              Press Start or Next to step through the Java code
+            </span>
+          </div>
+
+          <!-- Original Array Cards Rack: int[] arr -->
+          <div class="glass-input p-3.5 rounded-2xl border border-white/5">
+            <div class="flex items-center justify-between px-1 mb-2 text-xs font-mono">
+              <span class="text-cyan-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-right-long text-cyan-400"></i> Original Array: <code class="text-amber-300">int[] arr</code>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="candidateIndexBadge">Current index i: -</span>
+            </div>
+            
+            <!-- Cards Rack -->
+            <div id="arrCardsRack" class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 min-h-[105px] p-2">
+              <!-- Rendered original cards -->
+            </div>
+          </div>
+
+          <!-- Result Array Rack: int[] result (initialized to -1) -->
+          <div class="glass-input p-3.5 rounded-2xl border border-emerald-500/20">
+            <div class="flex items-center justify-between px-1 mb-2 text-xs font-mono">
+              <span class="text-emerald-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-square-check text-emerald-400"></i> Result Array: <code class="text-emerald-300">int[] result</code>
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">Next greater element for each index</span>
+            </div>
+            
+            <!-- Result Cards Rack -->
+            <div id="resultCardsRack" class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 min-h-[95px] p-2">
+              <!-- Rendered result cards -->
+            </div>
+          </div>
+
+          <!-- Interactive Monotonic Stack Chamber: Deque<Integer> stack -->
+          <div class="glass-input p-4 rounded-2xl border border-purple-500/30 relative overflow-hidden flex flex-col gap-2">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-purple-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-purple-400"></i>
+                <span>Deque&lt;Integer&gt; stack</span>
+                <span class="text-[10px] text-slate-400 font-normal">(Stores indices of unresolved elements)</span>
+              </span>
+              <span id="stackSizeBadge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-950/80 text-purple-300 border border-purple-500/30">
+                size = 0
+              </span>
+            </div>
+
+            <!-- Stack Container (Visualized horizontally from Bottom -> Top) -->
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 px-1">
+                <span>&larr; Bottom (Oldest)</span>
+                <span class="text-amber-300 font-semibold">Top / peek() &rarr;</span>
+              </div>
+              
+              <div id="stackContainer" class="min-h-[75px] max-h-[110px] overflow-x-auto flex items-center gap-2.5 p-2.5 bg-black/40 rounded-xl border border-white/5">
+                <span class="text-slate-500 text-xs italic font-mono m-auto">Stack is currently empty</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decision Logic Flow Callout -->
+          <div class="glass-input p-3 rounded-2xl border border-white/5 flex flex-col gap-1 font-mono text-xs">
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span class="flex items-center gap-1.5 text-cyan-400 font-semibold"><i class="fa-solid fa-code-branch"></i> While Condition Check:</span>
+              <span id="evalRuleBadge" class="px-2 py-0.5 rounded bg-black/40 text-slate-300">Idle</span>
+            </div>
+            <div id="evalDetailMsg" class="bg-black/40 px-3 py-1.5 rounded-xl border border-white/5 text-slate-300 text-xs">
+              Waiting to execute algorithm...
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom status summary -->
+        <div class="z-10 glass-input p-3 rounded-2xl flex items-center justify-between gap-3 text-xs sm:text-sm mt-1">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            return result
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Live Variable Watcher Box -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-cyan-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: nextGreater()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int i</span>
+            <span id="varI" class="font-mono text-base font-bold text-cyan-400">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">arr[i]</span>
+            <span id="varArrI" class="font-mono text-base font-bold text-cyan-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">stack.peek()</span>
+            <span id="varStackPeek" class="font-mono text-base font-bold text-amber-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">arr[peek]</span>
+            <span id="varArrPeek" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-center">
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">int index (popped)</span>
+            <span id="varIndex" class="font-mono text-xs font-bold text-slate-300">-</span>
+          </div>
+          <div class="glass-input p-2 rounded-xl">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">stack.isEmpty()</span>
+            <span id="varIsEmpty" class="font-mono text-xs font-bold text-slate-300">true</span>
+          </div>
+        </div>
+
+        <!-- Expression Monitor -->
+        <div class="glass-input p-2.5 rounded-xl text-xs flex flex-col gap-1 font-mono">
+          <div class="flex items-center justify-between text-slate-400 text-[11px]">
+            <span>While Loop Condition:</span>
+            <span id="evalConditionName" class="text-cyan-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+            <span id="evalStatement" class="text-slate-300 truncate">!stack.isEmpty() && arr[i] > arr[stack.peek()]</span>
+            <span id="evalResult" class="font-bold text-cyan-400 shrink-0 ml-2">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code matching user's exact program -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-400 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-white/5 px-2 py-0.5 rounded font-mono">Synchronized</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[300px] rounded-xl glass-input p-2 border border-white/5 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span>&nbsp;&nbsp;<span class="text-purple-400">static int</span>[]&nbsp;<span class="text-blue-400">nextGreater</span>(<span class="text-purple-400">int</span>[] arr) {</div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> n = arr.length;</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span>[] result = <span class="text-purple-400">new int</span>[n];</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span>&nbsp;&nbsp;&nbsp;&nbsp;Arrays.fill(result, -<span class="text-orange-400">1</span>);</div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;Deque&lt;Integer&gt; stack = <span class="text-purple-400">new</span> ArrayDeque&lt;&gt;();</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; n; i++) {</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">while</span> (!stack.isEmpty() &amp;&amp; arr[i] &gt; arr[stack.peek()]) {</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span> index = stack.pop();</div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result[index] = arr[i];</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(i);</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> result;</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span>}</div>
+        </div>
+      </div>
+
+      <!-- Standard Console Output -->
+      <div class="glass-card rounded-2xl p-3.5 shadow-xl flex flex-col gap-1.5">
+        <div class="flex items-center justify-between text-xs font-mono pb-1 border-b border-white/5">
+          <span class="text-slate-400 flex items-center gap-1.5"><i class="fa-solid fa-terminal text-emerald-400"></i> Standard Output (Console)</span>
+          <span class="text-[10px] text-slate-500">System.out</span>
+        </div>
+        <div id="consoleLog" class="bg-black/60 rounded-xl p-2.5 font-mono text-xs text-emerald-400 min-h-[58px] max-h-[85px] overflow-y-auto space-y-1">
+          <span class="text-slate-600 italic">No output yet</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-1 font-mono">
+    <p>Next Greater Element &bull; Monotonic Stack &bull; Time: O(N) &bull; Space: O(N) &bull; Glassmorphic Transparent UI</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playStep() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(180, this.ctx.currentTime + 0.04);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playPush() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(260, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(480, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playPopResolve() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.12);
+      }
+
+      playComplete() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const notes = [440, 554.37, 659.25, 880];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.06);
+          gain.gain.setValueAtTime(0.08, this.ctx.currentTime + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.06 + 0.2);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.06);
+          osc.stop(this.ctx.currentTime + idx * 0.06 + 0.21);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateSteps(rawArr) {
+      const steps = [];
+      const n = rawArr.length;
+      const logs = [];
+
+      const result = new Array(n).fill(-1);
+      const stack = []; // Array acting as Deque: push/pop from end
+
+      function getStackCopy() {
+        return [...stack];
+      }
+
+      function getResultCopy() {
+        return [...result];
+      }
+
+      function pushStep(meta) {
+        steps.push({
+          line: meta.line,
+          phase: meta.phase,
+          currentI: meta.currentI !== undefined ? meta.currentI : null,
+          currentArrI: meta.currentArrI !== undefined ? meta.currentArrI : null,
+          peekIndex: meta.peekIndex !== undefined ? meta.peekIndex : null,
+          peekArrVal: meta.peekArrVal !== undefined ? meta.peekArrVal : null,
+          poppedIndex: meta.poppedIndex !== undefined ? meta.poppedIndex : null,
+          resultSnapshot: getResultCopy(),
+          stackSnapshot: getStackCopy(),
+          evalName: meta.evalName,
+          evalStmt: meta.evalStmt,
+          evalResult: meta.evalResult,
+          ruleBadge: meta.ruleBadge,
+          detailMsg: meta.detailMsg,
+          statusType: meta.statusType || 'neutral',
+          desc: meta.desc,
+          logs: [...logs],
+          returnVal: meta.returnVal !== undefined ? meta.returnVal : null
+        });
+      }
+
+      // Line 3: int n = arr.length;
+      pushStep({
+        line: 3,
+        phase: 'Initialize n',
+        evalName: 'int n = arr.length',
+        evalStmt: `arr.length`,
+        evalResult: `${n}`,
+        ruleBadge: 'Initialization',
+        detailMsg: `Array has length n = ${n}.`,
+        statusType: 'neutral',
+        desc: `Obtained length of array: n = ${n}.`
+      });
+
+      // Line 4-5: int[] result = new int[n]; Arrays.fill(result, -1);
+      pushStep({
+        line: 5,
+        phase: 'Initialize result[] to -1',
+        evalName: 'Arrays.fill(result, -1)',
+        evalStmt: 'result = [-1, ...]',
+        evalResult: `[${result.join(', ')}]`,
+        ruleBadge: 'Fill -1',
+        detailMsg: 'Initialized result array filled with -1 for all indices.',
+        statusType: 'neutral',
+        desc: 'Initialized result[] with -1. Elements without a greater right element will keep -1.'
+      });
+
+      // Line 6: Deque<Integer> stack = new ArrayDeque<>();
+      pushStep({
+        line: 6,
+        phase: 'Initialize Stack',
+        evalName: 'Deque<Integer> stack = new ArrayDeque<>()',
+        evalStmt: 'new ArrayDeque<>()',
+        evalResult: 'size: 0',
+        ruleBadge: 'Stack Init',
+        detailMsg: 'Created empty monotonic stack to store indices waiting for their next greater element.',
+        statusType: 'neutral',
+        desc: 'Created empty monotonic stack to store unresolved indices.'
+      });
+
+      // Line 7: for (int i = 0; i < n; i++)
+      for (let i = 0; i < n; i++) {
+        const val = rawArr[i];
+
+        pushStep({
+          line: 7,
+          phase: `Loop i = ${i} (arr[${i}] = ${val})`,
+          currentI: i,
+          currentArrI: val,
+          evalName: 'i < n',
+          evalStmt: `${i} < ${n}`,
+          evalResult: 'true',
+          ruleBadge: `i = ${i}`,
+          detailMsg: `Advancing to index i = ${i} with value arr[${i}] = ${val}.`,
+          statusType: 'inspect',
+          desc: `Loop iteration: examining candidate arr[${i}] = ${val}.`
+        });
+
+        // Line 8: while (!stack.isEmpty() && arr[i] > arr[stack.peek()])
+        while (true) {
+          const isEmpty = stack.length === 0;
+          if (isEmpty) {
+            pushStep({
+              line: 8,
+              phase: `While Check: Stack is empty`,
+              currentI: i,
+              currentArrI: val,
+              evalName: '!stack.isEmpty() && arr[i] > arr[stack.peek()]',
+              evalStmt: `!${isEmpty} (stack empty)`,
+              evalResult: 'false',
+              ruleBadge: 'Stack Empty',
+              detailMsg: `Stack is empty, so while loop condition is false.`,
+              statusType: 'neutral',
+              desc: `Stack is empty. Exiting while loop to push index ${i}.`
+            });
+            break;
+          }
+
+          const peekIdx = stack[stack.length - 1];
+          const peekVal = rawArr[peekIdx];
+          const condition = val > peekVal;
+
+          pushStep({
+            line: 8,
+            phase: `Compare arr[${i}] (${val}) > arr[stack.peek() = ${peekIdx}] (${peekVal})`,
+            currentI: i,
+            currentArrI: val,
+            peekIndex: peekIdx,
+            peekArrVal: peekVal,
+            evalName: 'arr[i] > arr[stack.peek()]',
+            evalStmt: `${val} > ${peekVal}`,
+            evalResult: condition ? 'true' : 'false',
+            ruleBadge: condition ? 'GREATER (Resolve)' : 'NOT GREATER (Stop)',
+            detailMsg: condition 
+              ? `arr[${i}] = ${val} is greater than arr[${peekIdx}] = ${peekVal}. We found the next greater element for index ${peekIdx}!`
+              : `arr[${i}] = ${val} is NOT greater than arr[${peekIdx}] = ${peekVal}. Preserves monotonic decreasing stack invariant.`,
+            statusType: condition ? 'resolve' : 'neutral',
+            desc: `Evaluated ${val} > ${peekVal}: ${condition}.`
+          });
+
+          if (!condition) {
+            break;
+          }
+
+          // Line 9: int index = stack.pop();
+          const poppedIdx = stack.pop();
+          pushStep({
+            line: 9,
+            phase: `Pop Index: stack.pop() -> ${poppedIdx}`,
+            currentI: i,
+            currentArrI: val,
+            poppedIndex: poppedIdx,
+            evalName: 'int index = stack.pop()',
+            evalStmt: `stack.pop()`,
+            evalResult: `${poppedIdx}`,
+            ruleBadge: `Popped ${poppedIdx}`,
+            detailMsg: `Popped index ${poppedIdx} from stack to assign its next greater element.`,
+            statusType: 'pop',
+            desc: `Popped index ${poppedIdx} from stack.`
+          });
+
+          // Line 10: result[index] = arr[i];
+          result[poppedIdx] = val;
+          pushStep({
+            line: 10,
+            phase: `Set result[${poppedIdx}] = arr[${i}] = ${val}`,
+            currentI: i,
+            currentArrI: val,
+            poppedIndex: poppedIdx,
+            evalName: `result[${poppedIdx}] = arr[${i}]`,
+            evalStmt: `result[${poppedIdx}] = ${val}`,
+            evalResult: `result[${poppedIdx}] -> ${val}`,
+            ruleBadge: `Matched!`,
+            detailMsg: `Recorded result[${poppedIdx}] = ${val}. Next greater element for arr[${poppedIdx}] (${rawArr[poppedIdx]}) is ${val}.`,
+            statusType: 'resolved',
+            desc: `Assigned result[${poppedIdx}] = ${val}.`
+          });
+        }
+
+        // Line 12: stack.push(i);
+        stack.push(i);
+        pushStep({
+          line: 12,
+          phase: `Push Index: stack.push(${i})`,
+          currentI: i,
+          currentArrI: val,
+          evalName: `stack.push(i)`,
+          evalStmt: `stack.push(${i})`,
+          evalResult: `size: ${stack.length}`,
+          ruleBadge: `Pushed [${i}]`,
+          detailMsg: `Pushed current index ${i} (value ${val}) onto the stack.`,
+          statusType: 'push',
+          desc: `Pushed index ${i} to stack.`
+        });
+      }
+
+      // Line 14: return result;
+      logs.push(`nextGreater(arr) = [${result.join(', ')}]`);
+      pushStep({
+        line: 14,
+        phase: `Return result: [${result.join(', ')}]`,
+        currentI: null,
+        currentArrI: null,
+        evalName: 'return result',
+        evalStmt: `return [${result.join(', ')}]`,
+        evalResult: `Complete`,
+        ruleBadge: 'Finished',
+        detailMsg: `Monotonic traversal completed. Remaining indices in stack have no greater element to their right and retain -1.`,
+        statusType: 'finished',
+        desc: `Algorithm completed. Returned final result array: [${result.join(', ')}].`,
+        returnVal: [...result]
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 850;
+
+    // Controls
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const topPhaseBadge = document.getElementById('topPhaseBadge');
+    const topStepCounterBadge = document.getElementById('topStepCounterBadge');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+
+    // Arena elements
+    const arrCardsRack = document.getElementById('arrCardsRack');
+    const resultCardsRack = document.getElementById('resultCardsRack');
+    const stackContainer = document.getElementById('stackContainer');
+    const stackSizeBadge = document.getElementById('stackSizeBadge');
+    const arenaArrSummary = document.getElementById('arenaArrSummary');
+    const candidateIndexBadge = document.getElementById('candidateIndexBadge');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const arenaStatusDot = document.getElementById('arenaStatusDot');
+    const arenaStatusText = document.getElementById('arenaStatusText');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+
+    // Watcher and decision elements
+    const varI = document.getElementById('varI');
+    const varArrI = document.getElementById('varArrI');
+    const varStackPeek = document.getElementById('varStackPeek');
+    const varArrPeek = document.getElementById('varArrPeek');
+    const varIndex = document.getElementById('varIndex');
+    const varIsEmpty = document.getElementById('varIsEmpty');
+    const evalConditionName = document.getElementById('evalConditionName');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+    const evalRuleBadge = document.getElementById('evalRuleBadge');
+    const evalDetailMsg = document.getElementById('evalDetailMsg');
+    const consoleLog = document.getElementById('consoleLog');
+
+    // Inputs
+    const inputArray = document.getElementById('inputArray');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    let activeArray = [2, 1, 2, 4, 3];
+
+    function renderStep(step) {
+      if (!step) return;
+
+      topPhaseBadge.textContent = `Phase: ${step.phase}`;
+      topStepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Variables
+      varI.textContent = step.currentI !== null ? step.currentI : '-';
+      varArrI.textContent = step.currentArrI !== null ? step.currentArrI : '-';
+      varStackPeek.textContent = step.peekIndex !== null ? step.peekIndex : (step.stackSnapshot.length > 0 ? step.stackSnapshot[step.stackSnapshot.length - 1] : 'null');
+      varArrPeek.textContent = step.peekArrVal !== null ? step.peekArrVal : (step.stackSnapshot.length > 0 ? activeArray[step.stackSnapshot[step.stackSnapshot.length - 1]] : '-');
+      varIndex.textContent = step.poppedIndex !== null ? step.poppedIndex : '-';
+      
+      const isEmpty = step.stackSnapshot.length === 0;
+      varIsEmpty.textContent = String(isEmpty);
+      varIsEmpty.className = isEmpty ? "font-mono text-xs font-bold text-amber-400" : "font-mono text-xs font-bold text-emerald-400";
+
+      evalConditionName.textContent = step.evalName;
+      evalStatement.textContent = step.evalStmt;
+      evalResult.textContent = step.evalResult;
+
+      evalRuleBadge.textContent = step.ruleBadge;
+      evalDetailMsg.textContent = step.detailMsg;
+
+      // Status banner and audio
+      if (step.statusType === 'resolve' || step.statusType === 'resolved') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold shadow-lg shadow-emerald-500/25 animate-pulse">
+            <i class="fa-solid fa-arrow-trend-up text-emerald-400"></i>
+            <span>arr[${step.currentI}] (${step.currentArrI}) &gt; arr[${step.peekIndex ?? step.poppedIndex}] (${step.peekArrVal ?? activeArray[step.poppedIndex]}) &rarr; Resolved!</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping";
+        arenaStatusText.textContent = `Resolved Index ${step.peekIndex ?? step.poppedIndex}`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/40";
+        returnPill.textContent = `result[${step.peekIndex ?? step.poppedIndex}] = ${step.currentArrI}`;
+        sound.playPopResolve();
+      } else if (step.statusType === 'push') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-purple-950/80 text-purple-300 border border-purple-500/40 px-4 py-1.5 rounded-full text-xs font-mono">
+            <i class="fa-solid fa-layer-group text-purple-400"></i>
+            <span>stack.push(${step.currentI}) &bull; Waiting for next greater value</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-purple-400";
+        arenaStatusText.textContent = `Pushed Index ${step.currentI}`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-purple-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-purple-950/80 text-purple-300 border border-purple-500/40";
+        returnPill.textContent = `stack.size() = ${step.stackSnapshot.length}`;
+        sound.playPush();
+      } else if (step.statusType === 'finished') {
+        comparisonBanner.innerHTML = `
+          <div class="flex items-center gap-2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 px-4 py-1.5 rounded-full text-xs font-mono font-bold">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Completed: [${step.resultSnapshot.join(', ')}]</span>
+          </div>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
+        arenaStatusText.textContent = `Finished`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/40";
+        returnPill.textContent = `[${step.resultSnapshot.join(', ')}]`;
+        sound.playComplete();
+      } else {
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 glass-input px-4 py-1.5 rounded-full">${step.phase}</span>`;
+        arenaStatusDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400";
+        arenaStatusText.textContent = `Inspecting`;
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 shrink-0";
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = `result[i]`;
+        sound.playStep();
+      }
+
+      // Synchronize code lines
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Render components
+      renderArrayCards(step);
+      renderResultCards(step);
+      renderStack(step);
+      renderConsoleLogs(step.logs);
+    }
+
+    function renderArrayCards(step) {
+      arrCardsRack.innerHTML = '';
+      if (!activeArray || activeArray.length === 0) {
+        arrCardsRack.innerHTML = `<span class="text-xs text-slate-500 italic font-mono">Array is empty</span>`;
+        return;
+      }
+
+      candidateIndexBadge.textContent = step.currentI !== null 
+        ? `Inspecting arr[${step.currentI}] = ${step.currentArrI}` 
+        : `Traversal complete`;
+
+      activeArray.forEach((val, idx) => {
+        const isCurrent = (idx === step.currentI);
+        const isPeek = (idx === step.peekIndex);
+        const isPopped = (idx === step.poppedIndex);
+        const inStack = step.stackSnapshot.includes(idx);
+
+        const card = document.createElement('div');
+        let cardClass = "elem-card relative w-16 h-24 sm:w-20 sm:h-28 rounded-2xl border flex flex-col items-center justify-between p-2 shadow-lg ";
+
+        if (isPopped) {
+          cardClass += " matched-pop z-20 border-emerald-400 text-emerald-100";
+        } else if (isCurrent) {
+          cardClass += " current-i z-10 border-cyan-400 text-cyan-100";
+        } else if (isPeek) {
+          cardClass += " top-peek z-10 border-amber-400 text-amber-100";
+        } else if (inStack) {
+          cardClass += " glass-card border-purple-500/50 text-purple-200 bg-purple-950/20";
+        } else if (step.currentI !== null && idx < step.currentI) {
+          cardClass += " glass-card border-white/5 opacity-55 text-slate-400";
+        } else {
+          cardClass += " glass-card border-white/10 text-slate-200";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[11px] font-mono leading-none">
+            <span class="${isPopped ? 'text-emerald-300 font-bold' : isCurrent ? 'text-cyan-300 font-bold' : isPeek ? 'text-amber-300 font-bold' : inStack ? 'text-purple-300' : 'text-slate-400'}">[${idx}]</span>
+            <span class="text-[10px]">
+              ${isPopped ? '<i class="fa-solid fa-check text-emerald-400"></i>' : isCurrent ? '<i class="fa-solid fa-arrow-down text-cyan-400"></i>' : isPeek ? '<i class="fa-solid fa-eye text-amber-400"></i>' : inStack ? '<i class="fa-solid fa-layer-group text-purple-400"></i>' : '<i class="fa-solid fa-cube text-slate-600"></i>'}
+            </span>
+          </div>
+          <span class="font-mono text-xl sm:text-2xl font-black leading-none ${isPopped ? 'text-emerald-300' : isCurrent ? 'text-cyan-300' : isPeek ? 'text-amber-300' : inStack ? 'text-purple-200' : 'text-slate-100'}">
+            ${val}
+          </span>
+          <div class="w-full flex items-center justify-center text-[10px] font-mono leading-none text-center">
+            ${isPopped ? '<span class="text-emerald-400 font-bold">Popped</span>' : isCurrent ? '<span class="text-cyan-300 font-semibold">arr[i]</span>' : isPeek ? '<span class="text-amber-300 font-semibold">peek()</span>' : inStack ? '<span class="text-purple-400 font-medium">in stack</span>' : '<span class="text-slate-500">arr</span>'}
+          </div>
+        `;
+        arrCardsRack.appendChild(card);
+      });
+    }
+
+    function renderResultCards(step) {
+      resultCardsRack.innerHTML = '';
+      const resultVals = step.resultSnapshot || [];
+
+      resultVals.forEach((val, idx) => {
+        const isResolvedThisStep = (idx === step.poppedIndex && step.statusType === 'resolved');
+        const isAssigned = val !== -1;
+
+        const card = document.createElement('div');
+        let cardClass = "relative w-16 h-20 sm:w-20 sm:h-24 rounded-2xl border flex flex-col items-center justify-between p-2 shadow-md transition-all ";
+
+        if (isResolvedThisStep) {
+          cardClass += " bg-emerald-950/70 border-emerald-400 text-emerald-200 shadow-lg shadow-emerald-500/25 scale-105";
+        } else if (isAssigned) {
+          cardClass += " bg-emerald-950/30 border-emerald-500/30 text-emerald-300";
+        } else {
+          cardClass += " bg-slate-900/60 border-white/10 text-slate-400";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="w-full flex items-center justify-between text-[10px] font-mono leading-none">
+            <span class="${isAssigned ? 'text-emerald-400 font-semibold' : 'text-slate-500'}">res[${idx}]</span>
+            <span>${isAssigned ? '<i class="fa-solid fa-check text-emerald-400 text-[9px]"></i>' : '<i class="fa-solid fa-minus text-slate-600 text-[9px]"></i>'}</span>
+          </div>
+          <span class="font-mono text-lg sm:text-xl font-bold leading-none ${isAssigned ? 'text-emerald-300' : 'text-slate-500'}">
+            ${val}
+          </span>
+          <div class="text-[9px] font-mono text-slate-500">
+            ${isAssigned ? '<span class="text-emerald-400/80">greater</span>' : 'pending'}
+          </div>
+        `;
+        resultCardsRack.appendChild(card);
+      });
+    }
+
+    function renderStack(step) {
+      stackContainer.innerHTML = '';
+      const stackIndices = step.stackSnapshot || [];
+
+      stackSizeBadge.textContent = `size = ${stackIndices.length}`;
+
+      if (stackIndices.length === 0) {
+        stackContainer.innerHTML = `<span class="text-slate-500 text-xs italic font-mono m-auto">Stack is currently empty</span>`;
+        return;
+      }
+
+      stackIndices.forEach((idxVal, pos) => {
+        const isTop = (pos === stackIndices.length - 1);
+        const isBeingCompared = (isTop && step.peekIndex === idxVal);
+
+        const chip = document.createElement('div');
+        let chipClass = "stack-chip flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono border shadow-md ";
+
+        if (isBeingCompared) {
+          chipClass += " bg-amber-950/80 border-amber-400 text-amber-200 shadow-amber-500/25 scale-105";
+        } else if (isTop) {
+          chipClass += " bg-purple-950/80 border-purple-400 text-purple-200";
+        } else {
+          chipClass += " bg-slate-900/70 border-white/10 text-slate-300";
+        }
+
+        chip.className = chipClass;
+        chip.innerHTML = `
+          <span class="text-[10px] text-slate-400">idx:</span>
+          <span class="font-bold ${isBeingCompared ? 'text-amber-300' : 'text-purple-300'}">[${idxVal}]</span>
+          <span class="text-slate-500">&bull;</span>
+          <span class="text-cyan-300 font-semibold">val: ${activeArray[idxVal]}</span>
+          ${isTop ? '<span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold ml-1">TOP</span>' : ''}
+        `;
+        stackContainer.appendChild(chip);
+      });
+    }
+
+    function renderConsoleLogs(logs) {
+      if (!logs || logs.length === 0) {
+        consoleLog.innerHTML = `<span class="text-slate-600 italic">No output yet</span>`;
+        return;
+      }
+      consoleLog.innerHTML = logs.map(line => `<div>&gt; <span class="text-emerald-300 font-semibold">${line}</span></div>`).join('');
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Stop";
+      btnPlayPause.classList.replace('from-cyan-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-purple-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-cyan-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-purple-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    const sampleDatasets = [
+      [2, 1, 2, 4, 3],
+      [4, 5, 2, 25],
+      [13, 7, 6, 12],
+      [1, 2, 3, 4, 5],
+      [5, 4, 3, 2, 1],
+      [6, 8, 0, 1, 3]
+    ];
+    let presetIdx = 0;
+
+    function parseInputArray() {
+      const raw = inputArray.value.trim();
+      if (!raw) return [2, 1, 2, 4, 3];
+      const parsed = raw.split(/[\s,]+/).map(v => parseInt(v, 10)).filter(v => !isNaN(v));
+      return parsed.length > 0 ? parsed : [2, 1, 2, 4, 3];
+    }
+
+    function initializeSimulation() {
+      stopAutoPlay();
+      activeArray = parseInputArray();
+      inputArray.value = activeArray.join(', ');
+
+      arenaArrSummary.textContent = `n = ${activeArray.length}`;
+
+      currentSteps = generateSteps(activeArray);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+    btnApply.addEventListener('click', initializeSimulation);
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % sampleDatasets.length;
+      inputArray.value = sampleDatasets[presetIdx].join(', ');
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed options
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-cyan-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>

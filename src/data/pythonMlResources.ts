@@ -10697,6 +10697,723 @@ export const PYTHON_TO_ML_RESOURCES: Resource[] = [
     "lastOpened": "2026-10-18"
   },
   {
+    "id": "res-game-play-cards-anagram-letters",
+    "title": "Anagram Algorithm: Letter Card Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "anagram_algorithm_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "IMPORTANT",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/anagram_algorithm_visualizer.html",
+    "sourceUrl": "/interactive/anagram_algorithm_visualizer.html",
+    "whatIsThisBookFor": "Interactive letter cards visualizer demonstrating string character frequency counting and balance checking with synchronized Java code execution.",
+    "summary": "An interactive card and tile visualizer demonstrating character frequency matching to determine if two strings are anagrams. Features letter play-cards, live balance array counters, step-by-step code animation, and audio cues.",
+    "keyTakeaways": [
+      "Character frequency balance array mapping technique in O(N) time and O(1) auxiliary space (26 letters)",
+      "Dynamic letter-card lift and shift animations verifying matching counts",
+      "Early exit optimization on string length mismatch"
+    ],
+    "prerequisites": [
+      "String indexing and ASCII / array frequency counting"
+    ],
+    "recommendedNext": [
+      "res-game-anagram-hashmap",
+      "res-game-play-cards-second-largest"
+    ],
+    "topics": [
+      "DSA",
+      "Strings",
+      "Anagrams",
+      "LetterCards",
+      "FrequencyCounting",
+      "Algorithms",
+      "Gaming"
+    ],
+    "tags": [
+      "DSA",
+      "Strings",
+      "PlayCards",
+      "Interactive",
+      "Visualizer",
+      "Anagrams"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-anagram-hashmap",
+    "title": "Anagram HashMap: Frequency Counter Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "anagram_hashmap_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "IMPORTANT",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/anagram_hashmap_visualizer.html",
+    "sourceUrl": "/interactive/anagram_hashmap_visualizer.html",
+    "whatIsThisBookFor": "Interactive hash table visualizer demonstrating key-value character frequency tracking and verification for unicode strings.",
+    "summary": "Demonstrates anagram validation using Map<Character, Integer> freq = new HashMap<>(). Shows incremental increments for the first string, decrements for the second string, and bucket zero-verification.",
+    "keyTakeaways": [
+      "Hash table insertion, update, and lookup operations in average O(1) time",
+      "Handling arbitrary unicode characters beyond standard ASCII",
+      "Zero-sum verification across all frequency map buckets"
+    ],
+    "prerequisites": [
+      "Hash table fundamentals and key-value mapping"
+    ],
+    "recommendedNext": [
+      "res-game-play-cards-anagram-letters",
+      "res-game-same-frequencies-hashmap"
+    ],
+    "topics": [
+      "DSA",
+      "HashMap",
+      "Strings",
+      "HashTables",
+      "Anagrams",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "HashMap",
+      "Interactive",
+      "Visualizer",
+      "Strings"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-play-cards-array-rotation",
+    "title": "Array Rotation: Playing Card Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "array_rotation_playing_card_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/array_rotation_playing_card_visualizer.html",
+    "sourceUrl": "/interactive/array_rotation_playing_card_visualizer.html",
+    "whatIsThisBookFor": "Interactive playing card deck visualizer demonstrating in-place array rotation by K steps using the 3-step reversal algorithm.",
+    "summary": "Watch playing cards flip and swap in real-time as the three-step array reversal algorithm rotates an array in O(N) time and O(1) space. Includes animated card decks, index pointers, and step-by-step code highlighting.",
+    "keyTakeaways": [
+      "The classic 3-step reversal trick: reverse(0, n-1), reverse(0, k-1), reverse(k, n-1)",
+      "In-place space optimization eliminating extra O(N) buffer allocations",
+      "Handling rotation counts k > n via modulus operator (k = k % n)"
+    ],
+    "prerequisites": [
+      "Array indexing and two-pointer swap logic"
+    ],
+    "recommendedNext": [
+      "res-game-play-cards-second-largest",
+      "res-game-play-cards-longest-equal-run"
+    ],
+    "topics": [
+      "DSA",
+      "Arrays",
+      "Rotation",
+      "PlayCards",
+      "ReversalAlgorithm",
+      "InPlace",
+      "Gaming"
+    ],
+    "tags": [
+      "DSA",
+      "Arrays",
+      "PlayCards",
+      "Interactive",
+      "Visualizer",
+      "Rotation"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-balanced-parentheses-stack",
+    "title": "Balanced Parentheses: Stack Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "balanced_parentheses_stack_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/balanced_parentheses_stack_visualizer.html",
+    "sourceUrl": "/interactive/balanced_parentheses_stack_visualizer.html",
+    "whatIsThisBookFor": "Glassmorphic stack visualizer illustrating parentheses, brackets, and braces validation in O(N) time.",
+    "summary": "Simulates Deque<Character> stack = new ArrayDeque<>() with animated card-tokens pushing onto the stack container on opening brackets and popping upon matching closing brackets, with validation alerts for unmatched syntax.",
+    "keyTakeaways": [
+      "LIFO (Last-In First-Out) stack invariants in syntactic parsing",
+      "Matching opening pairs () [] {} against closing tokens",
+      "Corner cases: empty stack on pop, remaining unclosed brackets, and mismatched delimiters"
+    ],
+    "prerequisites": [
+      "Stack data structure basics (push, pop, peek)"
+    ],
+    "recommendedNext": [
+      "res-game-minstack-dual-stack",
+      "res-game-queue-using-two-stacks",
+      "res-game-next-greater-element"
+    ],
+    "topics": [
+      "DSA",
+      "Stack",
+      "Parentheses",
+      "Parsing",
+      "Visualizer",
+      "Algorithms"
+    ],
+    "tags": [
+      "DSA",
+      "Stack",
+      "Interactive",
+      "Visualizer",
+      "Parsing"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-first-repeated-element",
+    "title": "First Repeated Element: HashMap Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "first_repeated_element_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "IMPORTANT",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/first_repeated_element_visualizer.html",
+    "sourceUrl": "/interactive/first_repeated_element_visualizer.html",
+    "whatIsThisBookFor": "Interactive hash set / map visualizer identifying the earliest repeating element in an array with 1-based indexing.",
+    "summary": "Traces Map<Integer, Integer> firstIndex = new HashMap<>() to detect the first repeated element whose second occurrence appears earliest. Features glowing neon hash entries, index pointers, and step-by-step traversal.",
+    "keyTakeaways": [
+      "Single-pass O(N) time hash set lookup vs O(N^2) nested loop comparisons",
+      "Distinguishing first occurrence index vs lowest index duplicate requirement",
+      "Handling arrays with all distinct elements gracefully"
+    ],
+    "prerequisites": [
+      "Basic array traversal and hash table lookups"
+    ],
+    "recommendedNext": [
+      "res-game-two-sum-visualizer",
+      "res-game-same-frequencies-hashmap"
+    ],
+    "topics": [
+      "DSA",
+      "HashMap",
+      "HashSet",
+      "Arrays",
+      "FirstRepeated",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "HashMap",
+      "Arrays",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-longest-distinct-subarray",
+    "title": "Longest Distinct Subarray: Sliding Window Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "longest_distinct_subarray_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/longest_distinct_subarray_visualizer.html",
+    "sourceUrl": "/interactive/longest_distinct_subarray_visualizer.html",
+    "whatIsThisBookFor": "Glassmorphic sliding window visualizer tracking variable-length contiguous subarrays with distinct elements.",
+    "summary": "Demonstrates the dynamic two-pointer sliding window pattern with left and right boundary cards, live hash set membership indicators, and real-time maximum window length tracking.",
+    "keyTakeaways": [
+      "Two-pointer dynamic sliding window contraction and expansion in amortized O(N) time",
+      "Contracting the left pointer until duplicate characters/elements are evicted",
+      "Window length calculation: right - left + 1 with continuous max tracking"
+    ],
+    "prerequisites": [
+      "Two-pointer techniques and hash sets"
+    ],
+    "recommendedNext": [
+      "res-game-prefix-sum-array",
+      "res-game-play-cards-longest-equal-run"
+    ],
+    "topics": [
+      "DSA",
+      "SlidingWindow",
+      "TwoPointers",
+      "Subarrays",
+      "HashSet",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "SlidingWindow",
+      "Interactive",
+      "Visualizer",
+      "Arrays"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-play-cards-longest-equal-run",
+    "title": "Longest Equal Run: Playing Card Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "longest_equal_run_playing_card_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "IMPORTANT",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/longest_equal_run_playing_card_visualizer.html",
+    "sourceUrl": "/interactive/longest_equal_run_playing_card_visualizer.html",
+    "whatIsThisBookFor": "Interactive playing card deck visualizer demonstrating consecutive identical element run detection in a single pass.",
+    "summary": "Scans consecutive playing cards to determine the longest continuous streak of equal values in O(N) time and O(1) space. Features glowing card run highlights, streak meters, and step-by-step Java code synchronization.",
+    "keyTakeaways": [
+      "Single-pass run-length scanning with current streak and max streak variables",
+      "Streak reset logic on value transitions",
+      "Handling arrays with uniform elements and arrays with no consecutive duplicates"
+    ],
+    "prerequisites": [
+      "Basic loop constructs and adjacent element comparison"
+    ],
+    "recommendedNext": [
+      "res-game-play-cards-second-largest",
+      "res-game-play-cards-array-rotation"
+    ],
+    "topics": [
+      "DSA",
+      "PlayCards",
+      "Arrays",
+      "ConsecutiveRuns",
+      "Streaks",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "PlayCards",
+      "Arrays",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-middle-of-linked-list",
+    "title": "Middle of the Linked List: Fast & Slow Pointer Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "middle_of_the_linked_list_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/middle_of_the_linked_list_visualizer.html",
+    "sourceUrl": "/interactive/middle_of_the_linked_list_visualizer.html",
+    "whatIsThisBookFor": "Glassmorphic visualizer demonstrating the Tortoise and Hare fast/slow pointer technique to locate the center node in O(N) time.",
+    "summary": "Visualizes fast and slow pointers traversing linked list nodes. When the fast pointer (moving 2 steps) reaches the tail or null, the slow pointer (moving 1 step) rests precisely on the middle node.",
+    "keyTakeaways": [
+      "Floyd's cycle and two-pointer traversal principles",
+      "Odd vs even length linked lists behavior (returning the second middle for even lengths)",
+      "Single-pass O(N) time and O(1) space without pre-counting length"
+    ],
+    "prerequisites": [
+      "Singly linked list node structure and pointer traversal"
+    ],
+    "recommendedNext": [
+      "res-game-remove-duplicates-visualizer"
+    ],
+    "topics": [
+      "DSA",
+      "LinkedList",
+      "TwoPointers",
+      "FastSlowPointers",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "LinkedList",
+      "Interactive",
+      "Visualizer",
+      "TwoPointers"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-minstack-dual-stack",
+    "title": "MinStack: Glassmorphic Dual Stack Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "minstack_dual_stack_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/minstack_dual_stack_visualizer.html",
+    "sourceUrl": "/interactive/minstack_dual_stack_visualizer.html",
+    "whatIsThisBookFor": "Interactive visualizer demonstrating how to design a stack supporting push, pop, top, and getMin in constant O(1) time.",
+    "summary": "Shows synchronized dual-column stack visualization with main stack storing all values and minStack tracking the running minimum. Features interactive push/pop controls and live invariant inspection.",
+    "keyTakeaways": [
+      "Constant O(1) time retrieval of minimum element without linear scans",
+      "Synchronized pushing and popping between data stack and auxiliary min stack",
+      "Optimization: only pushing to minStack when val <= minStack.peek()"
+    ],
+    "prerequisites": [
+      "Stack LIFO operations and time complexity analysis"
+    ],
+    "recommendedNext": [
+      "res-game-queue-using-two-stacks",
+      "res-game-balanced-parentheses-stack"
+    ],
+    "topics": [
+      "DSA",
+      "MinStack",
+      "Stacks",
+      "SystemDesign",
+      "ConstantTime",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "Stack",
+      "Interactive",
+      "Visualizer",
+      "Design"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-next-greater-element",
+    "title": "Next Greater Element: Monotonic Stack Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "next_greater_element_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/next_greater_element_visualizer.html",
+    "sourceUrl": "/interactive/next_greater_element_visualizer.html",
+    "whatIsThisBookFor": "Monotonic stack visualizer resolving the next greater element for all array positions in linear O(N) time.",
+    "summary": "Step-by-step monotonic decreasing stack simulation. Elements push and pop dynamically to find the nearest element to the right that is strictly larger. Includes result array updates and stack state telemetry.",
+    "keyTakeaways": [
+      "Monotonic decreasing stack property: keeping indices/values in sorted order",
+      "Amortized O(N) time complexity: each element is pushed and popped at most once",
+      "Handling default -1 assignments for elements with no greater successor"
+    ],
+    "prerequisites": [
+      "Basic stack mechanics and nested loop comparison limits"
+    ],
+    "recommendedNext": [
+      "res-game-minstack-dual-stack",
+      "res-game-balanced-parentheses-stack"
+    ],
+    "topics": [
+      "DSA",
+      "MonotonicStack",
+      "NextGreater",
+      "Arrays",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "Stack",
+      "Monotonic",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-prefix-sum-array",
+    "title": "Prefix Sum & Range Query Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "prefix_sum_array_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/prefix_sum_array_visualizer.html",
+    "sourceUrl": "/interactive/prefix_sum_array_visualizer.html",
+    "whatIsThisBookFor": "Interactive visualizer demonstrating prefix sum array precomputation and instant O(1) range sum queries.",
+    "summary": "Visualizes how precomputing cumulative sums allows any range sum query (L to R) to be answered in O(1) time using prefix[R] - prefix[L - 1]. Features highlighted range brackets and step-by-step arithmetic inspection.",
+    "keyTakeaways": [
+      "Trading O(N) precomputation space for instantaneous O(1) query time",
+      "Formula: query(L, R) = prefix[R] - (L > 0 ? prefix[L - 1] : 0)",
+      "Applications to 2D range sum, subarray equilibrium points, and continuous difference arrays"
+    ],
+    "prerequisites": [
+      "Basic array arithmetic and index math"
+    ],
+    "recommendedNext": [
+      "res-game-longest-distinct-subarray",
+      "res-game-two-sum-visualizer"
+    ],
+    "topics": [
+      "DSA",
+      "PrefixSum",
+      "RangeQuery",
+      "Arrays",
+      "Optimization",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "PrefixSum",
+      "Arrays",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-queue-using-two-stacks",
+    "title": "Queue Using Two Stacks: Glassmorphic Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "queue_using_two_stacks_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "INTERMEDIATE",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/queue_using_two_stacks_visualizer.html",
+    "sourceUrl": "/interactive/queue_using_two_stacks_visualizer.html",
+    "whatIsThisBookFor": "Glassmorphic visualizer illustrating how to implement a FIFO queue using two LIFO stacks with amortized O(1) performance.",
+    "summary": "Demonstrates enqueue into inStack and dequeue from outStack. When outStack is empty, all items from inStack are transferred, reversing their order to deliver FIFO behavior with beautiful glowing animations.",
+    "keyTakeaways": [
+      "Simulating FIFO (First-In First-Out) semantics using two LIFO stacks",
+      "Lazy element transfer: only flushing inStack into outStack when outStack is empty",
+      "Amortized O(1) per-operation time complexity proof"
+    ],
+    "prerequisites": [
+      "Stack and queue fundamental concepts"
+    ],
+    "recommendedNext": [
+      "res-game-minstack-dual-stack",
+      "res-game-balanced-parentheses-stack"
+    ],
+    "topics": [
+      "DSA",
+      "Queue",
+      "Stacks",
+      "FIFO",
+      "AmortizedAnalysis",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "Queue",
+      "Stack",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-same-frequencies-hashmap",
+    "title": "sameFrequencies: Glassmorphic Hash Map Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "same_frequencies_hashmap_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "IMPORTANT",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/same_frequencies_hashmap_visualizer.html",
+    "sourceUrl": "/interactive/same_frequencies_hashmap_visualizer.html",
+    "whatIsThisBookFor": "Interactive visualizer comparing digit and element frequency patterns across two inputs in linear O(N) time.",
+    "summary": "Demonstrates the frequency counter pattern using hash tables to verify if two inputs share identical digit frequencies regardless of order. Features glowing key-value cells and comparison animations.",
+    "keyTakeaways": [
+      "Frequency counter pattern avoiding O(N^2) quadratic cross-comparisons",
+      "Building and evaluating hash maps for numeric and string inputs",
+      "Early rejection checks for unequal length sequences"
+    ],
+    "prerequisites": [
+      "Hash table mapping and modulo digit extraction"
+    ],
+    "recommendedNext": [
+      "res-game-anagram-hashmap",
+      "res-game-first-repeated-element"
+    ],
+    "topics": [
+      "DSA",
+      "HashMap",
+      "FrequencyCounter",
+      "Patterns",
+      "Visualizer"
+    ],
+    "tags": [
+      "DSA",
+      "HashMap",
+      "Interactive",
+      "Visualizer"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
+    "id": "res-game-two-sum-visualizer",
+    "title": "Two Sum: Glassmorphic Algorithm Visualizer",
+    "author": "DSA Visual Labs & Interactive Play Cards",
+    "pages": 1,
+    "fileName": "two_sum_glassmorphic_visualizer.html",
+    "category": "sec-coding-arcade",
+    "subCategory": "Play Cards & Interactive Algorithm Visualizers",
+    "resourceType": "GAME",
+    "difficulty": "BEGINNER",
+    "priority": "MUST_LEARN",
+    "status": "NOT_STARTED",
+    "readingStatus": "NOT_STARTED",
+    "progress": 0,
+    "currentPage": 0,
+    "totalPages": 1,
+    "source": "uploaded_pdf",
+    "url": "/interactive/two_sum_glassmorphic_visualizer.html",
+    "sourceUrl": "/interactive/two_sum_glassmorphic_visualizer.html",
+    "whatIsThisBookFor": "Interactive visualizer for LeetCode #1 Two Sum using single-pass hash map complement search in O(N) time.",
+    "summary": "Demonstrates the optimal single-pass hash table solution for Two Sum. As each array card is examined, it computes complement = target - num and queries the hash map in O(1) time, illuminating the solution pair instantly.",
+    "keyTakeaways": [
+      "Optimal single-pass O(N) time and O(N) space hash table solution",
+      "Complement lookup formula: complement = target - nums[i]",
+      "Avoiding self-pair matching by inserting into map after complement check"
+    ],
+    "prerequisites": [
+      "Basic array traversal and hash table lookups"
+    ],
+    "recommendedNext": [
+      "res-game-first-repeated-element",
+      "res-game-prefix-sum-array",
+      "res-game-play-cards-second-largest"
+    ],
+    "topics": [
+      "DSA",
+      "TwoSum",
+      "HashMap",
+      "Arrays",
+      "LeetCode",
+      "Visualizer",
+      "Gaming"
+    ],
+    "tags": [
+      "DSA",
+      "TwoSum",
+      "HashMap",
+      "Interactive",
+      "Visualizer",
+      "Arrays"
+    ],
+    "dateAdded": "2026-10-19",
+    "lastOpened": "2026-10-19"
+  },
+  {
     "id": "res-gate-cs1",
     "title": "GATE 2026: Computer Science & IT (Paper 1)",
     "author": "GATE Organizing Committee (IISc Bangalore & IITs)",

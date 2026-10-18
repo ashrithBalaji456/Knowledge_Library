@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anagram Algorithm - Letter Card Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0f172a 60%, #020617 100%);
+      min-height: 100vh;
+      color: #f8fafc;
+    }
+    .code-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-font {
+      font-family: 'Cinzel', serif;
+    }
+    .letter-card {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .letter-card.active-s1 {
+      transform: translateY(-8px) scale(1.08);
+      border-color: #38bdf8 !important;
+      box-shadow: 0 10px 25px -4px rgba(56, 189, 248, 0.6), 0 0 14px rgba(56, 189, 248, 0.4);
+    }
+    .letter-card.active-s2 {
+      transform: translateY(-8px) scale(1.08);
+      border-color: #f43f5e !important;
+      box-shadow: 0 10px 25px -4px rgba(244, 63, 94, 0.6), 0 0 14px rgba(244, 63, 94, 0.4);
+    }
+    .felt-table {
+      background: radial-gradient(ellipse at center, #1e1b4b 0%, #0f172a 75%, #020617 100%);
+      box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.8), 0 20px 40px rgba(0, 0, 0, 0.6);
+      border: 4px solid #334155;
+    }
+    .felt-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .code-line {
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .code-active {
+      background-color: rgba(59, 130, 246, 0.28) !important;
+      border-left: 4px solid #38bdf8 !important;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .freq-cell {
+      transition: all 0.25s ease;
+    }
+    .freq-cell.modified-inc {
+      transform: scale(1.15);
+      border-color: #38bdf8;
+      background-color: rgba(56, 189, 248, 0.25);
+    }
+    .freq-cell.modified-dec {
+      transform: scale(1.15);
+      border-color: #f43f5e;
+      background-color: rgba(244, 63, 94, 0.25);
+    }
+    .freq-cell.balanced {
+      background-color: rgba(16, 185, 129, 0.15);
+      border-color: #10b981;
+    }
+    .freq-cell.unbalanced {
+      background-color: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5 text-slate-100 flex flex-col justify-between">
+
+  <!-- Header Section -->
+  <header class="max-w-7xl mx-auto w-full mb-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900/90 p-4 rounded-2xl border border-slate-800 backdrop-blur-md shadow-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-white text-2xl font-bold">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-rose-300 bg-clip-text text-transparent">
+            Anagram Algorithm Visualizer
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400">Step-by-step Java frequency balance checker with live code synchronization</p>
+        </div>
+      </div>
+
+      <!-- Presets and Custom Inputs -->
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-1.5 bg-slate-800/90 px-2.5 py-1.5 rounded-xl border border-slate-700 text-xs">
+          <span class="text-sky-400 font-semibold">s1:</span>
+          <input id="inputS1" type="text" value="Dormitory" class="bg-slate-950 px-2 py-0.5 rounded text-sky-300 font-mono w-28 text-center border border-slate-700 focus:outline-none focus:border-sky-400">
+          <span class="text-rose-400 font-semibold ml-1">s2:</span>
+          <input id="inputS2" type="text" value="dirty room" class="bg-slate-950 px-2 py-0.5 rounded text-rose-300 font-mono w-28 text-center border border-slate-700 focus:outline-none focus:border-rose-400">
+        </div>
+        <button id="btnApply" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs transition-all shadow-md active:scale-95 flex items-center gap-1">
+          <i class="fa-solid fa-play text-[10px]"></i> Apply
+        </button>
+        <button id="btnPreset" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Cycle Example Test Cases">
+          <i class="fa-solid fa-shuffle text-amber-400 mr-1"></i> Sample
+        </button>
+        <button id="btnSoundToggle" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs border border-slate-700 transition" title="Toggle Sound">
+          <i id="soundIcon" class="fa-solid fa-volume-high text-sky-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow mb-4">
+    
+    <!-- Left Column: Letter Cards Arena & Frequency Table (7 cols) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+      
+      <!-- Table Arena -->
+      <div class="felt-table felt-pattern rounded-3xl p-5 sm:p-6 flex flex-col justify-between min-h-[460px] relative overflow-hidden shadow-2xl">
+        
+        <!-- Header Info -->
+        <div class="flex items-center justify-between z-10">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-500/30">
+              <span class="w-2 h-2 rounded-full bg-sky-400 mr-2 animate-pulse"></span>
+              <span id="phaseBadge">Phase: Ready</span>
+            </span>
+            <span id="stepCounterBadge" class="text-xs bg-black/40 text-slate-300 px-3 py-1 rounded-full border border-slate-700/60 font-mono">
+              Step 0 / 0
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-300 bg-black/40 px-3 py-1 rounded-full border border-slate-700/50">
+            <span class="text-sky-400 font-bold">+1 (s1)</span>
+            <span class="text-slate-500">&bull;</span>
+            <span class="text-rose-400 font-bold">-1 (s2)</span>
+          </div>
+        </div>
+
+        <!-- Middle Arena: Letter Card Racks for S1 and S2 -->
+        <div class="my-auto py-3 flex flex-col gap-4">
+          <!-- Comparison & Evaluation Banner -->
+          <div id="comparisonBanner" class="h-8 flex items-center justify-center">
+            <span class="text-xs font-mono text-slate-400 bg-black/40 px-3 py-1 rounded-full border border-slate-700/50">
+              Awaiting execution start...
+            </span>
+          </div>
+
+          <!-- String 1 Cards Rack -->
+          <div>
+            <div class="flex items-center justify-between px-2 mb-1.5 text-xs font-mono">
+              <span class="text-sky-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-sky-400"></i> String s1: <span id="s1DisplayVal" class="text-white font-mono bg-sky-950/60 px-2 py-0.5 rounded border border-sky-800">""</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="s1CleanNotice">Raw</span>
+            </div>
+            <div id="cardsRackS1" class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 min-h-[72px] bg-black/30 p-2.5 rounded-2xl border border-slate-800/80">
+              <!-- S1 letter cards will render here -->
+            </div>
+          </div>
+
+          <!-- String 2 Cards Rack -->
+          <div>
+            <div class="flex items-center justify-between px-2 mb-1.5 text-xs font-mono">
+              <span class="text-rose-300 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-layer-group text-rose-400"></i> String s2: <span id="s2DisplayVal" class="text-white font-mono bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800">""</span>
+              </span>
+              <span class="text-slate-400 text-[11px]" id="s2CleanNotice">Raw</span>
+            </div>
+            <div id="cardsRackS2" class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 min-h-[72px] bg-black/30 p-2.5 rounded-2xl border border-slate-800/80">
+              <!-- S2 letter cards will render here -->
+            </div>
+          </div>
+
+          <!-- 26-Letter Frequency Counter Array Visualizer (a-z) -->
+          <div class="bg-black/50 p-3 rounded-2xl border border-slate-800 backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-xs font-bold text-slate-300 flex items-center gap-1.5 font-mono">
+                <i class="fa-solid fa-table-cells text-indigo-400"></i> int[] freq = new int[26]
+              </div>
+              <div class="text-[11px] font-mono text-slate-400 flex items-center gap-2">
+                <span>Total Net Zero: <strong id="netZeroCount" class="text-emerald-400">26/26</strong></span>
+              </div>
+            </div>
+
+            <!-- 26 Character Slots Grid -->
+            <div id="freqGrid" class="grid grid-cols-13 gap-1 sm:gap-1.5 text-center">
+              <!-- Rendered 26 alphabet cells from a to z -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Description callout at bottom -->
+        <div class="z-10 bg-black/75 backdrop-blur-md p-3 rounded-2xl border border-slate-800 flex items-center justify-between gap-3 text-xs sm:text-sm">
+          <div class="flex items-center gap-2.5 overflow-hidden w-full">
+            <div id="statusDot" class="w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0"></div>
+            <p id="stepDescription" class="text-slate-200 truncate font-medium text-xs sm:text-sm">Ready to begin. Click Start or Next to execute.</p>
+          </div>
+          <div id="returnPill" class="shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">
+            Return: ?
+          </div>
+        </div>
+      </div>
+
+      <!-- Playback Controls -->
+      <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 shadow-xl flex flex-col gap-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          
+          <div class="flex items-center gap-2">
+            <!-- Reset Button -->
+            <button id="btnReset" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-300 flex items-center justify-center transition border border-slate-700" title="Reset to start">
+              <i class="fa-solid fa-backward-step"></i>
+            </button>
+            
+            <!-- Previous Button -->
+            <button id="btnPrev" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-sm font-semibold transition border border-slate-700" title="Previous step">
+              <i class="fa-solid fa-chevron-left text-xs"></i> Prev
+            </button>
+
+            <!-- Play / Pause Button -->
+            <button id="btnPlayPause" class="px-5 h-10 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 active:scale-95 text-white flex items-center gap-2 text-sm font-bold shadow-lg shadow-indigo-500/25 transition">
+              <i id="playIcon" class="fa-solid fa-play text-xs"></i>
+              <span id="playText">Start</span>
+            </button>
+
+            <!-- Next Button -->
+            <button id="btnNext" class="px-3.5 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 flex items-center gap-2 text-sm font-semibold transition border border-slate-700" title="Next step">
+              Next <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+
+          <!-- Speed Options -->
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400 font-medium">Speed:</span>
+            <div class="flex items-center bg-slate-800 rounded-xl p-1 border border-slate-700 text-xs">
+              <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="1800">0.5x</button>
+              <button class="speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold" data-speed="900">1x</button>
+              <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="450">2x</button>
+              <button class="speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white" data-speed="200">4x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step Slider -->
+        <div class="flex items-center gap-3 pt-1">
+          <span class="text-xs font-mono text-slate-400 w-10 text-right" id="sliderCurrent">0</span>
+          <input id="stepSlider" type="range" min="0" max="0" value="0" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+          <span class="text-xs font-mono text-slate-400 w-10" id="sliderTotal">0</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Live Variable Watcher & Java Code (5 cols) -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      
+      <!-- Variable Watcher Box -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex flex-col gap-3">
+        <h2 class="text-sm font-bold text-slate-300 flex items-center justify-between">
+          <span><i class="fa-solid fa-microchip text-sky-400 mr-2"></i>Live Variable Watcher</span>
+          <span class="text-xs font-normal text-slate-400 font-mono">Scope: isAnagram()</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">i</span>
+            <span id="varI" class="font-mono text-base font-bold text-amber-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">s1.charAt(i)</span>
+            <span id="varCharS1" class="font-mono text-base font-bold text-sky-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">s2.charAt(i)</span>
+            <span id="varCharS2" class="font-mono text-base font-bold text-rose-400">-</span>
+          </div>
+          <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">freq count</span>
+            <span id="varCount" class="font-mono text-base font-bold text-emerald-400">-</span>
+          </div>
+        </div>
+
+        <!-- Live Evaluation Expression Status -->
+        <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80 text-xs flex flex-col gap-1.5 font-mono">
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Evaluation:</span>
+            <span id="evalCondition" class="text-sky-300">Ready</span>
+          </div>
+          <div class="flex items-center justify-between text-xs bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+            <span id="evalStatement" class="text-slate-300">s1.length() == s2.length()</span>
+            <span id="evalResult" class="font-bold text-slate-400">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synchronized Java Code Block -->
+      <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-xl flex-grow flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+          <div class="flex items-center gap-2">
+            <i class="fa-brands fa-java text-rose-500 text-lg"></i>
+            <span class="text-xs font-bold text-slate-200">Main.java</span>
+          </div>
+          <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded font-mono">Line Sync Active</span>
+        </div>
+
+        <!-- Code Lines -->
+        <div class="code-font text-xs text-slate-300 overflow-y-auto max-h-[380px] rounded-xl bg-slate-950 p-2 border border-slate-800/80 select-none">
+          <div id="code-line-1" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">1</span><span class="text-purple-400">public class</span>&nbsp;<span class="text-yellow-300">Main</span>&nbsp;{</div>
+          <div id="code-line-2" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">2</span>&nbsp;&nbsp;<span class="text-purple-400">static boolean</span>&nbsp;<span class="text-blue-400">isAnagram</span>(String s1, String s2) {</div>
+          <div id="code-line-3" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">3</span>&nbsp;&nbsp;&nbsp;&nbsp;s1 = s1.<span class="text-blue-300">replaceAll</span>(<span class="text-emerald-300">"\\s+"</span>, <span class="text-emerald-300">""</span>).<span class="text-blue-300">toLowerCase</span>();</div>
+          <div id="code-line-4" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">4</span>&nbsp;&nbsp;&nbsp;&nbsp;s2 = s2.<span class="text-blue-300">replaceAll</span>(<span class="text-emerald-300">"\\s+"</span>, <span class="text-emerald-300">""</span>).<span class="text-blue-300">toLowerCase</span>();</div>
+          <div id="code-line-5" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">5</span></div>
+          <div id="code-line-6" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">6</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (s1.<span class="text-blue-300">length</span>() != s2.<span class="text-blue-300">length</span>()) {</div>
+          <div id="code-line-7" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-8" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">8</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-9" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">9</span></div>
+          <div id="code-line-10" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">10</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">int</span>[] freq = <span class="text-purple-400">new int</span>[<span class="text-orange-400">26</span>];</div>
+          <div id="code-line-11" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">11</span></div>
+          <div id="code-line-12" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">12</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> i = <span class="text-orange-400">0</span>; i &lt; s1.<span class="text-blue-300">length</span>(); i++) {</div>
+          <div id="code-line-13" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">13</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq[s1.<span class="text-blue-300">charAt</span>(i) - <span class="text-emerald-300">'a'</span>]++;</div>
+          <div id="code-line-14" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">14</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;freq[s2.<span class="text-blue-300">charAt</span>(i) - <span class="text-emerald-300">'a'</span>]--;</div>
+          <div id="code-line-15" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">15</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-16" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">16</span></div>
+          <div id="code-line-17" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">17</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-purple-400">int</span> count : freq) {</div>
+          <div id="code-line-18" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">18</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if</span> (count != <span class="text-orange-400">0</span>) {</div>
+          <div id="code-line-19" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">19</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return false</span>;</div>
+          <div id="code-line-20" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">20</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-21" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">21</span>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+          <div id="code-line-22" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">22</span></div>
+          <div id="code-line-23" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">23</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return true</span>;</div>
+          <div id="code-line-24" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">24</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-25" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">25</span></div>
+          <div id="code-line-26" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">26</span>&nbsp;&nbsp;<span class="text-purple-400">public static void</span>&nbsp;<span class="text-blue-400">main</span>(String[] args) {</div>
+          <div id="code-line-27" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">27</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isAnagram(<span class="text-emerald-300">"Dormitory"</span>, <span class="text-emerald-300">"dirty room"</span>));</div>
+          <div id="code-line-28" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">28</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isAnagram(<span class="text-emerald-300">"Listen"</span>, <span class="text-emerald-300">"Silent"</span>));</div>
+          <div id="code-line-29" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">29</span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.<span class="text-blue-300">println</span>(isAnagram(<span class="text-emerald-300">"Hello"</span>, <span class="text-emerald-300">"World"</span>));</div>
+          <div id="code-line-30" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">30</span>&nbsp;&nbsp;}</div>
+          <div id="code-line-31" class="code-line py-0.5 px-2 rounded flex"><span class="text-slate-600 w-6 select-none">31</span>}</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-7xl mx-auto w-full text-center text-xs text-slate-500 py-2 border-t border-slate-900">
+    <p>Anagram Algorithm Visualizer &bull; Frequency Counter Table Technique in O(n) Time and O(1) [26 entries] Space</p>
+  </footer>
+
+  <script>
+    class SoundEngine {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+      }
+
+      playCardTick() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(360, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(160, this.ctx.currentTime + 0.05);
+
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      }
+
+      playIncSound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(660, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playDecSound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(620, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, this.ctx.currentTime + 0.08);
+
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      }
+
+      playSuccessSound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const freqs = [523.25, 659.25, 783.99, 1046.50]; // C Major arpeggio
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.07);
+          gain.gain.setValueAtTime(0.14, this.ctx.currentTime + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.07 + 0.25);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.07);
+          osc.stop(this.ctx.currentTime + idx * 0.07 + 0.26);
+        });
+      }
+
+      playFailSound() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(110, this.ctx.currentTime + 0.2);
+
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.2);
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    function generateAnagramSteps(rawS1, rawS2) {
+      const steps = [];
+
+      // Step 0: In main, calling isAnagram
+      steps.push({
+        line: 27,
+        phase: 'Invocation',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: rawS1,
+        s2: rawS2,
+        s1Cleaned: false,
+        s2Cleaned: false,
+        freq: new Array(26).fill(0),
+        i: null,
+        activeS1Char: null,
+        activeS2Char: null,
+        activeLetterIdx: null,
+        checkFreqIdx: null,
+        varCount: null,
+        evalText: `isAnagram("${rawS1}", "${rawS2}")`,
+        resultText: "Call started",
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `isAnagram("${rawS1}", "${rawS2}") is called from main.`
+      });
+
+      // Line 3: Clean s1
+      const cleanedS1 = rawS1.replace(/\s+/g, '').toLowerCase();
+      steps.push({
+        line: 3,
+        phase: 'Clean s1',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: rawS2,
+        s1Cleaned: true,
+        s2Cleaned: false,
+        freq: new Array(26).fill(0),
+        i: null,
+        activeS1Char: null,
+        activeS2Char: null,
+        activeLetterIdx: null,
+        checkFreqIdx: null,
+        varCount: null,
+        evalText: `s1.replaceAll("\\\\s+", "").toLowerCase()`,
+        resultText: `"${cleanedS1}" (len: ${cleanedS1.length})`,
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Cleaned s1: stripped whitespaces and converted to lowercase -> "${cleanedS1}".`
+      });
+
+      // Line 4: Clean s2
+      const cleanedS2 = rawS2.replace(/\s+/g, '').toLowerCase();
+      steps.push({
+        line: 4,
+        phase: 'Clean s2',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        freq: new Array(26).fill(0),
+        i: null,
+        activeS1Char: null,
+        activeS2Char: null,
+        activeLetterIdx: null,
+        checkFreqIdx: null,
+        varCount: null,
+        evalText: `s2.replaceAll("\\\\s+", "").toLowerCase()`,
+        resultText: `"${cleanedS2}" (len: ${cleanedS2.length})`,
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Cleaned s2: stripped whitespaces and converted to lowercase -> "${cleanedS2}".`
+      });
+
+      // Line 6: Check length
+      const len1 = cleanedS1.length;
+      const len2 = cleanedS2.length;
+      const lengthDiffers = (len1 !== len2);
+
+      steps.push({
+        line: 6,
+        phase: 'Length Check',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        freq: new Array(26).fill(0),
+        i: null,
+        activeS1Char: null,
+        activeS2Char: null,
+        activeLetterIdx: null,
+        checkFreqIdx: null,
+        varCount: null,
+        evalText: `s1.length() (${len1}) != s2.length() (${len2})`,
+        resultText: lengthDiffers ? "TRUE (Lengths differ!)" : "FALSE (Lengths match)",
+        statusType: lengthDiffers ? 'mismatch' : 'neutral',
+        returnValue: null,
+        desc: `Checking if (s1.length() != s2.length()): ${len1} != ${len2} is ${lengthDiffers ? 'TRUE' : 'FALSE'}.`
+      });
+
+      if (lengthDiffers) {
+        // Line 7: return false
+        steps.push({
+          line: 7,
+          phase: 'Early Return',
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          freq: new Array(26).fill(0),
+          i: null,
+          activeS1Char: null,
+          activeS2Char: null,
+          activeLetterIdx: null,
+          checkFreqIdx: null,
+          varCount: null,
+          evalText: `return false`,
+          resultText: "false",
+          statusType: 'fail',
+          returnValue: false,
+          desc: `Lengths do not match (${len1} vs ${len2}). Strings cannot be anagrams! Returning false.`
+        });
+        return steps;
+      }
+
+      // Line 10: int[] freq = new int[26];
+      let freq = new Array(26).fill(0);
+      steps.push({
+        line: 10,
+        phase: 'Initialize Frequency Table',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        freq: [...freq],
+        i: null,
+        activeS1Char: null,
+        activeS2Char: null,
+        activeLetterIdx: null,
+        checkFreqIdx: null,
+        varCount: null,
+        evalText: `new int[26]`,
+        resultText: "26 zeros initialized",
+        statusType: 'neutral',
+        returnValue: null,
+        desc: `Allocated frequency array of 26 slots for letters 'a' through 'z' all initialized to 0.`
+      });
+
+      // Line 12: Loop over characters
+      for (let i = 0; i < len1; i++) {
+        const ch1 = cleanedS1[i];
+        const ch2 = cleanedS2[i];
+        const idx1 = ch1.charCodeAt(0) - 97;
+        const idx2 = ch2.charCodeAt(0) - 97;
+
+        // Loop header
+        steps.push({
+          line: 12,
+          phase: `Loop i = ${i}`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          freq: [...freq],
+          i: i,
+          activeS1Char: ch1,
+          activeS2Char: ch2,
+          activeLetterIdx: null,
+          checkFreqIdx: null,
+          varCount: null,
+          evalText: `i = ${i} < ${len1}`,
+          resultText: "TRUE",
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `for loop iteration i = ${i} of ${len1}: inspecting s1[${i}] = '${ch1}' and s2[${i}] = '${ch2}'.`
+        });
+
+        // Line 13: freq[s1.charAt(i) - 'a']++
+        freq[idx1]++;
+        steps.push({
+          line: 13,
+          phase: `Increment '${ch1}'`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          freq: [...freq],
+          i: i,
+          activeS1Char: ch1,
+          activeS2Char: null,
+          activeLetterIdx: idx1,
+          letterOp: 'inc',
+          checkFreqIdx: null,
+          varCount: null,
+          evalText: `freq['${ch1}' - 'a']++ -> freq[${idx1}]`,
+          resultText: `Value is now ${freq[idx1]}`,
+          statusType: 'inc',
+          returnValue: null,
+          desc: `s1 has '${ch1}' at index ${i}: incrementing freq[${idx1}] ('${ch1}') to ${freq[idx1]}.`
+        });
+
+        // Line 14: freq[s2.charAt(i) - 'a']--
+        freq[idx2]--;
+        steps.push({
+          line: 14,
+          phase: `Decrement '${ch2}'`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          freq: [...freq],
+          i: i,
+          activeS1Char: null,
+          activeS2Char: ch2,
+          activeLetterIdx: idx2,
+          letterOp: 'dec',
+          checkFreqIdx: null,
+          varCount: null,
+          evalText: `freq['${ch2}' - 'a']-- -> freq[${idx2}]`,
+          resultText: `Value is now ${freq[idx2]}`,
+          statusType: 'dec',
+          returnValue: null,
+          desc: `s2 has '${ch2}' at index ${i}: decrementing freq[${idx2}] ('${ch2}') to ${freq[idx2]}.`
+        });
+      }
+
+      // Line 17: for (int count : freq)
+      for (let k = 0; k < 26; k++) {
+        const countVal = freq[k];
+        const letter = String.fromCharCode(97 + k);
+
+        steps.push({
+          line: 17,
+          phase: `Check count for '${letter}'`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          freq: [...freq],
+          i: null,
+          activeS1Char: null,
+          activeS2Char: null,
+          activeLetterIdx: null,
+          checkFreqIdx: k,
+          varCount: countVal,
+          evalText: `count = freq[${k}] ('${letter}')`,
+          resultText: `count = ${countVal}`,
+          statusType: 'neutral',
+          returnValue: null,
+          desc: `Verifying frequency balance for letter '${letter}' (slot ${k}): count = ${countVal}.`
+        });
+
+        // Line 18: if (count != 0)
+        const isNonZero = (countVal !== 0);
+        steps.push({
+          line: 18,
+          phase: `Evaluate count != 0`,
+          s1Raw: rawS1,
+          s2Raw: rawS2,
+          s1: cleanedS1,
+          s2: cleanedS2,
+          s1Cleaned: true,
+          s2Cleaned: true,
+          freq: [...freq],
+          i: null,
+          activeS1Char: null,
+          activeS2Char: null,
+          activeLetterIdx: null,
+          checkFreqIdx: k,
+          varCount: countVal,
+          evalText: `if (${countVal} != 0)`,
+          resultText: isNonZero ? "TRUE (Imbalance!)" : "FALSE (Balanced)",
+          statusType: isNonZero ? 'mismatch' : 'match',
+          returnValue: null,
+          desc: `Check if count != 0: ${countVal} != 0 is ${isNonZero ? 'TRUE (Letter count mismatch)' : 'FALSE (Balanced 0)'}.`
+        });
+
+        if (isNonZero) {
+          // Line 19: return false
+          steps.push({
+            line: 19,
+            phase: 'Return False',
+            s1Raw: rawS1,
+            s2Raw: rawS2,
+            s1: cleanedS1,
+            s2: cleanedS2,
+            s1Cleaned: true,
+            s2Cleaned: true,
+            freq: [...freq],
+            i: null,
+            activeS1Char: null,
+            activeS2Char: null,
+            activeLetterIdx: null,
+            checkFreqIdx: k,
+            varCount: countVal,
+            evalText: `return false`,
+            resultText: "false",
+            statusType: 'fail',
+            returnValue: false,
+            desc: `Non-zero count (${countVal}) found at letter '${letter}'! Strings are NOT anagrams. Returning false.`
+          });
+          return steps;
+        }
+      }
+
+      // Line 23: return true
+      steps.push({
+        line: 23,
+        phase: 'Anagram Verified!',
+        s1Raw: rawS1,
+        s2Raw: rawS2,
+        s1: cleanedS1,
+        s2: cleanedS2,
+        s1Cleaned: true,
+        s2Cleaned: true,
+        freq: [...freq],
+        i: null,
+        activeS1Char: null,
+        activeS2Char: null,
+        activeLetterIdx: null,
+        checkFreqIdx: null,
+        varCount: 0,
+        evalText: `return true`,
+        resultText: "true",
+        statusType: 'success',
+        returnValue: true,
+        desc: `All 26 frequency counts balanced to exactly 0! Strings are valid anagrams. Returning true.`
+      });
+
+      return steps;
+    }
+
+    let currentSteps = [];
+    let currentStepIndex = 0;
+    let isPlaying = false;
+    let playIntervalId = null;
+    let playSpeed = 900;
+
+    // DOM Elements
+    const cardsRackS1 = document.getElementById('cardsRackS1');
+    const cardsRackS2 = document.getElementById('cardsRackS2');
+    const s1DisplayVal = document.getElementById('s1DisplayVal');
+    const s2DisplayVal = document.getElementById('s2DisplayVal');
+    const s1CleanNotice = document.getElementById('s1CleanNotice');
+    const s2CleanNotice = document.getElementById('s2CleanNotice');
+    const freqGrid = document.getElementById('freqGrid');
+    const netZeroCount = document.getElementById('netZeroCount');
+    const comparisonBanner = document.getElementById('comparisonBanner');
+    const phaseBadge = document.getElementById('phaseBadge');
+    const stepCounterBadge = document.getElementById('stepCounterBadge');
+    const stepDescription = document.getElementById('stepDescription');
+    const statusDot = document.getElementById('statusDot');
+    const returnPill = document.getElementById('returnPill');
+
+    // Watchers
+    const varI = document.getElementById('varI');
+    const varCharS1 = document.getElementById('varCharS1');
+    const varCharS2 = document.getElementById('varCharS2');
+    const varCount = document.getElementById('varCount');
+    const evalCondition = document.getElementById('evalCondition');
+    const evalStatement = document.getElementById('evalStatement');
+    const evalResult = document.getElementById('evalResult');
+
+    // Controls
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnReset = document.getElementById('btnReset');
+    const stepSlider = document.getElementById('stepSlider');
+    const sliderCurrent = document.getElementById('sliderCurrent');
+    const sliderTotal = document.getElementById('sliderTotal');
+    const inputS1 = document.getElementById('inputS1');
+    const inputS2 = document.getElementById('inputS2');
+    const btnApply = document.getElementById('btnApply');
+    const btnPreset = document.getElementById('btnPreset');
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    function renderStep(step) {
+      if (!step) return;
+
+      // Update Phase & Step Count
+      phaseBadge.textContent = `Phase: ${step.phase}`;
+      stepCounterBadge.textContent = `Step ${currentStepIndex} / ${currentSteps.length - 1}`;
+      stepDescription.textContent = step.desc;
+
+      // Update String notices
+      s1DisplayVal.textContent = `"${step.s1}"`;
+      s2DisplayVal.textContent = `"${step.s2}"`;
+      s1CleanNotice.textContent = step.s1Cleaned ? "Cleaned & lowercase" : "Raw string";
+      s2CleanNotice.textContent = step.s2Cleaned ? "Cleaned & lowercase" : "Raw string";
+
+      // Update live watcher variables
+      varI.textContent = (step.i !== null) ? step.i : '-';
+      varCharS1.textContent = (step.activeS1Char !== null) ? `'${step.activeS1Char}'` : (step.i !== null && step.s1[step.i] ? `'${step.s1[step.i]}'` : '-');
+      varCharS2.textContent = (step.activeS2Char !== null) ? `'${step.activeS2Char}'` : (step.i !== null && step.s2[step.i] ? `'${step.s2[step.i]}'` : '-');
+      varCount.textContent = (step.varCount !== null) ? step.varCount : '-';
+
+      evalCondition.textContent = step.phase;
+      evalStatement.textContent = step.evalText;
+      evalResult.textContent = step.resultText;
+
+      // Return status pill
+      if (step.returnValue === true) {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 animate-pulse";
+        returnPill.textContent = "Return: true";
+      } else if (step.returnValue === false) {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-rose-600 text-white shadow-lg shadow-rose-500/30 animate-pulse";
+        returnPill.textContent = "Return: false";
+      } else {
+        returnPill.className = "shrink-0 px-3 py-1 rounded-xl text-xs font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700";
+        returnPill.textContent = "Return: ?";
+      }
+
+      // Comparison Banner Styling
+      if (step.statusType === 'inc') {
+        evalResult.className = "font-bold text-sky-400";
+        comparisonBanner.innerHTML = `<span class="bg-sky-500/20 text-sky-300 border border-sky-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-arrow-up text-sky-400 mr-1.5"></i>s1[${step.i}] = '${step.activeS1Char}' &bull; freq['${step.activeS1Char}'] incremented (+1)</span>`;
+      } else if (step.statusType === 'dec') {
+        evalResult.className = "font-bold text-rose-400";
+        comparisonBanner.innerHTML = `<span class="bg-rose-500/20 text-rose-300 border border-rose-500/50 px-3 py-1 rounded-full text-xs font-mono font-bold animate-pulse"><i class="fa-solid fa-arrow-down text-rose-400 mr-1.5"></i>s2[${step.i}] = '${step.activeS2Char}' &bull; freq['${step.activeS2Char}'] decremented (-1)</span>`;
+      } else if (step.statusType === 'success') {
+        evalResult.className = "font-bold text-emerald-400";
+        comparisonBanner.innerHTML = `<span class="bg-emerald-600/30 text-emerald-200 border border-emerald-500 px-3 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i>All 26 frequency counts are 0! Perfect Anagram match.</span>`;
+      } else if (step.statusType === 'fail' || step.statusType === 'mismatch') {
+        evalResult.className = "font-bold text-rose-400";
+        comparisonBanner.innerHTML = `<span class="bg-rose-600/30 text-rose-200 border border-rose-500 px-3 py-1 rounded-full text-xs font-mono font-bold shadow-lg"><i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i>Mismatch detected! Not an anagram.</span>`;
+      } else {
+        evalResult.className = "font-bold text-slate-300";
+        comparisonBanner.innerHTML = `<span class="text-xs font-mono text-slate-400 bg-black/40 px-3 py-1 rounded-full border border-slate-700/50">${step.phase}</span>`;
+      }
+
+      // Sync active code line
+      document.querySelectorAll('.code-line').forEach(el => el.classList.remove('code-active'));
+      const activeLineEl = document.getElementById(`code-line-${step.line}`);
+      if (activeLineEl) {
+        activeLineEl.classList.add('code-active');
+        activeLineEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Slider sync
+      stepSlider.value = currentStepIndex;
+      sliderCurrent.textContent = currentStepIndex;
+
+      // Render cards for S1
+      renderLetterCards(cardsRackS1, step.s1, step.i, 's1', step.activeS1Char);
+
+      // Render cards for S2
+      renderLetterCards(cardsRackS2, step.s2, step.i, 's2', step.activeS2Char);
+
+      // Render 26-Letter Frequency Table
+      renderFrequencyTable(step.freq, step.activeLetterIdx, step.checkFreqIdx, step.letterOp);
+
+      // Audio feedback and status dot
+      if (step.statusType === 'inc') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-sky-400 animate-ping shrink-0";
+        sound.playIncSound();
+      } else if (step.statusType === 'dec') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        sound.playDecSound();
+      } else if (step.statusType === 'success') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 animate-bounce shrink-0";
+        sound.playSuccessSound();
+      } else if (step.statusType === 'fail') {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0";
+        sound.playFailSound();
+      } else {
+        statusDot.className = "w-3.5 h-3.5 rounded-full bg-indigo-400 shrink-0";
+        sound.playCardTick();
+      }
+    }
+
+    // Helper to render letter cards
+    function renderLetterCards(container, str, activeIndex, type, activeChar) {
+      container.innerHTML = '';
+      if (!str || str.length === 0) {
+        container.innerHTML = `<span class="text-xs text-slate-500 italic">Empty string</span>`;
+        return;
+      }
+
+      for (let idx = 0; idx < str.length; idx++) {
+        const char = str[idx];
+        const isActive = (idx === activeIndex && activeChar !== null);
+        const card = document.createElement('div');
+
+        let cardClass = "letter-card relative w-9 h-12 sm:w-10 sm:h-14 rounded-xl border flex flex-col items-center justify-between p-1 shadow-md bg-gradient-to-b from-slate-800 to-slate-900 border-slate-700 text-slate-200";
+
+        if (isActive) {
+          cardClass += (type === 's1') ? " active-s1 !bg-sky-950 !border-sky-400 !text-white" : " active-s2 !bg-rose-950 !border-rose-400 !text-white";
+        }
+
+        card.className = cardClass;
+        card.innerHTML = `
+          <span class="text-[9px] font-mono text-slate-400 leading-none">${idx}</span>
+          <span class="card-font text-base sm:text-lg font-bold uppercase leading-none ${isActive ? (type === 's1' ? 'text-sky-300' : 'text-rose-300') : 'text-slate-100'}">${char}</span>
+          <span class="text-[8px] font-mono text-slate-500 leading-none">${char.charCodeAt(0) - 97 >= 0 ? char.charCodeAt(0) - 97 : '-'}</span>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function renderFrequencyTable(freqArr, activeLetterIdx, checkIdx, letterOp) {
+      freqGrid.innerHTML = '';
+      let zeroCount = 0;
+
+      for (let i = 0; i < 26; i++) {
+        const letter = String.fromCharCode(97 + i);
+        const val = freqArr[i];
+        if (val === 0) zeroCount++;
+
+        const cell = document.createElement('div');
+        let cellClass = "freq-cell rounded-lg p-1 sm:p-1.5 flex flex-col items-center justify-center border text-xs font-mono transition-all ";
+
+        if (i === activeLetterIdx) {
+          cellClass += (letterOp === 'inc') ? "modified-inc ring-2 ring-sky-400" : "modified-dec ring-2 ring-rose-400";
+        } else if (i === checkIdx) {
+          cellClass += (val === 0) ? "balanced ring-2 ring-emerald-400" : "unbalanced ring-2 ring-rose-500";
+        } else if (val === 0) {
+          cellClass += "bg-slate-950/70 border-slate-800 text-slate-400";
+        } else if (val > 0) {
+          cellClass += "bg-sky-950/40 border-sky-600/70 text-sky-300 font-bold";
+        } else {
+          cellClass += "bg-rose-950/40 border-rose-600/70 text-rose-300 font-bold";
+        }
+
+        let valDisplay = val > 0 ? `+${val}` : `${val}`;
+        cell.className = cellClass;
+        cell.innerHTML = `
+          <span class="text-[10px] text-slate-500 uppercase font-semibold leading-none">${letter}</span>
+          <span class="text-xs font-bold leading-none mt-1 ${val > 0 ? 'text-sky-400' : val < 0 ? 'text-rose-400' : 'text-slate-400'}">${valDisplay}</span>
+        `;
+        freqGrid.appendChild(cell);
+      }
+
+      netZeroCount.textContent = `${zeroCount}/26`;
+      if (zeroCount === 26) {
+        netZeroCount.className = "text-emerald-400 font-bold";
+      } else {
+        netZeroCount.className = "text-amber-400 font-bold";
+      }
+    }
+
+    function goToStep(index) {
+      if (index < 0) index = 0;
+      if (index >= currentSteps.length) index = currentSteps.length - 1;
+      currentStepIndex = index;
+      renderStep(currentSteps[currentStepIndex]);
+
+      if (currentStepIndex === currentSteps.length - 1 && isPlaying) {
+        stopAutoPlay();
+      }
+    }
+
+    function nextStep() {
+      if (currentStepIndex < currentSteps.length - 1) {
+        goToStep(currentStepIndex + 1);
+      } else {
+        stopAutoPlay();
+      }
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+
+    function startAutoPlay() {
+      if (currentStepIndex >= currentSteps.length - 1) {
+        currentStepIndex = 0;
+      }
+      isPlaying = true;
+      playIcon.className = "fa-solid fa-pause text-xs";
+      playText.textContent = "Pause";
+      btnPlayPause.classList.replace('from-sky-500', 'from-rose-500');
+      btnPlayPause.classList.replace('to-indigo-600', 'to-rose-600');
+
+      clearInterval(playIntervalId);
+      playIntervalId = setInterval(() => {
+        nextStep();
+      }, playSpeed);
+    }
+
+    function stopAutoPlay() {
+      isPlaying = false;
+      playIcon.className = "fa-solid fa-play text-xs";
+      playText.textContent = "Start";
+      btnPlayPause.classList.replace('from-rose-500', 'from-sky-500');
+      btnPlayPause.classList.replace('to-rose-600', 'to-indigo-600');
+      clearInterval(playIntervalId);
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    // Presets from main method
+    const samplePresets = [
+      { s1: "Dormitory", s2: "dirty room" },
+      { s1: "Listen", s2: "Silent" },
+      { s1: "Hello", s2: "World" },
+      { s1: "Debit card", s2: "Bad credit" },
+      { s1: "Astronomer", s2: "Moon starer" }
+    ];
+    let presetIdx = 0;
+
+    function initializeSimulation() {
+      stopAutoPlay();
+
+      let s1Val = inputS1.value.trim();
+      let s2Val = inputS2.value.trim();
+
+      if (!s1Val && !s2Val) {
+        s1Val = "Dormitory";
+        s2Val = "dirty room";
+        inputS1.value = s1Val;
+        inputS2.value = s2Val;
+      }
+
+      currentSteps = generateAnagramSteps(s1Val, s2Val);
+      stepSlider.max = currentSteps.length - 1;
+      sliderTotal.textContent = currentSteps.length - 1;
+
+      currentStepIndex = 0;
+      goToStep(0);
+    }
+
+    // Event Listeners
+    btnApply.addEventListener('click', initializeSimulation);
+    btnPlayPause.addEventListener('click', togglePlayPause);
+    btnNext.addEventListener('click', () => { stopAutoPlay(); nextStep(); });
+    btnPrev.addEventListener('click', () => { stopAutoPlay(); prevStep(); });
+    btnReset.addEventListener('click', () => { stopAutoPlay(); goToStep(0); });
+
+    btnPreset.addEventListener('click', () => {
+      presetIdx = (presetIdx + 1) % samplePresets.length;
+      inputS1.value = samplePresets[presetIdx].s1;
+      inputS2.value = samplePresets[presetIdx].s2;
+      initializeSimulation();
+    });
+
+    stepSlider.addEventListener('input', (e) => {
+      stopAutoPlay();
+      goToStep(parseInt(e.target.value, 10));
+    });
+
+    // Speed options
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.speed-btn').forEach(b => {
+          b.className = "speed-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white";
+        });
+        btn.className = "speed-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold";
+        playSpeed = parseInt(btn.dataset.speed, 10);
+        if (isPlaying) {
+          startAutoPlay();
+        }
+      });
+    });
+
+    // Sound toggle
+    btnSoundToggle.addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) {
+        soundIcon.className = "fa-solid fa-volume-high text-sky-400";
+      } else {
+        soundIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopAutoPlay();
+        nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        stopAutoPlay();
+        prevStep();
+      }
+    });
+
+    window.onload = function() {
+      initializeSimulation();
+    };
+  </script>
+</body>
+</html>
