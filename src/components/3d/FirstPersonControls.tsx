@@ -281,6 +281,9 @@ export const FirstPersonControls: React.FC = () => {
   useFrame((_, delta) => {
     // If smooth camera transition is active
     if (isNavigatingCamera && cameraTarget) {
+      keys.current = {};
+      velocity.current.set(0, 0, 0);
+      stepTimer.current = 0;
       camera.position.x = THREE.MathUtils.damp(camera.position.x, cameraTarget[0], 6.5, delta);
       camera.position.y = THREE.MathUtils.damp(camera.position.y, cameraTarget[1], 6.5, delta);
       camera.position.z = THREE.MathUtils.damp(camera.position.z, cameraTarget[2], 6.5, delta);
@@ -311,7 +314,12 @@ export const FirstPersonControls: React.FC = () => {
     camera.rotation.y = yaw.current;
 
     const curModal = useLibraryStore.getState().activeModal;
-    if (curModal) return;
+    if (curModal) {
+      keys.current = {};
+      velocity.current.set(0, 0, 0);
+      stepTimer.current = 0;
+      return;
+    }
 
     // Smooth keyboard camera rotation using Arrow keys or Q (effortless turning without mouse dragging!)
     const kbTurnSpeed = 2.4; // Radians per second
@@ -324,7 +332,7 @@ export const FirstPersonControls: React.FC = () => {
 
     const curPref = useLibraryStore.getState().preferences;
 
-    // Movement physics: instant linear velocity (zero startup delay!)
+    // Smoothly ramp movement up and brake quickly when input is released.
     const isSprint = keys.current['ShiftLeft'] || keys.current['ShiftRight'];
     const maxSpeed = isSprint ? 16.5 : (curPref.moveSpeed || 9.5);
 
@@ -337,17 +345,21 @@ export const FirstPersonControls: React.FC = () => {
     if (keys.current['KeyD'] || keys.current['d']) STATIC_INPUT_DIR.add(STATIC_RIGHT);
     if (keys.current['KeyA'] || keys.current['a']) STATIC_INPUT_DIR.sub(STATIC_RIGHT);
 
-    const isMoving = STATIC_INPUT_DIR.lengthSq() > 0;
-    if (isMoving) {
+    const hasMovementInput = STATIC_INPUT_DIR.lengthSq() > 0;
+    if (hasMovementInput) {
       STATIC_INPUT_DIR.normalize();
-      // Zero startup delay: full velocity on frame 1
-      velocity.current.copy(STATIC_INPUT_DIR).multiplyScalar(maxSpeed);
-    } else {
-      // Immediate clean stop
+    }
+    const movementResponse = hasMovementInput ? 14 : 20;
+    const velocityBlend = 1 - Math.exp(-movementResponse * safeDelta);
+    velocity.current.lerp(
+      STATIC_INPUT_DIR.multiplyScalar(hasMovementInput ? maxSpeed : 0),
+      velocityBlend
+    );
+    if (!hasMovementInput && velocity.current.lengthSq() < 0.0004) {
       velocity.current.set(0, 0, 0);
     }
 
-    // Apply movement if moving
+    // Apply movement while there is input or a little braking momentum.
     const speed = velocity.current.length();
     if (speed > 0) {
       const nextX = camera.position.x + velocity.current.x * safeDelta;
